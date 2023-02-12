@@ -1,9 +1,6 @@
 package com.maturi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,7 +9,7 @@ import java.time.LocalDate;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

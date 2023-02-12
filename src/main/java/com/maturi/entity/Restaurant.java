@@ -1,24 +1,22 @@
 package com.maturi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.PreparedStatement;
 
 @Entity
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  private String category;
+  @Enumerated(EnumType.STRING)
+  private Category category;
+  @Embedded//Location에 @Embeddable이 있으면 생략가능함 -> 쓰는걸 권장
+  private Location location;
 }

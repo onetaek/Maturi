@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,6 @@
 package com.maturi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LikeBoard {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

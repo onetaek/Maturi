@@ -1,9 +1,6 @@
 package com.maturi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +11,13 @@ import javax.persistence.Id;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String name;
+
+
 }

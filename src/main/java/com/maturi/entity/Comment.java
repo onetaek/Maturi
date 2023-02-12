@@ -1,9 +1,6 @@
 package com.maturi.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
@@ -13,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
