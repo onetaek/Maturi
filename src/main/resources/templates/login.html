@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/reset.css"/>
+    <link rel="stylesheet" href="/css/login/login.css"/>
+    <title>Maturi</title>
+</head>
+<body>
+
+<div id="wrap">
+    <section class="section-wrap">
+        <div class="page-preview">
+        </div>
+        <div class="login-form">
+            <form action="#">
+                <h1><a href="#"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
+                <div class="inputBox">
+                    <input  type="text" required >
+                    <span>전화번호, 사용자 이름 또는 이메일</span>
+                    <i></i>
+                </div>
+                <div class="inputBox">
+                    <input type="password" required>
+                    <span>비밀번호</span>
+                    <i></i>
+                </div>
+                <input type="submit" value="로그인">
+                <p class="horizontal-line"><span>또는</span></p>
+                <div class="sns-login">
+                    <span class="kakao-login"><img src="/img/login/kakao/kakao_login_large_narrow.png" alt="카카오 로그인"></span>
+                    <span class="naver-login"><img src="/img/login/naver/btnG_완성형.png" alt="네이버 로그인"></span>
+                </div>
+                <p class="error">아이디 또는 비밀번호가 틀렸습니다.</p>
+                <p class="forgot-password"><a href="#" >비밀번호를 잊으셨나요?</a></p>
+                <p class="join"><span>계정이 없으신가요?</span><a href="#"> 가입하기</a></p>
+            </form>
+
+        </div>
+    </section>
+</div>
+</body>
+</html>

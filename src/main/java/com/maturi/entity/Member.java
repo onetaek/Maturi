@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @ToString
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
   @Id
