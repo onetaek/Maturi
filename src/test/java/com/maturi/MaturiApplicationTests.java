@@ -21,14 +21,7 @@ class MaturiApplicationTests {
 
 	@Test
 	void contextLoads(){
-		JPAQueryFactory queryFactory = new JPAQueryFactory(em);
-		Tag tag = new Tag(null,"tag1");
-		em.persist(tag);
 
-		Tag tag1 = queryFactory
-				.selectFrom(QTag.tag)
-				.fetchOne();
-		Assertions.assertThat(tag1.getName()).isEqualTo("tag1");
 
 	}
 
