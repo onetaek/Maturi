@@ -8,6 +8,13 @@
     --light-gray : #cbcbcb;
     --login-form-background: #FFFFFF;
     --login-height: 700px;
+    --side-nav-background: #FFFFFF;
+    --side-nav-width: 250px;
+    --main-content-padding-left: 300px;
+    --main-content-min-width: 900px;
+    --review-article-gap: 30px;
+    --review-article-width: 500px;
+    --review-article-height: 400px;
 }
 body {
     width: 100%;

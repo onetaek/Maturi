@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+#sideNav {
+    width: var(--side-nav-width); height: 100vh;
+    margin: 0 20px;
+    min-height: 500px;
+    position: fixed;
+    z-index: 9999;
+}
+#sideNav .logo {
+    width: 100%;
+}
+#sideNav .logo a {
+    width: 150px; height: 50px;
+    display: block;
+    margin: 0 auto 70px;
+    background: url('/img/logo/logo_trans.png') no-repeat top center / contain;
+    text-indent: -9999px;
+}
+
+#gnbWrap {
+    width: 100%; height: 80%;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--side-nav-background);
+}
+#gnbWrap .mProfileImg {
+    width: 150px; height: 150px;
+    position: absolute;
+    top: -75px; left: 50%; transform: translateX(-50%);
+    border-radius: 100%;
+    background-color: var(--light-gray);
+    overflow: hidden;
+}
+#gnbWrap .mProfileImg img {
+    width: 100%; height: 100%;
+}
+#gnbWrap .memberInfo {
+    margin-top: 80px;
+}
+
+#gnb ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#snb footer {
+    border-top: 1px solid #808080;
+}
