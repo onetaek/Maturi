@@ -8,8 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping("/test")
 public class TestController {
+
+    @GetMapping("")
+    public String index(){
+        return "index";
+    }
     @GetMapping("/login")
     public String login(){
         return "login";
+    }
+    @GetMapping("/myPage")
+    public String myPage(){
+        return "myPage";
+    }
+    @GetMapping("/join")
+    public String join(){
+        return "join";
     }
 }

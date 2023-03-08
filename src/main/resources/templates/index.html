@@ -3,8 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/include/sideNav.css">
+    <link rel="stylesheet" href="/css/reset.css">
 </head>
 <body>
-  <h2 th:text="Maturi">hello, world!</h2>
+<div id="sideNav">
+    <h1 class="logo"><a href="#">Maturi</a></h1>
+    <div id="gnbWrap">
+        <h2 class="mProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></h2>
+        <div class="memberInfo">
+            <h3 class="mName">김혜현</h3>
+            <span class="mNick">@hyea._.hyun</span>
+        </div>
+        <nav id="gnb">
+            <ul>
+                <li><a href="#">리뷰 쓰기</a></li>
+                <li><a href="#">지역 설정</a></li>
+                <li><a href="#">팔로우/팔로잉</a></li>
+            </ul>
+        </nav>
+        <div id="snb">
+            <ul class="subContent">
+                <li><a href="#">설정</a></li>
+                <li><a href="#">로그아웃</a></li>
+            </ul>
+            <footer>
+                <ul>
+                    <li>
+                        <span>김혜현</span>
+                        <span>오원택</span>
+                    </li>
+                    <li><a href="#">Github</a></li>
+                </ul>
+            </footer>
+        </div>
+    </div>
+</div>
 </body>
 </html>
