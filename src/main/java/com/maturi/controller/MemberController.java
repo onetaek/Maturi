@@ -12,4 +12,9 @@ public class MemberController {
     public String login(){
         return "login";
     }
+
+    @GetMapping("/myPage")
+    public String myPage(){
+        return "myPage";
+    }
 }
