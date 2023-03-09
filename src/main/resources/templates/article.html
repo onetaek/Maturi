@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>글 제목</title>
+  <link rel="stylesheet" href="/css/include/sideNav.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/board/article.css">
+  <script src="/js/myPage.js" defer></script>
+</head>
+<body>
+<!-- 네비게이션 -->
+<div id="sideNav">
+  <h1 class="logo"><a href="#">Maturi</a></h1>
+
+  <div id="gnbWrap">
+    <h2 class="mProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></h2>
+    <div class="memberInfo">
+      <h3 class="mName">김혜현</h3>
+      <span class="mNick">@hyea._.hyun</span>
+    </div>
+
+    <nav id="gnb">
+      <ul>
+        <li><a href="#">리뷰 쓰기</a></li>
+        <li><a href="#">지역 설정</a></li>
+        <li><a href="#">팔로우/팔로잉</a></li>
+      </ul>
+    </nav>
+
+    <div id="snb">
+      <ul class="subContent">
+        <li><a href="#">설정</a></li>
+        <li><a href="#">로그아웃</a></li>
+      </ul>
+
+      <footer>
+        <ul>
+          <li>
+            <span>김혜현</span>
+            <span>오원택</span>
+          </li>
+          <li><a href="#">Github</a></li>
+        </ul>
+
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- 마이페이지 본문 -->
+
+<div id="content">
+  <div id="articleWrap">
+    <div class="writerInfo">
+      <p class="writerProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></p>
+      <p class="writerName">김혜현</p>
+    </div>
+<!--    글 본문 -->
+    <div class="contentWrap">
+      <ul class="bImg">
+        <li><img src="/img/test/food1.jpg" alt="사진1"></li>
+        <li><img src="/img/test/food2.jpg" alt="사진2"></li>
+        <li><img src="/img/test/food3.jpg" alt="사진3"></li>
+      </ul>
+      <p class="bContent">리뷰 글 내용</p>
+      <div class="viewAndLike">
+        <span>조회수</span>
+        <span>좋아요</span>
+      </div>
+    </div>
+    <!--     리뷰글 더보기 버튼 -->
+    <div class="memberBtn">
+      <span class="moreBtn">더보기</span>
+      <ul>
+        <li><a href="#">게시글 수정</a></li>
+        <li><a href="#">게시글 삭제</a></li>
+        <li><a href="#">신고하기</a></li>
+      </ul>
+    </div>
+  </div>
+  <!--      음식점 정보 -->
+  <div id="restaurantWrap">
+    <div class="rMap"></div>
+    <div class="restaurantInfo">
+      <h4 class="rTitleWrap">
+        <span class="rTitle">음식점명</span>
+        <span class="rSearch">리뷰 검색</span>
+      </h4>
+      <p class="rAddress">주소 : [구주소 or 신주소]</p>
+      <p class="rCategory">카테고리 : 음식점 > 막창 </p>
+    </div>
+  </div>
+<!--  댓글 목록 -->
+  <div id="commentWrap">
+
+  </div>
+</div>
+</body>
+</html>

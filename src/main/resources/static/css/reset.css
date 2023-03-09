@@ -15,6 +15,9 @@
     --review-article-gap: 30px;
     --review-article-width: 500px;
     --review-article-height: 400px;
+    --artlcle-imgs-ul-width:300%;
+    --search-btn-background: #0c70f2;
+    --search-btn-color: #ffffff;
 }
 body {
     width: 100%;

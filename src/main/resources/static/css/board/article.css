@@ -1,0 +1,117 @@
+#content {
+    max-width: var(--max-width);
+    min-width: var(--main-content-min-width);
+    padding-left: var(--main-content-padding-left);
+}
+
+#articleWrap {
+    position: relative;
+    padding: 100px 0 50px;
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+#articleWrap .writerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+#articleWrap .writerProfileImg {
+    width: 100px; height: 100px;
+    border-radius: 100%;
+    background-color: var(--light-gray);
+    overflow: hidden;
+}
+#articleWrap .writerProfileImg img {
+    width: 100%; height: 100%;
+}
+#articleWrap .writerName {
+
+}
+
+/* 글 본문 */
+.contentWrap {
+    overflow: hidden;
+    max-width: 600px;
+    display: flex; flex-direction: column;
+    gap: 10px;
+}
+.contentWrap .bImg {
+    width: var(--artlcle-imgs-ul-width);
+    display: flex;
+}
+.contentWrap .bImg li {
+    width: 100%;
+}
+.contentWrap .bImg li img {
+    width: 100%;
+}
+
+.contentWrap .articleInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* 더보기 버튼 */
+#articleWrap .memberInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+#articleWrap .memberBtn > * {
+    position: absolute;
+}
+#articleWrap .memberBtn > span {
+    display: block;
+    width: 30px; height: 30px;
+    top: 100px; right: 0;
+    text-indent: -9999px;
+    background: url('/img/button/memberBtn.png') no-repeat top center / contain;
+    cursor: pointer;
+}
+#articleWrap .memberBtn > ul {
+    display: none;
+    padding: 10px;
+    top: 130px; right: 0;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+/* 음식점 정보란 */
+#restaurantWrap {
+    border-top: 1px solid #808080;
+    width: 100%; height: 500px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+}
+#restaurantWrap .rMap {
+    width: 500px; height: 400px;
+    border: 1px solid #000;
+}
+.restaurantInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.restaurantInfo .rTitleWrap {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 10px 0;
+}
+.restaurantInfo .rTitleWrap .rTitle {
+    font-size: 24px;
+    font-weight: 600;
+}
+.restaurantInfo .rTitleWrap .rSearch {
+    background-color: var(--search-btn-background);
+    color: var(--search-btn-color);
+    padding: 5px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}

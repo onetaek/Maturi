@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
 @Controller
-public class MemberController {
+public class BoardController {
 
 }
