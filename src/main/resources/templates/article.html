@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/css/include/sideNav.css">
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/board/article.css">
+  <link rel="stylesheet" href="/css/board/comment.css">
   <script src="/js/myPage.js" defer></script>
 </head>
 <body>
@@ -65,8 +66,13 @@
       </ul>
       <p class="bContent">리뷰 글 내용</p>
       <div class="viewAndLike">
-        <span>조회수</span>
-        <span>좋아요</span>
+        <span class="likeWrap">
+          <span class="likeBtn">좋아요</span>
+          <span class="likeNum">20</span>
+        </span>
+        <span><a href="#">#태그1</a></span>
+        <span><a href="#">#태그2</a></span>
+        <span><a href="#">#태그3</a></span>
       </div>
     </div>
     <!--     리뷰글 더보기 버튼 -->
@@ -91,9 +97,14 @@
       <p class="rCategory">카테고리 : 음식점 > 막창 </p>
     </div>
   </div>
-<!--  댓글 목록 -->
+<!--  댓글 -->
   <div id="commentWrap">
-
+    <form name="commentFrm" id="commentFrm">
+      <textarea type="text" class="commentBody" name="commentBody" placeholder="댓글 등록하기.."></textarea>
+      <button type="button" class="commentSubmitBtn" name="commentSubmitBtn">댓글 달기</button>
+    </form>
+<!--    댓글 목록 -->
+    <div class="commentList"></div>
   </div>
 </div>
 </body>

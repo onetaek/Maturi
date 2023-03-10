@@ -16,5 +16,5 @@ public class TagValue {
   @ManyToOne(fetch = FetchType.LAZY)
   private Tag tag;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Board board;
+  private Article article;
 }
