@@ -25,7 +25,6 @@ public class TestController {
     public String join(){
         return "join";
     }
-
     @GetMapping("/article")
     public String article(){
         return "article";

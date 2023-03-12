@@ -18,6 +18,9 @@
     --artlcle-imgs-ul-width:300%;
     --search-btn-background: #0c70f2;
     --search-btn-color: #ffffff;
+    /* index페이지 */
+    --primary-color: #07afd9;
+
 }
 body {
     width: 100%;
