@@ -29,4 +29,18 @@ public class TestController {
     public String article(){
         return "article";
     }
+    @GetMapping("/follow")
+    public String follow(){
+        return "follow";
+    }
+
+    @GetMapping("/write/search")
+    public String writeMap(){
+        return "write_search";
+    }
+
+    @GetMapping("/write")
+    public String write(){
+        return "write";
+    }
 }

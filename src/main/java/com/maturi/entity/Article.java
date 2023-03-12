@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board {
+public class Article {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -20,6 +20,7 @@ public class Board {
   private Restaurant restaurant;
 
   private String content;
+  private String image; // 이미지 여러개 업로드 가능
   private LocalDate writtenAt;
   private LocalDate updatedAt;
   private String status;

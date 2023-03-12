@@ -1,7 +1,6 @@
 package com.maturi.entity;
 
 import lombok.*;
-import net.bytebuddy.asm.Advice;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ public class Comment {
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Board board;
+  private Article article;
 
   private String content;
   private LocalDate writtenAt;

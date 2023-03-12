@@ -25,6 +25,7 @@
     position: absolute;
     top: -75px; left: 50px;
     border-radius: 100%;
+    border: 1px solid #000;
     background-color: var(--light-gray);
     overflow: hidden;
 }
