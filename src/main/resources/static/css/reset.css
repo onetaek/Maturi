@@ -11,11 +11,11 @@
     --side-nav-background: #FFFFFF;
     --side-nav-width: 250px;
     --main-content-padding-left: 300px;
+    --main-content-padding-top: 100px;
     --main-content-min-width: 900px;
     --review-article-gap: 30px;
     --review-article-width: 500px;
     --review-article-height: 400px;
-    --artlcle-imgs-ul-width:300%;
     --search-btn-background: #0c70f2;
     --search-btn-color: #ffffff;
 }
@@ -24,6 +24,20 @@ body {
     margin: 0;
     padding: 0;
     font-family:'Lato', 'Noto Sans KR', sans-serif;
+}
+body::-webkit-scrollbar {
+    /* 스크롤바 전체 */
+    width: 8px; height: 8px;
+    background-color: #dbdbdb;
+}
+body::-webkit-scrollbar-thumb {
+    /* 스크롤 막대 */
+    background-color: #464646;
+    /* width: 8px; */
+    border-radius: 10px;
+}
+body::-moz-focus-inner {
+    /* 스크롤 막대 외부 */
 }
 
 * {
