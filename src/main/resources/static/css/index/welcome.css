@@ -3,22 +3,27 @@ body {
 }
 main{
     width:100%;
-    background: #fda6d2;
+    background: var(--welcome-background);
 }
+/*검색 컨텐츠*/
 .search-wrap{
     width:var(--max-width);
     margin:0 auto;
+    padding-top:10px;
 }
+/*라디오 버튼*/
 .radio-tile-group {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    max-width: var(--middle-width);
+    width:100%;
+    margin:0 auto;
 }
 
 .input-container {
     position: relative;
-    height: 5rem;
-    width:8rem;
+    height: 3rem;
+    width:6rem;
     margin: 0.5rem;
 }
 
@@ -45,7 +50,7 @@ main{
 
 .input-container ion-icon {
     color: var(--primary-color);
-    font-size: 3rem;
+    font-size: 2rem;
 }
 
 .input-container label {
@@ -70,11 +75,11 @@ input:checked+.radio-tile ion-icon,
 input:checked+.radio-tile label {
     color: white;
 }
-
+/*검색창*/
 .search-bar{
     width: 100%;
-    max-width: 600px;
-    margin:0 auto;
+    max-width: var(--middle-width);
+    margin:10px auto 0;
     background:rgb(255,255,255,0.2);
     display: flex;
     align-items:center;

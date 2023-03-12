@@ -1,6 +1,5 @@
 package com.maturi;
 
-import com.maturi.entity.QTag;
 import com.maturi.entity.Tag;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;

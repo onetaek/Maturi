@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #popup{
+            position:absolute;
+            width:100vw;
+            height:100vh;
+            background:rgba(0,0,0,0.75);
+            display:none;
+        }
+        #popup .popup-content{
+            position: absolute;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            width:400px;
+            padding: 10px 20px;
+            background:#eee;
+        }
+        #popup a.close-popup{
+            position:absolute;
+            top:20px;
+            right:20px;
+            font-size:20px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        #popupp:target{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="center">
+    <a href="#popup">Open Popup</a>
+</div>
+<div id="popup">
+    <div class="popup-content">
+        <h1>This is title</h1>
+        <p>내용</p>
+        <a href="#" class="close-popup">&times;</a>
+    </div>
+</div>
+</body>
+</html>

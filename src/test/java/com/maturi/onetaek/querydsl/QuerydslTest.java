@@ -1,7 +1,6 @@
-package com.maturi.querydsl;
+package com.maturi.onetaek.querydsl;
 
 import com.maturi.entity.Member;
-import com.maturi.entity.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +12,6 @@ import javax.persistence.PersistenceContext;
 
 import java.util.List;
 
-import static com.maturi.entity.QMember.*;
 
 @SpringBootTest
 @Transactional
@@ -25,9 +23,6 @@ public class QuerydslTest {
   void test(){
 
 
-    List<Member> fetch = queryFactory
-            .select(member)
-            .from(member)
-            .fetch();
+
   }
 }

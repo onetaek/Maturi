@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/css/include/sideNav.css">
     <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/index/welcome.css"/>
+    <link rel="stylesheet" href="/css/board/article.css">
+    <script src="/js/board/article.js" defer></script>
 </head>
 <body>
 <div id="sideNav">
@@ -41,8 +43,10 @@
     </div>
 </div>
 <main>
+    <!--검색 컨텐츠-->
     <section class="search-wrap">
         <form class="container">
+            <!--라디오 버튼들-->
             <div class="radio-tile-group">
                 <div class="input-container">
                     <input id="walk" type="radio" name="radio">
@@ -51,7 +55,6 @@
                         <label for="walk">전체</label>
                     </div>
                 </div>
-
                 <div class="input-container">
                     <input id="bike" type="radio" name="radio">
                     <div class="radio-tile">
@@ -59,7 +62,6 @@
                         <label for="bike">팔로우</label>
                     </div>
                 </div>
-
                 <div class="input-container">
                     <input id="car" type="radio" name="radio">
                     <div class="radio-tile">
@@ -67,7 +69,6 @@
                         <label for="car">관심지역</label>
                     </div>
                 </div>
-
                 <div class="input-container">
                     <input id="fly" type="radio" name="radio">
                     <div class="radio-tile">
@@ -76,11 +77,53 @@
                     </div>
                 </div>
             </div>
+            <!--검색창-->
             <div class="search-bar">
                 <input type="text" class="search-input" placeholder="search anything">
                 <button class="search-button" type="submit"><ion-icon name="search"></ion-icon></button>
             </div>
         </form>
+    </section>
+    <!--게시글들-->
+    <section id="content">
+        <div id="articleWrap">
+            <!--    글쓴이 정보 -->
+            <div class="writerInfo">
+                <p class="writerProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></p>
+                <p class="written">
+                    <span class="writerName">김혜현</span>
+                    <span class="writtenAt">2023.03.12</span>
+                </p>
+            </div>
+            <!--    글 본문 -->
+            <div class="contentWrap">
+                <ul class="bImg">
+                    <li><img src="/img/test/food1.jpg" alt="사진1"></li>
+                    <li><img src="/img/test/food2.jpg" alt="사진2"></li>
+                    <li><img src="/img/test/food3.jpg" alt="사진3"></li>
+                </ul>
+                <p class="bContent">리뷰 글 내용</p>
+            </div>
+            <!--    좋아요 & 태그 -->
+            <div class="likeAndTag">
+        <span class="likeWrap">
+          <span class="likeBtn">좋아요</span>
+          <span class="likeNum">20</span>
+        </span>
+                <span><a href="#">#태그1</a></span>
+                <span><a href="#">#태그2</a></span>
+                <span><a href="#">#태그3</a></span>
+            </div>
+            <!--     리뷰글 더보기 버튼 -->
+            <div class="aMemberBtn">
+                <span class="moreBtn">더보기</span>
+                <ul>
+                    <li><a href="#">게시글 수정</a></li>
+                    <li><a href="#">게시글 삭제</a></li>
+                    <li><a href="#">신고하기</a></li>
+                </ul>
+            </div>
+        </div>
     </section>
 </main>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
