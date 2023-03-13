@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/include/sideNav.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/articles/articles.css"/>
+    <link rel="stylesheet" href="/css/articles/popup.css">
+    <link rel="stylesheet" href="/css/write/searchMap.css">
+    <link rel="stylesheet" href="/css/write/kakaoCSS.css">
+</head>
+<body>
+<div id="wrap">
+    <div id="sideNav">
+        <h1 class="logo"><a href="#">Maturi</a></h1>
+        <div id="gnbWrap">
+            <h2 class="mProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></h2>
+            <div class="memberInfo">
+                <h3 class="mName">김혜현</h3>
+                <span class="mNick">@hyea._.hyun</span>
+            </div>
+            <nav id="gnb">
+                <ul>
+                    <li><a href="#">리뷰 쓰기</a></li>
+                    <li><a href="#" onclick="popupToggle()">지도로 보기</a></li>
+                    <li><a href="#">팔로우/팔로잉</a></li>
+                </ul>
+            </nav>
+            <div id="snb">
+                <ul class="subContent">
+                    <li><a href="#">설정</a></li>
+                    <li><a href="#">로그아웃</a></li>
+                </ul>
+                <footer>
+                    <ul>
+                        <li>
+                            <span>김혜현</span>
+                            <span>오원택</span>
+                        </li>
+                        <li><a href="#">Github</a></li>
+                    </ul>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <main>
+        <div class="main-background">
+        </div>
+        <!--검색 컨텐츠-->
+        <section class="search-wrap">
+            <form class="container">
+                <!--라디오 버튼들-->
+                <div class="radio-tile-group">
+                    <div class="input-container">
+                        <input id="walk" type="radio" name="radio" checked>
+                        <div class="radio-tile">
+                            <ion-icon name="globe"></ion-icon>
+                            <label for="walk">전체</label>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <input id="bike" type="radio" name="radio">
+                        <div class="radio-tile">
+                            <ion-icon name="people"></ion-icon>
+                            <label for="bike">팔로우</label>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <input id="car" type="radio" name="radio">
+                        <div class="radio-tile">
+                            <ion-icon name="compass"></ion-icon>
+                            <label for="car">관심지역</label>
+                        </div>
+                    </div>
+                    <div class="input-container">
+                        <input id="fly" type="radio" name="radio">
+                        <div class="radio-tile">
+                            <ion-icon name="locate"></ion-icon>
+                            <label for="fly">현재위치</label>
+                        </div>
+                    </div>
+                </div>
+                <!--검색창-->
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="search anything">
+                    <button class="search-button" type="submit">
+                        <ion-icon name="search"></ion-icon>
+                    </button>
+                </div>
+            </form>
+        </section>
+        <!--게시글들-->
+        <section>
+            <ul id="article-list">
+                <li class="article-wrap">
+                    <!--    글쓴이 정보 -->
+                    <div class="writerInfo">
+                        <p class="writerProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></p>
+                        <p class="written">
+                            <span class="writerName">김혜현</span>
+                            <span class="writtenAt">2023.03.12</span>
+                        </p>
+                    </div>
+                    <!--    글 본문 -->
+                    <div class="contentWrap">
+                        <ul class="bImg">
+                            <li><img src="/img/test/food1.jpg" alt="사진1"></li>
+                        </ul>
+                        <p class="bContent">
+                            리뷰 글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
+                            글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용 리뷰 글 내용리뷰
+                            글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
+                            글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
+                            글 내용리뷰 글 내용
+                        </p>
+                    </div>
+                    <!--    좋아요 & 태그 -->
+                    <div class="likeAndTag">
+                    <span class="likeWrap">
+                      <span class="likeBtn">좋아요</span>
+                      <span class="likeNum">20</span>
+                    </span>
+                        <span><a href="#">#태그1</a></span>
+                        <span><a href="#">#태그2</a></span>
+                        <span><a href="#">#태그3</a></span>
+                    </div>
+                    <!--     리뷰글 더보기 버튼 -->
+                    <div class="ellipsis-btn-wrap">
+                    <span class="ellipsis-btn">
+                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                    </span>
+                        <ul class="ellipsis-content">
+                            <li><a href="#">게시글 수정</a></li>
+                            <li><a href="#">게시글 삭제</a></li>
+                            <li><a href="#">신고하기</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="article-wrap">
+                    <!--    글쓴이 정보 -->
+                    <div class="writerInfo">
+                        <p class="writerProfileImg"><img src="/img/test/rabbit.png" alt="프로필 이미지"></p>
+                        <p class="written">
+                            <span class="writerName">오원택</span>
+                            <span class="writtenAt">2023.03.13</span>
+                        </p>
+                    </div>
+                    <!--    글 본문 -->
+                    <div class="contentWrap">
+                        <ul class="bImg">
+                            <li><img src="/img/test/food2.jpg" alt="사진1"></li>
+                        </ul>
+                        <p class="bContent">
+                            리뷰 글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
+                            글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용 리뷰 글 내용리뷰
+                            글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
+                            글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
+                            글 내용리뷰 글 내용
+                        </p>
+                    </div>
+                    <!--    좋아요 & 태그 -->
+                    <div class="likeAndTag">
+                    <span class="likeWrap">
+                      <span class="likeBtn">좋아요</span>
+                      <span class="likeNum">20</span>
+                    </span>
+                        <span><a href="#">#태그1</a></span>
+                        <span><a href="#">#태그2</a></span>
+                        <span><a href="#">#태그3</a></span>
+                    </div>
+                    <!--     리뷰글 더보기 버튼 -->
+                    <div class="ellipsis-btn-wrap">
+                    <span class="ellipsis-btn">
+                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                    </span>
+                        <ul class="ellipsis-content">
+                            <li><a href="#">게시글 수정</a></li>
+                            <li><a href="#">게시글 삭제</a></li>
+                            <li><a href="#">신고하기</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>
+<div id="popup">
+    <div id="content">
+        <!--    지역 선택 태그 -->
+        <form name="nsdiSearchForm" id="nsdiSearchForm" action="#" class="form_data" onsubmit="return false;search();">
+            <select id="sido_code" name="sido_code">
+                <option>지역 선택</option>
+            </select>
+            <select id="sigoon_code" name="sigoon_code">
+                <option>지역 선택</option>
+            </select>
+            <select id="dong_code" name="dong_code">
+                <option>지역 선택</option>
+            </select>
+        </form>
+        <!-- 맵에 해당 지역 찾아서 표시 -->
+        <div id="map_wrap">
+            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <div>
+                        <form onsubmit="searchPlaces(); return false;">
+                            키워드 : <input type="text" value="서울시청" id="keyword" size="15">
+                            <button type="submit">검색</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
+            </div>
+        </div>
+        <!-- 해당 지역 정보 -->
+        <div id="rInfoWrap">
+            <ul>
+                <li class="placeName">가게명 : </li>
+                <li class="address">도로명 주소 : </li>
+                <li class="placeCategory">카테고리 : </li>
+            </ul>
+        </div>
+
+        <button type="button" class="goWriteBtn">리뷰 작성</button>
+    </div>
+    <a href="#" onclick="popupToggle()">닫기</a>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c55017f50ef814cb232fff43926363e3&libraries=services"></script>
+<script src="/js/write/nsdiSearch.js" defer></script>
+<script src="/js/write/kakaoMapsSearch.js" defer></script>
+<script src="/js/write/searchMap.js" defer></script>
+<script src="/js/articles/popup.js"></script>
+<script src="/js/articles/ellipsis.js"></script>
+</body>
+</html>

@@ -3,7 +3,6 @@ package com.maturi.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 @RequestMapping("/test")
@@ -11,36 +10,36 @@ public class TestController {
 
     @GetMapping("")
     public String index(){
-        return "index";
+        return "/article/welcome";
     }
     @GetMapping("/login")
     public String login(){
-        return "login";
+        return "/member/login";
     }
     @GetMapping("/myPage")
     public String myPage(){
-        return "myPage";
+        return "/member/myPage";
     }
     @GetMapping("/join")
     public String join(){
-        return "join";
+        return "/member/join";
     }
     @GetMapping("/article")
     public String article(){
-        return "article";
+        return "/article/article";
     }
     @GetMapping("/follow")
     public String follow(){
-        return "follow";
+        return "/member/follow";
     }
 
     @GetMapping("/write/search")
     public String writeMap(){
-        return "write_search";
+        return "/article/write_search";
     }
 
     @GetMapping("/write")
     public String write(){
-        return "write";
+        return "/article/write";
     }
 }

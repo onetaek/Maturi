@@ -1,8 +1,10 @@
 #content {
+    width:100%;
     max-width: var(--max-width);
     min-width: var(--main-content-min-width);
-    padding-left: var(--main-content-padding-left);
-    padding-top: var(--main-content-padding-top);
+    /*padding-left: var(--main-content-padding-left);*/
+    /*padding-top: var(--main-content-padding-top);*/
+    margin:0 auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -11,7 +13,7 @@
 #articleWrap {
     position: relative;
     margin: 0 auto;
-    width: 70%;
+    width: var(--middle-width);
     display: flex;
     flex-direction: column;
     justify-content: space-around;
