@@ -5,6 +5,7 @@
     --middle-width:720px;
     /*--pink-color: #F7C8E0;*/
     --pink-color: #FFA3FD;
+    --light-hot-pink-color: #ffa9d1;
     --hot-pink-color: #ff5fad;
     --light-gray : #cbcbcb;
     --login-form-background: #FFFFFF;
@@ -24,6 +25,10 @@
     --primary-color: #07afd9;
     --ellipsis-color: #727272;
     --article-list-background:#FFFFFF;
+    --white-color: #FFFFFF;
+    --black-color:#000000;
+    --drop-down-color: #1f1f1f;
+    --shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 body {
     width: 100%;

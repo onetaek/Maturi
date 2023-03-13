@@ -19,8 +19,10 @@ main{
     background: rgba(0,0,0,0.5);
     z-index: -99;
 }
-/*검색 컨텐츠*/
-.search-wrap{
+/******검색 컨텐츠******/
+#search-section{
+    position:relative;
+    z-index:999;
     width:var(--max-width);
     margin:0 auto;
     padding-top:10px;
@@ -103,6 +105,80 @@ input:checked+.radio-tile label {
     backdrop-filter: blur(4px) saturate(180%);
 }
 
+/* 드롭다운 */
+.dropdown{
+    position:relative;
+    width:150px;
+    border-radius: 70px;
+    background-color:var(--hot-pink-color);
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
+.dropdown-text{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size:1rem;
+    font-weight: 500;
+    color:var(--white-color);
+    padding:1.2rem 1.5rem;
+}
+.dropdown-list{
+    position: absolute;
+    top:4rem;
+    left:0;
+    width:100%;
+    border-radius: 25px;
+    max-height: 0;
+    overflow: hidden;
+    background-color:var(--hot-pink-color);
+    transition:max-height 0.5s;
+}
+#list.show{
+    max-height: 300px;
+}
+.dropdown-list-item{
+    font-size:0.9rem;
+    font-weight: 500;
+    padding:1rem 0 1rem 1.5rem;
+    cursor:pointer;
+    color:var(--drop-down-color);
+    transition: margin-left 0.2s ease, color 0.2s ease;
+}
+
+.dropdown-list-item:hover{
+    margin-left:0.5rem;
+    color:var(--white-color);
+}
+.search-box{
+    display:flex;
+    align-items: center;
+    padding-right:1rem;
+    width:100%;
+    color: var(--hot-pink-color);
+    font-weight: 500;
+}
+.search-box input{
+    padding:1rem;
+    width:100%;
+    font-size:1rem;
+    font-weight:500;
+    color:var(--hot-pink-color);
+    border:0;
+    outline: 0;
+}
+.search-box i{
+    font-size:1.3rem;
+    cursor:pointer;
+}
+
+.search-box input::placeholder{
+    font-size:1rem;
+    font-weight: 500;
+    color:var(--hot-pink-color);
+}
+
 .search-bar .search-input{
     background: transparent;
     flex: 1;
@@ -132,8 +208,14 @@ input:checked+.radio-tile label {
 }
 
 /******* 게시글 리스트 *******/
+#article-section{
+    position:relative;
+    z-index:10;
+}
 #article-list{
     display: flex;
+    position:relative;
+    z-index: 10;
     justify-content: center;
     flex-direction: column;
     max-width: var(--middle-width);
