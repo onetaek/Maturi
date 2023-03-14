@@ -1,42 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/introBase}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-  <link rel="stylesheet" href="/css/reset.css"/>
+    <title>회원가입</title>
   <link rel="stylesheet" href="/css/join/join.css"/>
 </head>
 <body>
-<div id="wrap">
+<div layout:fragment="main" id="wrap">
   <section class="section-wrap">
     <div class="login-form">
-      <form action="#">
+      <form name="joinForm">
         <h1><a href="#"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
         <div class="inputBox">
-          <input  type="text" required >
+          <input  type="text" name="email" required >
           <span>아이디(이메일)</span>
           <i></i>
         </div>
         <div class="inputBox">
-          <input type="password" required>
+          <input type="password" name="passwd" required>
           <span>비밀번호</span>
           <i></i>
         </div>
         <div class="inputBox">
-          <input type="password" required>
+          <input type="password" name="passwdCheck" required>
           <span>비밀번호 확인</span>
           <i></i>
         </div>
         <div class="inputBox">
-          <input type="password" required>
+          <input type="text" name="name" required>
           <span>이름</span>
           <i></i>
         </div>
-        <input type="submit" value="가입하기"/>
+        <input type="button" name="submitBtn" value="가입하기"/>
       </form>
 
     </div>
   </section>
 </div>
+
+<th:block layout:fragment="scripts">
+  <script src="/js/member/join.js"></script>
+</th:block>
 </body>
 </html>

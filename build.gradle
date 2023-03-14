@@ -36,6 +36,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// lombok을 테스트 환경에서도 사용
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
 	//querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa'
 	compileOnly 'org.projectlombok:lombok'

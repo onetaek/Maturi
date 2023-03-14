@@ -111,6 +111,7 @@ function displayPlaces(places) {
       // 경도 위도 좌표 구하기!!! (마커 클릭)
       kakao.maps.event.addListener(marker, 'click', function(){
         var addressTag = rInfoWrapUl.querySelector(".address");
+        var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress");
         var nameTag = rInfoWrapUl.querySelector(".placeName");
         var categoryTag = rInfoWrapUl.querySelector(".placeCategory");
         rInfo_address = thisPlace.road_address_name;
@@ -119,7 +120,8 @@ function displayPlaces(places) {
         rInfo_category = thisPlace.category_name;
         rInfo_latPosition = position.getLat();
         rInfo_lngPosition = position.getLng();
-        addressTag.innerText = "주소 : " + rInfo_address;
+        addressTag.innerText = "도로명 주소 : " + rInfo_address;
+        oldAddressTag.innerText = "구주소 : " + rInfo_oldAddress;
         nameTag.innerText = "가게명 : " + rInfo_name;
         categoryTag.innerText = "카테고리 : " + rInfo_category;
         // 카테고리 그룹 이름 : category_group_name
@@ -138,6 +140,7 @@ function displayPlaces(places) {
       // 경도 위도 좌표 구하기!!! (리스트 클릭)
       itemEl.onclick = function(){
         var addressTag = rInfoWrapUl.querySelector(".address");
+        var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress");
         var nameTag = rInfoWrapUl.querySelector(".placeName");
         var categoryTag = rInfoWrapUl.querySelector(".placeCategory");
         rInfo_address = thisPlace.road_address_name;
@@ -146,7 +149,8 @@ function displayPlaces(places) {
         rInfo_category = thisPlace.category_name;
         rInfo_latPosition = position.getLat();
         rInfo_lngPosition = position.getLng();
-        addressTag.innerText = "주소 : " + rInfo_address;
+        addressTag.innerText = "도로명 주소 : " + rInfo_address;
+        oldAddressTag.innerText = "구주소 : " + rInfo_oldAddress;
         nameTag.innerText = "가게명 : " + rInfo_name;
         categoryTag.innerText = "카테고리 : " + rInfo_category;
         // 카테고리 그룹 이름 : category_group_name

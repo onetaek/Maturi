@@ -118,7 +118,7 @@ form h1 img{
 .inputBox input:focus ~ i{
     height:44px;
 }
-input[type="submit"]{
+input[type="button"]{
     border:none;
     outline:none;
     background:var(--pink-color);

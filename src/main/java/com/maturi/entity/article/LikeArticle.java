@@ -1,5 +1,6 @@
-package com.maturi.entity;
+package com.maturi.entity.article;
 
+import com.maturi.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,13 +10,12 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Follow {
+public class LikeArticle {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @ManyToOne(fetch = FetchType.LAZY)
-  private Member followerMember;
+  private Article article;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Member followingMember;
+  private Member member;
 }

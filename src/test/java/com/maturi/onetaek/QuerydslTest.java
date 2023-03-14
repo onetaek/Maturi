@@ -1,8 +1,5 @@
 package com.maturi.onetaek;
 
-import com.maturi.entity.Tag;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

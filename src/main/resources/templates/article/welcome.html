@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/base}">
+      layout:decorate="~{layout/mainBase}">
 <head>
     <title>maturi 메인 페이지</title>
 <!--    <link rel="stylesheet" href="/css/include/sideNav.css">-->
@@ -213,12 +213,16 @@
         <button type="button" class="goWriteBtn">리뷰 작성</button>
     </div>
     <a href="#" onclick="popupToggle()">닫기</a>
+
 </div>
 <!--my js-->
 <th:block layout:fragment="scripts">
-    <script src="/js/welcome/popup.js"></script>
-    <script src="/js/welcome/ellipsis.js"></script>
-    <script src="/js/welcome/dropdown.js"></script>
+    <script src="/js/nsdiSearch.js"></script>
+    <script src="/js/kakaoMapsSearch.js"></script>
+    <script src="/js/searchMap.js"></script>
+    <script src="/js/article/welcome/popup.js"></script>
+    <script src="/js/article/welcome/ellipsis.js"></script>
+    <script src="/js/article/welcome/dropdown.js"></script>
 </th:block>
 </body>
 </html>

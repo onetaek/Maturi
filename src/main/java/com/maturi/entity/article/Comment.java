@@ -1,5 +1,6 @@
-package com.maturi.entity;
+package com.maturi.entity.article;
 
+import com.maturi.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,18 +11,17 @@ import java.time.LocalDate;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article {
+public class Comment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @ManyToOne(fetch = FetchType.LAZY) // 필요한 경우에만 해당 테이블 join함
+  @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Restaurant restaurant;
+  private Article article;
 
   private String content;
-  private String image; // 이미지 여러개 업로드 가능
   private LocalDate writtenAt;
-  private LocalDate updatedAt;
+  private LocalDate updateAt;
   private String status;
 }

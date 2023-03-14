@@ -1,9 +1,8 @@
-package com.maturi.entity;
+package com.maturi.entity.article;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.PreparedStatement;
 
 @Entity
 @Getter

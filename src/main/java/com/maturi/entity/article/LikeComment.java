@@ -1,5 +1,6 @@
-package com.maturi.entity;
+package com.maturi.entity.article;
 
+import com.maturi.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,12 +10,12 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TagValue {
+public class LikeComment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Tag tag;
+  private Comment comment;
   @ManyToOne(fetch = FetchType.LAZY)
-  private Article article;
+  private Member member;
 }

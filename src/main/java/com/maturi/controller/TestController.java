@@ -33,11 +33,6 @@ public class TestController {
         return "/member/follow";
     }
 
-    @GetMapping("/write/search")
-    public String writeMap(){
-        return "/article/write_search";
-    }
-
     @GetMapping("/write")
     public String write(){
         return "/article/write";
