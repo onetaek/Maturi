@@ -7,6 +7,7 @@ import com.maturi.repository.MemberRepository;
 import com.maturi.util.PasswdEncry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class MemberService {
 
   final private MemberRepository memberRepository;
+  final private ModelMapper modelMapper;
 
   public void join(MemberJoinDTO memberJoinDTO){
 
@@ -38,11 +40,13 @@ public class MemberService {
     /* status 세팅 */
     memberJoinDTO.setStatus(MemberStatus.NORMAL);
 
+    log.info("memberJoinDTO = {}",memberJoinDTO.toString());
     // dto를 entity로 변환
-    Member member = memberJoinDTO.toEntity();
+    Member mappedMember = modelMapper.map(memberJoinDTO,Member.class);
+    log.info("DTO -> Entity : member  = {}",mappedMember.toString());
 
     // db에 저장
-    memberRepository.save(member);
+    memberRepository.save(mappedMember);
   }
 
 }
