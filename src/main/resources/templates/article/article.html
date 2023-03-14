@@ -1,241 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/base}">
 <head>
-  <meta charset="UTF-8">
-  <title>글 제목</title>
-  <link rel="stylesheet" href="/css/include/sideNav.css">
-  <link rel="stylesheet" href="/css/reset.css">
-  <link rel="stylesheet" href="/css/article/article.css">
-  <link rel="stylesheet" href="/css/article/comment.css">
-  <script src="/js/article/article.js" defer></script>
-  <script src="/js/article/comment.js" defer></script>
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c55017f50ef814cb232fff43926363e3"></script>
-  <script src="/js/article/mapWithMarker.js" defer></script>
+    <title>게시판</title>
+    <link rel="stylesheet" th:href="@{/css/article/article.css}">
+    <link rel="stylesheet" th:href="@{/css/article/comment.css}">
 </head>
 <body>
-<!-- 네비게이션 -->
-<div id="sideNav">
-  <h1 class="logo"><a href="#">Maturi</a></h1>
-
-  <div id="gnbWrap">
-    <h2 class="mProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></h2>
-    <div class="memberInfo">
-      <h3 class="mName">김혜현</h3>
-      <span class="mNick">@hyea._.hyun</span>
-    </div>
-
-    <nav id="gnb">
-      <ul>
-        <li><a href="#">리뷰 쓰기</a></li>
-        <li><a href="#">지도로 보기</a></li>
-        <li><a href="#">팔로우/팔로잉</a></li>
-      </ul>
-    </nav>
-
-    <div id="snb">
-      <ul class="subContent">
-        <li><a href="#">설정</a></li>
-        <li><a href="#">로그아웃</a></li>
-      </ul>
-
-      <footer>
-        <ul>
-          <li>
-            <span>김혜현</span>
-            <span>오원택</span>
-          </li>
-          <li><a href="#">Github</a></li>
-        </ul>
-
-      </footer>
-    </div>
-  </div>
-</div>
-
 <!-- 마이페이지 본문 -->
-<div id="content">
-  <div id="articleWrap">
-<!--    글쓴이 정보 -->
-    <div class="writerInfo">
-      <p class="writerProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></p>
-      <p class="written">
-        <span class="writerName">김혜현</span>
-        <span class="writtenAt">2023.03.12</span>
-      </p>
-    </div>
-<!--    글 본문 -->
-    <div class="contentWrap">
-      <ul class="bImg">
-        <li><img src="/img/test/food1.jpg" alt="사진1"></li>
-        <li><img src="/img/test/food2.jpg" alt="사진2"></li>
-        <li><img src="/img/test/food3.jpg" alt="사진3"></li>
-      </ul>
-      <p class="bContent">리뷰 글 내용</p>
-    </div>
-<!--    좋아요 & 태그 -->
-    <div class="likeAndTag">
+<div layout:fragment="main" id="content">
+    <div id="articleWrap">
+        <!--    글쓴이 정보 -->
+        <div class="writerInfo">
+            <p class="writerProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></p>
+            <p class="written">
+                <span class="writerName">김혜현</span>
+                <span class="writtenAt">2023.03.12</span>
+            </p>
+        </div>
+        <!--    글 본문 -->
+        <div class="contentWrap">
+            <ul class="bImg">
+                <li><img src="/img/test/food1.jpg" alt="사진1"></li>
+                <li><img src="/img/test/food2.jpg" alt="사진2"></li>
+                <li><img src="/img/test/food3.jpg" alt="사진3"></li>
+            </ul>
+            <p class="bContent">리뷰 글 내용</p>
+        </div>
+        <!--    좋아요 & 태그 -->
+        <div class="likeAndTag">
         <span class="likeWrap">
           <span class="likeBtn">좋아요</span>
           <span class="likeNum">20</span>
         </span>
-      <span><a href="#">#태그1</a></span>
-      <span><a href="#">#태그2</a></span>
-      <span><a href="#">#태그3</a></span>
-    </div>
-    <!--     리뷰글 더보기 버튼 -->
-    <div class="aMemberBtn">
-      <span class="moreBtn">더보기</span>
-      <ul>
-        <li><a href="#">게시글 수정</a></li>
-        <li><a href="#">게시글 삭제</a></li>
-        <li><a href="#">신고하기</a></li>
-      </ul>
-    </div>
-  </div>
-  <!--      음식점 정보 -->
-  <div id="restaurantWrap">
-    <div class="rMap" id="map"></div>
-    <div class="restaurantInfo">
-      <h4 class="rTitleWrap">
-        <span class="rTitle">음식점명</span>
-        <span class="rSearch">리뷰 검색</span>
-      </h4>
-      <p class="rOldAddress">주소 : [구주소 or 신주소]</p>
-      <p class="rAddress">도로명 주소 : [구주소 or 신주소]</p>
-      <p class="rCategory">카테고리 : 음식점 > 막창 </p>
-    </div>
-  </div>
-<!--  댓글 -->
-  <div id="commentWrap">
-    <form name="commentFrm" id="commentFrm">
-      <textarea type="text" class="commentBody" name="commentBody" placeholder="댓글 등록하기.."></textarea>
-      <button type="button" class="commentSubmitBtn" name="commentSubmitBtn">댓글 달기</button>
-    </form>
-<!--    댓글 목록 -->
-    <div class="commentList">
-      <div class="comment">
-        <div class="commentWrap">
-          <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-          <div class="commentBox">
-            <h4>이름</h4>
-            <p class="cContent">댓글 내용이 출력됩니다.</p>
-            <p class="cSundry">
-              <span class="">1일전</span>
-              <span class="replyBtn">답글 달기</span>
-            </p>
-            <span class="likeWrap">
-              <span class="likeBtn">좋아요</span>
-              <span class="likeNum">20</span>
-            </span>
-            <div class="cMemberBtn">
-              <span class="moreBtn">더보기</span>
-              <ul>
-                <li><a href="#">댓글 수정</a></li>
-                <li><a href="#">댓글 삭제</a></li>
+            <span><a href="#">#태그1</a></span>
+            <span><a href="#">#태그2</a></span>
+            <span><a href="#">#태그3</a></span>
+        </div>
+        <!--     리뷰글 더보기 버튼 -->
+        <div class="aMemberBtn">
+            <span class="moreBtn">더보기</span>
+            <ul>
+                <li><a href="#">게시글 수정</a></li>
+                <li><a href="#">게시글 삭제</a></li>
                 <li><a href="#">신고하기</a></li>
-              </ul>
-            </div>
-          </div>
+            </ul>
         </div>
-        <div class="replyWrap">
-          <div class="reply">
-            <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-            <div class="commentBox">
-              <h4>이름</h4>
-              <p class="cContent">댓글 내용이 출력됩니다.</p>
-              <p class="cSundry">
-                <span class="">1일전</span>
-              </p>
-              <span class="likeWrap">
-              <span class="likeBtn">좋아요</span>
-              <span class="likeNum">20</span>
-            </span>
-              <div class="cMemberBtn">
-                <span class="moreBtn">더보기</span>
-                <ul>
-                  <li><a href="#">답글 수정</a></li>
-                  <li><a href="#">답글 삭제</a></li>
-                  <li><a href="#">신고하기</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="reply">
-            <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-            <div class="commentBox">
-              <h4>이름</h4>
-              <p class="cContent">댓글 내용이 출력됩니다.</p>
-              <p class="cSundry">
-                <span class="">1일전</span>
-              </p>
-              <span class="likeWrap">
-              <span class="likeBtn">좋아요</span>
-              <span class="likeNum">20</span>
-            </span>
-              <div class="cMemberBtn">
-                <span class="moreBtn">더보기</span>
-                <ul>
-                  <li><a href="#">답글 수정</a></li>
-                  <li><a href="#">답글 삭제</a></li>
-                  <li><a href="#">신고하기</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="comment">
-        <div class="commentWrap">
-          <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-          <div class="commentBox">
-            <h4>이름</h4>
-            <p class="cContent">댓글 내용이 출력됩니다.</p>
-            <p class="cSundry">
-              <span class="">1일전</span>
-              <span class="replyBtn">답글 달기</span>
-            </p>
-            <span class="likeWrap">
-              <span class="likeBtn">좋아요</span>
-              <span class="likeNum">20</span>
-            </span>
-            <div class="cMemberBtn">
-              <span class="moreBtn">더보기</span>
-              <ul>
-                <li><a href="#">댓글 수정</a></li>
-                <li><a href="#">댓글 삭제</a></li>
-                <li><a href="#">신고하기</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="replyWrap">
-          <div class="reply">
-            <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-            <div class="commentBox">
-              <h4>이름</h4>
-              <p class="cContent">댓글 내용이 출력됩니다.</p>
-              <p class="cSundry">
-                <span class="">1일전</span>
-              </p>
-              <span class="likeWrap">
-              <span class="likeBtn">좋아요</span>
-              <span class="likeNum">20</span>
-            </span>
-              <div class="cMemberBtn">
-                <span class="moreBtn">더보기</span>
-                <ul>
-                  <li><a href="#">답글 수정</a></li>
-                  <li><a href="#">답글 삭제</a></li>
-                  <li><a href="#">신고하기</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+    <!--      음식점 정보 -->
+    <div id="restaurantWrap">
+        <div class="rMap" id="map"></div>
+        <div class="restaurantInfo">
+            <h4 class="rTitleWrap">
+                <span class="rTitle">음식점명</span>
+                <span class="rSearch">리뷰 검색</span>
+            </h4>
+            <p class="rOldAddress">주소 : [구주소 or 신주소]</p>
+            <p class="rAddress">도로명 주소 : [구주소 or 신주소]</p>
+            <p class="rCategory">카테고리 : 음식점 > 막창 </p>
+        </div>
+    </div>
+    <!--  댓글 -->
+    <div id="commentWrap">
+        <form name="commentFrm" id="commentFrm">
+            <textarea type="text" class="commentBody" name="commentBody" placeholder="댓글 등록하기.."></textarea>
+            <button type="button" class="commentSubmitBtn" name="commentSubmitBtn">댓글 달기</button>
+        </form>
+        <!--    댓글 목록 -->
+        <div class="commentList">
+            <div class="comment">
+                <div class="commentWrap">
+                    <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+                    <div class="commentBox">
+                        <h4>이름</h4>
+                        <p class="cContent">댓글 내용이 출력됩니다.</p>
+                        <p class="cSundry">
+                            <span class="">1일전</span>
+                            <span class="replyBtn">답글 달기</span>
+                        </p>
+                        <span class="likeWrap">
+              <span class="likeBtn">좋아요</span>
+              <span class="likeNum">20</span>
+            </span>
+                        <div class="cMemberBtn">
+                            <span class="moreBtn">더보기</span>
+                            <ul>
+                                <li><a href="#">댓글 수정</a></li>
+                                <li><a href="#">댓글 삭제</a></li>
+                                <li><a href="#">신고하기</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="replyWrap">
+                    <div class="reply">
+                        <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+                        <div class="commentBox">
+                            <h4>이름</h4>
+                            <p class="cContent">댓글 내용이 출력됩니다.</p>
+                            <p class="cSundry">
+                                <span class="">1일전</span>
+                            </p>
+                            <span class="likeWrap">
+              <span class="likeBtn">좋아요</span>
+              <span class="likeNum">20</span>
+            </span>
+                            <div class="cMemberBtn">
+                                <span class="moreBtn">더보기</span>
+                                <ul>
+                                    <li><a href="#">답글 수정</a></li>
+                                    <li><a href="#">답글 삭제</a></li>
+                                    <li><a href="#">신고하기</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reply">
+                        <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+                        <div class="commentBox">
+                            <h4>이름</h4>
+                            <p class="cContent">댓글 내용이 출력됩니다.</p>
+                            <p class="cSundry">
+                                <span class="">1일전</span>
+                            </p>
+                            <span class="likeWrap">
+              <span class="likeBtn">좋아요</span>
+              <span class="likeNum">20</span>
+            </span>
+                            <div class="cMemberBtn">
+                                <span class="moreBtn">더보기</span>
+                                <ul>
+                                    <li><a href="#">답글 수정</a></li>
+                                    <li><a href="#">답글 삭제</a></li>
+                                    <li><a href="#">신고하기</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="comment">
+                <div class="commentWrap">
+                    <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+                    <div class="commentBox">
+                        <h4>이름</h4>
+                        <p class="cContent">댓글 내용이 출력됩니다.</p>
+                        <p class="cSundry">
+                            <span class="">1일전</span>
+                            <span class="replyBtn">답글 달기</span>
+                        </p>
+                        <span class="likeWrap">
+              <span class="likeBtn">좋아요</span>
+              <span class="likeNum">20</span>
+            </span>
+                        <div class="cMemberBtn">
+                            <span class="moreBtn">더보기</span>
+                            <ul>
+                                <li><a href="#">댓글 수정</a></li>
+                                <li><a href="#">댓글 삭제</a></li>
+                                <li><a href="#">신고하기</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="replyWrap">
+                    <div class="reply">
+                        <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+                        <div class="commentBox">
+                            <h4>이름</h4>
+                            <p class="cContent">댓글 내용이 출력됩니다.</p>
+                            <p class="cSundry">
+                                <span class="">1일전</span>
+                            </p>
+                            <span class="likeWrap">
+              <span class="likeBtn">좋아요</span>
+              <span class="likeNum">20</span>
+            </span>
+                            <div class="cMemberBtn">
+                                <span class="moreBtn">더보기</span>
+                                <ul>
+                                    <li><a href="#">답글 수정</a></li>
+                                    <li><a href="#">답글 삭제</a></li>
+                                    <li><a href="#">신고하기</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+<!--my js-->
+<th:block layout:fragment="scripts">
+    <script src="/js/article/article.js"></script>
+    <script src="/js/article/comment.js"></script>
+</th:block>
 
 </body>
 </html>

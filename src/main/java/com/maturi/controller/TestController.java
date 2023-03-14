@@ -10,7 +10,7 @@ public class TestController {
 
     @GetMapping("")
     public String index(){
-        return "/article/welcome";
+        return "article/welcome";
     }
     @GetMapping("/login")
     public String login(){

@@ -1,5 +1,7 @@
+console.log("popup.js 파일 실행")
 let isModal = 0;
 function popupToggle(){
+    console.log("popup 버튼 클릭!");
     let blur = document.querySelector('#wrap');
     blur.classList.toggle('active');
     let popup = document.getElementById('popup');
