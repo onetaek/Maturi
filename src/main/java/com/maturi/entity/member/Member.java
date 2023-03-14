@@ -31,15 +31,6 @@ public class Member {
   private String contact;
   @Enumerated(EnumType.STRING)
   private MemberStatus status;
-  @Embedded//Location에 @Embeddable이 있으면 생략가능함 -> 쓰는걸 권장
+  @Embedded//Area에 @Embeddable이 있으면 생략가능함 -> 쓰는걸 권장
   private Area area;
-
-  public Member(String email, String passwd, String salt, String name, String nickName, MemberStatus status) {
-    this.email = email;
-    this.passwd = passwd;
-    this.salt = salt;
-    this.name = name;
-    this.nickName = nickName;
-    this.status = status;
-  }
 }
