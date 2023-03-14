@@ -142,6 +142,7 @@ function displayPlaces(places) {
         var addressTag = rInfoWrapUl.querySelector(".address");
         var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress");
         var nameTag = rInfoWrapUl.querySelector(".placeName");
+        console.log(nameTag);
         var categoryTag = rInfoWrapUl.querySelector(".placeCategory");
         rInfo_address = thisPlace.road_address_name;
         rInfo_oldAddress = thisPlace.address_name;

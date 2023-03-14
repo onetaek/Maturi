@@ -1,0 +1,60 @@
+#content {
+    width:100%;
+    max-width: var(--max-width);
+    min-width: var(--main-content-min-width);
+    padding: 50px 0 50px var(--main-content-padding-left);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#content h2 {
+    font-size: 40px;
+}
+
+#writeForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+#writeForm .inputBox {
+    width: 100%;
+}
+#writeForm .inputBox > * {
+    width: 100%;
+    padding: 10px;
+}
+#writeForm .inputBox input[type=text],
+#writeForm .submitBtn {
+    width: 100%; height: 40px;
+}
+#writeForm .inputBox input[name=title],
+#writeForm .inputBox textarea {
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+#writeForm .tagBox {
+    display: flex;
+}
+#writeForm .tagBox .tagWrap {
+    width: auto;
+    display: flex;
+    gap: 5px;
+}
+#writeForm .tagBox .tagWrap span {
+    width: 100%;
+    white-space: nowrap;
+}
+#writeForm .tagBox input {
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+
+#writeForm .submitBtn {
+    background-color: var(--search-btn-background);
+    color: var(--search-btn-color);
+    border-radius: 5px;
+    cursor: pointer;
+}

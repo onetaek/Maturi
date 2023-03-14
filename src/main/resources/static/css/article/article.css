@@ -2,9 +2,8 @@
     width:100%;
     max-width: var(--max-width);
     min-width: var(--main-content-min-width);
-    /*padding-left: var(--main-content-padding-left);*/
-    /*padding-top: var(--main-content-padding-top);*/
-    margin:0 auto;
+    padding-left: var(--main-content-padding-left);
+    padding-top: var(--main-content-padding-top);
     display: flex;
     flex-direction: column;
     gap: 20px;
