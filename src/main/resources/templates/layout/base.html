@@ -1,0 +1,64 @@
+<!--헤더랑 푸터는 모든 사이트에서 동일 할 경우 여기서 공통 부분을 작성함-->
+<!DOCTYPE html>
+<html xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>base</title>
+    <!-- 공통 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/include/sideNav.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c55017f50ef814cb232fff43926363e3&libraries=services"></script>
+    <script src="/js/write/nsdiSearch.js" defer></script>
+    <script src="/js/write/kakaoMapsSearch.js" defer></script>
+    <script src="/js/write/searchMap.js" defer></script>
+</head>
+<body>
+<div id="wrap">
+    <div id="sideNav">
+        <h1 class="logo"><a href="#">Maturi</a></h1>
+        <div id="gnbWrap">
+            <h2 class="mProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></h2>
+            <div class="memberInfo">
+                <h3 class="mName">김혜현</h3>
+                <span class="mNick">@hyea._.hyun</span>
+            </div>
+            <nav id="gnb">
+                <ul>
+                    <li><a href="#">리뷰 쓰기</a></li>
+                    <li><a href="#" onclick="popupToggle()">지도로 보기</a></li>
+                    <li><a href="#">팔로우/팔로잉</a></li>
+                </ul>
+            </nav>
+            <div id="snb">
+                <ul class="subContent">
+                    <li><a href="#">설정</a></li>
+                    <li><a href="#">로그아웃</a></li>
+                </ul>
+                <footer>
+                    <ul>
+                        <li>
+                            <span>김혜현</span>
+                            <span>오원택</span>
+                        </li>
+                        <li><a href="#">Github</a></li>
+                    </ul>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="main"></th:block>
+</div>
+<th:block layout:fragment="popup">
+</th:block>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<th:block layout:fragment="scripts"/>
+
+</body>
+</html>
