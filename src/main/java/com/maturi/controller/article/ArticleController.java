@@ -26,4 +26,13 @@ public class ArticleController {
         return "/article/welcome";
     }
 
+    @GetMapping("/article/write")
+    public String write(HttpServletRequest request, Model model){
+        HttpSession session = request.getSession();
+        Long memberId = (Long) session.getAttribute("memberId");
+
+        model.addAttribute("member", articleService.memberInfo(memberId));
+        return "/article/write";
+    }
+
 }
