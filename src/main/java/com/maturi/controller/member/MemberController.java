@@ -54,7 +54,8 @@ public class MemberController {
   }
 
   @GetMapping("/login")
-  public String loginPage(Model model){
+  public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,Model model){
+    model.addAttribute("redirectURL",redirectURL);
     model.addAttribute("member",new MemberLoginDTO());
     return "/member/login";
   }
@@ -63,6 +64,7 @@ public class MemberController {
   public String login(
           @Validated @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
           BindingResult bindingResult,
+          @RequestParam(defaultValue = "/") String redirectURL,
           HttpServletRequest request){
 
     //검증에 실패하면 다시 입력 폼으로
@@ -75,7 +77,9 @@ public class MemberController {
     Member findMember = memberService.login(memberLoginDTO);
     HttpSession session = request.getSession();
     session.setAttribute(SessionConst.MEMBER_ID,findMember.getId());
-    return "redirect:/";
+
+    log.info("redirectURL = {}",redirectURL);
+    return "redirect:" + redirectURL;
   }
 
   @PostMapping("/logout")
