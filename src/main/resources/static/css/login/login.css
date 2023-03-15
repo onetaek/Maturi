@@ -65,7 +65,12 @@ form{
     padding:50px 40px;
     display:flex;
     flex-direction: column;
+    overflow: scroll;
 }
+form::-webkit-scrollbar {
+    display: none;
+}
+
 form h1{
     font-size: 42px;
     text-align: center;

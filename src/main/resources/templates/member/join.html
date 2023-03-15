@@ -10,28 +10,46 @@
 <div layout:fragment="main" id="wrap">
   <section class="section-wrap">
     <div class="login-form">
-      <form name="joinForm">
+
+      <form name="joinForm" th:object="${member}">
         <h1><a href="#"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
         <div class="inputBox">
-          <input  type="text" name="email" required >
+          <input  type="text" th:field="*{email}" required >
           <span>아이디(이메일)</span>
           <i></i>
         </div>
+
+        <div th:errors="*{email}">
+          email 관련 오류 메시지가 출력
+        </div>
+
         <div class="inputBox">
-          <input type="password" name="passwd" required>
+          <input type="password" th:field="*{passwd}" required>
           <span>비밀번호</span>
           <i></i>
         </div>
+        <div th:errors="*{passwd}">
+          passwd 관련 오류 메시지가 출력
+        </div>
+
         <div class="inputBox">
-          <input type="password" name="passwdCheck" required>
+          <input type="password" th:field="*{passwdCheck}" required>
           <span>비밀번호 확인</span>
           <i></i>
         </div>
+        <div th:errors="*{passwdCheck}">
+          passwdCheck 관련 오류 메시지가 출력
+        </div>
+
         <div class="inputBox">
-          <input type="text" name="name" required>
+          <input type="text" th:field="*{name}" required>
           <span>이름</span>
           <i></i>
         </div>
+        <div th:errors="*{name}">
+          name 관련 오류 메시지가 출력
+        </div>
+
         <input type="button" name="submitBtn" value="가입하기"/>
       </form>
 

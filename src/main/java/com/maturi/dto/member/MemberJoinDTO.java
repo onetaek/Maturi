@@ -1,23 +1,28 @@
 package com.maturi.dto.member;
 
 import com.maturi.entity.member.MemberStatus;
-import lombok.*;
+import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class MemberJoinDTO {
 
-  private String email;
-  private String passwd;
-  private String salt;
-  private String name;
-  private String nickName;
-  private MemberStatus status;
+    //유효성 검사하는 필드
+    @Email
+    private String email;
+    @NotBlank
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}")
+    private String passwd;
+    @NotBlank
+    private String passwdCheck;
+    @NotBlank
+    private String name;
+
+    //유효성 검사하지 않는 필드
+    private String salt;
+    private String nickName;
+    private MemberStatus status;
+
 }

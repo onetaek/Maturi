@@ -44,7 +44,6 @@ public class MemberService {
     // dto를 entity로 변환
     Member mappedMember = modelMapper.map(memberJoinDTO,Member.class);
     log.info("DTO -> Entity : member  = {}",mappedMember.toString());
-
     // db에 저장
     memberRepository.save(mappedMember);
   }

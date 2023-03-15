@@ -1,6 +1,5 @@
 package com.maturi.service.member;
 
-import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -8,13 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
