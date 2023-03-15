@@ -34,7 +34,8 @@
             <div id="snb">
                 <ul class="subContent">
                     <li><a href="#">설정</a></li>
-                    <li><a href="#">로그아웃</a></li>
+                    <li><a class="logout-btn" href="#">로그아웃</a></li>
+                    <form name="logoutForm"></form>
                 </ul>
                 <footer>
                     <ul>
@@ -51,8 +52,7 @@
     <th:block layout:fragment="main"></th:block>
 
 </div>
-<!--<th:block layout:fragment="popup">-->
-<!--</th:block>-->
+
 <div layout:fragment="popup" id="popup" >
     <div id="popupContent">
         <!--    지역 선택 태그 -->
@@ -110,6 +110,7 @@
 <script src="/js/nsdiSearch.js"></script>
 <script src="/js/kakaoMapsSearch.js"></script>
 <script src="/js/searchMap.js"></script>
+<script src="/js/article/logout.js"></script>
 
 <th:block layout:fragment="scripts"/>
 

@@ -1,0 +1,17 @@
+.field-error{
+    margin-top:5px;
+    color:var(--error-color);
+    font-size:14px;
+    display: flex;
+}
+/*.field-error::before{*/
+/*    content: "";*/
+/*    display: block;*/
+/*    color:var(--error-color);*/
+/*    width:14px;*/
+/*    height: 14px;*/
+/*    margin-right: 5px;*/
+/*    transform: translateY(20%);*/
+/*    line-height: 14px;*/
+/*    background: url("/img/login/warning-outline.svg") center center / cover;*/
+/*}*/

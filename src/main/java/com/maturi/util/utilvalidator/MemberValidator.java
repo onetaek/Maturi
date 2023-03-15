@@ -1,4 +1,4 @@
-package com.maturi.util;
+package com.maturi.util.utilvalidator;
 
 
 import com.maturi.dto.member.MemberJoinDTO;

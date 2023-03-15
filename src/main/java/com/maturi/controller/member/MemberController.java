@@ -4,7 +4,8 @@ import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.service.member.MemberService;
-import com.maturi.util.MemberValidator;
+import com.maturi.util.SessionConst;
+import com.maturi.util.utilvalidator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,8 +37,9 @@ public class MemberController {
   }
 
   @PostMapping("/join")
-  public String joinValidation(@Validated @ModelAttribute(name = "member") MemberJoinDTO memberJoinDTO,
-                               BindingResult bindingResult){
+  public String join(
+          @Validated @ModelAttribute(name = "member") MemberJoinDTO memberJoinDTO,
+          BindingResult bindingResult){
     log.info("memberJoinRequest = {}", memberJoinDTO.toString());
     memberValidator.validate(memberJoinDTO, bindingResult);
 
@@ -53,19 +54,34 @@ public class MemberController {
   }
 
   @GetMapping("/login")
-  public String loginPage(){
+  public String loginPage(Model model){
+    model.addAttribute("member",new MemberLoginDTO());
     return "/member/login";
   }
 
   @PostMapping("/login")
-  public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpServletRequest request){
+  public String login(
+          @Validated @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
+          BindingResult bindingResult,
+          HttpServletRequest request){
 
+    //검증에 실패하면 다시 입력 폼으로
+    if (bindingResult.hasErrors()) {
+      log.info("errors={} ", bindingResult);
+      return "/member/login";
+    }
+
+    //정상 로직
     Member findMember = memberService.login(memberLoginDTO);
     HttpSession session = request.getSession();
-    session.setAttribute("memberId",findMember.getId());
-
-
+    session.setAttribute(SessionConst.MEMBER_ID,findMember.getId());
     return "redirect:/";
+  }
+
+  @PostMapping("/logout")
+  public String logout(HttpServletRequest request){
+    request.getSession().invalidate();
+    return "redirect:/member/login";
   }
 
 

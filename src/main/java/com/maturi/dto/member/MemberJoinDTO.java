@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 @Data
@@ -18,12 +19,11 @@ public class MemberJoinDTO {
     //유효성 검사하는 필드
     @Email @NotBlank
     private String email;
-    @NotBlank
     @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}")
     private String passwd;
     @NotBlank
     private String passwdCheck;
-    @NotBlank
+    @Min(2)
     private String name;
 
     //유효성 검사하지 않는 필드

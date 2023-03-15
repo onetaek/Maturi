@@ -4,7 +4,7 @@
       layout:decorate="~{layout/introBase}">
 <head>
     <title>회원가입</title>
-  <link rel="stylesheet" href="/css/join/join.css"/>
+  <link rel="stylesheet" href="/css/member/join/join.css"/>
 </head>
 <body>
 <div layout:fragment="main" id="wrap">
@@ -19,7 +19,8 @@
           <i></i>
         </div>
 
-        <div th:errors="*{email}">
+        <div class="field-error" th:errors="*{email}">
+
           email 관련 오류 메시지가 출력
         </div>
 
@@ -28,8 +29,11 @@
           <span>비밀번호</span>
           <i></i>
         </div>
-        <div th:errors="*{passwd}">
+        <div class="field-error" th:errors="*{passwd}">
           passwd 관련 오류 메시지가 출력
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+          <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
         </div>
 
         <div class="inputBox">
@@ -37,7 +41,7 @@
           <span>비밀번호 확인</span>
           <i></i>
         </div>
-        <div th:errors="*{passwdCheck}">
+        <div class="field-error" th:errors="*{passwdCheck}">
           passwdCheck 관련 오류 메시지가 출력
         </div>
 
@@ -46,7 +50,7 @@
           <span>이름</span>
           <i></i>
         </div>
-        <div th:errors="*{name}">
+        <div class="field-error" th:errors="*{name}">
           name 관련 오류 메시지가 출력
         </div>
 
