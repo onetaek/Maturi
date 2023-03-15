@@ -1,6 +1,8 @@
-package com.maturi.controller;
+package com.maturi.controller.member;
 
 import com.maturi.dto.member.MemberJoinDTO;
+import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.entity.member.Member;
 import com.maturi.service.member.MemberService;
 import com.maturi.util.MemberValidator;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -48,7 +53,20 @@ public class MemberController {
   }
 
   @GetMapping("/login")
-  public String login(){
+  public String loginPage(){
     return "/member/login";
   }
+
+  @PostMapping("/login")
+  public String login(@ModelAttribute MemberLoginDTO memberLoginDTO, HttpServletRequest request){
+
+    Member findMember = memberService.login(memberLoginDTO);
+    HttpSession session = request.getSession();
+    session.setAttribute("memberId",findMember.getId());
+
+
+    return "redirect:/";
+  }
+
+
 }

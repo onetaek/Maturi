@@ -15,15 +15,15 @@
         <div class="page-preview">
         </div>
         <div class="login-form">
-            <form action="#">
+            <form action="/member/login" method="post">
                 <h1><a href="#"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
                 <div class="inputBox">
-                    <input  type="text" required >
+                    <input type="text" name="email" required>
                     <span>전화번호, 사용자 이름 또는 이메일</span>
                     <i></i>
                 </div>
                 <div class="inputBox">
-                    <input type="password" required>
+                    <input type="password" name="passwd" required>
                     <span>비밀번호</span>
                     <i></i>
                 </div>

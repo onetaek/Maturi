@@ -1,20 +1,18 @@
-package com.maturi.KakaoLogin;
+package com.maturi.controller.member;
 
+import com.maturi.KakaoLogin.KakaoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class KakaoController {
+public class SNSController {
 
     final private KakaoService kakaoService;
 
@@ -39,12 +37,14 @@ public class KakaoController {
         // 3번
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(access_Token);
 
-        return "/sns_login/kakao_login_success";
+        //로그인 처리
+
+        return "/article/welcome";
     }
 
     @GetMapping("/kakao/logout")
     public String kakaoLogout(){
         log.info("logout");
-        return "/sns_login/kakao_logout_success";
+        return "/member/login";
     }
 }

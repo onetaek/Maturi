@@ -19,10 +19,10 @@
     <div id="sideNav">
         <h1 class="logo"><a href="#">Maturi</a></h1>
         <div id="gnbWrap">
-            <h2 class="mProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></h2>
+            <h2 class="mProfileImg"><img th:src="${member.profileImg}" alt="프로필 이미지"></h2>
             <div class="memberInfo">
-                <h3 class="mName">김혜현</h3>
-                <span class="mNick">@hyea._.hyun</span>
+                <h3 class="mName" th:text="${member.name}">김혜현</h3>
+                <span class="mNick" th:text="${member.nickName}">@hyea._.hyun</span>
             </div>
             <nav id="gnb">
                 <ul>
