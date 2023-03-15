@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 public class MemberJoinDTO {
 
     //유효성 검사하는 필드
-    @Email
+    @Email @NotBlank
     private String email;
     @NotBlank
     @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}")
