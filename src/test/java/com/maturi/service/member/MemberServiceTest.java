@@ -1,5 +1,6 @@
 package com.maturi.service.member;
 
+import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import lombok.extern.slf4j.Slf4j;
