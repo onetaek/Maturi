@@ -19,9 +19,25 @@ tagInput.addEventListener("keyup", ()=>{
       tagInput.focus();
     }
     else { // 유효성검사 통과
-      let template = `<span class="tagSpan">${tagInput.value}</span>`;
+      // 태그 span 추가
+      let tagSpan = document.createElement("span");
+      tagSpan.innerText = tagInput.value;
+      tagSpan.classList.add("tagSpan");
+      tagWrap.appendChild(tagSpan);
+
+      // 태그 삭제 버튼 및 삭제 이벤트 추가
+      let tagBtn = document.createElement('button');
+      tagBtn.setAttribute('type', 'button');
+      tagBtn.innerText = "x";
+      tagSpan.appendChild(tagBtn);
+      tagBtn.onclick = (ev)=>{ // 삭제 이벤트 추가
+        let str = ev.currentTarget.parentElement.innerText;
+        ev.currentTarget.parentElement.remove(); // 태그 객체 삭제
+        tags.value = tags.value.replace(str.substring(0, str.length-1),""); // 해당되는 태그값 hidden 에서 지우기
+      }
+
       tags.value += tagInput.value; // 백에 넘길값(tags)에 추가
-      tagWrap.insertAdjacentHTML("beforeend", template);
+
       tagInput.value = "";
       tagInput.focus();
     }

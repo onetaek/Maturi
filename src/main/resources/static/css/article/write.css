@@ -43,9 +43,13 @@
     display: flex;
     gap: 5px;
 }
-#writeForm .tagBox .tagWrap span {
+#writeForm .tagBox .tagWrap .tagSpan {
     width: 100%;
     white-space: nowrap;
+}
+#writeForm .tagBox .tagWrap .tagSpan button {
+    color: #ff5fad;
+    cursor: pointer;
 }
 #writeForm .tagBox input {
     width: 100%;
