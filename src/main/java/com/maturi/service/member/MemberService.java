@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -35,7 +36,18 @@ public class MemberService {
     memberJoinDTO.setPasswd(SHA256Pw);
 
     /* 닉네임 난수 생성 */
-    String nickName = "@user-" + UUID.randomUUID().toString().substring(0, 8);
+    String nickName = null; // 닉네임이 담길 변수
+    boolean duplNick = true; // 닉네임 중복검사에 사용될 변수
+    while (duplNick){
+      duplNick = false;
+      nickName = "@user-" + UUID.randomUUID().toString().substring(0, 8);
+      List<Member> memberList = memberRepository.findAll();
+      for(Member member : memberList){
+        if(nickName.equals(member.getNickName())){
+          duplNick = true;
+        }
+      }
+    }
     memberJoinDTO.setNickName(nickName);
 
     /* status 세팅 */
