@@ -1,7 +1,6 @@
 package com.maturi.service.article;
 
 import com.maturi.dto.member.MemberDTO;
-import com.maturi.entity.member.Member;
 import com.maturi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

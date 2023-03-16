@@ -13,13 +13,17 @@
 
       <form name="joinForm" th:object="${member}">
         <h1><a href="#"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
-        <div class="inputBox">
-          <input  type="text" th:field="*{email}" required >
-          <span>아이디(이메일)</span>
-          <i></i>
-        </div>
 
-        <div class="field-error" th:errors="*{email}">
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" th:field="*{email}" required >
+            <span>아이디(이메일)</span>
+            <i></i>
+          </div>
+          <button class="email-certification-btn">인증번호 받기</button>
+          <input type="hidden">
+        </div>
+          <div class="field-error" th:errors="*{email}">
 
           email 관련 오류 메시지가 출력
         </div>

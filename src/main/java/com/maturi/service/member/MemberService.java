@@ -48,6 +48,8 @@ public class MemberService {
         }
       }
     }
+
+
     memberJoinDTO.setNickName(nickName);
 
     /* status 세팅 */
