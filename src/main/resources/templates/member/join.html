@@ -20,12 +20,20 @@
             <span>아이디(이메일)</span>
             <i></i>
           </div>
-          <button class="email-certification-btn">인증번호 받기</button>
+          <button class="email-certification-btn email-send-btn">인증번호 받기</button>
           <input type="hidden">
         </div>
           <div class="field-error" th:errors="*{email}">
 
           email 관련 오류 메시지가 출력
+        </div>
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" name="emailConfirm" required >
+            <span>인증 번호</span>
+            <i class="confirmWrap"></i>
+          </div>
+          <button class="email-certification-btn confirm-check-btn">인증하기</button>
         </div>
 
         <div class="inputBox">

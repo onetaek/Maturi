@@ -4,12 +4,15 @@ import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.MemberRepository;
+import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
 import com.maturi.util.constfield.SessionConst;
 import com.maturi.util.constfield.SnsConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +36,7 @@ import static com.maturi.util.constfield.SnsConst.KAKAO_LOGOUT_REDIRECT_URI;
 public class MemberController {
   final private MemberService memberService;
   final private MemberValidator memberValidator;
+  final private EmailService emailService;
 
   @InitBinder("memberJoinDTO")
   public void init(WebDataBinder dataBinder) {
@@ -97,6 +101,4 @@ public class MemberController {
 
     return "redirect:/member/login";
   }
-
-
 }
