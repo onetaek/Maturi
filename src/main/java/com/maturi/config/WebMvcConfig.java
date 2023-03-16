@@ -20,13 +20,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/member/join","/member/login","/test/**",
+                .excludePathPatterns("/member/join","/member/login","/test/**","/oauth/**",
+                        "/https://**",
                         "/css/**","/js/**","/img/**","/*.ico","/html/**","/error");
         //인코딩을 하기위한 Interceptor
         registry.addInterceptor(new EncodingInterceptor())
                 .order(2)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/css/**","/js/**","/img/**","/*.ico","/html/**");
+                .excludePathPatterns("/css/**","/js/**","/img/**","/*.ico","/html/**","/oauth");
     }
 
     //@Login어노테이션으로 세션에 있는 값을 편리하게 가져오기 위한 작업

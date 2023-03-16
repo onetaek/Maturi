@@ -4,7 +4,7 @@ import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.service.member.MemberService;
-import com.maturi.util.SessionConst;
+import com.maturi.util.constfield.SessionConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

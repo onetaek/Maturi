@@ -56,7 +56,7 @@
         transform:rotate(360deg);
     }
 }
-form{
+.login-form-box{
     position:absolute;
     inset:2px;
     border-radius: 8px;
@@ -67,16 +67,16 @@ form{
     flex-direction: column;
     overflow: scroll;
 }
-form::-webkit-scrollbar {
+.login-form-box::-webkit-scrollbar {
     display: none;
 }
 
-form h1{
+.login-form-box h1{
     font-size: 42px;
     text-align: center;
     color : var(--pink-color);
 }
-form h1 img{
+.login-form-box h1 img{
     width:200px;
 }
 .inputBox{

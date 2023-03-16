@@ -1,7 +1,7 @@
 package com.maturi.controller.article;
 
 import com.maturi.service.article.ArticleService;
-import com.maturi.util.SessionConst;
+import com.maturi.util.constfield.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
 package com.maturi.interceptor;
 
-import com.maturi.util.SessionConst;
+import com.maturi.util.constfield.SessionConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
