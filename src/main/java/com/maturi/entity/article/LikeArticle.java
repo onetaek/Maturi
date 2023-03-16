@@ -5,11 +5,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class LikeArticle {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

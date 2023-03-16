@@ -19,9 +19,9 @@ public class Article {
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
-
   private String content;
-  private String image; // 이미지 여러개 업로드 가능
+  @Embedded
+  private UploadFile uploadFile; // 이미지 여러개 업로드 가능
   private LocalDate writtenAt;
   private LocalDate updatedAt;
   private String status;

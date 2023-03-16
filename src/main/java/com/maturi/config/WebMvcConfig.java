@@ -20,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/member/join","/member/login", "/api/**",
+                .excludePathPatterns("/member/join","/member/login", "/api/**","/test/**",
                         "/css/**","/js/**","/img/**","/*.ico","/html/**","/error", "/kakao/callback");
         //인코딩을 하기위한 Interceptor
         registry.addInterceptor(new EncodingInterceptor())
