@@ -3,6 +3,7 @@ package com.maturi.controller.member;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.entity.member.Member;
+import com.maturi.repository.MemberRepository;
 import com.maturi.service.member.MemberService;
 import com.maturi.util.constfield.SessionConst;
 import com.maturi.util.validator.MemberValidator;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -83,8 +86,13 @@ public class MemberController {
   }
 
   @PostMapping("/logout")
-  public String logout(HttpServletRequest request){
+  public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Member LoginMember = memberService.getMemberById((Long) request.getSession().getAttribute(SessionConst.MEMBER_ID));
     request.getSession().invalidate();
+    if(LoginMember.getEmail().contains("@k.com")){
+      response.sendRedirect("https://kauth.kakao.com/oauth/logout?client_id=4f96f770ffd075880f40824acb785f43&logout_redirect_uri=http://localhost:8080/kakao/logout");
+      return null;
+    }
     return "redirect:/member/login";
   }
 

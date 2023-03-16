@@ -18,7 +18,7 @@ public class Member {
 
   @Column(unique = true)
   private String email;
-  @Column(nullable = false)
+//  @Column(nullable = false)
   private String passwd;
 
   private String salt;

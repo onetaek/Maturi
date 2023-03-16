@@ -21,7 +21,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/member/join","/member/login","/test/**","/oauth/**",
-                        "/https://**",
+                        "/https://**", "/kakao/callback",
                         "/css/**","/js/**","/img/**","/*.ico","/html/**","/error");
         //인코딩을 하기위한 Interceptor
         registry.addInterceptor(new EncodingInterceptor())
