@@ -27,6 +27,7 @@ public class MemberJoinDTO {
     private String name;
 
     //유효성 검사하지 않는 필드
+    private String profileImg;
     private String salt;
     private String nickName;
     private MemberStatus status;

@@ -1,6 +1,13 @@
-package com.maturi.KakaoLogin;
+package com.maturi.service.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.maturi.dto.member.MemberJoinDTO;
+import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.entity.member.Member;
+import com.maturi.repository.MemberRepository;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -15,9 +22,18 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import javax.transaction.Transactional;
+
+@Slf4j
+@AllArgsConstructor
+@Transactional
 @Service
-public class KakaoService {
-    public String getAccessToken(String authorize_code) throws Exception {
+public class SNSService {
+    private final MemberRepository memberRepository;
+    private final ModelMapper modelMapper;
+    private final MemberService memberService;
+
+    public String getKakaoAccessToken(String authorize_code) throws Exception {
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -79,7 +95,7 @@ public class KakaoService {
 
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> getUserInfo(String access_Token) throws Throwable {
+    public HashMap<String, Object> getKakaoUserInfo(String access_Token) throws Throwable {
         // 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
         HashMap<String, Object> userInfo = new HashMap<String, Object>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -121,11 +137,13 @@ public class KakaoService {
                 // System.out.println(properties.get("nickname"));
                 // System.out.println(kakao_account.get("email"));
 
-                String nickname = properties.get("nickname").toString();
-                String email = kakao_account.get("email").toString();
+                String nickName = properties.get("nickname").toString();
+                String profileImg = properties.get("profile_image").toString();
+                String uniqueID = jsonMap.get("id").toString();
 
-                userInfo.put("nickname", nickname);
-                userInfo.put("email", email);
+                userInfo.put("nickName", nickName);
+                userInfo.put("profileImg", profileImg);
+                userInfo.put("uniqueID", uniqueID);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -136,4 +154,22 @@ public class KakaoService {
         }
         return userInfo;
     }
+    public String changeIdToEmail(String uniqueId){
+        /* uniqueId를 email형식으로 변환 */
+        return uniqueId.toString() + "@k.com";
+    }
+
+    public MemberLoginDTO kakaoJoin(HashMap<String, Object> userInfo){
+        MemberJoinDTO memberJoinDTO = MemberJoinDTO.builder()
+                .email(changeIdToEmail(userInfo.get("uniqueID").toString()))
+                .profileImg(userInfo.get("profileImg").toString())
+                .name(userInfo.get("nickName").toString())
+                .build();
+        memberService.join(memberJoinDTO);
+
+        MemberLoginDTO memberLoginDTO = modelMapper.map(memberJoinDTO, MemberLoginDTO.class);
+        return memberLoginDTO;
+    }
+
+
 }
