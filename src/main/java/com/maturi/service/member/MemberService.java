@@ -55,6 +55,7 @@ public class MemberService {
       /* 비밀번호 암호화 */
       PasswdEncry passwdEncry = new PasswdEncry();
 
+
       // 입력받은 비번 + 난수 => 암호화
       log.info("memberLogin passwd = {}", memberLoginDTO.getPasswd());
       String SHA256Pw =

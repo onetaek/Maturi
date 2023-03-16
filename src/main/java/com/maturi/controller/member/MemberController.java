@@ -6,7 +6,7 @@ import com.maturi.entity.member.Member;
 import com.maturi.repository.MemberRepository;
 import com.maturi.service.member.MemberService;
 import com.maturi.util.SessionConst;
-import com.maturi.util.utilvalidator.MemberValidator;
+import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

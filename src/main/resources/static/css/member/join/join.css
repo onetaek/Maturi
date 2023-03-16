@@ -14,7 +14,7 @@
 
 .login-form{
     position:relative;
-    width:420px;
+    width:520px;
     height:var(--login-height);
     background: var(--light-gray);
     border-radius: 8px;
@@ -74,6 +74,22 @@ form h1{
 }
 form h1 img{
     width:200px;
+}
+.email-input-box{
+    display:flex;
+    align-items:end;
+}
+.email-certification-btn{
+    font-size:0.8em;
+    width: 100px;
+    height:44px;
+    background: var(--pink-color);
+    border-radius:4px;
+    color:var(--white-color);
+    cursor:pointer;
+}
+.email-input-box .inputBox{
+    margin-right:5px;
 }
 .inputBox{
     position:relative;
