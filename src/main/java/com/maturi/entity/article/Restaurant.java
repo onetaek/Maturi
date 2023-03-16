@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant {

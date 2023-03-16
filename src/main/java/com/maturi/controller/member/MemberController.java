@@ -6,6 +6,7 @@ import com.maturi.entity.member.Member;
 import com.maturi.repository.MemberRepository;
 import com.maturi.service.member.MemberService;
 import com.maturi.util.constfield.SessionConst;
+import com.maturi.util.constfield.SnsConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import static com.maturi.util.constfield.SessionConst.*;
+import static com.maturi.util.constfield.SnsConst.*;
+import static com.maturi.util.constfield.SnsConst.KAKAO_LOGOUT_REDIRECT_URI;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -79,7 +84,7 @@ public class MemberController {
     //정상 로직
     Member findMember = memberService.login(memberLoginDTO);
     HttpSession session = request.getSession();
-    session.setAttribute(SessionConst.MEMBER_ID,findMember.getId());
+    session.setAttribute(MEMBER_ID,findMember.getId());
 
     log.info("redirectURL = {}",redirectURL);
     return "redirect:" + redirectURL;
@@ -87,12 +92,9 @@ public class MemberController {
 
   @PostMapping("/logout")
   public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Member LoginMember = memberService.getMemberById((Long) request.getSession().getAttribute(SessionConst.MEMBER_ID));
+    Member LoginMember = memberService.getMemberById((Long) request.getSession().getAttribute(MEMBER_ID));
     request.getSession().invalidate();
-    if(LoginMember.getEmail().contains("@k.com")){
-      response.sendRedirect("https://kauth.kakao.com/oauth/logout?client_id=4f96f770ffd075880f40824acb785f43&logout_redirect_uri=http://localhost:8080/kakao/logout");
-      return null;
-    }
+
     return "redirect:/member/login";
   }
 

@@ -9,7 +9,7 @@
 <body>
   <div layout:fragment="main" id="content">
     <h2>리뷰 쓰기</h2>
-    <form name="writeForm" id="writeForm">
+    <form name="writeForm" th:object="${restaurant}" id="writeForm">
       <div class="inputBox">
         <input type="text" name="title" placeholder="제목" required>
       </div>
@@ -27,6 +27,12 @@
         <span>사진</span>
         <input type="file" name="image" multiple="multiple">
       </div>
+        <input type="hidden" th:field="*{name}">
+        <input type="hidden" th:field="*{category}">
+        <input type="hidden" th:field="*{oldAddress}">
+        <input type="hidden" th:field="*{address}">
+        <input type="hidden" th:field="*{latitude}">
+        <input type="hidden" th:field="*{longitude}">
       <input type="button" name="submitBtn" class="submitBtn" value="업로드">
     </form>
   </div>

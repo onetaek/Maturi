@@ -1,10 +1,12 @@
 package com.maturi.service.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.maturi.dto.member.MemberJoinDTO;
-import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.dto.member.MemberSNSJoinDTO;
+import com.maturi.dto.member.MemberSNSLoginDTO;
 import com.maturi.entity.member.Member;
+import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.MemberRepository;
+import com.maturi.util.constfield.SnsConst;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,8 +32,8 @@ import javax.transaction.Transactional;
 @Service
 public class SNSService {
     private final MemberRepository memberRepository;
-    private final ModelMapper modelMapper;
     private final MemberService memberService;
+    private final ModelMapper modelMapper;
 
     public String getKakaoAccessToken(String authorize_code) throws Exception {
         String access_Token = "";
@@ -52,8 +54,8 @@ public class SNSService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
 
-            sb.append("&client_id=4f96f770ffd075880f40824acb785f43"); // REST_API키 본인이 발급받은 key 넣어주기
-            sb.append("&redirect_uri=http://localhost:8080/kakao/callback"); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+            sb.append("&client_id="+ SnsConst.KAKAO_REST_API_KEY); // REST_API키 본인이 발급받은 key 넣어주기
+            sb.append("&redirect_uri=" + SnsConst.KAKAO_REDIRECT_URI); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());
@@ -154,22 +156,39 @@ public class SNSService {
         }
         return userInfo;
     }
-    public String changeIdToEmail(String uniqueId){
+    public String changeIdToKakaoEmail(String uniqueId){
         /* uniqueId를 email형식으로 변환 */
         return uniqueId.toString() + "@k.com";
     }
 
-    public MemberLoginDTO kakaoJoin(HashMap<String, Object> userInfo){
-        MemberJoinDTO memberJoinDTO = MemberJoinDTO.builder()
-                .email(changeIdToEmail(userInfo.get("uniqueID").toString()))
-                .profileImg(userInfo.get("profileImg").toString())
-                .name(userInfo.get("nickName").toString())
-                .build();
-        memberService.join(memberJoinDTO);
+    public Member snsJoin(MemberSNSLoginDTO memberLoginDTO){
 
-        MemberLoginDTO memberLoginDTO = modelMapper.map(memberJoinDTO, MemberLoginDTO.class);
-        return memberLoginDTO;
+        // API로 받은 로그인 정보를 회원가입하기 위한 정보로 변환
+        MemberSNSJoinDTO memberJoinDTO = modelMapper.map(memberLoginDTO,MemberSNSJoinDTO.class);
+
+        // 비밀번호는 필요없음
+
+        // 닉네임 난수 생성
+        memberJoinDTO.setNickName(memberService.getRandomNick());
+
+        // status 세팅
+        memberJoinDTO.setStatus(MemberStatus.NORMAL);
+
+        // dto를 entity로 변환
+        Member mappedMember = modelMapper.map(memberJoinDTO,Member.class);
+
+        // db에 저장
+        Member savedMember = memberRepository.save(mappedMember);
+
+        return savedMember;
     }
 
 
+    public Member findUser(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
+    public String changeNaverIdToEmail(String email) {
+        return email + "@n.com";
+    }
 }

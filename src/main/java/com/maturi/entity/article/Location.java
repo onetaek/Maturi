@@ -1,7 +1,15 @@
 package com.maturi.entity.article;
 
-import javax.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.Embeddable;
+@Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class Location {
   private String oldAddress;

@@ -2,6 +2,8 @@ package com.maturi.entity.article;
 
 import com.maturi.entity.member.Member;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @ToString
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article {
   @Id
@@ -19,10 +22,14 @@ public class Article {
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
-
+  @Column(length = 10000)
   private String content;
+  @Column(length = 10000)
   private String image; // 이미지 여러개 업로드 가능
+  @CreatedDate
   private LocalDate writtenAt;
+  @LastModifiedDate
   private LocalDate updatedAt;
-  private String status;
+  @Enumerated(EnumType.STRING)
+  private ArticleStatus status;
 }

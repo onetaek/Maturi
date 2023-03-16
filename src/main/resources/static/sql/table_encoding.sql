@@ -1,0 +1,11 @@
+alter table `maturi`.`article` convert to character set utf8;
+alter table `maturi`.`board` convert to character set utf8;
+alter table `maturi`.`comment` convert to character set utf8;
+alter table `maturi`.`follow` convert to character set utf8;
+alter table `maturi`.`like_article` convert to character set utf8;
+alter table `maturi`.`like_board` convert to character set utf8;
+alter table `maturi`.`like_comment` convert to character set utf8;
+alter table `maturi`.`member` convert to character set utf8;
+alter table `maturi`.`restaurant` convert to character set utf8;
+alter table `maturi`.`tag` convert to character set utf8;
+alter table `maturi`.`tag_value` convert to character set utf8;

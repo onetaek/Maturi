@@ -24,13 +24,10 @@ public class MemberService {
   final private MemberRepository memberRepository;
   final private ModelMapper modelMapper;
 
-  public void join(MemberJoinDTO memberJoinDTO){
+  public Member join(MemberJoinDTO memberJoinDTO){
 
     // 비밀번호 암호화
-    log.info(memberJoinDTO.getPasswd());
-    if(memberJoinDTO.getPasswd() != null) {
-      memberJoinDTO.setPasswd(getPasswdEncry(memberJoinDTO));
-    }
+    memberJoinDTO.setPasswd(getPasswdEncry(memberJoinDTO));
 
     // 닉네임 난수 생성
     memberJoinDTO.setNickName(getRandomNick());
@@ -38,12 +35,13 @@ public class MemberService {
     /* status 세팅 */
     memberJoinDTO.setStatus(MemberStatus.NORMAL);
 
-    log.info("memberJoinDTO = {}",memberJoinDTO.toString());
     // dto를 entity로 변환
     Member mappedMember = modelMapper.map(memberJoinDTO,Member.class);
-    log.info("DTO -> Entity : member  = {}",mappedMember.toString());
+
     // db에 저장
-    memberRepository.save(mappedMember);
+    Member savedMember = memberRepository.save(mappedMember);
+
+    return savedMember;
   }
 
   public Member login(MemberLoginDTO memberLoginDTO) {
@@ -72,16 +70,13 @@ public class MemberService {
     return memberRepository.findById(id).orElse(null);
   }
 
-  public MemberLoginDTO emailDuplCheck(String email){
+  public boolean emailDuplCheck(String email){
     /* 이메일 중복 검사 */
-    Member findMember = memberRepository.findByEmail(email);
-    MemberLoginDTO memberLoginDTO =
-            findMember != null ? modelMapper.map(findMember, MemberLoginDTO.class) : null;
-    return memberLoginDTO;
+    return memberRepository.findByEmail(email) != null;
   }
 
 
-  private String getPasswdEncry(MemberJoinDTO memberJoinDTO) {
+  public String getPasswdEncry(MemberJoinDTO memberJoinDTO) {
     /* 비밀번호 암호화 */
     PasswdEncry passwdEncry = new PasswdEncry();
     // 난수 생성 및 dto에 세팅
@@ -92,7 +87,7 @@ public class MemberService {
     return SHA256Pw;
   }
 
-  private String getRandomNick() {
+  public String getRandomNick() {
     /* 닉네임 난수 생성 */
     boolean duplNick = true; // 닉네임 중복검사에 사용될 변수
     String nickName = null;
