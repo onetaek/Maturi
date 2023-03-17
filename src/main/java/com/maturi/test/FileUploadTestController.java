@@ -44,13 +44,13 @@ public class FileUploadTestController {
         return null;
     }
 
-    //파일 업로드 페이지 이동
+    //테스트 파일 업로드 페이지로 이동
     @GetMapping("/file/upload")
     public String fileUploadPage(){
         return "/file_test";
     }
 
-    //파일 저장 로직(리턴 값 신경 ㄴㄴ일부로 안넣음)
+    //파일 저장 로직 이부분이 DB에 저장안하고 메모리에 저장했다는 로직이있는 메서드
     @PostMapping("/file/upload")
     public String fileUpload(@ModelAttribute TestArticleDTO testArticleDTO,
                              RedirectAttributes redirectAttributes) throws IOException {
@@ -72,21 +72,11 @@ public class FileUploadTestController {
 
     //파일 보기위한 페이지 이동
     @GetMapping("/file/show/{id}")
-    public String items(@PathVariable Long id, Model model) {
+    public String filesViewPage(@PathVariable Long id, Model model) {
 
         TestArticle testArticle = memoryArticleRepository.findById(id);
+        model.addAttribute("testArticle",testArticle);
 
-        String title = testArticle.getTitle();
-        String content = testArticle.getContent();
-        List<UploadFile> imageFiles = testArticle.getImageFiles();
-
-        log.info("title={}",title);
-        log.info("content={}",content);
-        log.info("imageFiles={}",imageFiles);
-
-        model.addAttribute("title",title);
-        model.addAttribute("content",content);
-        model.addAttribute("imageFiles",imageFiles);//여기에 DB에 저장된 이미지 이름,유저가 올린 이미지 이름 이 있음
         return "/file_show_test";
     }
 

@@ -6,11 +6,11 @@
 </head>
 <body>
 
-    <div th:text="${title}"></div>
-    <div th:text="${content}"></div>
-    <th:block th:each="imageFile : ${imageFiles}">
-        <p th:text="${imageFile.getUploadFileName()}"></p>
-        <img th:src="|/test/file/${imageFile.getStoreFileName()}|" width="300" alt="에러">
+    <div th:text="${testArticle.title}"></div>
+    <div th:text="${testArticle.title}"></div>
+    <th:block th:each="imageFile : ${testArticle.imageFiles}">
+        <p th:text="${imageFile.uploadFileName}"></p>
+        <img th:src="|/test/file/${imageFile.storeFileName}|" width="300" alt="에러">
     </th:block>
 </body>
 </html>
