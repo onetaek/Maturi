@@ -1,28 +1,3 @@
-#wrap.active{
-    filter:blur(20px);
-    pointer-events:none;
-}
-#popup{
-    position: fixed;
-    top:40%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    max-width: var(--max-width);
-    width:50%;
-    padding:50px;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, .30);
-    background-color: #ffffff;
-    visibility: hidden;
-    opacity: 0;
-    transition:0.5s;
-}
-#popup.active{
-    top:50%;
-    visibility: visible;
-    opacity: 1;
-    transform: 0.5s;
-}
-
 /* popupConetnt css적용 */
 .popup-dropdown{
     position:relative;
@@ -68,29 +43,4 @@
 .popup-dropdown-list-item:hover{
     margin-left:0.5rem;
     color:var(--white-color);
-}
-
-
-.goWriteBtn{
-    background: var(--hot-pink-color);
-}
-.popup-close-btn-wrap{
-    position:absolute;
-    top:0;
-    right:0;
-    transform: translateX(50%) translateY(-50%);
-    width:50px;
-    height:50px;
-    background: var(--white-color);
-    display: flex;
-    border-radius: 50%;
-}
-.popup-close-btn{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform: translateX(-50%) translateY(-50%);
-    width:50px;
-    height:50px;
-    color:var(--hot-pink-color)
 }

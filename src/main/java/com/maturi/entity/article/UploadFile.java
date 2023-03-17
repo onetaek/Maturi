@@ -1,9 +1,12 @@
 package com.maturi.entity.article;
 
+import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
 @ToString
+@Getter
 @Embeddable
 public class UploadFile {
     private String uploadFileName;

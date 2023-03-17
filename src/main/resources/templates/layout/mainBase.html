@@ -10,12 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/include/sideNav.css}">
     <link rel="stylesheet" th:href="@{/css/reset.css}">
-    <link rel="stylesheet" th:href="@{/css/include/popup.css}">
     <link rel="stylesheet" th:href="@{/css/include/searchMap.css}">
     <link rel="stylesheet" th:href="@{/css/include/kakaoCSS.css}">
+    <link rel="stylesheet" th:href="@{/css/include/popup.css}">
 </head>
 <body>
-<div id="wrap">
+<div id="wrap" >
     <div id="sideNav">
         <h1 class="logo"><a href="#">Maturi</a></h1>
         <div id="gnbWrap">
@@ -96,7 +96,9 @@
         </div>
         <button type="button" class="goWriteBtn">리뷰 작성</button>
     </div>
-    <a href="#" onclick="popupToggle()">닫기</a>
+    <div class="popup-close-btn-wrap">
+        <ion-icon class="popup-close-btn" onclick="popupToggle()" name="close-circle-outline"></ion-icon>
+    </div>
 
 </div>
 
