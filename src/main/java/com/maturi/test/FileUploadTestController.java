@@ -74,8 +74,8 @@ public class FileUploadTestController {
     @GetMapping("/file/show/{id}")
     public String filesViewPage(@PathVariable Long id, Model model) {
 
-        TestArticle testArticle = memoryArticleRepository.findById(id);
-        model.addAttribute("testArticle",testArticle);
+        TestArticle testArticle = memoryArticleRepository.findById(id);//메모리에 저장한 게시글 정보(랜덤 파일명, 기존 파일명 포함)을 꺼내옴
+        model.addAttribute("testArticle",testArticle);//프로젝트에서는 DTO로 변환해서 담아주기
 
         return "/file_show_test";
     }
