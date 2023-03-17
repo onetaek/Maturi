@@ -38,6 +38,11 @@ public class SNSController {
     final private SNSService snsService;
     final private MemberService memberService;
 
+
+    /**
+     * 네이버 로그인 API 처리
+     */
+    //카카오톡 로그인 버튼 클릭하면 실행된느 메서드
     @PostMapping("/kakao/login")
     public void loginFirst(HttpServletResponse response){
         try {
@@ -50,68 +55,111 @@ public class SNSController {
         }
     }
 
-    // 1번 카카오톡에 사용자 코드 받기(jsp의 a태그 href에 경로 있음)
-    // 2번 받은 code를 iKakaoS.getAccessToken로 보냄 ###access_Token###로 찍어서 잘 나오면은 다음단계진행
-    // 3번 받은 access_Token를 iKakaoS.getUserInfo로 보냄 userInfo받아옴, userInfo에 nickname, email정보가 담겨있음
+    //카카오톡에 등록한 콜백경로
     @GetMapping("/kakao/callback")//redirect에서 설정해준 url을 여기 입력
     public String kakaoLogin(@RequestParam(value = "code", required = false) String code,
                              @RequestParam(defaultValue = "/") String redirectURL,
                              HttpServletRequest request) throws Throwable {
-        /* 유저 정보 들고오기 */
-        // 1번
-        System.out.println("code:" + code);
 
-        // 2번
-        String access_Token = snsService.getKakaoAccessToken(code);
-        System.out.println("###access_Token#### : " + access_Token);
-        // 위의 access_Token 받는 걸 확인한 후에 밑에 진행
-
-        // 3번
-        HashMap<String, Object> userInfo = snsService.getKakaoUserInfo(access_Token);
-        log.info("userInfo = {}", userInfo);
-
-        /* 실질적 로그인 처리 */
-        // 1. 이메일 형식으로 변환
-        String email = snsService.changeIdToKakaoEmail(userInfo.get("uniqueID").toString());
-
+        String access_Token = snsService.getKakaoAccessToken(code);//토큰을 받는다.
+        HashMap<String, String> userInfo = snsService.getKakaoUserInfo(access_Token);//유저의 정보를 가져온다.
+        String email = snsService.changeKakaoIdToEmail(userInfo.get("uniqueID").toString());//카카오에서 받은 id를 email형식으로 변환한다.
         MemberSNSLoginDTO memberLoginDTO = MemberSNSLoginDTO
                 .builder()
                 .email(email)
-                .profileImg(userInfo.get("profileImg").toString())
-                .name(userInfo.get("nickName").toString())
-                .build();
+                .profileImg(userInfo.get("profileImg"))
+                .name(userInfo.get("nickName"))
+                .build();//로그인할때 필요한 정보만들어있는 MemberSNSLoginDTO객체로 만들어준다.
 
-        // 2. 가입 & 로그인 나누기
+
+        /** 실질적 로그인 처리 **/
         boolean IsLoginMember = memberService.emailDuplCheck(email);// 중복 이메일 체크
-
-
         Member member = null;
-        if(!IsLoginMember){// 3-1. 가입하지 않은 회원 -> 가입 진행
-            member = snsService.snsJoin(memberLoginDTO);
-        } else{// 3-2. 이메일로 중복체크 했을 때 이미 가입했다는 거니까 이메일로 회원을 찾아온다.
+        if(IsLoginMember){//이메일로 중복체크 했을 때 이미 가입했다는 거니까 이메일로 회원을 찾아온다.
             member = snsService.findUser(email);
+        } else{//가입하지 않은 회원 -> 가입 진행
+            member = snsService.snsJoin(memberLoginDTO);
         }
-
-        // 3-2. 로그인 처리
+        //로그인 처리
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.MEMBER_ID,member.getId());
 
-
-        log.info("redirectURL = {}",redirectURL);
         return "redirect:" + redirectURL;
     }
 
     @GetMapping("/kakao/logout")
     public String kakaoLogout(HttpServletRequest request){
-        log.info("logout처리 완료!");
+        request.getSession().invalidate();//로그아웃 처리 : 우리 사이트의 세션만 사라지고, SNS로그인은 유지한다.
         return "/member/login";
     }
 
+    /**
+     * 네이버 로그인 API 처리
+     */
     @PostMapping("/naver/login")
-    public void naverLogin(HttpServletRequest request, HttpServletResponse response){
-        log.info("/naver/login post요청");
-        String clientId = NAVER_CLIENT_ID;//애플리케이션 클라이언트 아이디값";
-        String redirectURI = null;
+    public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            response.sendRedirect(createApiURL(request, response, NAVER_CLIENT_ID));//apiURL를 생성해서 redirect
+        } catch (IOException e) {
+            log.info("naver login sendRedirect 요류");
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/naver/token")//CallBack URL
+    public void naverLoginGETToken(HttpServletRequest request,
+                                   @RequestParam String code,
+                                   @RequestParam String state,
+                                   HttpServletResponse response) throws IOException {
+        response.sendRedirect("/oauth/naver/login?token="+
+                createNaverAcessToken(response, NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, code, state));//토큰을 획득하고 redirect
+    }
+
+    @GetMapping("/naver/login")
+    public String naverLoginProcess(@RequestParam String token,
+                                    @RequestParam(defaultValue = "/") String redirectURL,
+                                    HttpServletRequest request){
+
+        HashMap<String, String> userInfo = getUserInfo(token);//토큰넘기면 api에서 요청한 유저의 정보들을 가져온다.
+        MemberSNSLoginDTO memberLoginDTO = MemberSNSLoginDTO
+                .builder()
+                .email(snsService.changeNaverIdToEmail(userInfo.get("id")) )
+                .profileImg((String) userInfo.get("profile_image"))
+                .name((String) userInfo.get("name"))
+                .build();//이메일 형식으로 변환
+
+
+        /** 실질적 로그인 처리 **/
+        boolean IsLoginMember = memberService.emailDuplCheck(snsService.changeNaverIdToEmail((String) userInfo.get("id")));// 중복 이메일 체크
+
+        Member member = null;
+        if(IsLoginMember){// 이메일로 중복체크 했을 때 이미 가입했다는 것이므로 이메일로 회원을 찾아온다.
+            member = snsService.findUser(snsService.changeNaverIdToEmail((String) userInfo.get("id")));
+        } else{// 가입하지 않은 회원 -> 가입 진행
+            member = snsService.snsJoin(memberLoginDTO);
+        }
+        // 로그인 처리
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.MEMBER_ID,member.getId());
+
+        return "redirect:" + redirectURL;
+    }
+
+    //안씀
+    @GetMapping("/naver/logout")
+    @ResponseBody
+    public void naverLogOutTest(HttpServletResponse response){
+        try {
+            response.sendRedirect("http://nid.naver.com/nidlogin.logout");
+        } catch (IOException e) {
+            log.info("naver logout error");
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    private String createApiURL(HttpServletRequest request, HttpServletResponse response, String clientId) {
+        String redirectURI;
         try {
             redirectURI = URLEncoder.encode(NAVER_CALLBACK_URL, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -125,23 +173,11 @@ public class SNSController {
         apiURL += "&redirect_uri=" + redirectURI;
         apiURL += "&state=" + state;
         request.getSession().setAttribute("state", state);
-        try {
-            response.sendRedirect(apiURL);
-        } catch (IOException e) {
-            log.info("naver login sendRedirect 요류");
-            throw new RuntimeException(e);
-        }
+        return apiURL;
     }
 
-    @GetMapping("/naver/token")//CallBack URL
-    public void naverLoginGETToken(HttpServletRequest request,HttpServletResponse response){
-        log.info("/naver/login get요청");
-
-        String clientId = NAVER_CLIENT_ID;//애플리케이션 클라이언트 아이디값";
-        String clientSecret = NAVER_CLIENT_SECRET;//애플리케이션 클라이언트 시크릿값";
-        String code = request.getParameter("code");
-        String state = request.getParameter("state");
-        String redirectURI = null;
+    private String createNaverAcessToken(HttpServletResponse response, String clientId, String clientSecret, String code, String state) {
+        String redirectURI;
         try {
             redirectURI = URLEncoder.encode(NAVER_CALLBACK_URL, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -194,22 +230,17 @@ public class SNSController {
 
                 log.info("[naver] access_token : " + access_Token);
                 log.info("[naver] refresh_token : " + refresh_Token);
-                response.sendRedirect("/oauth/naver/login?token="+access_Token);
+
+                return access_Token;
             }
         } catch (Exception e) {
-            System.out.println(e);
+            log.info("naver token접근 오류");
         }
+        return null;
     }
 
-    @GetMapping("/naver/login")
-    public String naverLoginProcess(@RequestParam String token,
-                                    @RequestParam(defaultValue = "/") String redirectURL,
-                                    HttpServletRequest request){
-
-        MemberJoinDTO memberJoinDTO = new MemberJoinDTO();
-
-        HashMap<String, Object> userInfo = null;
-
+    private HashMap<String, String> getUserInfo(String token) {
+        HashMap<String, String> userInfo = null;
         String header = "Bearer " + token; // Bearer 다음에 공백 추가
         String apiURL = "https://openapi.naver.com/v1/nid/me";
 
@@ -225,44 +256,15 @@ public class SNSController {
         // JSON String -> Map
         try {
             Map<String, Object> jsonMap = objectMapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {});
-
             log.info("jsonMap = {}",jsonMap);
-            userInfo = (HashMap<String, Object>) jsonMap.get("response");
+            userInfo = (HashMap<String, String>) jsonMap.get("response");
 
             log.info("[네이버 응답] id = {}",userInfo.get("id"));
             log.info("[네이버 응답] profile_image = {},",userInfo.get("profile_image"));
-
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
-        /* 실질적 로그인 처리 */
-        // 1. 이메일 형식으로 변환
-        MemberSNSLoginDTO memberLoginDTO = MemberSNSLoginDTO
-                .builder()
-                .email(snsService.changeNaverIdToEmail((String) userInfo.get("id")) )
-                .profileImg((String) userInfo.get("profile_image"))
-                .name((String) userInfo.get("name"))
-                .build();
-
-        // 2. 가입 & 로그인 나누기
-        boolean IsLoginMember = memberService.emailDuplCheck(snsService.changeNaverIdToEmail((String) userInfo.get("id")));// 중복 이메일 체크
-
-        Member member = null;
-        if(!IsLoginMember){// 3-1. 가입하지 않은 회원 -> 가입 진행
-            member = snsService.snsJoin(memberLoginDTO);
-        } else{// 3-2. 이메일로 중복체크 했을 때 이미 가입했다는 거니까 이메일로 회원을 찾아온다.
-            member = snsService.findUser(snsService.changeNaverIdToEmail((String) userInfo.get("id")));
-        }
-
-        // 3-2. 로그인 처리
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.MEMBER_ID,member.getId());
-
-
-        log.info("redirectURL = {}",redirectURL);
-        return "redirect:" + redirectURL;
-
+        return userInfo;
     }
 
     private String get(String apiUrl, Map<String, String> requestHeaders){
@@ -315,16 +317,4 @@ public class SNSController {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);
         }
     }
-
-    @GetMapping("/naver/logout")
-    @ResponseBody
-    public void naverLogOutTest(HttpServletResponse response){
-        try {
-            response.sendRedirect("http://nid.naver.com/nidlogin.logout");
-        } catch (IOException e) {
-            log.info("naver logout error");
-            throw new RuntimeException(e);
-        }
-    }
-
 }

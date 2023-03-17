@@ -33,9 +33,8 @@ public class MemberAPIController {
     String email = (String) jsonObject.get("email");
 
     /* 이메일 중복 검사 */
-    MemberLoginDTO memberLoginDTO = memberService.emailDuplCheck(email);
-    log.info("emailAuth memberLoginDTO = {}", memberLoginDTO);
-    if(memberLoginDTO != null){ // 중복된 이메일 존재
+    boolean isJoinMember = memberService.emailDuplCheck(email);
+    if(isJoinMember){ // 중복된 이메일 존재
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 

@@ -97,9 +97,9 @@ public class SNSService {
 
 
     @SuppressWarnings("unchecked")
-    public HashMap<String, Object> getKakaoUserInfo(String access_Token) throws Throwable {
+    public HashMap<String, String> getKakaoUserInfo(String access_Token) throws Throwable {
         // 요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-        HashMap<String, Object> userInfo = new HashMap<String, Object>();
+        HashMap<String, String> userInfo = new HashMap<String, String>();
         String reqURL = "https://kapi.kakao.com/v2/user/me";
 
         try {
@@ -156,7 +156,7 @@ public class SNSService {
         }
         return userInfo;
     }
-    public String changeIdToKakaoEmail(String uniqueId){
+    public String changeKakaoIdToEmail(String uniqueId){
         /* uniqueId를 email형식으로 변환 */
         return uniqueId.toString() + "@k.com";
     }
@@ -191,4 +191,6 @@ public class SNSService {
     public String changeNaverIdToEmail(String email) {
         return email + "@n.com";
     }
+
+
 }
