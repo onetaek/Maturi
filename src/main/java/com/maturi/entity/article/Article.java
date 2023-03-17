@@ -26,6 +26,8 @@ public class Article {
   private String content;
   @Column(length = 10000)
   private String image; // 이미지 여러개 업로드 가능
+  @Embedded
+  private UploadFile uploadFile; // 이미지 여러개 업로드 가능
   @CreatedDate
   private LocalDate writtenAt;
   @LastModifiedDate
