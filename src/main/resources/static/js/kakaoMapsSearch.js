@@ -35,7 +35,7 @@ searchPlaces();
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces() {
 
-  var keyword = sidoName + sigoonName + dongName + document.getElementById('keyword').value;
+  let keyword = sidoName + sigoonName + dongName + document.getElementById('keyword').value;
 
   if (!keyword.replace(/^\s+|\s+$/g, '')) {
     alert('키워드를 입력해주세요!');
@@ -110,19 +110,19 @@ function displayPlaces(places) {
       });
       // 경도 위도 좌표 구하기!!! (마커 클릭)
       kakao.maps.event.addListener(marker, 'click', function(){
-        var addressTag = rInfoWrapUl.querySelector(".address");
-        var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress");
-        var nameTag = rInfoWrapUl.querySelector(".placeName");
-        var categoryTag = rInfoWrapUl.querySelector(".placeCategory");
+        var addressTag = rInfoWrapUl.querySelector(".address > span");
+        var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress > span");
+        var nameTag = rInfoWrapUl.querySelector(".placeName > span");
+        var categoryTag = rInfoWrapUl.querySelector(".placeCategory > span");
         rInfo_address = thisPlace.road_address_name;
         rInfo_oldAddress = thisPlace.address_name;
         rInfo_name = thisPlace.place_name;
         rInfo_category = thisPlace.category_name;
         rInfo_latPosition = position.getLat();
         rInfo_lngPosition = position.getLng();
+        nameTag.innerText = "가게명 : " + rInfo_name;
         addressTag.innerText = "도로명 주소 : " + rInfo_address;
         oldAddressTag.innerText = "구주소 : " + rInfo_oldAddress;
-        nameTag.innerText = "가게명 : " + rInfo_name;
         categoryTag.innerText = "카테고리 : " + rInfo_category;
         // 카테고리 그룹 이름 : category_group_name
         // 예) 카테고리 : 음식점 > 양식 > 피자 => 카테고리 그룹 : 음식점

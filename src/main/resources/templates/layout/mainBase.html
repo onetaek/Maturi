@@ -57,15 +57,26 @@
     <div id="popupContent">
         <!--    지역 선택 태그 -->
         <form name="nsdiSearchForm" id="nsdiSearchForm" action="#" class="form_data" onsubmit="return false;search();">
-            <select id="sido_code" name="sido_code">
-                <option>지역 선택</option>
-            </select>
-            <select id="sigoon_code" name="sigoon_code">
-                <option>지역 선택</option>
-            </select>
-            <select id="dong_code" name="dong_code">
-                <option>지역 선택</option>
-            </select>
+            <div id="sido_code" name="sido_code" class="popup-dropdown">
+                <div id="sido-popup-drop-text" class="popup-dropdown-text">
+                    <span id="sido-popup-search-cond">전체일까</span>
+                    <i id="sido-popup-icon" class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div id="sigoon_code" name="sigoon_code" class="popup-dropdown">
+                <div id="sigoon-popup-drop-text" class="popup-dropdown-text">
+                    <span id="sigoon-popup-search-cond">전체</span>
+                    <i id="sigoon-popup-icon" class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div id="dong_code" name="dong_code" class="popup-dropdown">
+                <div id="dong-popup-drop-text" class="popup-dropdown-text">
+                    <span id="dong-popup-search-cond">전체</span>
+                    <i id="dong-popup-icon" class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
         </form>
         <!-- 맵에 해당 지역 찾아서 표시 -->
         <div id="map_wrap">
@@ -88,10 +99,18 @@
         <!-- 해당 지역 정보 -->
         <div id="rInfoWrap">
             <ul>
-                <li class="placeName">가게명 : </li>
-                <li class="address">도로명 주소 : </li>
-                <li class="oldAddress">구주소 : </li>
-                <li class="placeCategory">카테고리 : </li>
+                <li class="placeName">
+                    <i class="fa-solid fa-utensils"></i><span>가게명 : </span>
+                </li>
+                <li class="address">
+                    <i class="fa-solid fa-road"></i><span>도로명 주소 : </span>
+                </li>
+                <li class="oldAddress">
+                    <i class="fa-solid fa-map"></i><span>구주소 : </span>
+                </li>
+                <li class="placeCategory">
+                    <i class="fa-solid fa-list-ul"></i><span>카테고리 : </span>
+                </li>
             </ul>
         </div>
         <button type="button" class="goWriteBtn">리뷰 작성</button>
@@ -110,9 +129,9 @@
 <script src="/js/article/welcome/popup.js"></script>
 <script src="/js/nsdiSearch.js"></script>
 <script src="/js/kakaoMapsSearch.js"></script>
-<script src="/js/searchMap.js"></script>
+<script src="/js/reviewWriteBtn.js"></script>
 <script src="/js/article/logout.js"></script>
-
+<script src="/js/popupDropdown.js"></script>
 <th:block layout:fragment="scripts"/>
 
 </body>

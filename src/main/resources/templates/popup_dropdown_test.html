@@ -3,32 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/pupup_dropdown_test.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/test/pupup_dropdown_test.css">
 </head>
 <body>
-<form class="popup-dropdown-wrap">
+<form name="nsdiSearchForm" id="nsdiSearchForm" action="#"  class="form_data" onsubmit="return false;search();">
 
-    <div class="popup-dropdown">
-        <div id="popup-drop-text" class="pop-dropdown-text">
-            <span id="popup-search-cond">선택안함</span>
-            <i id="icon" class="fa-solid fa-chevron-down"></i>
-        </div>
-        <ul id="popup-list" class="pop-dropdown-list">
-            <li class="pop-dropdown-list-item">전체</li>
-            <li class="pop-dropdown-list-item">글 내용</li>
-            <li class="pop-dropdown-list-item">작성자</li>
-            <li class="pop-dropdown-list-item">해시태그</li>
-        </ul>
+    <div id="sido_code" name="sido_code" class="popup-dropdown">
+<!--        <div id="sido-popup-drop-text" class="popup-dropdown-text">-->
+<!--            <span id="sido-popup-search-cond">전체</span>-->
+<!--            <i id="sido-popup-icon" class="fa-solid fa-chevron-down"></i>-->
+<!--        </div>-->
+<!--        <ul id="sido-popup-list" class="popup-dropdown-list">-->
+<!--            <li class="popup-dropdown-list-item">전체</li>-->
+<!--            <li class="popup-dropdown-list-item">글 내용</li>-->
+<!--            <li class="popup-dropdown-list-item">작성자</li>-->
+<!--            <li class="popup-dropdown-list-item">해시태그</li>-->
+<!--        </ul>-->
+    </div>
+
+    <div id="sigoon_code" name="sigoon_code" class="popup-dropdown">
+<!--        <div id="sigoon-popup-drop-text" class="popup-dropdown-text">-->
+<!--            <span id="sigoon-popup-search-cond">전체</span>-->
+<!--            <i id="sigoon-popup-icon" class="fa-solid fa-chevron-down"></i>-->
+<!--        </div>-->
+<!--        <ul id="sigoon-popup-list" class="popup-dropdown-list">-->
+<!--            <li class="popup-dropdown-list-item">전체</li>-->
+<!--            <li class="popup-dropdown-list-item">작성자</li>-->
+<!--            <li class="popup-dropdown-list-item">해시태그</li>-->
+<!--        </ul>-->
+    </div>
+
+    <div id="dong_code" name="dong_code" class="popup-dropdown">
+<!--        <div id="dong-popup-drop-text" class="popup-dropdown-text">-->
+<!--            <span id="dong-popup-search-cond">전체</span>-->
+<!--            <i id="dong-popup-icon" class="fa-solid fa-chevron-down"></i>-->
+<!--        </div>-->
+<!--        <ul id="dong-popup-list" class="popup-dropdown-list">-->
+<!--            <li class="popup-dropdown-list-item">전체</li>-->
+<!--            <li class="popup-dropdown-list-item">글 내용</li>-->
+<!--            <li class="popup-dropdown-list-item">작성자</li>-->
+<!--            <li class="popup-dropdown-list-item">해시태그</li>-->
+<!--            <li class="popup-dropdown-list-item">전체</li>-->
+<!--            <li class="popup-dropdown-list-item">글 내용</li>-->
+<!--            <li class="popup-dropdown-list-item">작성자</li>-->
+<!--            <li class="popup-dropdown-list-item">해시태그</li>-->
+<!--        </ul>-->
     </div>
 
 
-    <select class="popup-dropdown-select">
-        <option class="popup-dropdown-option">선택</option>
-        <option class="popup-dropdown-option">선택</option>
-        <option class="popup-dropdown-option">선택</option>
-        <option class="popup-dropdown-option">선택</option>
-    </select>
+    <!--    <select class="popup-dropdown-select">-->
+    <!--        <option class="popup-dropdown-option">선택</option>-->
+    <!--        <option class="popup-dropdown-option">선택</option>-->
+    <!--        <option class="popup-dropdown-option">선택</option>-->
+    <!--        <option class="popup-dropdown-option">선택</option>-->
+    <!--    </select>-->
+
 
 </form>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="/test/popup_dropdown_test.js"></script>
 </body>
 </html>
