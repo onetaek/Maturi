@@ -128,6 +128,9 @@ input:checked+.radio-tile label {
     position: absolute;
     top:4rem;
     left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width:100%;
     border-radius: 25px;
     max-height: 0;
@@ -145,6 +148,12 @@ input:checked+.radio-tile label {
     cursor:pointer;
     color:var(--drop-down-color);
     transition: margin-left 0.2s ease, color 0.2s ease;
+}
+.dropdown-list-item:first-child{
+    margin-top: 10px;
+}
+.dropdown-list-item:last-child{
+    margin-bottom: 10px;
 }
 
 .dropdown-list-item:hover{

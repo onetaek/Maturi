@@ -6,7 +6,8 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@ToString
+@ToString(exclude = "article")
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TagValue {

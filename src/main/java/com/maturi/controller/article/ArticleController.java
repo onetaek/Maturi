@@ -25,6 +25,11 @@ public class ArticleController {
     @GetMapping("/articles")
     public String articlesPage(@Login Long memberId,
                                Model model){
+        //검색조건 추가
+        //1. 관심지역을 선택했는지 확인 -> 있다면? -> 관심지역에 값추가
+        //                            없다면? -> 전체로 선택
+        //2.
+
 
         log.info("findMember = {}",articleService.memberInfo(memberId));
         model.addAttribute("member", articleService.memberInfo(memberId));

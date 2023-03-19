@@ -4,15 +4,18 @@ import com.maturi.entity.member.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
 @ToString
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article {
   @Id
@@ -24,10 +27,10 @@ public class Article {
   private Restaurant restaurant;
   @Column(length = 10000)
   private String content;
-  @Column(length = 10000)
-  private String image; // 이미지 여러개 업로드 가능
   @Embedded
   private UploadFile uploadFile; // 이미지 여러개 업로드 가능
+  @OneToMany(mappedBy = "article")
+  private List<TagValue> tagValue;
   @CreatedDate
   private LocalDate writtenAt;
   @LastModifiedDate

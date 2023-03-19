@@ -10,6 +10,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Tag {

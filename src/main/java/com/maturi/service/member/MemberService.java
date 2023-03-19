@@ -4,7 +4,7 @@ import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
-import com.maturi.repository.MemberRepository;
+import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.PasswdEncry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
