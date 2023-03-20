@@ -1,20 +1,13 @@
 
 /* 더보기 버튼 */
-const aMemberBtn = document.querySelector(".aMemberBtn");
-const aMoreBtn = aMemberBtn.querySelector(".moreBtn");
-const aMemberBtnUl = aMemberBtn.querySelector("ul");
+const ellipsisBtn = document.querySelectorAll(".ellipsis-btn");
+const ellipsisContent = document.querySelectorAll(".ellipsis-content");
 
-let aUlDisplay = "none"; // 초기값 설정
-aMoreBtn.addEventListener("click", ()=>{
-
-  if(aUlDisplay == 'none'){
-    aUlDisplay = "block";
-  }
-  else {
-    aUlDisplay = "none";
-  }
-  aMemberBtnUl.style.display = aUlDisplay;
-});
+for(let i = 0 ; i < ellipsisBtn.length; i++){
+  ellipsisBtn[i].addEventListener("click",function(){
+    ellipsisContent[i].classList.toggle("active");
+  });
+}
 
 /* 슬라이드 */
 const bImg = document.querySelector(".bImg"); // ul

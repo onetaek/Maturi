@@ -1,4 +1,4 @@
-package com.maturi.repository;
+package com.maturi.repository.article;
 
 import com.maturi.entity.article.LikeArticle;
 import org.springframework.data.jpa.repository.JpaRepository;

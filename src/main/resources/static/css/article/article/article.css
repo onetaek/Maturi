@@ -91,29 +91,38 @@
 }
 
 /* 더보기 버튼 */
-#articleWrap .memberInfo {
+#articleWrap .ellipsis-btn-wrap{
+    position:absolute;
+    top:10px;
+    right:0;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    align-items: flex-end;
 }
-#articleWrap .aMemberBtn > * {
-    position: absolute;
-}
-#articleWrap .aMemberBtn > span {
-    display: block;
-    width: 30px; height: 30px;
-    top: 100px; right: 0;
-    text-indent: -9999px;
-    background: url('/img/button/memberBtn.png') no-repeat top center / contain;
+#articleWrap .ellipsis-btn-wrap .ellipsis-btn{
+    font-size:  30px;
     cursor: pointer;
 }
-#articleWrap .aMemberBtn > ul {
+#articleWrap .ellipsis-btn-wrap .ellipsis-content{
     display: none;
-    padding: 10px;
-    top: 130px; right: 0;
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 5px;
+}
+#articleWrap .ellipsis-btn-wrap .active{
+    display: flex;
+    background: #FFFFFF;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border:1px solid var(--ellipsis-color);
+    border-radius: 20px;
+}
+#articleWrap .ellipsis-btn-wrap .active > li{
+    width:150px;
+    line-height:50px;
+    text-align: center;
+    border-bottom:1px solid var(--ellipsis-color);
+}
+#articleWrap .ellipsis-btn-wrap .active > li:last-child{
+    border-bottom:0px;
 }
 
 /* 음식점 정보란 */

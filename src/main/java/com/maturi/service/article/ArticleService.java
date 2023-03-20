@@ -6,9 +6,9 @@ import com.maturi.dto.article.RestaurantDTO;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Member;
-import com.maturi.repository.LikeArticleRepository;
-import com.maturi.repository.TagRepository;
-import com.maturi.repository.TagValueRepository;
+import com.maturi.repository.article.LikeArticleRepository;
+import com.maturi.repository.article.TagRepository;
+import com.maturi.repository.article.TagValueRepository;
 import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.article.RestaurantRepository;
 import com.maturi.repository.member.MemberRepository;
@@ -49,10 +49,9 @@ public class ArticleService {
                 .latitude(articleDTO.getLatitude())
                 .longitude(articleDTO.getLongitude())
                 .build();
-
         Restaurant restaurant = Restaurant.builder()
                 .name(articleDTO.getName())
-                .category(articleDTO.getCategory())
+                .category(articleDTO.getCategory().split(" > ")[1])
                 .location(location)
                 .build();
 
@@ -72,7 +71,7 @@ public class ArticleService {
 
         String[] tags = articleDTO.getTags().split("#");
         for(String tagName : tags){
-            if(!tagName.equals("") || tagName != null){
+            if(!tagName.equals("") && tagName != null){
                 Tag findTag = tagRepository.findByName(tagName);
                 if(findTag == null){
                     Tag tag = Tag.builder()
