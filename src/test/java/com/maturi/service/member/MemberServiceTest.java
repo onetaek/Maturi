@@ -3,7 +3,7 @@ package com.maturi.service.member;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
-import com.maturi.repository.MemberRepository;
+import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.PasswdEncry;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

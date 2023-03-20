@@ -15,11 +15,9 @@ public class Member {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @Column(unique = true)
   private String email;
   private String passwd;
-
   private String salt;
   @Column(nullable = false)
   private String name;

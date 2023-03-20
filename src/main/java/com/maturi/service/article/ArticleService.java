@@ -11,12 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class ArticleService {
 
@@ -31,7 +33,6 @@ public class ArticleService {
     public MemberDTO memberInfo(Long memberId) {
         return modelMapper.map(memberRepository.findById(memberId).orElse(null), MemberDTO.class);
     }
-
 
     public Long write(Long memberId, ArticleDTO articleDTO) {
 
@@ -51,6 +52,8 @@ public class ArticleService {
                 .build();
 
         Restaurant findRestaurant = restaurantRepository.save(restaurant);
+
+        //파일 업로드 로직 필요
 
         Article article = Article.builder()
                 .member(findMember)

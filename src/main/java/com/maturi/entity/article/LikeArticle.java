@@ -4,11 +4,13 @@ import com.maturi.entity.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.xml.ws.BindingType;
 
 @Getter
 @ToString
 @Builder
 @AllArgsConstructor
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class LikeArticle {

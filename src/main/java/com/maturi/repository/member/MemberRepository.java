@@ -1,4 +1,4 @@
-package com.maturi.repository;
+package com.maturi.repository.member;
 
 import com.maturi.entity.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

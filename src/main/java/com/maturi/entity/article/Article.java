@@ -5,9 +5,11 @@ import com.maturi.entity.member.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,10 +31,9 @@ public class Article extends BaseTimeEntity {
   private String image; // 이미지 여러개 업로드 가능
   @Embedded
   private UploadFile uploadFile; // 이미지 여러개 업로드 가능
-//  @CreatedDate
-//  private LocalDate writtenAt;
-//  @LastModifiedDate
-//  private LocalDate updatedAt;
+  @OneToMany(mappedBy = "article")
+  private List<TagValue> tagValue;
+
   @Enumerated(EnumType.STRING)
   private ArticleStatus status;
 }

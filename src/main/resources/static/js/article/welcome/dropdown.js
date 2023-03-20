@@ -20,11 +20,10 @@ dropdownBtn.onclick = function(){
 window.onclick = function(e){
     if(
         e.target.id != "drop-text" &&
-        e.target.id != "span" &&
+        e.target.id != "search-cond" &&
         e.target.id != "icon"
     ){
         list.classList.remove("show");
-
         icon.style.rotate="0deg"
     }
 }

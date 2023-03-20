@@ -249,8 +249,13 @@ $(function(){
         e.target.id != "sigoon-popup-search-cond" &&
         e.target.id != "dong-popup-drop-text" &&
         e.target.id != "dong-popup-icon" &&
-        e.target.id != "dong-popup-search-cond"
+        e.target.id != "dong-popup-search-cond"&&
+        e.target.id != "drop-text" &&
+        e.target.id != "search-cond" &&
+        e.target.id != "icon"
     ){
+      document.getElementById("list").classList.remove("show");
+      document.getElementById("icon").style.rotate="0deg"
       sido_popup_list.classList.remove("show");
       sido_popup_icon.style.rotate="0deg"
       sigoon_popup_list.classList.remove("show");

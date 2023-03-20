@@ -99,6 +99,7 @@
 }
 .goWriteBtn{
     background: var(--hot-pink-color);
+    box-shadow: var(--shadow);
 }
 
 .popup-close-btn-wrap{

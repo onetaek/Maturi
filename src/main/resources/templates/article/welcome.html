@@ -18,62 +18,72 @@
     </div>
     <!--검색 컨텐츠-->
     <section id="search-section">
-        <form class="container">
+        <form class="container" name="articleSearchForm">
             <!--라디오 버튼들-->
             <div class="radio-tile-group">
                 <div class="input-container">
-                    <input id="all" type="radio" name="radio" checked>
+                    <input id="all" type="radio" name="radioCond" value="everything" checked>
                     <div class="radio-tile">
                         <ion-icon name="globe"></ion-icon>
                         <label for="all">전체</label>
                     </div>
                 </div>
                 <div class="input-container">
-                    <input id="follow" type="radio" name="radio">
+                    <input id="follow" type="radio" name="radioCond" value="follow">
                     <div class="radio-tile">
                         <ion-icon name="people"></ion-icon>
                         <label for="follow">팔로우</label>
                     </div>
                 </div>
                 <div class="input-container">
-                    <input id="local" type="radio" name="radio">
+                    <input id="local" type="radio" name="radioCond" value="interLocal">
                     <div class="radio-tile">
                         <ion-icon name="compass"></ion-icon>
                         <label for="local">관심지역</label>
                     </div>
                 </div>
+
                 <div class="input-container">
-                    <input id="my-local" type="radio" name="radio">
+                    <input id="my-local" type="radio" name="radioCond" value="myLocal">
                     <div class="radio-tile">
                         <ion-icon name="locate"></ion-icon>
                         <label for="my-local">현재위치</label>
                     </div>
                 </div>
                 <div class="input-container">
-                    <input id="like" type="radio" name="radio">
+                    <input id="category" type="radio" name="radioCond" value="category">
+                    <div class="radio-tile">
+                        <ion-icon name="restaurant-outline"></ion-icon>
+                        <label for="like">카테고리</label>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <input id="like" type="radio" name="radioCond" value="like">
                     <div class="radio-tile">
                         <ion-icon name="heart-circle-outline"></ion-icon>
                         <label for="like">좋아요</label>
                     </div>
                 </div>
             </div>
+
             <!--검색창-->
             <div class="search-bar">
                 <!--드롭다운-->
                 <div class="dropdown">
                     <div id="drop-text" class="dropdown-text">
-                        <span id="search-cond">전체</span>
+                        <span id="search-cond" data-keyword-name="all">전체</span>
                         <i id="icon" class="fa-solid fa-chevron-down"></i>
                     </div>
                     <ul id="list" class="dropdown-list">
-                        <li class="dropdown-list-item">전체</li>
-                        <li class="dropdown-list-item">글 내용</li>
-                        <li class="dropdown-list-item">작성자</li>
-                        <li class="dropdown-list-item">해시태그</li>
+                        <li class="dropdown-list-item" data-keyword-name="all">전체</li>
+                        <li class="dropdown-list-item" data-keyword-name="content" >글 내용</li>
+                        <li class="dropdown-list-item" data-keyword-name="writer" >작성자</li>
+                        <li class="dropdown-list-item" data-keyword-name="tag">해시태그</li>
+                        <li class="dropdown-list-item" data-keyword-name="restaurantName">가게명</li>
                     </ul>
                 </div>
-                <input type="text" class="search-input" placeholder="아무 조건으로 검색하기...">
-                <button class="search-button" type="submit">
+                <input type="text" name="keyword" class="search-input" placeholder="아무 조건으로 검색하기...">
+                <button class="search-button" onclick="searchKeyWord()" type="button">
                     <ion-icon name="search"></ion-icon>
                 </button>
             </div>
@@ -178,6 +188,7 @@
 <th:block layout:fragment="scripts">
     <script src="/js/article/welcome/ellipsis.js"></script>
     <script src="/js/article/welcome/dropdown.js"></script>
+    <script src="/js/article/welcome/articleSearch.js"></script>
 </th:block>
 </body>
 </html>

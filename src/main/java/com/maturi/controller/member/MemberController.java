@@ -3,16 +3,11 @@ package com.maturi.controller.member;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.entity.member.Member;
-import com.maturi.repository.MemberRepository;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
-import com.maturi.util.constfield.SessionConst;
-import com.maturi.util.constfield.SnsConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,8 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 import static com.maturi.util.constfield.SessionConst.*;
-import static com.maturi.util.constfield.SnsConst.*;
-import static com.maturi.util.constfield.SnsConst.KAKAO_LOGOUT_REDIRECT_URI;
 
 @Slf4j
 @RequiredArgsConstructor
