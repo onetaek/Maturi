@@ -1,5 +1,6 @@
 package com.maturi.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
+@Slf4j
 @Component
 public class FileStore {
 
@@ -22,9 +23,13 @@ public class FileStore {
 
     //여러 파일을 저장하는 메서드, storeFile()메서드를 반복해서 부르는 식으로 여러 파일을 저장함
     public List<String> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+        log.info("storeFiles메서드 실행");
         List<String> storeFileResult = new ArrayList<>();
+
         for (MultipartFile multipartFile : multipartFiles) {
+            log.info("storeFiles for문 도는중");
             if (!multipartFile.isEmpty()) {
+                log.info("multipartFile에 값이있다!");
                 storeFileResult.add(storeFile(multipartFile));
             }
         }
@@ -33,13 +38,15 @@ public class FileStore {
 
     //파일 하나를 저장하는 메서드, new File을 통해 실제 폴더에 파일을 저장하는 로직이 있음
     public String storeFile(MultipartFile multipartFile) throws IOException {
+        log.info("storeFile메서드 실행");
         if (multipartFile.isEmpty()) {
+            log.info("storeFile에 값이 없다ㅠ");
             return null;
         }
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
+        log.info("originalFilename = {}, storeFileName = {}",originalFilename,storeFileName);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
-
         return storeFileName;
     }
 

@@ -60,6 +60,7 @@ public class ArticleService {
 
         Restaurant findRestaurant = restaurantRepository.save(restaurant);
 
+        log.info("images={},",articleDTO.getImage());
         //파일 업로드 로직 필요
         List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage());
         log.info("storeImageFiles = {}", storeImageFiles);

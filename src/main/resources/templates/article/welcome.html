@@ -50,13 +50,23 @@
                         <label for="my-local">현재위치</label>
                     </div>
                 </div>
-                <div class="input-container">
+
+
+                <div class="input-container input-container-category">
                     <input id="category" type="radio" name="radioCond" value="category">
                     <div class="radio-tile">
                         <ion-icon name="restaurant-outline"></ion-icon>
-                        <label for="like">카테고리</label>
+                        <label for="category">카테고리</label>
                     </div>
+                    <ul class="category-drop-list">
+                        <li>선택안함</li>
+                        <li>한식</li>
+                        <li>양식</li>
+                        <li>중식</li>
+                        <li>패스트푸드</li>
+                    </ul>
                 </div>
+
                 <div class="input-container">
                     <input id="like" type="radio" name="radioCond" value="like">
                     <div class="radio-tile">
@@ -73,7 +83,6 @@
                     <div id="drop-text" class="dropdown-text">
                         <span id="search-cond" data-keyword-name="all">전체</span>
                         <i id="icon" class="fa-solid fa-chevron-down"></i>
-                        <input type="hidden" class="search-category-value">
                     </div>
                     <ul id="list" class="dropdown-list">
                         <li class="dropdown-list-item" data-keyword-name="all">전체</li>
@@ -88,6 +97,11 @@
                     <ion-icon name="search"></ion-icon>
                 </button>
             </div>
+
+            <input type="hidden" class="search-category-value"><!--name과 value를 동적으로 처리-->
+            <input type="hidden" name="latitude">
+            <input type="hidden" name="longitude">
+            <input type="hidden" name="category">
         </form>
     </section>
     <!--게시글들-->
@@ -190,7 +204,7 @@
     <script src="/js/article/welcome/ellipsis.js"></script>
     <script src="/js/article/welcome/dropdown.js"></script>
     <script src="/js/article/welcome/articleSearch.js"></script>
-    <script src="/js/article/welcome/myLocal.js"></script>
+    <script src="/js/article/welcome/categoryDropdown.js"></script>
 </th:block>
 </body>
 </html>

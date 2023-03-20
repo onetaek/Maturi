@@ -29,11 +29,13 @@ main{
 }
 /*라디오 버튼*/
 .radio-tile-group {
+    position:relative;
     display: flex;
     flex-wrap: wrap;
     max-width: var(--middle-width);
     width:100%;
     margin:0 auto;
+    z-index: 10;
 }
 
 .input-container {
@@ -91,6 +93,40 @@ input:checked+.radio-tile ion-icon,
 input:checked+.radio-tile label {
     color: white;
 }
+
+.input-container .category-drop-list{
+    position: absolute;
+    top:3rem;
+    left:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    height: 0px;
+    overflow: hidden;
+    background-color:var(--hot-pink-color);
+    transition:height 0.5s;
+}
+
+.category-drop-list.max-height-0{
+    max-height:0;
+}
+
+.input-container .category-drop-list > li{
+    font-size:0.9rem;
+    font-weight: 500;
+    padding:0.4rem 2rem 0.4rem 1rem;
+    width:130px;
+    cursor:pointer;
+    color:var(--drop-down-color);
+    transition: text-indent 0.2s ease, color 0.2s ease;
+}
+
+.input-container .category-drop-list > li:hover{
+    text-indent:0.5rem;
+    color:var(--white-color);
+}
+
 /*검색창*/
 .search-bar{
     width: 100%;

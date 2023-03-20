@@ -9,7 +9,7 @@
 <body>
   <div layout:fragment="main" id="content">
     <h2>리뷰 쓰기</h2>
-    <form name="writeForm" th:object="${restaurant}" id="writeForm">
+    <form name="writeForm" th:object="${restaurant}" id="writeForm" enctype="multipart/form-data">
       <div class="inputBox imageBox">
         <!--        <button type="button" data-name="image">사진</button>-->
         <span>사진</span>

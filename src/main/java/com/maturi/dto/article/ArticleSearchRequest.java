@@ -18,20 +18,14 @@ public class ArticleSearchRequest {
 
     //전체를 눌렀을 때는 where문에 싹다 null로 들어가야한다.
 
-    //팔로우, 좋아요를 눌렀을 떄는 session에 있는 user의 정보를 기반으로 가져와야해서 value가 필요없다.
+    //팔로우, 좋아요, 관심지역를 눌렀을 떄는 session에 있는 user의 정보를 기반으로 가져와야해서 value가 필요없다.
 
     //현재위치를 눌렀을 때
-    private String myLatitude;//내위도
-    private String myLongitude;//내경도
-
-    //관심지역을 눌렀을 때
-    private String sido;//시도
-    private String sigoon;//시군
-    private String dong;//시동
+    private String latitude;//내위도
+    private String longitude;//내경도
 
     //카테고리를 눌렀을 때
     private String category;//카테고리
-
 
     /**
      * 키워드 검색 조건

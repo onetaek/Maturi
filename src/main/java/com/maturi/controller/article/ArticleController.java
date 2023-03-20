@@ -37,10 +37,26 @@ public class ArticleController {
         return "/article/welcome";
     }
 
+    @GetMapping("/articleList")//전체페이지 작업중에 에러뜨면 누나 글쓰기 페이지 못가니까 따로 작업중
+    public String articleListPage(@Login Long memberId,
+                               Model model){
+        //검색조건 추가
+        //1. 관심지역을 선택했는지 확인 -> 있다면? -> 관심지역에 값추가
+        //                            없다면? -> 전체로 선택
+        //2.
+
+
+        log.info("findMember = {}",articleService.memberInfo(memberId));
+        model.addAttribute("member", articleService.memberInfo(memberId));
+        return "/article/welcome";
+    }
+
+
     @GetMapping("/article")
     public String writeForm(@Login Long memberId,
                             Model model,
                             @ModelAttribute(name = "restaurant") RestaurantDTO restaurantDTO){
+
         log.info("restaurantDTO={}",restaurantDTO);
         model.addAttribute("member", articleService.memberInfo(memberId));
         return "/article/write";
@@ -48,6 +64,7 @@ public class ArticleController {
 
     @PostMapping("/article")
     public String write(@Login Long memberId,ArticleDTO articleDTO, Model model) throws IOException {
+        log.info("/article POST요청");
         log.info("articleDTO={}",articleDTO);
         Long articleId = articleService.write(memberId, articleDTO);
         log.info("articleId={}",articleId);
