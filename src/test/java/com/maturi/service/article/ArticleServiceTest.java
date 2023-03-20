@@ -6,7 +6,9 @@ import com.maturi.entity.member.MemberStatus;
 import com.maturi.entity.member.QMember;
 import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.member.MemberRepository;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.criterion.Projection;
@@ -27,6 +29,7 @@ import static com.maturi.entity.article.QTag.*;
 import static com.maturi.entity.article.QTagValue.*;
 import static com.maturi.entity.member.QMember.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j
 @Transactional
@@ -141,6 +144,27 @@ class ArticleServiceTest {
             log.info("article={}",article);
         }
     }
+
+    private BooleanExpression contentLike(String content){
+        return hasText(content) ? article.content.like(content) : null;
+    }
+
+    private BooleanExpression writerLike(String writer){
+        return hasText(writer) ? article.member.name.like(writer) : null;
+    }
+
+//    private BooleanExpression tagLike(String tag){
+//        return hasText(tag) ? article.tagValue : null;
+//    }
+
+    private BooleanExpression restaurantNameLike(String restaurantName){
+        return hasText(restaurantName) ? article.restaurant.name.like(restaurantName) : null;
+    }
+
+    private BooleanExpression keywordSearchCond(String content, String writer, String restaurantName){
+        return contentLike(content).and(writerLike(writer)).and(restaurantNameLike(restaurantName));
+    }
+
 
 
 }
