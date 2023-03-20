@@ -1,17 +1,16 @@
 package com.maturi.service.article;
 
-import com.maturi.entity.article.*;
+import com.maturi.entity.article.Article;
+import com.maturi.entity.article.Location;
+import com.maturi.entity.article.Restaurant;
+import com.maturi.entity.article.Tag;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
-import com.maturi.entity.member.QMember;
 import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.member.MemberRepository;
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.criterion.Projection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import java.util.List;
 
-import static com.maturi.entity.article.QArticle.*;
-import static com.maturi.entity.article.QRestaurant.*;
-import static com.maturi.entity.article.QTag.*;
-import static com.maturi.entity.article.QTagValue.*;
-import static com.maturi.entity.member.QMember.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.maturi.entity.article.QArticle.article;
+import static com.maturi.entity.article.QRestaurant.restaurant;
+import static com.maturi.entity.article.QTagValue.tagValue;
+import static com.maturi.entity.member.QMember.member;
 import static org.springframework.util.StringUtils.hasText;
 
 @Slf4j

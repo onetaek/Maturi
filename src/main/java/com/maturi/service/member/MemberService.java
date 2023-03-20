@@ -1,7 +1,9 @@
 package com.maturi.service.member;
 
+import com.maturi.dto.member.AreaInterDTO;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.member.MemberRepository;
@@ -103,4 +105,16 @@ public class MemberService {
     }
     return nickName;
   }
+
+  public void changeInsertArea(Long memberId, AreaInterDTO areaInterDTO) {
+      Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
+              new IllegalArgumentException("맴버가 없습니다!"));
+      findMember.changeInterArea(modelMapper.map(areaInterDTO, Area.class));
+  }
+
+    public AreaInterDTO selectInterLocation(Long memberId) {
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
+                new IllegalArgumentException("맴버가 없습니다!"));
+        return modelMapper.map(findMember.getArea(), AreaInterDTO.class);
+    }
 }

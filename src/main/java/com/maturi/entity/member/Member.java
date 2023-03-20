@@ -1,5 +1,6 @@
 package com.maturi.entity.member;
 
+import com.maturi.dto.member.AreaInterDTO;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -30,4 +31,8 @@ public class Member {
   private MemberStatus status;
   @Embedded//Area에 @Embeddable이 있으면 생략가능함 -> 쓰는걸 권장
   private Area area;
+
+  public void changeInterArea(Area area) {
+    this.area = area;
+  }
 }

@@ -71,11 +71,13 @@ $(function(){
           $('#sido-popup-list').animate({height:`${sido_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20 }px`},500);
         }
         sido_popup_list.classList.toggle("show");
+
       };
+
+
 
       for(item of sido_popup_dropdown_listItem){
         item.onclick=function(e){
-
           sido_popup_searchCond.innerText = e.target.innerText;
           sido_popup_list.classList.toggle("show");
           console.log("시도 코드 선택!");
@@ -90,6 +92,13 @@ $(function(){
             }
           })
           $('#sido-popup-list').animate({height:`0px`},500);
+
+          let html =`<div id="dong-popup-drop-text" class="popup-dropdown-text">`;
+          html +=      `<span id="dong-popup-search-cond">전체</span>`;
+          html +=      `<i id="dong-popup-icon" class="fa-solid fa-chevron-down"></i>`;
+          html +=   `</div>`;
+          $('#dong_code').html(html);
+
           console.log();
           $.ajax({
             type: "get",
@@ -250,17 +259,17 @@ $(function(){
         e.target.id != "search-cond" &&
         e.target.id != "icon"
     ){
-      // document.getElementById("list").classList.remove("show");
-      // document.getElementById("icon").style.rotate="0deg"
-      // sido_popup_list.classList.remove("show");
-      // sido_popup_icon.style.rotate="0deg"
-      // sigoon_popup_list.classList.remove("show");
-      // sigoon_popup_icon.style.rotate="0deg"
-      // dong_popup_list.classList.remove("show");
-      // dong_popup_icon.style.rotate="0deg"
-      // $('#sido-popup-list').animate({height:`0px`},500);
-      // $('#sigoon-popup-list').animate({height:`0px`},500);
-      // $('#dong-popup-list').animate({height:`0px`},500);
+      document.getElementById("list").classList.remove("show");
+      document.getElementById("icon").style.rotate="0deg"
+      sido_popup_list.classList.remove("show");
+      sido_popup_icon.style.rotate="0deg"
+      sigoon_popup_list.classList.remove("show");
+      sigoon_popup_icon.style.rotate="0deg"
+      dong_popup_list.classList.remove("show");
+      dong_popup_icon.style.rotate="0deg"
+      $('#sido-popup-list').animate({height:`0px`},500);
+      $('#sigoon-popup-list').animate({height:`0px`},500);
+      $('#dong-popup-list').animate({height:`0px`},500);
     }
   }
 

@@ -1,8 +1,10 @@
 package com.maturi.api;
 
-import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.dto.member.AreaInterDTO;
+import com.maturi.repository.member.MemberRepository;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
+import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/member")
 public class MemberAPIController {
+  private final MemberRepository memberRepository;
 
   final private MemberService memberService;
   final private EmailService emailService;
@@ -67,8 +70,21 @@ public class MemberAPIController {
     } else {
       response = ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
     return response;
-
   }
+  @ResponseBody
+  @PatchMapping("/area")
+  public ResponseEntity<AreaInterDTO> changeInterestLocation(@Login Long memberId,
+                                                               @RequestBody AreaInterDTO areaInterDTO){
+    log.info("/api/member/area PATCH요청");
+    memberService.changeInsertArea(memberId,areaInterDTO);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+  @ResponseBody
+  @GetMapping("/area")
+  public ResponseEntity<AreaInterDTO> selectInterestLocation(@Login Long memberId){
+    log.info("/api/member/area GET요청");
+    return ResponseEntity.status(HttpStatus.OK).body(memberService.selectInterLocation(memberId));
+  }
+
 }

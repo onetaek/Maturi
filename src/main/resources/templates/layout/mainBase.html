@@ -59,7 +59,7 @@
         <form name="nsdiSearchForm" id="nsdiSearchForm" action="#" class="form_data" onsubmit="return false;search();">
             <div id="sido_code" name="sido_code" class="popup-dropdown">
                 <div id="sido-popup-drop-text" class="popup-dropdown-text">
-                    <span id="sido-popup-search-cond">전체일까</span>
+                    <span id="sido-popup-search-cond">전체</span>
                     <i id="sido-popup-icon" class="fa-solid fa-chevron-down"></i>
                 </div>
             </div>
@@ -77,6 +77,8 @@
                     <i id="dong-popup-icon" class="fa-solid fa-chevron-down"></i>
                 </div>
             </div>
+
+            <button class="inter-location-btn"><ion-icon name="location"></ion-icon>관심지역으로 등록</button>
         </form>
         <!-- 맵에 해당 지역 찾아서 표시 -->
         <div id="map_wrap">
@@ -132,6 +134,7 @@
 <script src="/js/reviewWriteBtn.js"></script>
 <script src="/js/article/logout.js"></script>
 <script src="/js/popupDropdown.js"></script>
+<script src="/js/article/interLocation.js"></script>
 
 <th:block layout:fragment="scripts"/>
 

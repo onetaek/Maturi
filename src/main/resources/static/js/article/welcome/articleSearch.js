@@ -13,6 +13,7 @@ for(let i = 0 ; i < searchDropdownList.length; i++){
        searchCategoryValue.setAttribute("name",
            searchDropdownList[i].getAttribute("data-keyword-name"));
        searchCategoryValue.setAttribute("value",searchKeyWordInput.value);
+        console.log("제발");
     });
 }
 
@@ -21,6 +22,8 @@ function searchKeyWord(){
     articleSearchForm.method = "GET";
     articleSearchForm.submit();
 }
+
+
 
 //위도 경도 값 가져오기
 function onGeoOk(position){

@@ -1,5 +1,6 @@
 package com.maturi.entity.member;
 
+import com.maturi.dto.member.AreaInterDTO;
 import lombok.Getter;
 
 import javax.persistence.Embeddable;
