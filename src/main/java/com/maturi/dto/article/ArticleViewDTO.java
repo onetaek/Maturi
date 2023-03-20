@@ -1,6 +1,5 @@
 package com.maturi.dto.article;
 
-import com.maturi.entity.article.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

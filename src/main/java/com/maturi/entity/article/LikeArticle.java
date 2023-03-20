@@ -8,7 +8,6 @@ import javax.xml.ws.BindingType;
 
 @Getter
 @ToString
-@Builder
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
