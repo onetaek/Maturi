@@ -35,19 +35,16 @@ $(function(){
     async: false,
     dataType: 'jsonp',
     success: function(data) {
-      let html =`<div id="sido-popup-drop-text" class="popup-dropdown-text">`;
-      html +=      `<span id="sido-popup-search-cond">전체</span>`;
-      html +=      `<i id="sido-popup-icon" class="fa-solid fa-chevron-down"></i>`;
-      html +=   `</div>`;
-      html +=   `<ul id="sido-popup-list" class="popup-dropdown-list">`;
+      let html =  `<div id="sido-popup-drop-text" class="popup-dropdown-text">`
+          +         `<span id="sido-popup-search-cond">전체</span>`
+          +         `<i id="sido-popup-icon" class="fa-solid fa-chevron-down"></i>`
+          +       `</div>`
+          +       `<ul id="sido-popup-list" class="popup-dropdown-list">`;
 
       data.response.result.featureCollection.features.forEach(function(f){
         let 행정구역코드 = f.properties.ctprvn_cd;
         let 행정구역명 = f.properties.ctp_kor_nm;
-        // html +=`<option value="${행정구역코드}">${행정구역명}(${행정구역코드})</option>`
-        // html +=`<option value="${행정구역코드}">${행정구역명}</option>`
         html += `<li class="popup-dropdown-list-item" data-location="${행정구역코드}">${행정구역명}</li>`;
-
       })
       html += `</ul>`;
       $('#sido_code').html(html);
@@ -57,7 +54,6 @@ $(function(){
       sido_popup_icon = document.getElementById("sido-popup-icon");
       sido_popup_searchCond = document.getElementById("sido-popup-search-cond");
       sido_popup_dropdown_listItem = document.querySelectorAll("#sido-popup-list>.popup-dropdown-list-item")
-
 
       /**
        * sido관련 이벤트 처리

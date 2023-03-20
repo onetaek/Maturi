@@ -27,8 +27,7 @@ public class Article {
   private Restaurant restaurant;
   @Column(length = 10000)
   private String content;
-  @Embedded
-  private UploadFile uploadFile; // 이미지 여러개 업로드 가능
+  private String images; // 이미지 여러개 업로드 가능
   @OneToMany(mappedBy = "article")
   private List<TagValue> tagValue;
   @CreatedDate
