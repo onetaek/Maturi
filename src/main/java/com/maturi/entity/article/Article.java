@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article {
+public class Article extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -25,15 +25,15 @@ public class Article {
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
-  @Column(length = 10000)
+  @Column(columnDefinition = "TEXT")
   private String content;
-  private String images; // 이미지 여러개 업로드 가능
+  @Column(columnDefinition = "TEXT")
+  private String image; // 이미지 여러개 업로드 가능
+  @Embedded
+  private UploadFile uploadFile; // 이미지 여러개 업로드 가능
   @OneToMany(mappedBy = "article")
   private List<TagValue> tagValue;
-  @CreatedDate
-  private LocalDate writtenAt;
-  @LastModifiedDate
-  private LocalDate updatedAt;
+
   @Enumerated(EnumType.STRING)
   private ArticleStatus status;
 }

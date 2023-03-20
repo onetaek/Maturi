@@ -80,3 +80,32 @@ bImg.addEventListener("mousemove", function(e){ // 클링중
     }
   }
 });
+
+/* 좋아요 클릭 */
+const articleWrap = document.getElementById("articleWrap");
+const likeAndTag = document.querySelector("#articleWrap .likeAndTag");
+const likeBtn = likeAndTag.querySelector(".likeBtn");
+const likeNum = likeAndTag.querySelector(".likeNum");
+likeBtn.addEventListener("click", ()=>{
+  const xhr = new XMLHttpRequest();
+
+  if(likeBtn.getAttribute("class").includes("isLikedArticle")){ // 좋아요 누른 상태
+
+  } else {
+    const url = "/api/article/like/" + articleWrap.dataset.articleid;
+    fetch(url, {
+      method: "post",
+      body: JSON.stringify({
+        articleId: articleWrap.dataset.articleid
+      }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    }).then(response => {
+      // http 응답 코드에 따른 메세지
+      if(response.ok){
+        likeBtn.classList.add("isLikedArticle");
+      }
+    })
+  }
+});
