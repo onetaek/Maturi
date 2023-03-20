@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 
 @Slf4j
@@ -46,7 +47,7 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-    public String write(@Login Long memberId,ArticleDTO articleDTO, Model model){
+    public String write(@Login Long memberId,ArticleDTO articleDTO, Model model) throws IOException {
         log.info("articleDTO={}",articleDTO);
         Long articleId = articleService.write(memberId, articleDTO);
         log.info("articleId={}",articleId);

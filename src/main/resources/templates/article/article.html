@@ -35,7 +35,7 @@
               <span class="likeBtn" th:unless="${isLikedArticle}">좋아요</span>
               <span class="likeNum" th:text="${article.like}">20</span>
             </span>
-            <span><a href="#" th:each="tag: ${article.tags}" th:text="${tag}">#태그1</a></span>
+            <a href="#" th:each="tag: ${article.tags}" th:text="${tag}">#태그1</a>
         </div>
         <!--     리뷰글 더보기 버튼 -->
         <div class="ellipsis-btn-wrap">

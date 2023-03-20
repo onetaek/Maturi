@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -14,7 +17,7 @@ public class ArticleDTO {
     private String content;
     private String tags;
     //나중에추가
-    private String image;
+    private List<MultipartFile> image;
 
     private String name; // 음식점 이름
     private String category;
