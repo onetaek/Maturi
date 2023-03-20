@@ -28,7 +28,7 @@ public class Article extends BaseTimeEntity {
   private Restaurant restaurant;
   @Column(columnDefinition = "TEXT")
   private String content;
-  @Column(columnDefinition = "TEXT")
+  @Column(columnDefinition = "TEXT", nullable = false)
   private String image; // 이미지 여러개 업로드 가능
   @OneToMany(mappedBy = "article")
   private List<TagValue> tagValue;

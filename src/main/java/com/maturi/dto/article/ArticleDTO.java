@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ import java.util.List;
 public class ArticleDTO {
     private String content;
     private String tags;
-    //나중에추가
+    @NotBlank
     private List<MultipartFile> image;
 
     private String name; // 음식점 이름

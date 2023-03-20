@@ -17,7 +17,7 @@ public class ArticleViewDTO {
   // 기본 article 정보
   private Long id;
   private String content;
-  private String image; // 아직 작업x
+  private List<String> image; // 아직 작업x
   private LocalDateTime modifiedDate; // 마지막 업데이트 날짜
   // 글 작성자 정보
   private String name;
