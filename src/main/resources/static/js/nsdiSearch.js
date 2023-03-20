@@ -250,17 +250,17 @@ $(function(){
         e.target.id != "search-cond" &&
         e.target.id != "icon"
     ){
-      document.getElementById("list").classList.remove("show");
-      document.getElementById("icon").style.rotate="0deg"
-      sido_popup_list.classList.remove("show");
-      sido_popup_icon.style.rotate="0deg"
-      sigoon_popup_list.classList.remove("show");
-      sigoon_popup_icon.style.rotate="0deg"
-      dong_popup_list.classList.remove("show");
-      dong_popup_icon.style.rotate="0deg"
-      $('#sido-popup-list').animate({height:`0px`},500);
-      $('#sigoon-popup-list').animate({height:`0px`},500);
-      $('#dong-popup-list').animate({height:`0px`},500);
+      // document.getElementById("list").classList.remove("show");
+      // document.getElementById("icon").style.rotate="0deg"
+      // sido_popup_list.classList.remove("show");
+      // sido_popup_icon.style.rotate="0deg"
+      // sigoon_popup_list.classList.remove("show");
+      // sigoon_popup_icon.style.rotate="0deg"
+      // dong_popup_list.classList.remove("show");
+      // dong_popup_icon.style.rotate="0deg"
+      // $('#sido-popup-list').animate({height:`0px`},500);
+      // $('#sigoon-popup-list').animate({height:`0px`},500);
+      // $('#dong-popup-list').animate({height:`0px`},500);
     }
   }
 
