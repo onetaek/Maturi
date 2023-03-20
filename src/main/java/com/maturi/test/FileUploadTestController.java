@@ -1,16 +1,11 @@
 package com.maturi.test;
 
-import com.maturi.entity.article.UploadFile;
-import com.maturi.test.MemoryArticleRepository;
-import com.maturi.test.TestArticle;
-import com.maturi.test.TestArticleDTO;
 import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +51,9 @@ public class FileUploadTestController {
                              RedirectAttributes redirectAttributes) throws IOException {
 
         //application.properties에서 지정한 file.dir 경로에 파일이 저장됨
-        List<UploadFile> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles());
+        List<String> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles());
+
+        String images= "!!!!";
 
         //메모리에 저장(실제로 구현할때는 이 로직을 파일명 문자열로 바꾸고나서 Entity에 맞게 바꿔주고 여차저차 해야함
         TestArticle testArticle = new TestArticle();

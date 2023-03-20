@@ -1,6 +1,5 @@
 package com.maturi.util;
 
-import com.maturi.entity.article.UploadFile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,8 +21,8 @@ public class FileStore {
     }
 
     //여러 파일을 저장하는 메서드, storeFile()메서드를 반복해서 부르는 식으로 여러 파일을 저장함
-    public List<UploadFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
-        List<UploadFile> storeFileResult = new ArrayList<>();
+    public List<String> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+        List<String> storeFileResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 storeFileResult.add(storeFile(multipartFile));
@@ -33,7 +32,7 @@ public class FileStore {
     }
 
     //파일 하나를 저장하는 메서드, new File을 통해 실제 폴더에 파일을 저장하는 로직이 있음
-    public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
+    public String storeFile(MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
         }
@@ -42,10 +41,7 @@ public class FileStore {
         String storeFileName = createStoreFileName(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
 
-        return UploadFile.builder()
-                .uploadFileName(originalFilename)
-                .storeFileName(storeFileName)
-                .build();
+        return storeFileName;
     }
 
     // 랜덤UUID.확장자명의 형식으로 값을 반환함

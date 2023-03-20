@@ -1,7 +1,6 @@
 package com.maturi.controller;
 
 import com.maturi.dto.member.MemberLoginDTO;
-import com.maturi.entity.article.UploadFile;
 import com.maturi.test.TestArticle;
 import com.maturi.util.FileStore;
 import lombok.Data;
@@ -61,4 +60,8 @@ public class TestController {
     public String popupDropdownTest(){
         return "/popup_dropdown_test";
     }
+//    @GetMapping("/popup/show")
+//    public String popupShow(){
+//        return "/"
+//    }
 }

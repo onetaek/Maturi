@@ -74,19 +74,19 @@ class ArticleServiceTest {
                 .build();
         em.persist(restaurant1);
 
-        UploadFile uploadFile = UploadFile.builder()
-                .uploadFileName("이미지1.png,이미지2.png")
-                .storeFileName("13214124.ppng,dsa42132.png")
-                .build();
-
-        Article article1 = Article.builder()
-                .member(member1)
-                .restaurant(restaurant1)
-                .content("리뷰글의 내용")
-                .uploadFile(uploadFile)
-                .status(ArticleStatus.NORMAL)
-                .build();
-        em.persist(article1);
+//        UploadFile uploadFile = UploadFile.builder()
+//                .uploadFileName("이미지1.png,이미지2.png")
+//                .storeFileName("13214124.ppng,dsa42132.png")
+//                .build();
+//
+//        Article article1 = Article.builder()
+//                .member(member1)
+//                .restaurant(restaurant1)
+//                .content("리뷰글의 내용")
+//                .uploadFile(uploadFile)
+//                .status(ArticleStatus.NORMAL)
+//                .build();
+//        em.persist(article1);
 
         List<Article> findArticles = articleRepository.findAll();
         log.info("findArticles = {}",findArticles);
@@ -100,11 +100,11 @@ class ArticleServiceTest {
         em.persist(tag1);
         em.persist(tag2);
 
-        TagValue tagValue1 = TagValue.builder()
-                .tag(tag1)
-                .article(article1)
-                .build();
-        em.persist(tagValue1);
+//        TagValue tagValue1 = TagValue.builder()
+//                .tag(tag1)
+//                .article(article1)
+//                .build();
+//        em.persist(tagValue1);
 
         em.flush();
         em.clear();
