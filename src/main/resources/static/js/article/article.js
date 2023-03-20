@@ -80,25 +80,22 @@ const likeAndTag = document.querySelector("#articleWrap .likeAndTag");
 const likeBtn = likeAndTag.querySelector(".likeBtn");
 const likeNum = likeAndTag.querySelector(".likeNum");
 likeBtn.addEventListener("click", ()=>{
-  const xhr = new XMLHttpRequest();
-
-  if(likeBtn.getAttribute("class").includes("isLikedArticle")){ // 좋아요 누른 상태
-
-  } else {
-    const url = "/api/article/like/" + articleWrap.dataset.articleid;
-    fetch(url, {
-      method: "post",
-      body: JSON.stringify({
-        articleId: articleWrap.dataset.articleid
-      }),
-      headers: {
-        "Content-type": "application/json"
-      }
-    }).then(response => {
-      // http 응답 코드에 따른 메세지
-      if(response.ok){
-        likeBtn.classList.add("isLikedArticle");
-      }
-    })
-  }
+  const url = "/api/article/likeOrUnlike/" + articleWrap.dataset.articleid;
+  fetch(url, {
+    method: "post",
+    body: JSON.stringify({
+      articleId: articleWrap.dataset.articleid
+    }),
+    headers: {
+      "Content-type": "application/json"
+    }
+  }).then((response) => response.json())
+    .then((data) => {
+    if(data.isLiked == 1){ // 좋아요!
+      likeBtn.classList.add("isLikedArticle");
+    } else { // 좋아요 취소!
+      likeBtn.classList.remove("isLikedArticle");
+    }
+    likeNum.innerText = data.likeNum;
+  })
 });

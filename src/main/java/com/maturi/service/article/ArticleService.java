@@ -12,12 +12,14 @@ import com.maturi.repository.article.TagValueRepository;
 import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.article.RestaurantRepository;
 import com.maturi.repository.member.MemberRepository;
+import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +36,13 @@ public class ArticleService {
     final private TagRepository tagRepository;
     final private TagValueRepository tagValueRepository;
     final private LikeArticleRepository likeArticleRepository;
+    final private FileStore fileStore;
 
     public MemberDTO memberInfo(Long memberId) {
         return modelMapper.map(memberRepository.findById(memberId).orElse(null), MemberDTO.class);
     }
 
-    public Long write(Long memberId, ArticleDTO articleDTO) {
+    public Long write(Long memberId, ArticleDTO articleDTO) throws IOException {
 
         Member findMember = memberRepository.findById(memberId).orElse(null);
 
@@ -58,12 +61,19 @@ public class ArticleService {
         Restaurant findRestaurant = restaurantRepository.save(restaurant);
 
         //파일 업로드 로직 필요
+        List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage());
+        log.info("storeImageFiles = {}", storeImageFiles);
+        String images = "";
+        for(String img : storeImageFiles){
+            images += img + ",";
+        }
+        log.info("image = " , images);
 
         Article article = Article.builder()
                 .member(findMember)
                 .restaurant(findRestaurant)
                 .content(articleDTO.getContent())
-                .image(articleDTO.getImage())
+//                .image(articleDTO.getImage())
                 .status(ArticleStatus.NORMAL)
                 .build();
 
@@ -140,7 +150,7 @@ public class ArticleService {
         return likeArticle != null;
     }
 
-    public int likeOrUnlike(Long memberId, Long articleId) {
+    public boolean likeOrUnlike(Long memberId, Long articleId) {
         LikeArticle findLikeArticle = likeArticleRepository.findByArticleIdAndMemberId(articleId, memberId);
 
         if(findLikeArticle == null){ // 좋아요 안한 상태
@@ -149,12 +159,13 @@ public class ArticleService {
                     .member(memberRepository.findById(memberId).orElse(null))
                     .build();
             findLikeArticle = likeArticleRepository.save(likeArticle);
+            return true;
         } else { // 이미 좋아요 한 상태
             likeArticleRepository.delete(findLikeArticle);
+            return false;
         }
-
-        int likeNum = likeArticleRepository.countByArticleId(articleId);
-
-        return likeNum;
+    }
+    public int likeNumByArticle(Long articleId){
+        return likeArticleRepository.countByArticleId(articleId);
     }
 }

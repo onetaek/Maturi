@@ -17,4 +17,5 @@ function myLocalSearch(){
 }
 document.getElementById("my-local").addEventListener("click", ()=>{
   myLocalSearch();
+  console.log("myLatitude = " + myLatitude + ", mylongitude = " + mylongitude);
 })

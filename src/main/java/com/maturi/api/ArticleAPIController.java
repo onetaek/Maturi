@@ -4,8 +4,6 @@ import com.maturi.service.article.ArticleService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +19,23 @@ import java.util.Map;
 public class ArticleAPIController {
   final private ArticleService articleService;
 
-  @PostMapping("/like/{id}")
-  public ResponseEntity<Map<String, Integer>> like(@Login Long memberId,
+  @PostMapping("/likeOrUnlike/{id}")
+  public ResponseEntity likeOrUnlike(@Login Long memberId,
                                                    @PathVariable Long id) throws ParseException {
-    int likeNum = articleService.likeOrUnlike(memberId, id);
+//    ResponseEntity
+//    int likeNum = articleService.likeOrUnlike(memberId, id);
+
+    int isLiked = // 좋아요 상태가 됨 -> 1
+            articleService.likeOrUnlike(memberId, id)?
+            1 : 0;
+//    boolean isLiked = articleService.likeOrUnlike(memberId, id);
+    int likeNum = articleService.likeNumByArticle(id);
 
     Map<String, Integer> result = new HashMap<>();
+    result.put("isLiked", isLiked);
     result.put("likeNum", likeNum);
-    return ResponseEntity.status(HttpStatus.OK).body(result);
+
+    return new ResponseEntity(result, HttpStatus.OK);
   }
 }
+
