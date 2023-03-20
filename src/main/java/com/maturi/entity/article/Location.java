@@ -1,12 +1,10 @@
 package com.maturi.entity.article;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 @Builder
+@Getter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor

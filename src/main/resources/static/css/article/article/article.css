@@ -83,6 +83,9 @@
     background: url("/img/button/loveBtn.png") no-repeat center / contain;
     cursor: pointer;
 }
+.likeAndTag .likeWrap .isLikedArticle{
+    background: url("/img/button/loveBtn_Fill.png") no-repeat center / contain;
+}
 .likeAndTag .likeWrap .likeNum {
     font-size: 10px;
 }

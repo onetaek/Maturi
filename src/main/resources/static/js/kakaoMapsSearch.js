@@ -1,3 +1,9 @@
+$('input[type="text"]').keydown(function() {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  };
+});
+
 
 const rInfoWrap = document.getElementById("rInfoWrap");
 const rInfoWrapUl = rInfoWrap.querySelector("ul");
@@ -29,14 +35,22 @@ var ps = new kakao.maps.services.Places();
 var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
 // 키워드로 장소를 검색합니다
-searchPlaces();
+document.searchRestaurant.keyword.addEventListener("keyup", ()=>{
+  if( window.event.keyCode === 13){
+    searchPlaces();
+  }
+})
+document.searchRestaurant.searchKeyword.addEventListener("click", ()=>{
+  searchPlaces();
+})
 // 	sidoName sigoonName dongName
 
 // 키워드 검색을 요청하는 함수입니다
 function searchPlaces() {
 
-  let keyword = sidoName + sigoonName + dongName + document.getElementById('keyword').value;
-
+  let keyword = sidoName + " " + sigoonName + " " + dongName + " "
+                + document.getElementById('keyword').value;
+  console.log("keyword = " + keyword);
   if (!keyword.replace(/^\s+|\s+$/g, '')) {
     alert('키워드를 입력해주세요!');
     return false;

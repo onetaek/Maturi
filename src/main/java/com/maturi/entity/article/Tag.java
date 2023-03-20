@@ -9,6 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
+@Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

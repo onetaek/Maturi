@@ -15,8 +15,9 @@ public class Restaurant {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @Enumerated(EnumType.STRING)
-  private Category category;
+//  @Enumerated(EnumType.STRING)
+//  private Category category;
+  private String category;
   @Embedded//Location에 @Embeddable이 있으면 생략가능함 -> 쓰는걸 권장
   private Location location;
 }

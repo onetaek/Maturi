@@ -1,5 +1,9 @@
-let a_latitude = 35.8661154915473; // 음식점 위도
-let a_longitude = 128.593834750412; // 음식점 경도
+// let a_latitude = 35.8661154915473; // 음식점 위도
+// let a_longitude = 128.593834750412; // 음식점 경도
+const articleMap = document.getElementById("articleMap");
+let a_latitude = articleMap.dataset.lat;
+let a_longitude = articleMap.dataset.long;
+
 
 var a_mapContainer = document.getElementById('articleMap'), // 지도를 표시할 div
   a_mapOption = {

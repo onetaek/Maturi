@@ -50,9 +50,16 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{articleId}")
-    public String articlePage(@PathVariable Long articleId){
+    public String articlePage(@Login Long memberId,
+                              @PathVariable Long articleId,
+                              Model model){
         log.info("articleId={}",articleId);
+        model.addAttribute("article", articleService.articleInfo(articleId));
+        model.addAttribute("restaurant", articleService.restaurantByArticle(articleId));
+        model.addAttribute("member", articleService.memberInfo(memberId));
+        model.addAttribute("isLikedArticle", articleService.isLikedArticle(articleId, memberId));
         return "/article/article";
     }
+
 
 }

@@ -1,5 +1,6 @@
 package com.maturi.entity.article;
 
+import com.maturi.entity.BaseTimeEntity;
 import com.maturi.entity.member.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Article {
+public class Article extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -22,16 +23,16 @@ public class Article {
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
   private Restaurant restaurant;
-  @Column(length = 10000)
+  @Column(columnDefinition = "TEXT")
   private String content;
-  @Column(length = 10000)
+  @Column(columnDefinition = "TEXT")
   private String image; // 이미지 여러개 업로드 가능
   @Embedded
   private UploadFile uploadFile; // 이미지 여러개 업로드 가능
-  @CreatedDate
-  private LocalDate writtenAt;
-  @LastModifiedDate
-  private LocalDate updatedAt;
+//  @CreatedDate
+//  private LocalDate writtenAt;
+//  @LastModifiedDate
+//  private LocalDate updatedAt;
   @Enumerated(EnumType.STRING)
   private ArticleStatus status;
 }
