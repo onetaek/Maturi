@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -64,17 +65,18 @@ public class ArticleService {
         //파일 업로드 로직 필요
         List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage());
         log.info("storeImageFiles = {}", storeImageFiles);
+        log.info("index = " + storeImageFiles.size());
         String images = "";
         for(String img : storeImageFiles){
-            images += img + ",";
+            images += (img + ",");
         }
-        log.info("image = " , images);
+        log.info("image = " + images);
 
         Article article = Article.builder()
                 .member(findMember)
                 .restaurant(findRestaurant)
                 .content(articleDTO.getContent())
-//                .image(articleDTO.getImage())
+                .image(images)
                 .status(ArticleStatus.NORMAL)
                 .build();
 
@@ -116,7 +118,7 @@ public class ArticleService {
         ArticleViewDTO articleViewDTO = ArticleViewDTO.builder()
                 .id(articleId)
                 .content(article.getContent())
-//                .image(null)
+                .image(Arrays.asList(article.getImage().split(",")))
                 .modifiedDate(article.getModifiedDate())
                 .name(article.getMember().getName())
                 .profileImg(article.getMember().getProfileImg())
