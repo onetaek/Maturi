@@ -6,11 +6,7 @@ import com.maturi.dto.article.RestaurantDTO;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Member;
-import com.maturi.repository.article.LikeArticleRepository;
-import com.maturi.repository.article.TagRepository;
-import com.maturi.repository.article.TagValueRepository;
-import com.maturi.repository.article.ArticleRepository;
-import com.maturi.repository.article.RestaurantRepository;
+import com.maturi.repository.article.*;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +19,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class ArticleService {
+    private final CommentRepository commentRepository;
 
     final private ModelMapper modelMapper;
     final private MemberRepository memberRepository;
@@ -178,5 +176,25 @@ public class ArticleService {
         Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
         log.info("findArticle = {}", findArticle);
         return findArticle != null;
+    }
+
+    public String delete(Long memberId, Long articleId) {
+        /* 게시글 삭제 */
+        String msg = null;
+
+        // 조건 : id + NORMAL
+        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+
+        if(findArticle == null){
+            msg = "게시글 삭제 실패! 해당 게시물을 찾을 수 없습니다!";
+        } else if(!Objects.equals(findArticle.getMember().getId(), memberId)){
+            msg = "게시글 삭제 실패! 게시글 작성자가 아닙니다!";
+        } else { // 게시글 삭제 성공
+            findArticle.changeStatus(ArticleStatus.DELETE);
+            articleRepository.save(findArticle);
+            msg = "게시글을 삭제하였습니다.";
+        }
+
+        return msg;
     }
 }

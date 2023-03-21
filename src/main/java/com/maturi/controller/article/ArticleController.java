@@ -84,8 +84,8 @@ public class ArticleController {
 
         boolean status = articleService.articleStatusNormal(articleId);
         if(!status){
-            model.addAttribute("errorMessage","해당 게시글을 찾을 수 없습니다.");
-            return "/error/4xx";
+            model.addAttribute("alertMessage","해당 게시글을 찾을 수 없습니다.");
+            return "/layout/message";
         }
 
         model.addAttribute("article", articleService.articleInfo(articleId));
@@ -96,5 +96,16 @@ public class ArticleController {
         return "/article/article";
     }
 
+    @DeleteMapping("/article/{articleId}")
+    public String delete(@Login Long memberId,
+                         @PathVariable Long articleId,
+                         Model model){
+        log.info("article delete method start!!");
 
+        String msg = articleService.delete(memberId, articleId);
+
+        model.addAttribute("alertMessage", msg);
+
+        return "/layout/message";
+    }
 }

@@ -131,9 +131,10 @@ public class CommentService {
     } else if(!Objects.equals(findComment.getMember().getId(), memberId)){
       msg = "댓글 삭제 실패! 댓글 작성자가 아닙니다!";
       new IllegalArgumentException(msg);
+    } else { // 댓글 삭제 성공
+      findComment.changeStatus(CommentStatus.DELETE); // 댓글의 status delete로 수정
+      commentRepository.save(findComment); // db update
     }
-    findComment.changeStatus(CommentStatus.DELETE); // 댓글의 status delete로 수정
-    commentRepository.save(findComment); // db update
 
     return msg; // 정삭 작동 -> null
   }

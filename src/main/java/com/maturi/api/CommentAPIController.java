@@ -62,7 +62,6 @@ public class CommentAPIController {
   public ResponseEntity<String> modify(@Login Long memberId,
                                        @PathVariable Long id,
                                        @RequestBody String json) throws ParseException {
-    log.info("comment patch start!!");
     // parse
     JSONParser jsonParser = new JSONParser();
     JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
