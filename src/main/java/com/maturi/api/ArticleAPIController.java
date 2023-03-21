@@ -21,7 +21,7 @@ public class ArticleAPIController {
 
   @PostMapping("/likeOrUnlike/{id}")
   public ResponseEntity likeOrUnlike(@Login Long memberId,
-                                                   @PathVariable Long id) throws ParseException {
+                                     @PathVariable Long id) throws ParseException {
 //    ResponseEntity
 //    int likeNum = articleService.likeOrUnlike(memberId, id);
 
@@ -29,7 +29,7 @@ public class ArticleAPIController {
             articleService.likeOrUnlike(memberId, id)?
             1 : 0;
 //    boolean isLiked = articleService.likeOrUnlike(memberId, id);
-    int likeNum = articleService.likeNumByArticle(id);
+    int likeNum = articleService.likeNum(id);
 
     Map<String, Integer> result = new HashMap<>();
     result.put("isLiked", isLiked);

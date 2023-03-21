@@ -18,7 +18,7 @@
 #commentFrm .commentSubmitBtn {
     position: absolute;
     top: 50%; transform: translateY(-50%); right: 3%;
-    background-color: var(--search-btn-background);
+    background-color: var(--hot-pink-color);
     color: var(--search-btn-color);
     border-radius: 5px;
     padding: 5px 10px;
@@ -126,31 +126,8 @@
     display: flex; gap: 10px;
 }
 
-/* 더보기 버튼 */
-.commentBox .memberInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.commentBox .cMemberBtn > * {
-    position: absolute;
-}
-.commentBox .cMemberBtn > span {
-    display: block;
-    width: 20px; height: 20px;
-    top: 10px; right: 0;
-    text-indent: -9999px;
-    background: url('/img/button/memberBtn.png') no-repeat top center / contain;
-    cursor: pointer;
-}
-.commentBox .cMemberBtn > ul {
-    display: none;
-    padding: 10px;
-    top: 10px; right: 20px;
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 5px;
-    z-index: 2;
+#commentWrap .ellipsis-btn-wrap .ellipsis-btn {
+    font-size:  20px;
 }
 
 /* 좋아요 */
@@ -167,6 +144,9 @@
     text-indent: -9999px;
     background: url("/img/button/loveBtn.png") no-repeat center / contain;
     cursor: pointer;
+}
+.commentBox .likeWrap .isLikedArticle{
+    background: url("/img/button/loveBtn_Fill.png") no-repeat center / contain;
 }
 .commentBox .likeWrap .likeNum {
     font-size: 12px;

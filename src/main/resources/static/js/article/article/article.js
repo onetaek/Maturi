@@ -83,9 +83,6 @@ likeBtn.addEventListener("click", ()=>{
   const url = "/api/article/likeOrUnlike/" + articleWrap.dataset.articleid;
   fetch(url, {
     method: "post",
-    body: JSON.stringify({
-      articleId: articleWrap.dataset.articleid
-    }),
     headers: {
       "Content-type": "application/json"
     }
@@ -99,3 +96,10 @@ likeBtn.addEventListener("click", ()=>{
     likeNum.innerText = data.likeNum;
   })
 });
+
+/* 게시글 삭제 */
+const deleteForm = document.deleteForm;
+const deleteBtn = document.querySelector(".deleteArticle");
+deleteBtn.addEventListener("click", ()=>{
+  deleteForm.submit();
+})
