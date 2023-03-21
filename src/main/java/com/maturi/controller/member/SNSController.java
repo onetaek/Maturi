@@ -218,7 +218,6 @@ public class SNSController {
             br.close();
             if(responseCode==200) {
                 log.info("naver에서 제공 토큰 정보 = {}",res.toString());
-
                 // jackson objectmapper 객체 생성
                 ObjectMapper objectMapper = new ObjectMapper();
                 // JSON String -> Map

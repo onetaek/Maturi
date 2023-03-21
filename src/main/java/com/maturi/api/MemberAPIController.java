@@ -87,4 +87,12 @@ public class MemberAPIController {
     return ResponseEntity.status(HttpStatus.OK).body(memberService.selectInterLocation(memberId));
   }
 
+  @ResponseBody
+  @DeleteMapping("/area")
+  public ResponseEntity<AreaInterDTO> deleteInterestLocation(@Login Long memberId){
+    log.info("/api/member/area DELETE요청");
+    memberService.removeArea(memberId);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
 }

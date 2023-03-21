@@ -115,6 +115,16 @@ public class MemberService {
     public AreaInterDTO selectInterLocation(Long memberId) {
         Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
                 new IllegalArgumentException("맴버가 없습니다!"));
-        return modelMapper.map(findMember.getArea(), AreaInterDTO.class);
+        if(findMember.getArea() == null){
+            return null;
+        }else{
+            return modelMapper.map(findMember.getArea(), AreaInterDTO.class);
+        }
+    }
+
+    public void removeArea(Long memberId) {
+        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
+                new IllegalArgumentException("맴버가 없습니다!"));
+        findMember.removeArea();
     }
 }
