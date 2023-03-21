@@ -26,8 +26,6 @@ categoryDropListItems.forEach((item)=>{
             categoryLabel.innerText = item.innerText;
             $("#category").prop("checked",true);
        }
-       document.querySelector('input[name="latitude"]').value = null;
-       document.querySelector('input[name="longitude"]').value = null;
        categoryDropList.style.height=0;
    });
 });

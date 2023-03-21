@@ -1,8 +1,6 @@
 package com.maturi.service.article;
 
-import com.maturi.dto.article.ArticleDTO;
-import com.maturi.dto.article.ArticleViewDTO;
-import com.maturi.dto.article.RestaurantDTO;
+import com.maturi.dto.article.*;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Member;
@@ -16,6 +14,8 @@ import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -170,5 +170,13 @@ public class ArticleService {
     }
     public int likeNumByArticle(Long articleId){
         return likeArticleRepository.countByArticleId(articleId);
+    }
+
+
+    public Page<ArticleSearchResponse> articleSearch(ArticleSearchRequest articleSearchRequest, Pageable pageable) {
+
+
+
+        return null;
     }
 }

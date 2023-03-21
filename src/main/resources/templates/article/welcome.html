@@ -89,20 +89,21 @@
                         <i id="icon" class="fa-solid fa-chevron-down"></i>
                     </div>
                     <ul id="list" class="dropdown-list">
-                        <li class="dropdown-list-item" data-keyword-name="all">전체</li>
-                        <li class="dropdown-list-item" data-keyword-name="content" >글 내용</li>
-                        <li class="dropdown-list-item" data-keyword-name="writer" >작성자</li>
-                        <li class="dropdown-list-item" data-keyword-name="tag">해시태그</li>
-                        <li class="dropdown-list-item" data-keyword-name="restaurantName">가게명</li>
+                        <li class="dropdown-list-item" data-name="all">전체</li>
+                        <li class="dropdown-list-item" data-name="content">글 내용</li>
+                        <li class="dropdown-list-item" data-name="writer">작성자</li>
+                        <li class="dropdown-list-item" data-name="tag">해시태그</li>
+                        <li class="dropdown-list-item" data-name="restaurantName">가게명</li>
                     </ul>
                 </div>
-                <input type="text" name="keyword" class="search-input" placeholder="아무 조건으로 검색하기...">
+                <input type="text" name="keywordValue" class="search-input" placeholder="아무 조건으로 검색하기...">
                 <button id="main-search-btn" class="search-button"  type="button">
                     <ion-icon name="search"></ion-icon>
                 </button>
             </div>
 
-            <input type="hidden" class="search-category-value"><!--name과 value를 동적으로 처리-->
+            <input type="hidden" name="" value="" class="search-category-value"><!--name과 value를 동적으로 처리-->
+            <input type="hidden" name="keywordName" value="all">
             <input type="hidden" name="latitude">
             <input type="hidden" name="longitude">
             <input type="hidden" name="category">

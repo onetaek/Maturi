@@ -3,17 +3,17 @@ package com.maturi.controller.article;
 import com.maturi.dto.article.ArticleDTO;
 import com.maturi.dto.article.ArticleSearchRequest;
 import com.maturi.dto.article.RestaurantDTO;
+import com.maturi.dto.article.ArticleSearchResponse;
 import com.maturi.service.article.ArticleService;
 import com.maturi.util.argumentresolver.Login;
-import com.maturi.util.constfield.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -41,11 +41,18 @@ public class ArticleController {
     @GetMapping("/articleList")//전체페이지 작업중에 에러뜨면 누나 글쓰기 페이지 못가니까 따로 작업중
     public String articleListPage(@Login Long memberId,
                                @ModelAttribute ArticleSearchRequest articleSearchRequest,
+                               @RequestParam String keywordName,
+                               @RequestParam String keywordValue,
+                               Pageable pageable,
                                Model model){
-
         log.info("articleSearchRequest={}",articleSearchRequest);
-        log.info("findMember = {}",articleService.memberInfo(memberId));
-        model.addAttribute("member", articleService.memberInfo(memberId));
+        Page<ArticleSearchResponse> articleSearchResponsePage = articleService.articleSearch(articleSearchRequest,pageable);
+
+
+
+
+
+        model.addAttribute("member", articleService.memberInfo(memberId));//MemberDTO
         return "/article/welcome";
     }
 

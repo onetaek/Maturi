@@ -1,10 +1,13 @@
 package com.maturi.entity.member;
 
 import com.maturi.dto.member.AreaInterDTO;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
 @Embeddable
 public class Area {
