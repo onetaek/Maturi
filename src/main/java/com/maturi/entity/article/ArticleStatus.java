@@ -1,5 +1,7 @@
 package com.maturi.entity.article;
 
 public enum ArticleStatus {
-    NORMAL
+    NORMAL,
+    DELETE,
+    REPORT
 }

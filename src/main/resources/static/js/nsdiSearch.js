@@ -60,6 +60,8 @@ $(function(){
        */
       sido_popup_dropdownBtn.onclick = function(){
         console.log("sido_popup_dropdownBtn 클릭!");
+        sigoonName = "";
+        dongName = "";
         if(sido_popup_list.classList.contains('show')){
           sido_popup_icon.style.rotate="0deg"
           $('#sido-popup-list').animate({height:`0px`},500);
@@ -134,6 +136,7 @@ $(function(){
                * sigoon 관련 이벤트 처리
                */
               sigoon_popup_dropdownBtn.onclick = function(){
+                dongName = "";
                 if(sigoon_popup_list.classList.contains('show')){
                   sigoon_popup_icon.style.rotate="0deg"
                   $('#sigoon-popup-list').animate({height:`0px`},500);

@@ -2,17 +2,17 @@ package com.maturi.controller.article;
 
 import com.maturi.dto.article.ArticleDTO;
 import com.maturi.dto.article.RestaurantDTO;
+import com.maturi.entity.article.ArticleStatus;
 import com.maturi.service.article.ArticleService;
+import com.maturi.service.article.CommentService;
 import com.maturi.util.argumentresolver.Login;
-import com.maturi.util.constfield.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -22,6 +22,7 @@ import java.io.IOException;
 public class ArticleController {
 
     final private ArticleService articleService;
+    final private CommentService commentService;
 
     @GetMapping("/articles")
     public String articlesPage(@Login Long memberId,
@@ -76,11 +77,22 @@ public class ArticleController {
     public String articlePage(@Login Long memberId,
                               @PathVariable Long articleId,
                               Model model){
+        // 로그인 멤버 정보
+        model.addAttribute("member", articleService.memberInfo(memberId));
+
         log.info("articleId={}",articleId);
+
+        boolean status = articleService.articleStatusNormal(articleId);
+        if(!status){
+            model.addAttribute("errorMessage","해당 게시글을 찾을 수 없습니다.");
+            return "/error/4xx";
+        }
+
         model.addAttribute("article", articleService.articleInfo(articleId));
         model.addAttribute("restaurant", articleService.restaurantByArticle(articleId));
-        model.addAttribute("member", articleService.memberInfo(memberId));
         model.addAttribute("isLikedArticle", articleService.isLikedArticle(articleId, memberId));
+        model.addAttribute("comments", commentService.articleComment(memberId, articleId));
+//        model.addAttribute("isLikedComment")
         return "/article/article";
     }
 

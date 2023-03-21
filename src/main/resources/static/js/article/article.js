@@ -83,9 +83,6 @@ likeBtn.addEventListener("click", ()=>{
   const url = "/api/article/likeOrUnlike/" + articleWrap.dataset.articleid;
   fetch(url, {
     method: "post",
-    body: JSON.stringify({
-      articleId: articleWrap.dataset.articleid
-    }),
     headers: {
       "Content-type": "application/json"
     }

@@ -91,7 +91,7 @@
 }
 
 /* 더보기 버튼 */
-#articleWrap .ellipsis-btn-wrap{
+.ellipsis-btn-wrap{
     position:absolute;
     top:10px;
     right:0;
@@ -99,14 +99,14 @@
     flex-direction: column;
     align-items: flex-end;
 }
-#articleWrap .ellipsis-btn-wrap .ellipsis-btn{
+.ellipsis-btn-wrap .ellipsis-btn{
     font-size:  30px;
     cursor: pointer;
 }
-#articleWrap .ellipsis-btn-wrap .ellipsis-content{
+.ellipsis-btn-wrap .ellipsis-content{
     display: none;
 }
-#articleWrap .ellipsis-btn-wrap .active{
+.ellipsis-btn-wrap .active{
     display: flex;
     background: #FFFFFF;
     flex-direction: column;
@@ -114,14 +114,15 @@
     align-items: center;
     border:1px solid var(--ellipsis-color);
     border-radius: 20px;
+    z-index: 2;
 }
-#articleWrap .ellipsis-btn-wrap .active > li{
+.ellipsis-btn-wrap .active > li{
     width:150px;
     line-height:50px;
     text-align: center;
     border-bottom:1px solid var(--ellipsis-color);
 }
-#articleWrap .ellipsis-btn-wrap .active > li:last-child{
+.ellipsis-btn-wrap .active > li:last-child{
     border-bottom:0px;
 }
 
@@ -153,7 +154,7 @@
     font-weight: 600;
 }
 .restaurantInfo .rTitleWrap .rSearch {
-    background-color: var(--search-btn-background);
+    background-color: var(--hot-pink-color);
     color: var(--search-btn-color);
     padding: 5px 20px;
     border-radius: 5px;

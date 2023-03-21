@@ -105,7 +105,11 @@ public class ArticleService {
     }
 
     public ArticleViewDTO articleInfo(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElse(null);
+        Article article = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+
+        if(article == null){
+            return null;
+        }
 
         List<TagValue> tagValues = tagValueRepository.findByArticleId(article.getId());
         ArrayList<String> tagName = new ArrayList<>();
@@ -124,18 +128,16 @@ public class ArticleService {
                 .profileImg(article.getMember().getProfileImg())
                 .tags(tagName)
                 .like(likeNum)
-//                .restaurantName(article.getRestaurant().getName())
-//                .category(article.getRestaurant().getCategory()) // 수정??
-//                .oldAddress(article.getRestaurant().getLocation().getOldAddress())
-//                .address(article.getRestaurant().getLocation().getAddress())
-//                .latitude(article.getRestaurant().getLocation().getLatitude())
-//                .longitude(article.getRestaurant().getLocation().getLongitude())
                 .build();
         return articleViewDTO;
     }
 
     public RestaurantDTO restaurantByArticle(Long articleId) {
         Article article = articleRepository.findById(articleId).orElse(null);
+
+        if(article == null){
+            return null;
+        }
 
         RestaurantDTO restaurantDTO = RestaurantDTO.builder()
                 .name(article.getRestaurant().getName())
@@ -168,7 +170,13 @@ public class ArticleService {
             return false;
         }
     }
-    public int likeNumByArticle(Long articleId){
+    public int likeNum(Long articleId){
         return likeArticleRepository.countByArticleId(articleId);
+    }
+
+    public boolean articleStatusNormal(Long articleId) {
+        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        log.info("findArticle = {}", findArticle);
+        return findArticle != null;
     }
 }

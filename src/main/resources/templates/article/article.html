@@ -68,26 +68,30 @@
         </form>
         <!--    댓글 목록 -->
         <div class="commentList">
-            <div class="comment">
+            <th:block th:each="comment: ${comments}">
+            <div class="comment" th:attr="data-commentid=${comment.id}">
                 <div class="commentWrap">
-                    <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+                    <p class="cProfileImg"><img th:src="${comment.profileImg}" alt="프로필 이미지"></p>
                     <div class="commentBox">
-                        <h4>이름</h4>
-                        <p class="cContent">댓글 내용이 출력됩니다.</p>
+                        <h4 th:text="${comment.name}">이름</h4>
+                        <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>
                         <p class="cSundry">
-                            <span class="">1일전</span>
+                            <span class="" th:text="${comment.modifiedDate}">1일전</span>
                             <span class="replyBtn">답글 달기</span>
                         </p>
                         <span class="likeWrap">
-                          <span class="likeBtn">좋아요</span>
-                          <span class="likeNum">20</span>
+                          <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>
+                          <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>
+                          <span class="likeNum" th:text="${comment.like}">20</span>
                         </span>
-                        <div class="cMemberBtn">
-                            <span class="moreBtn">더보기</span>
-                            <ul>
-                                <li><a href="#">댓글 수정</a></li>
-                                <li><a href="#">댓글 삭제</a></li>
-                                <li><a href="#">신고하기</a></li>
+                        <div class="ellipsis-btn-wrap">
+                            <span class="ellipsis-btn">
+                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                            </span>
+                            <ul class="ellipsis-content">
+                                <li th:if="${comment.name == member.name}"><a href="#" class="commentModify">댓글 수정</a></li>
+                                <li th:if="${comment.name == member.name}"><a href="#" class="commentDelete">댓글 삭제</a></li>
+                                <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
                             </ul>
                         </div>
                     </div>
@@ -105,89 +109,21 @@
                               <span class="likeBtn">좋아요</span>
                               <span class="likeNum">20</span>
                             </span>
-                            <div class="cMemberBtn">
-                                <span class="moreBtn">더보기</span>
-                                <ul>
-                                    <li><a href="#">답글 수정</a></li>
-                                    <li><a href="#">답글 삭제</a></li>
-                                    <li><a href="#">신고하기</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="reply">
-                        <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-                        <div class="commentBox">
-                            <h4>이름</h4>
-                            <p class="cContent">댓글 내용이 출력됩니다.</p>
-                            <p class="cSundry">
-                                <span class="">1일전</span>
-                            </p>
-                            <span class="likeWrap">
-                              <span class="likeBtn">좋아요</span>
-                              <span class="likeNum">20</span>
+                            <div class="ellipsis-btn-wrap">
+                            <span class="ellipsis-btn">
+                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                             </span>
-                            <div class="cMemberBtn">
-                                <span class="moreBtn">더보기</span>
-                                <ul>
-                                    <li><a href="#">답글 수정</a></li>
-                                    <li><a href="#">답글 삭제</a></li>
-                                    <li><a href="#">신고하기</a></li>
+                                <ul class="ellipsis-content">
+                                    <li th:if="${comment.name == member.name}"><a href="#">게시글 수정</a></li>
+                                    <li th:if="${comment.name == member.name}"><a href="#">게시글 삭제</a></li>
+                                    <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="comment">
-                <div class="commentWrap">
-                    <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-                    <div class="commentBox">
-                        <h4>이름</h4>
-                        <p class="cContent">댓글 내용이 출력됩니다.</p>
-                        <p class="cSundry">
-                            <span class="">1일전</span>
-                            <span class="replyBtn">답글 달기</span>
-                        </p>
-                        <span class="likeWrap">
-                          <span class="likeBtn">좋아요</span>
-                          <span class="likeNum">20</span>
-                        </span>
-                        <div class="cMemberBtn">
-                            <span class="moreBtn">더보기</span>
-                            <ul>
-                                <li><a href="#">댓글 수정</a></li>
-                                <li><a href="#">댓글 삭제</a></li>
-                                <li><a href="#">신고하기</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="replyWrap">
-                    <div class="reply">
-                        <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-                        <div class="commentBox">
-                            <h4>이름</h4>
-                            <p class="cContent">댓글 내용이 출력됩니다.</p>
-                            <p class="cSundry">
-                                <span class="">1일전</span>
-                            </p>
-                            <span class="likeWrap">
-                              <span class="likeBtn">좋아요</span>
-                              <span class="likeNum">20</span>
-                            </span>
-                            <div class="cMemberBtn">
-                                <span class="moreBtn">더보기</span>
-                                <ul>
-                                    <li><a href="#">답글 수정</a></li>
-                                    <li><a href="#">답글 삭제</a></li>
-                                    <li><a href="#">신고하기</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </th:block>
         </div>
     </div>
 </div>
