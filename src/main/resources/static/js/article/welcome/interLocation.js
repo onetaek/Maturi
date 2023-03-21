@@ -138,8 +138,6 @@ function deleteInterLocation(){
                         }
                     }
                 });
-
-
                 $("#all").prop("checked",true);
             }else{
                 alert("삭제 실패ㅠ");
@@ -149,7 +147,6 @@ function deleteInterLocation(){
         });
     }
 }
-
 
 
 function isEmpty(str){

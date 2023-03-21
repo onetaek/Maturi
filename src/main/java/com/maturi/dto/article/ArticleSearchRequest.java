@@ -35,10 +35,12 @@ public class ArticleSearchRequest {
      * 4. 해시태그
      * 5. 가게명
      */
+    private String keywordName;//input의 name이 되어준 값 ex) content, writer, tag, restaurantName
+    private String keywordValue;//input의 value가 되어준 값 ex) 사용자가 입력한 keyword
+
     private String content;
     private String writer;
-    private String tagValue;
+    private String tag;
     private String restaurantName;
-
 
 }
