@@ -1,6 +1,9 @@
 console.log("popup.js 파일 실행")
 let isModal = 0;
+let isInterBtnClick = false;
+
 function popupToggle(){
+
     console.log("popup 버튼 클릭!");
     let blur = document.querySelector('#wrap');
     blur.classList.toggle('active');
@@ -11,7 +14,18 @@ function popupToggle(){
     }else{
         scrollPlay();
     }
+
+    if(isInterBtnClick){
+        console.log("isInterBtnClick이 ture입니다!");
+        $("#all").prop("checked",true);
+        isInterBtnClick = false;
+    }
 }
+// document.querySelector('.popup-close-btn-wrap').addEventListener('click',()=>{
+//     isInterBtnClick = true;
+//     $("#all").prop("checked",true);
+// });
+
 function scrollStop(){
     document.querySelector('body').style.height='100vh';
     document.querySelector('body').style.overflow='hidden';

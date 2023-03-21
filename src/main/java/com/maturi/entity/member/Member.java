@@ -35,4 +35,8 @@ public class Member {
   public void changeInterArea(Area area) {
     this.area = area;
   }
+
+  public void removeArea() {
+      this.area = null;
+  }
 }

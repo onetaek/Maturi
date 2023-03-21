@@ -34,13 +34,17 @@
                         <label for="follow">팔로우</label>
                     </div>
                 </div>
-                <div class="input-container">
-                    <input id="local" type="radio" name="radioCond" value="interLocal">
-                    <div class="radio-tile">
-                        <ion-icon name="compass"></ion-icon>
-                        <label for="local">관심지역</label>
+
+                <div class="input-container-interLocal-wrap">
+                    <div class="input-container input-container-interLocal">
+                        <input id="local" type="radio" name="radioCond" value="interLocal">
+                        <div class="radio-tile radio-title-local">
+                            <ion-icon name="compass"></ion-icon>
+                            <label for="local">관심지역</label>
+                        </div>
                     </div>
                 </div>
+
 
                 <div class="input-container">
                     <input id="my-local" type="radio" name="radioCond" value="myLocal">
@@ -92,7 +96,7 @@
                     </ul>
                 </div>
                 <input type="text" name="keyword" class="search-input" placeholder="아무 조건으로 검색하기...">
-                <button class="search-button" onclick="searchKeyWord()" type="button">
+                <button id="main-search-btn" class="search-button"  type="button">
                     <ion-icon name="search"></ion-icon>
                 </button>
             </div>
@@ -202,7 +206,7 @@
 <th:block layout:fragment="scripts">
     <script src="/js/article/welcome/ellipsis.js"></script>
     <script src="/js/article/welcome/dropdown.js"></script>
-    <script src="/js/article/welcome/articleSearch.js"></script>
+    <script src="/js/article/welcome/geolocation.js"></script>
     <script src="/js/article/welcome/categoryDropdown.js"></script>
 </th:block>
 </body>

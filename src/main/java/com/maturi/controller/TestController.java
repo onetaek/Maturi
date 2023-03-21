@@ -1,5 +1,6 @@
 package com.maturi.controller;
 
+import com.maturi.dto.member.AreaInterDTO;
 import com.maturi.dto.member.MemberLoginDTO;
 import com.maturi.test.TestArticle;
 import com.maturi.util.FileStore;
@@ -12,6 +13,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -64,4 +66,10 @@ public class TestController {
 //    public String popupShow(){
 //        return "/"
 //    }
+    @GetMapping("/error")
+    public String errorText(@ModelAttribute AreaInterDTO areaInterDTO, BindingResult bindingResult,Model model){
+        bindingResult.reject("testError","테스트 에러");
+        model.addAttribute("test","도레미파");
+        return "/error/test";
+    }
 }

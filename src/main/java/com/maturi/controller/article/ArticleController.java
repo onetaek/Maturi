@@ -1,6 +1,7 @@
 package com.maturi.controller.article;
 
 import com.maturi.dto.article.ArticleDTO;
+import com.maturi.dto.article.ArticleSearchRequest;
 import com.maturi.dto.article.RestaurantDTO;
 import com.maturi.entity.article.ArticleStatus;
 import com.maturi.service.article.ArticleService;
@@ -40,13 +41,10 @@ public class ArticleController {
 
     @GetMapping("/articleList")//전체페이지 작업중에 에러뜨면 누나 글쓰기 페이지 못가니까 따로 작업중
     public String articleListPage(@Login Long memberId,
+                               @ModelAttribute ArticleSearchRequest articleSearchRequest,
                                Model model){
-        //검색조건 추가
-        //1. 관심지역을 선택했는지 확인 -> 있다면? -> 관심지역에 값추가
-        //                            없다면? -> 전체로 선택
-        //2.
 
-
+        log.info("articleSearchRequest={}",articleSearchRequest);
         log.info("findMember = {}",articleService.memberInfo(memberId));
         model.addAttribute("member", articleService.memberInfo(memberId));
         return "/article/welcome";
