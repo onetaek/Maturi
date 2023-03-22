@@ -44,7 +44,7 @@ public class DummyData {
 
     private final InitService initService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         initService.initTag();
         initService.initRestaurant();
