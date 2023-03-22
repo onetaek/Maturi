@@ -13,6 +13,7 @@ import com.maturi.repository.article.TagValueRepository;
 import com.maturi.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,13 +39,14 @@ import java.util.UUID;
  * 11. Member(Entity) - Level 2 !!
  * 12. MemberStatus - Level 1 !(무조건 NORMAL)!
  */
+@Profile("test111")
 @Component
 @RequiredArgsConstructor
 public class DummyData {
 
     private final InitService initService;
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
         initService.initTag();
         initService.initRestaurant();
@@ -67,7 +69,7 @@ public class DummyData {
         Double latitude = 35.8700317;
         Double longitude = 128.6005225;
         String sido = "대구광역시";
-        String[] sigoon = {"중구","동구","서구","북구","수성구","달서구","달성군",};
+        String[] sigoon = {"중구","동구","서구","북구","수성구","달서구","달성군"};
         //        MemberStatus[] memberStatuses = {MemberStatus.BAN}
         String[] category = {"한식","중식","일식","디져트","패스트푸드"};
         String[] email = {"naver","gmail","nate"};
@@ -105,7 +107,7 @@ public class DummyData {
                 int random1 = random(findMembers.size()-1);
                 int random2 = random(findMembers.size()-1);
                 while (random1 >= random2){
-                    random2 = random(findMembers.size());
+                    random2 = random(findMembers.size()-1);
                 }
                 Member member1 = findMembers.get(random1);
                 Member member2 = findMembers.get(random2);
@@ -167,11 +169,10 @@ public class DummyData {
         }
 
 
-
         private Area createArea(){
             return Area.builder()
                     .sido(sido)
-                    .sigoon(sigoon[random(sigoon.length)])
+                    .sigoon(sigoon[random(sigoon.length-1)])
                     .dong(null)
                     .build();
         }
@@ -179,7 +180,7 @@ public class DummyData {
         private Restaurant createRestaurant(){
             return Restaurant.builder()
                     .name("restaurant name"+random(10))
-                    .category(category[random(category.length)])
+                    .category(category[random(category.length-1)])
                     .location(createLocation())
                     .area(createArea())
                     .build();

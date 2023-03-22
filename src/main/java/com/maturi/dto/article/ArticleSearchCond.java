@@ -14,7 +14,9 @@ import java.util.List;
 public class ArticleSearchCond {
 
     private List<Member> followMembers;//DB에서 가져옴 : 팔로우한 유저의
-    private Area area;//DB에서 가져옴 : 관심지역(sido, sigoon, dong)
+    private String sido;//DB에서 가져옴 : 관심지역(sido)
+    private String sigoon;//DB에서 가져옴 : 관심지역(sigoon)
+    private String dong;//DB에서 가져옴 : 관심지역(dong)
     private Double latitude;//프론트에서 받음 : 위도 1도 : 111.1412Km
     private Double longitude;//프론트에서 받음 : 경도 1도=111Km+
     private String category;//프론트에서 받음 : 카테고리(한식,중식,...)

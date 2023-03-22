@@ -220,7 +220,7 @@ public class ArticleService {
     /**
      * 클라이언트로 부터 받은 정보를 기반으로 검색조건에 데이터로 변환해줌(ArticleSearchRequest -> ArticleSearchCond)
      */
-    private ArticleSearchCond getSearchCond(ArticleSearchRequest searchRequest, Long memberId) {
+    public ArticleSearchCond getSearchCond(ArticleSearchRequest searchRequest, Long memberId) {
         ArticleSearchCond searchCond = modelMapper.map(searchRequest, ArticleSearchCond.class);
         switch (searchRequest.getRadioCond().trim()){
             case follow://유저가 팔로우한 유저들
@@ -230,7 +230,15 @@ public class ArticleService {
             case interestArea://유저의 관심 지역
                 Area interArea = memberRepository.findById(memberId).orElseThrow(() ->
                         new IllegalArgumentException("맴버가 없습니다!")).getArea();
-                searchCond.setArea(interArea);
+                if (interArea == null ){
+                    searchCond.setSido(null);
+                    searchCond.setSigoon(null);
+                    searchCond.setDong(null);
+                } else {
+                    searchCond.setSido(interArea.getSido());
+                    searchCond.setSigoon(interArea.getSigoon());
+                    searchCond.setDong(interArea.getDong());
+                }
                 break;
             case like://유저가 좋아요를 누른 게시판들
                 List<Article> likeArticles =    articleQRepository.findByLike(memberId);

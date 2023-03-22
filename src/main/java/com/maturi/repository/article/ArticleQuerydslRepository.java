@@ -25,9 +25,10 @@ import static com.maturi.util.constfield.LocationConst.*;
 @RequiredArgsConstructor
 @Repository
 public class ArticleQuerydslRepository {
-
+    //querydsl을 쓰기위한 객체
     private final JPAQueryFactory query;
 
+    //유저가 좋아요를 누른 게시글을을 찾음
     public List<Article> findByLike(Long memberId) {
         //select a from LikeArticle l join article a on l.article_id = a.id where l.member_id = ?;
         return query
@@ -38,33 +39,40 @@ public class ArticleQuerydslRepository {
                 .fetch();
     }
 
+    //유저가 입력한 키워드가 태그명의 일부에 포함되는 게시글을 찾음
     public List<Article> findByTagValue(String tag) {
         //select a from TagValue t join Article a on t.article_id = a.id where tag like %?%;
         return query
                 .select(article)
-                .from(tagValue.article)
+                .from(article)
                 .join(tagValue.article, article).fetchJoin()
                 .where(tagValue.tag.name.contains(tag))
                 .fetch();
     }
 
+    //페이징 처리를 하지않은 동적쿼리문
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
 
+        //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
+        //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
+        //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
         BooleanBuilder builder = new BooleanBuilder();
-        builder.or(contentLike(cond.getContent()))
-                .or(writerLike(cond.getWriter()))
-                .or(tagArticleIn(cond.getArticlesByTagValue()))
-                .or(restaurantNameLike(cond.getRestaurantName()));
+        builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
+                .or(writerLike(cond.getWriter()))//작성자(닉네임) keyword검색
+                .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
+                .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
         return query.selectFrom(article)
                 .where(
-                        followMembersIn(cond.getFollowMembers()),
-                        areaEq(cond.getArea()),
-                        latitudeBetween(cond.getLatitude()),
-                        longitudeBetween(cond.getLongitude()),
-                        categoryEq(cond.getCategory()),
-                        likeArticleIn(cond.getLikeArticles()),
-                        builder
+                        followMembersIn(cond.getFollowMembers()),//팔로우한 유저로 검색
+                        sidoEq(cond.getSido()),//시도로 검색
+                        sigoonEq(cond.getSigoon()),//시군으로 검색
+                        dongEq(cond.getDong()),//동으로 검색
+                        latitudeBetween(cond.getLatitude()),//위도로 검색
+                        longitudeBetween(cond.getLongitude()),//경도로 검색
+                        categoryEq(cond.getCategory()),//음식점 카테고리로 검색
+                        likeArticleIn(cond.getLikeArticles()),//좋아요누른 게시판 검색
+                        builder//keyword조건 검색
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
                 .limit(20)
@@ -86,47 +94,46 @@ public class ArticleQuerydslRepository {
     private BooleanExpression followMembersIn(List<Member> followMembers) {
         return followMembers != null ? article.member.in(followMembers) : null;
     }
-
-    //관심지역에 있는 음식점의 게시글들의 where절
-    private BooleanExpression areaEq(Area area) {
-        return area != null ? article.restaurant.area.eq(area) : null;
+    //관심지역(시도)에 있는 음식점의 게시글들의 where절
+    private BooleanExpression sidoEq(String sido) {
+        return sido != null ? article.restaurant.area.sido.eq(sido) : null;
     }
-
+    //관심지역(시군)에 있는 음식점의 게시글들의 where절
+    private BooleanExpression sigoonEq(String sigoon) {
+        return sigoon != null ? article.restaurant.area.sigoon.eq(sigoon) : null;
+    }
+    //관심지역(동)에 있는 음식점의 게시글들의 where절
+    private BooleanExpression dongEq(String dong) {
+        return dong != null ? article.restaurant.area.dong.eq(dong) : null;
+    }
     //현재 위치주면(위도) where절
     private BooleanExpression latitudeBetween(Double latitude) {
         return latitude != null ? article.restaurant.location.longitude.between(latitude - kmToLat, latitude + kmToLat) : null;
     }
-
     //현재 위치주면(경도) where절
     private BooleanExpression longitudeBetween(Double longitude) {
         return longitude != null ? article.restaurant.location.longitude.between(longitude - kmToLat, longitude + kmToLat) : null;
     }
-
     //음식점 카테고리가 일치하는 게시글들의 where절
     private BooleanExpression categoryEq(String category) {
         return category!=null ? article.restaurant.category.eq(category) : null;
     }
-
     //좋아요를 누른 게시글들
     private BooleanExpression likeArticleIn(List<Article> likeArticles) {
         return likeArticles != null ? article.in(likeArticles) : null;
     }
-
     //글 내용조건의 keyword로 검색한 게시글들
     private BooleanExpression contentLike(String content) {
         return StringUtils.hasText(content) ? article.content.contains(content) : null;
     }
-
     //작성자 조건의의 keyword로 검색한 게시글들
     private BooleanExpression writerLike(String writer) {
         return StringUtils.hasText(writer) ? article.member.nickName.contains(writer) : null;
     }
-
     //태그명 조건의 keyword로 검색한 게시글들
     private BooleanExpression tagArticleIn(List<Article> tagArticle) {
         return tagArticle != null ? article.in(tagArticle) : null;
     }
-
     //음식점명 조건의의 keyword로 검색한 게시글들
     private BooleanExpression restaurantNameLike(String restaurant) {
         return StringUtils.hasText(restaurant) ? article.restaurant.name.contains(restaurant) : null;
