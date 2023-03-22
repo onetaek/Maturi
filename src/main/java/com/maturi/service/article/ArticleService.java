@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ import static com.maturi.util.constfield.SearchCondConst.*;
 @Service
 public class ArticleService {
     private final CommentRepository commentRepository;
-
     final private ModelMapper modelMapper;
     final private MemberRepository memberRepository;
     final private ArticleRepository articleRepository;
@@ -218,14 +218,11 @@ public class ArticleService {
 
 
     /**
-     * 클라이언트로 부터 받은 정보를 기반으로 검색조건에 필요한 값들을 가져옴
-     * @param searchRequest
-     * @param memberId
-     * @return 검색 조건
+     * 클라이언트로 부터 받은 정보를 기반으로 검색조건에 데이터로 변환해줌(ArticleSearchRequest -> ArticleSearchCond)
      */
     private ArticleSearchCond getSearchCond(ArticleSearchRequest searchRequest, Long memberId) {
         ArticleSearchCond searchCond = modelMapper.map(searchRequest, ArticleSearchCond.class);
-        switch (searchRequest.getRadioCond()){
+        switch (searchRequest.getRadioCond().trim()){
             case follow://유저가 팔로우한 유저들
                 List<Member> followMember = memberQRepository.findFollowMemberById(memberId);
                 searchCond.setFollowMembers(followMember);
@@ -240,14 +237,14 @@ public class ArticleService {
                 searchCond.setLikeArticles(likeArticles);
                 break;
         }
-        if (searchRequest.getAll() != null){//keyword검색의 dropdown메뉴중 전체를 선택했을 때
+        if (StringUtils.hasText(searchRequest.getAll())){//keyword검색의 dropdown메뉴중 전체를 선택했을 때
             String keyword = searchRequest.getKeywordValue();
             searchCond.setContent(keyword);
             searchCond.setWriter(keyword);
             searchCond.setRestaurantName(keyword);
         }
-        if (searchRequest.getTag() != null) {//keyword검색의 dropdown메뉴중 태그를 선택했을 때
-            List<Article> articlesByTag = articleQRepository.findByTagValue(searchRequest.getTag());
+        if (StringUtils.hasText(searchRequest.getTag())) {//keyword검색의 dropdown메뉴중 태그를 선택했을 때
+            List<Article> articlesByTag = articleQRepository.findByTagValue(searchRequest.getTag().trim());
             searchCond.setArticlesByTagValue(articlesByTag);
         }
         return searchCond;

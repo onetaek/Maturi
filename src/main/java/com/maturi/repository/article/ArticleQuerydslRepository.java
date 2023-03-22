@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -27,7 +28,7 @@ public class ArticleQuerydslRepository {
 
     private final JPAQueryFactory query;
 
-    public List<Article> findByLike(Long memberId){
+    public List<Article> findByLike(Long memberId) {
         //select a from LikeArticle l join article a on l.article_id = a.id where l.member_id = ?;
         return query
                 .select(article)
@@ -37,7 +38,7 @@ public class ArticleQuerydslRepository {
                 .fetch();
     }
 
-    public List<Article> findByTagValue(String tag){
+    public List<Article> findByTagValue(String tag) {
         //select a from TagValue t join Article a on t.article_id = a.id where tag like %?%;
         return query
                 .select(article)
@@ -47,106 +48,88 @@ public class ArticleQuerydslRepository {
                 .fetch();
     }
 
-    public List<Article> searchBySlice2(Long lastArticleId,
-                                        ArticleSearchCond cond) {
-        List<Article> results = query.selectFrom(article)
-                .where(
-                    radioBtnSearchCond(cond)//라디로 버튼 검색 조건들
-                    .and(keywordSearchCond(cond))//keyword로 검색 조건들
-                )
-                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-//                .limit(pageable.getPageSize()+1)
-                .limit(10)
-                .fetch();
+    public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
 
-        // 무한 스크롤 처리
-//        return checkLastPage(pageable, results);
-        return results;
-    }
-
-    public List<Article> searchBySlice(ArticleSearchCond cond) {
-        return query.selectFrom(article)
-                .where(
-                    radioBtnSearchCond(cond)//라디로 버튼 검색 조건들
-                    .and(keywordSearchCond(cond))//keyword로 검색 조건들
-                )
-                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .fetch();
-    }
-
-    private BooleanBuilder radioBtnSearchCond(ArticleSearchCond cond){
-        return followMembersIn(cond.getFollowMembers())
-                .and(areaEq(cond.getArea()))
-                .and(locationBetween(cond.getLatitude(),cond.getLongitude()))
-                .and(categoryEq(cond.getCategory()))
-                .and(likeArticleIn(cond.getLikeArticles()));
-    }
-
-    private BooleanBuilder keywordSearchCond(ArticleSearchCond cond){
-        return contentLike(cond.getContent())
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.or(contentLike(cond.getContent()))
                 .or(writerLike(cond.getWriter()))
                 .or(tagArticleIn(cond.getArticlesByTagValue()))
                 .or(restaurantNameLike(cond.getRestaurantName()));
+
+        return query.selectFrom(article)
+                .where(
+                        followMembersIn(cond.getFollowMembers()),
+                        areaEq(cond.getArea()),
+                        latitudeBetween(cond.getLatitude()),
+                        longitudeBetween(cond.getLongitude()),
+                        categoryEq(cond.getCategory()),
+                        likeArticleIn(cond.getLikeArticles()),
+                        builder
+                )
+                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
+                .limit(20)
+                .fetch();
     }
 
+    public List<Article> searchBySlice(ArticleSearchCond cond) {
+
+        return query.selectFrom(article)
+                .where(
+
+                )
+                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
+                .fetch();
+    }
+
+
     //팔로우한 유저의 게시글들의 where절
-    private BooleanBuilder followMembersIn(List<Member> followMembers) {
-        return nullSafeBuilder(() -> article.member.in(followMembers));
+    private BooleanExpression followMembersIn(List<Member> followMembers) {
+        return followMembers != null ? article.member.in(followMembers) : null;
     }
 
     //관심지역에 있는 음식점의 게시글들의 where절
-    private BooleanBuilder areaEq(Area area){
-        return nullSafeBuilder(() -> article.restaurant.area.eq(area));
+    private BooleanExpression areaEq(Area area) {
+        return area != null ? article.restaurant.area.eq(area) : null;
     }
 
-    //현재 내위치주변에 있는 음식점의 게시글들의 where절
-    private BooleanBuilder locationBetween(Double latitude, Double longitude){
-        return nullSafeBuilder(() ->
-                article.restaurant.location.latitude.between(latitude - kmToLat,latitude + kmToLat)
-                        .and(article.restaurant.location.longitude.between(longitude - kmToLat,longitude + kmToLat)));
+    //현재 위치주면(위도) where절
+    private BooleanExpression latitudeBetween(Double latitude) {
+        return latitude != null ? article.restaurant.location.longitude.between(latitude - kmToLat, latitude + kmToLat) : null;
+    }
+
+    //현재 위치주면(경도) where절
+    private BooleanExpression longitudeBetween(Double longitude) {
+        return longitude != null ? article.restaurant.location.longitude.between(longitude - kmToLat, longitude + kmToLat) : null;
     }
 
     //음식점 카테고리가 일치하는 게시글들의 where절
-    private BooleanBuilder categoryEq(String category){
-        return nullSafeBuilder(()-> article.restaurant.category.eq(category));
+    private BooleanExpression categoryEq(String category) {
+        return category!=null ? article.restaurant.category.eq(category) : null;
     }
 
     //좋아요를 누른 게시글들
-    private BooleanBuilder likeArticleIn(List<Article> likeArticles){
-        return nullSafeBuilder(()->article.in(likeArticles));
+    private BooleanExpression likeArticleIn(List<Article> likeArticles) {
+        return likeArticles != null ? article.in(likeArticles) : null;
     }
 
     //글 내용조건의 keyword로 검색한 게시글들
-    private BooleanBuilder contentLike(String content){
-        return nullSafeBuilder(()->article.content.contains(content));
+    private BooleanExpression contentLike(String content) {
+        return StringUtils.hasText(content) ? article.content.contains(content) : null;
     }
 
     //작성자 조건의의 keyword로 검색한 게시글들
-    private BooleanBuilder writerLike(String content){
-        return nullSafeBuilder(()->article.member.nickName.contains(content));
+    private BooleanExpression writerLike(String writer) {
+        return StringUtils.hasText(writer) ? article.member.nickName.contains(writer) : null;
     }
 
     //태그명 조건의 keyword로 검색한 게시글들
-    private BooleanBuilder tagArticleIn(List<Article> tagArticle){
-        return nullSafeBuilder(()->article.in(tagArticle));
+    private BooleanExpression tagArticleIn(List<Article> tagArticle) {
+        return tagArticle != null ? article.in(tagArticle) : null;
     }
 
     //음식점명 조건의의 keyword로 검색한 게시글들
-    private BooleanBuilder restaurantNameLike(String content){
-        return nullSafeBuilder(()->article.restaurant.name.contains(content));
-    }
-
-    public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
-        try {
-            return new BooleanBuilder(f.get());
-        } catch (IllegalArgumentException e) {
-            return new BooleanBuilder();
-        }
-    }
-
-    // no-offset 방식 처리하는 메서드
-    private BooleanBuilder ltArticleId(Long articleId) {
-        return nullSafeBuilder(()->article.id.lt(articleId));
+    private BooleanExpression restaurantNameLike(String restaurant) {
+        return StringUtils.hasText(restaurant) ? article.restaurant.name.contains(restaurant) : null;
     }
 
     // 무한 스크롤 방식 처리하는 메서드
