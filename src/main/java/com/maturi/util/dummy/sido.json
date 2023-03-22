@@ -1,0 +1,157 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Seoul",
+        "ctprvn_cd": "11",
+        "ctp_kor_nm": "서울특별시"
+      },
+      "id": "LT_C_ADSIDO_INFO.375"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Busan",
+        "ctprvn_cd": "26",
+        "ctp_kor_nm": "부산광역시"
+      },
+      "id": "LT_C_ADSIDO_INFO.376"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Daegu",
+        "ctprvn_cd": "27",
+        "ctp_kor_nm": "대구광역시"
+      },
+      "id": "LT_C_ADSIDO_INFO.377"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Incheon",
+        "ctprvn_cd": "28",
+        "ctp_kor_nm": "인천광역시"
+      },
+      "id": "LT_C_ADSIDO_INFO.378"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Gwangju",
+        "ctprvn_cd": "29",
+        "ctp_kor_nm": "광주광역시"
+      },
+      "id": "LT_C_ADSIDO_INFO.379"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Daejeon",
+        "ctprvn_cd": "30",
+        "ctp_kor_nm": "대전광역시"
+      },
+      "id": "LT_C_ADSIDO_INFO.380"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Ulsan",
+        "ctprvn_cd": "31",
+        "ctp_kor_nm": "울산광역시"
+      },
+      "id": "LT_C_ADSIDO_INFO.381"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Sejong-si",
+        "ctprvn_cd": "36",
+        "ctp_kor_nm": "세종특별자치시"
+      },
+      "id": "LT_C_ADSIDO_INFO.382"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Gyeonggi-do",
+        "ctprvn_cd": "41",
+        "ctp_kor_nm": "경기도"
+      },
+      "id": "LT_C_ADSIDO_INFO.383"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Gangwon-do",
+        "ctprvn_cd": "42",
+        "ctp_kor_nm": "강원도"
+      },
+      "id": "LT_C_ADSIDO_INFO.384"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Chungcheongbuk-do",
+        "ctprvn_cd": "43",
+        "ctp_kor_nm": "충청북도"
+      },
+      "id": "LT_C_ADSIDO_INFO.385"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Chungcheongnam-do",
+        "ctprvn_cd": "44",
+        "ctp_kor_nm": "충청남도"
+      },
+      "id": "LT_C_ADSIDO_INFO.386"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Jeollabuk-do",
+        "ctprvn_cd": "45",
+        "ctp_kor_nm": "전라북도"
+      },
+      "id": "LT_C_ADSIDO_INFO.387"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Jellanam-do",
+        "ctprvn_cd": "46",
+        "ctp_kor_nm": "전라남도"
+      },
+      "id": "LT_C_ADSIDO_INFO.388"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Gyeongsangbuk-do",
+        "ctprvn_cd": "47",
+        "ctp_kor_nm": "경상북도"
+      },
+      "id": "LT_C_ADSIDO_INFO.389"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Gyeongsangnam-do",
+        "ctprvn_cd": "48",
+        "ctp_kor_nm": "경상남도"
+      },
+      "id": "LT_C_ADSIDO_INFO.390"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ctp_eng_nm": "Jeju-do",
+        "ctprvn_cd": "50",
+        "ctp_kor_nm": "제주특별자치도"
+      },
+      "id": "LT_C_ADSIDO_INFO.391"
+    }
+  ]
+}

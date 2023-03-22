@@ -4,11 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
+@Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Follow {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

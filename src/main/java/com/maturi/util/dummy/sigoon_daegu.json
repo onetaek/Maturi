@@ -1,0 +1,84 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27110",
+        "sig_eng_nm": "Jung-gu",
+        "full_nm": "대구광역시 중구",
+        "sig_kor_nm": "중구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6292"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27140",
+        "sig_eng_nm": "Dong-gu",
+        "full_nm": "대구광역시 동구",
+        "sig_kor_nm": "동구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6293"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27170",
+        "sig_eng_nm": "Seo-gu",
+        "full_nm": "대구광역시 서구",
+        "sig_kor_nm": "서구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6294"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27200",
+        "sig_eng_nm": "Nam-gu",
+        "full_nm": "대구광역시 남구",
+        "sig_kor_nm": "남구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6295"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27230",
+        "sig_eng_nm": "Buk-gu",
+        "full_nm": "대구광역시 북구",
+        "sig_kor_nm": "북구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6296"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27260",
+        "sig_eng_nm": "Suseong-gu",
+        "full_nm": "대구광역시 수성구",
+        "sig_kor_nm": "수성구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6297"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27290",
+        "sig_eng_nm": "Dalseo-gu",
+        "full_nm": "대구광역시 달서구",
+        "sig_kor_nm": "달서구"
+      },
+      "id": "LT_C_ADSIGG_INFO.6298"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "sig_cd": "27710",
+        "sig_eng_nm": "Dalseong-gun",
+        "full_nm": "대구광역시 달성군",
+        "sig_kor_nm": "달성군"
+      },
+      "id": "LT_C_ADSIGG_INFO.6299"
+    }
+  ]
+}

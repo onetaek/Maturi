@@ -34,7 +34,6 @@ public class Article extends BaseTimeEntity {
   private List<TagValue> tagValue;
   @Enumerated(EnumType.STRING)
   private ArticleStatus status;
-
   public void changeStatus(ArticleStatus status){
     this.status = status;
   }

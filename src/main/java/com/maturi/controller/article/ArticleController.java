@@ -45,12 +45,10 @@ public class ArticleController {
     @GetMapping("/articleList")//전체페이지 작업중에 에러뜨면 누나 글쓰기 페이지 못가니까 따로 작업중
     public String articleListPage(@Login Long memberId,
                                @ModelAttribute ArticleSearchRequest articleSearchRequest,
-                               @RequestParam String keywordName,
-                               @RequestParam String keywordValue,
                                Pageable pageable,
                                Model model){
         log.info("articleSearchRequest={}",articleSearchRequest);
-        Page<ArticleSearchResponse> articleSearchResponsePage = articleService.articleSearch(articleSearchRequest,pageable);
+        Page<ArticleSearchResponse> articleSearchResponsePage = articleService.articleSearch(articleSearchRequest,pageable,memberId);
 
 
 
