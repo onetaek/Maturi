@@ -1,7 +1,7 @@
 package com.maturi.api;
 
-import com.maturi.dto.article.ArticleViewDTO;
 import com.maturi.dto.article.search.ArticleSearchRequest;
+import com.maturi.dto.article.search.ArticlePaging;
 import com.maturi.service.article.ArticleService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import static com.maturi.util.constfield.PagingConst.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -44,20 +45,17 @@ public class ArticleAPIController {
   }
 
   @GetMapping("/articles")
-  public String searchArticlePaging(@Login Long memberId,
-                                    @ModelAttribute ArticleSearchRequest articleSearchRequest,
-                                    @RequestParam Long lastArticleId,
-                                    @PageableDefault(page = 0, size = 5)Pageable pageable){
+  public ResponseEntity<ArticlePaging> searchArticlePaging(@Login Long memberId,
+                                                           @ModelAttribute ArticleSearchRequest articleSearchRequest,
+                                                           @RequestParam Long lastArticleId,
+                                                           @PageableDefault(page = 0, size = size)Pageable pageable){
 
     log.info("articleSearchRequest={}",articleSearchRequest);
-    List<ArticleViewDTO> articleViewDTOS = articleService.articleSearch(articleSearchRequest,memberId,lastArticleId, pageable);
-
-
-    log.info("[ArticleAPIController] articleViewDTOS={}",articleViewDTOS);
-
-    articleService.articleSearch(articleSearchRequest,memberId,lastArticleId,pageable);
-
-    return null;
+    log.info("lastArticleId={}",lastArticleId);
+    log.info("pageable={}",pageable);
+    ArticlePaging articles = articleService.articleSearch(articleSearchRequest,memberId,lastArticleId, pageable);
+    log.info("[ArticleAPIController] articleViewDTOS={}",articles);
+    return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 
 

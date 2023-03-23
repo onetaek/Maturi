@@ -42,7 +42,6 @@
                     </div>
                 </div>
 
-
                 <div class="input-container">
                     <input id="my-local" type="radio" name="radioCond" value="myLocal">
                     <div class="radio-tile">
@@ -50,7 +49,6 @@
                         <label for="my-local">현재위치</label>
                     </div>
                 </div>
-
 
                 <div class="input-container input-container-category">
                     <input id="category" type="radio" name="radioCond" value="category">
@@ -103,99 +101,12 @@
             <input type="hidden" name="latitude">
             <input type="hidden" name="longitude">
             <input type="hidden" name="category">
+            <input type="hidden" name="lastArticleId">
         </form>
     </section>
     <!--게시글들-->
     <section id="article-section">
         <ul id="article-list">
-            <li class="article-wrap">
-                <!--    글쓴이 정보 -->
-                <div class="writerInfo">
-                    <p class="writerProfileImg"><img src="/img/test/cat.png" alt="프로필 이미지"></p>
-                    <p class="written">
-                        <span class="writerName">김혜현</span>
-                        <span class="writtenAt">2023.03.12</span>
-                    </p>
-                </div>
-                <!--    글 본문 -->
-                <div class="contentWrap">
-                    <ul class="bImg">
-                        <li><img src="/img/test/food1.jpg" alt="사진1"></li>
-                    </ul>
-                    <p class="bContent">
-                        리뷰 글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
-                        글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용 리뷰 글 내용리뷰
-                        글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
-                        글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
-                        글 내용리뷰 글 내용
-                    </p>
-                </div>
-                <!--    좋아요 & 태그 -->
-                <div class="likeAndTag">
-                    <span class="likeWrap">
-                      <span class="likeBtn">좋아요</span>
-                      <span class="likeNum">20</span>
-                    </span>
-                    <span><a href="#">#태그1</a></span>
-                    <span><a href="#">#태그2</a></span>
-                    <span><a href="#">#태그3</a></span>
-                </div>
-                <!--     리뷰글 더보기 버튼 -->
-                <div class="ellipsis-btn-wrap">
-                    <span class="ellipsis-btn">
-                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-                    </span>
-                    <ul class="ellipsis-content">
-                        <li><a href="#">게시글 수정</a></li>
-                        <li><a href="#">게시글 삭제</a></li>
-                        <li><a href="#">신고하기</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="article-wrap">
-                <!--    글쓴이 정보 -->
-                <div class="writerInfo">
-                    <p class="writerProfileImg"><img src="/img/test/rabbit.png" alt="프로필 이미지"></p>
-                    <p class="written">
-                        <span class="writerName">오원택</span>
-                        <span class="writtenAt">2023.03.13</span>
-                    </p>
-                </div>
-                <!--    글 본문 -->
-                <div class="contentWrap">
-                    <ul class="bImg">
-                        <li><img src="/img/test/food2.jpg" alt="사진1"></li>
-                    </ul>
-                    <p class="bContent">
-                        리뷰 글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
-                        글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용 리뷰 글 내용리뷰
-                        글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
-                        글 내용 리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰 글 내용리뷰
-                        글 내용리뷰 글 내용
-                    </p>
-                </div>
-                <!--    좋아요 & 태그 -->
-                <div class="likeAndTag">
-                    <span class="likeWrap">
-                      <span class="likeBtn">좋아요</span>
-                      <span class="likeNum">20</span>
-                    </span>
-                    <span><a href="#">#태그1</a></span>
-                    <span><a href="#">#태그2</a></span>
-                    <span><a href="#">#태그3</a></span>
-                </div>
-                <!--     리뷰글 더보기 버튼 -->
-                <div class="ellipsis-btn-wrap">
-                    <span class="ellipsis-btn">
-                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-                    </span>
-                    <ul class="ellipsis-content">
-                        <li><a href="#">게시글 수정</a></li>
-                        <li><a href="#">게시글 삭제</a></li>
-                        <li><a href="#">신고하기</a></li>
-                    </ul>
-                </div>
-            </li>
         </ul>
     </section>
 </main>

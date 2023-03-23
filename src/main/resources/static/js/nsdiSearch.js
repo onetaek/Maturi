@@ -247,7 +247,7 @@ $(function(){
 
 //바깥을 클릭했을 때 dropdown 올리기
   window.onclick = function(e){
-    console.log("바깥클릭!");
+
     if(
         e.target.id != "sido-popup-drop-text" &&
         e.target.id != "sido-popup-icon" &&
@@ -266,9 +266,9 @@ $(function(){
       document.getElementById("icon").style.rotate="0deg"
       sido_popup_list.classList.remove("show");
       sido_popup_icon.style.rotate="0deg"
-      sigoon_popup_list.classList.remove("show");
+      if(sigoon_popup_list != null) sigoon_popup_list.classList.remove("show");
       sigoon_popup_icon.style.rotate="0deg"
-      dong_popup_list.classList.remove("show");
+      if(dong_popup_list != null) dong_popup_list.classList.remove("show");
       dong_popup_icon.style.rotate="0deg"
       $('#sido-popup-list').animate({height:`0px`},500);
       $('#sigoon-popup-list').animate({height:`0px`},500);

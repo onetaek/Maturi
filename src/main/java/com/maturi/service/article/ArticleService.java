@@ -3,7 +3,7 @@ package com.maturi.service.article;
 import com.maturi.dto.article.*;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticleSearchRequest;
-import com.maturi.dto.article.search.MySliceImpl;
+import com.maturi.dto.article.search.ArticlePaging;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -183,23 +182,29 @@ public class ArticleService {
     }
 
 
-    public List<ArticleViewDTO> articleSearch(ArticleSearchRequest searchRequest,
-                                              Long memberId,
-                                              Long lastArticleId,
-                                              Pageable pageable) {
-
+    public ArticlePaging articleSearch(ArticleSearchRequest searchRequest,
+                                       Long memberId,
+                                       Long lastArticleId,
+                                       Pageable pageable) {
+        log.info("size? = {}",pageable.getPageSize());
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
-        MySliceImpl articles = articleQRepository.searchDynamicQueryAndPaging(lastArticleId, cond, pageable);//DTO로 변환해야함
-        log.info("Slice<Article> articles = {}",articles);
+        ArticlePaging result = articleQRepository.searchDynamicQueryAndPaging(lastArticleId, cond, pageable);//DTO로 변환해야함
+        log.info("Slice<Article> articles = {}",result);
 
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
-        for (Article article : articles.getArticle()) {
+        for (Article article : (List<Article>)result.getContent()) {
             ArticleViewDTO articleViewDTO = getArticleViewDTO(article);
             log.info("[ArticleService] articleViewDTO = {}",articleViewDTO);
             articleViewDTOS.add(articleViewDTO);
         }
-
-        return articleViewDTOS;
+        result.setContent(articleViewDTOS);
+        result.setEvent(searchRequest.getEvent());
+        if (articleViewDTOS.size() == 0 ){
+            result.setLastArticleId(null);
+        } else{
+            result.setLastArticleId(articleViewDTOS.get(articleViewDTOS.size()-1).getId());
+        }
+        return result;
     }
 
 
@@ -208,7 +213,7 @@ public class ArticleService {
      */
     public ArticleSearchCond getSearchCond(ArticleSearchRequest searchRequest, Long memberId) {
         ArticleSearchCond searchCond = modelMapper.map(searchRequest, ArticleSearchCond.class);
-        switch (searchRequest.getRadioCond().trim()){
+        switch (searchRequest.getRadioCond() != null ? searchRequest.getRadioCond() : NULL){
             case follow://유저가 팔로우한 유저들
                 List<Member> followMember = memberQRepository.findFollowMemberById(memberId);
                 searchCond.setFollowMembers(followMember);
@@ -232,13 +237,14 @@ public class ArticleService {
                 break;
         }
         if (StringUtils.hasText(searchRequest.getAll())){//keyword검색의 dropdown메뉴중 전체를 선택했을 때
-            String keyword = searchRequest.getKeywordValue();
+            String keyword = searchRequest.getKeyword();
             searchCond.setContent(keyword);
             searchCond.setWriter(keyword);
             searchCond.setRestaurantName(keyword);
         }
         if (StringUtils.hasText(searchRequest.getTag())) {//keyword검색의 dropdown메뉴중 태그를 선택했을 때
             List<Article> articlesByTag = articleQRepository.findByTagValue(searchRequest.getTag().trim());
+            log.info("[ArticleService] articlesByTag = {}",articlesByTag);
             searchCond.setArticlesByTagValue(articlesByTag);
         }
         return searchCond;

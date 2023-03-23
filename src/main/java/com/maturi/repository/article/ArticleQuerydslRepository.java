@@ -1,16 +1,15 @@
 package com.maturi.repository.article;
 
 import com.maturi.dto.article.search.ArticleSearchCond;
-import com.maturi.dto.article.search.MySliceImpl;
+import com.maturi.dto.article.search.ArticlePaging;
 import com.maturi.entity.article.Article;
+import com.maturi.entity.article.QTag;
 import com.maturi.entity.member.Member;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -18,6 +17,8 @@ import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
+import static com.maturi.entity.article.QTag.*;
+import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.util.constfield.LocationConst.kmToLat;
 
@@ -45,14 +46,15 @@ public class ArticleQuerydslRepository {
                 .select(article)
                 .from(tagValue)
                 .join(tagValue.article, article)
-                .on(tagValue.tag.name.contains(tag))
+                .join(QTag.tag,tagValue.tag)
+                .on(QTag.tag.name.contains(tag))
                 .fetch();
     }
 
     //페이징 처리한 동적쿼리문
-    public MySliceImpl searchDynamicQueryAndPaging(Long lastArticleId,
-                                                      ArticleSearchCond cond,
-                                                      Pageable pageable) {
+    public ArticlePaging searchDynamicQueryAndPaging(Long lastArticleId,
+                                                     ArticleSearchCond cond,
+                                                     Pageable pageable) {
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
         //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
         //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
@@ -66,7 +68,6 @@ public class ArticleQuerydslRepository {
                 .where(
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
-
                         // 검색조건들
                         followMembersIn(cond.getFollowMembers()),//팔로우한 유저로 검색
                         sidoEq(cond.getSido()),//시도로 검색
@@ -85,10 +86,9 @@ public class ArticleQuerydslRepository {
         boolean hasNext = false;
         if (results.size() > pageable.getPageSize()) {
             hasNext = true;
+            results.remove(results.size()-1);
         }
-
-        return new MySliceImpl(results,hasNext);
-        // 무한 스크롤 처리
+        return new ArticlePaging(results,hasNext);
     }
     //페이징 처리를 하지않은 동적쿼리문
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
