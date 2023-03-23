@@ -29,7 +29,7 @@ public class ArticleQuerydslRepository {
     private final JPAQueryFactory query;
 
     //유저가 좋아요를 누른 게시글을을 찾음
-    public List<Article> findByLike(Long memberId) {
+    public List<Article> findByLike(Long memberId) {//테스트함
         //select a from LikeArticle l join article a on l.article_id = a.id where l.member_id = ?;
         return query
                 .select(article)
@@ -40,17 +40,27 @@ public class ArticleQuerydslRepository {
     }
 
     //유저가 입력한 키워드가 태그명의 일부에 포함되는 게시글을 찾음
-    public List<Article> findByTagValue(String tag) {
+    public List<Article> findByTagValue(String tag) {//테스트함
         //select a from TagValue t join Article a on t.article_id = a.id where tag like %?%;
         return query
                 .select(article)
-                .from(article)
-                .join(tagValue.article, article).fetchJoin()
-                .where(tagValue.tag.name.contains(tag))
+                .from(tagValue)
+                .join(tagValue.article, article)
+                .on(tagValue.tag.name.contains(tag))
                 .fetch();
     }
 
     //페이징 처리를 하지않은 동적쿼리문
+    public List<Article> searchBySlice(ArticleSearchCond cond) {
+
+        return query.selectFrom(article)
+                .where(
+
+                )
+                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
+                .fetch();
+    }
+
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
 
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
@@ -76,16 +86,6 @@ public class ArticleQuerydslRepository {
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
                 .limit(20)
-                .fetch();
-    }
-
-    public List<Article> searchBySlice(ArticleSearchCond cond) {
-
-        return query.selectFrom(article)
-                .where(
-
-                )
-                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
                 .fetch();
     }
 

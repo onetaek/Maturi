@@ -39,7 +39,7 @@ import java.util.UUID;
  * 11. Member(Entity) - Level 2 !!
  * 12. MemberStatus - Level 1 !(무조건 NORMAL)!
  */
-@Profile("test111")
+@Profile("te1231st")
 @Component
 @RequiredArgsConstructor
 public class DummyData {

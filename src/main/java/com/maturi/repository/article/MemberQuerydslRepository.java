@@ -17,20 +17,20 @@ import static com.maturi.entity.member.QMember.*;
 @Repository
 public class MemberQuerydslRepository {
 
-    private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory query;
 
     /**
      * 햇갈리는게있는데 MySQL기준으로 아래 두개 같은건가요?
      * select * from Member m join Article a on m.id = a.member_id where m.id = 1
      * select * from Member m join Article a on m.id = a.member_id where a.member_id = 1
      */
-    public List<Member> findFollowMemberById(Long memberId){
+    public List<Member> findFollowMemberById(Long memberId){//테스트함
         //select m from follow f join member m on f.following_member_id = m.following_member_id where f.following_member_id = ?
-        return queryFactory
+        return query
                 .select(follow.followerMember)
                 .from(follow)
                 .join(follow.followingMember, member)
-                .on(follow.followingMember.id.eq(memberId)).fetchJoin()
+                .on(follow.followingMember.id.eq(memberId))
                 .fetch();
     }
 }
