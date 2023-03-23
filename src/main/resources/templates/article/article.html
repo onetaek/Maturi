@@ -32,8 +32,8 @@
         <!--    좋아요 & 태그 -->
         <div class="likeAndTag">
             <span class="likeWrap">
-              <span class="likeBtn isLikedArticle" th:if="${isLikedArticle}">좋아요</span>
-              <span class="likeBtn" th:unless="${isLikedArticle}">좋아요</span>
+              <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>
+              <span class="likeBtn" th:unless="${article.getLike()}">좋아요</span>
               <span class="likeNum" th:text="${article.like}">20</span>
             </span>
             <a href="#" th:each="tag: ${article.tags}" th:text="${tag}">#태그1</a>

@@ -1,4 +1,4 @@
-package com.maturi.dto.article;
+package com.maturi.dto.article.search;
 
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.Location;

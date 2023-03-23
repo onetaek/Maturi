@@ -1,6 +1,8 @@
 package com.maturi.service.article;
 
 import com.maturi.dto.article.*;
+import com.maturi.dto.article.search.ArticleSearchCond;
+import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
@@ -11,7 +13,6 @@ import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,36 +110,9 @@ public class ArticleService {
 
     public ArticleViewDTO articleInfo(Long articleId) {
         Article article = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
-
-        if(article == null){
-            return null;
-        }
-
-        List<TagValue> tagValues = tagValueRepository.findByArticleId(article.getId());
-        ArrayList<String> tagName = new ArrayList<>();
-        for(TagValue tagValue : tagValues){
-            tagName.add("#" + tagValue.getTag().getName());
-        }
-
-        int likeNum = likeArticleRepository.countByArticleId(article.getId());
-
-        ArticleViewDTO articleViewDTO = ArticleViewDTO.builder()
-                .id(articleId)
-                .content(article.getContent())
-                .image(Arrays.asList(article.getImage().split(",")))
-                .modifiedDate(article.getModifiedDate())
-                .name(article.getMember().getName())
-                .nickName(article.getMember().getNickName())
-                .profileImg(article.getMember().getProfileImg())
-                .tags(tagName)
-                .like(likeNum)
-//                .restaurantName(article.getRestaurant().getName())
-//                .category(article.getRestaurant().getCategory()) // 수정??
-//                .oldAddress(article.getRestaurant().getLocation().getOldAddress())
-//                .address(article.getRestaurant().getLocation().getAddress())
-//                .latitude(article.getRestaurant().getLocation().getLatitude())
-//                .longitude(article.getRestaurant().getLocation().getLongitude())
-                .build();
+        if (article == null ) return null;
+        ArticleViewDTO articleViewDTO = getArticleViewDTO(article);//메서드로 분리했습니당
+        log.info("articleViewDTO = {}",articleViewDTO);
         return articleViewDTO;
     }
 
@@ -176,10 +150,10 @@ public class ArticleService {
             return false;
         }
     }
+
     public int likeNum(Long articleId){
         return likeArticleRepository.countByArticleId(articleId);
     }
-
     public boolean articleStatusNormal(Long articleId) {
         Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
         log.info("findArticle = {}", findArticle);
@@ -207,13 +181,19 @@ public class ArticleService {
     }
 
 
-    public List<Article> articleSearch(ArticleSearchRequest searchRequest,
-                                                     Pageable pageable,
-                                                     Long memberId) {
+    public List<ArticleViewDTO> articleSearch(ArticleSearchRequest searchRequest,
+                                       Pageable pageable,
+                                       Long memberId) {
 
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
         List<Article> findArticles = articleQRepository.searchBooleanBuilder(cond);
-        return findArticles;
+        List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
+        for (Article findArticle : findArticles) {
+            ArticleViewDTO articleViewDTO = getArticleViewDTO(findArticle);
+            log.info("[ArticleService] articleViewDTO = {}",articleViewDTO);
+            articleViewDTOS.add(articleViewDTO);
+        }
+        return articleViewDTOS;
     }
 
 
@@ -256,5 +236,40 @@ public class ArticleService {
             searchCond.setArticlesByTagValue(articlesByTag);
         }
         return searchCond;
+    }
+
+    //article Entity를 DTO로 변환
+    private ArticleViewDTO getArticleViewDTO(Article article) {
+        if(article == null){
+            return null;
+        }
+
+        List<TagValue> tagValues = tagValueRepository.findByArticleId(article.getId());
+        ArrayList<String> tagName = new ArrayList<>();
+        for(TagValue tagValue : tagValues){
+            tagName.add("#" + tagValue.getTag().getName());
+        }
+
+        int likeNum = likeArticleRepository.countByArticleId(article.getId());
+
+        ArticleViewDTO articleViewDTO = ArticleViewDTO.builder()
+                .id(article.getId())
+                .content(article.getContent())
+                .image(Arrays.asList(article.getImage().split(",")))
+                .modifiedDate(article.getModifiedDate())
+                .name(article.getMember().getName())
+                .nickName(article.getMember().getNickName())
+                .profileImg(article.getMember().getProfileImg())
+                .tags(tagName)
+                .like(likeNum)
+                .isLiked(this.isLikedArticle(article.getId(), article.getMember().getId()))
+//                .restaurantName(article.getRestaurant().getName())
+//                .category(article.getRestaurant().getCategory()) // 수정??
+//                .oldAddress(article.getRestaurant().getLocation().getOldAddress())
+//                .address(article.getRestaurant().getLocation().getAddress())
+//                .latitude(article.getRestaurant().getLocation().getLatitude())
+//                .longitude(article.getRestaurant().getLocation().getLongitude())
+                .build();
+        return articleViewDTO;
     }
 }

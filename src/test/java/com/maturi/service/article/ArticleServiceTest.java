@@ -1,6 +1,6 @@
 package com.maturi.service.article;
 
-import com.maturi.dto.article.ArticleSearchRequest;
+import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
@@ -12,13 +12,11 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
@@ -31,7 +29,6 @@ import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QRestaurant.restaurant;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.member;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.StringUtils.hasText;
 

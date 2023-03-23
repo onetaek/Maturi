@@ -27,6 +27,7 @@ public class ArticleViewDTO {
   private List<String> tags;
   // 좋아요 관련
   private int like;
+  private boolean isLiked;
 //  // 음식점 정보
 //  private String restaurantName;
 //  private Category category;

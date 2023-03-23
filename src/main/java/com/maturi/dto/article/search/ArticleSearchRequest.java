@@ -1,4 +1,4 @@
-package com.maturi.dto.article;
+package com.maturi.dto.article.search;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

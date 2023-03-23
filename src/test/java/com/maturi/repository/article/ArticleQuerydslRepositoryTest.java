@@ -1,6 +1,6 @@
 package com.maturi.repository.article;
 
-import com.maturi.dto.article.ArticleSearchCond;
+import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.member.Member;
 import com.maturi.service.article.ArticleService;

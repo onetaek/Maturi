@@ -1,22 +1,18 @@
 package com.maturi.controller.article;
 
 import com.maturi.dto.article.ArticleDTO;
-import com.maturi.dto.article.ArticleSearchRequest;
+import com.maturi.dto.article.ArticleViewDTO;
+import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.article.RestaurantDTO;
-import com.maturi.dto.article.ArticleSearchResponse;
 import com.maturi.entity.article.Article;
-import com.maturi.entity.article.ArticleStatus;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.article.CommentService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -51,9 +47,9 @@ public class ArticleController {
                                Pageable pageable,
                                Model model){
         log.info("articleSearchRequest={}",articleSearchRequest);
-        List<Article> articles = articleService.articleSearch(articleSearchRequest, pageable, memberId);
+        List<ArticleViewDTO> articleViewDTOS = articleService.articleSearch(articleSearchRequest, pageable, memberId);
 
-        model.addAttribute("articles",articles);
+        model.addAttribute("articles",articleViewDTOS);
         model.addAttribute("member", articleService.memberInfo(memberId));//MemberDTO
         return "/article/welcome";
     }
@@ -99,7 +95,6 @@ public class ArticleController {
 
         model.addAttribute("article", articleService.articleInfo(articleId));
         model.addAttribute("restaurant", articleService.restaurantByArticle(articleId));
-        model.addAttribute("isLikedArticle", articleService.isLikedArticle(articleId, memberId));
         model.addAttribute("comments", commentService.articleComment(memberId, articleId));
 //        model.addAttribute("isLikedComment")
         return "/article/article";
