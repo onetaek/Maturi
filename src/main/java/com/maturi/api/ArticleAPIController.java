@@ -15,11 +15,11 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/article")
+@RequestMapping("/api")
 public class ArticleAPIController {
   final private ArticleService articleService;
 
-  @PostMapping("/likeOrUnlike/{id}")
+  @PostMapping("/article/likeOrUnlike/{id}")
   public ResponseEntity likeOrUnlike(@Login Long memberId,
                                      @PathVariable Long id) throws ParseException {
 //    ResponseEntity
@@ -37,5 +37,8 @@ public class ArticleAPIController {
 
     return new ResponseEntity(result, HttpStatus.OK);
   }
+
+
+
 }
 

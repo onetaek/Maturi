@@ -69,6 +69,7 @@ function addPaginationPage(page) {
 
 // ajax 로 해당 page 데이터 가져와서 뿌려주기
 function addPage(page) {
+    console.log("페이징 처리 ajax요청");
     $.ajax({
         type: 'GET',
         url: '/api/articles/',
