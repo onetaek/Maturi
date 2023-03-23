@@ -3,6 +3,7 @@ package com.maturi.service.article;
 import com.maturi.dto.article.*;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticleSearchRequest;
+import com.maturi.dto.article.search.MySliceImpl;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -182,17 +184,21 @@ public class ArticleService {
 
 
     public List<ArticleViewDTO> articleSearch(ArticleSearchRequest searchRequest,
-                                       Pageable pageable,
-                                       Long memberId) {
+                                              Long memberId,
+                                              Long lastArticleId,
+                                              Pageable pageable) {
 
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
-        List<Article> findArticles = articleQRepository.searchBooleanBuilder(cond);
+        MySliceImpl articles = articleQRepository.searchDynamicQueryAndPaging(lastArticleId, cond, pageable);//DTO로 변환해야함
+        log.info("Slice<Article> articles = {}",articles);
+
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
-        for (Article findArticle : findArticles) {
-            ArticleViewDTO articleViewDTO = getArticleViewDTO(findArticle);
+        for (Article article : articles.getArticle()) {
+            ArticleViewDTO articleViewDTO = getArticleViewDTO(article);
             log.info("[ArticleService] articleViewDTO = {}",articleViewDTO);
             articleViewDTOS.add(articleViewDTO);
         }
+
         return articleViewDTOS;
     }
 

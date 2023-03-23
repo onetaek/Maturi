@@ -80,22 +80,23 @@ function addPage(page) {
         dataType: 'json',
     }).done(function (result) {
         if (result.length == 0) {
+            alert("요청의 길이가 0입니다");
             return;
         }
-
-        // add articleList data
-        const pageElement = document.createElement('div');
-        pageElement.id = getPageId(page);
-        pageElement.className = 'article-list__page';
-
-        for (var i = 0; i < result.length; i++) {
-            pageElement.appendChild(getArticle(result[i]));
-        }
-
-        articleList.appendChild(pageElement);
-
-        // add articleListPagination data
-        addPaginationPage(page);
+        console.log("result",result);
+        // // add articleList data
+        // const pageElement = document.createElement('div');
+        // pageElement.id = getPageId(page);
+        // pageElement.className = 'article-list__page';
+        //
+        // for (var i = 0; i < result.length; i++) {
+        //     pageElement.appendChild(getArticle(result[i]));
+        // }
+        //
+        // articleList.appendChild(pageElement);
+        //
+        // // add articleListPagination data
+        // addPaginationPage(page);
     });
 }
 

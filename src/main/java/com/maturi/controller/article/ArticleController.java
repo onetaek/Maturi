@@ -43,13 +43,10 @@ public class ArticleController {
 
     @GetMapping("/articleList")//전체페이지 작업중에 에러뜨면 누나 글쓰기 페이지 못가니까 따로 작업중
     public String articleListPage(@Login Long memberId,
-                               @ModelAttribute ArticleSearchRequest articleSearchRequest,
-                               Pageable pageable,
                                Model model){
-        log.info("articleSearchRequest={}",articleSearchRequest);
-        List<ArticleViewDTO> articleViewDTOS = articleService.articleSearch(articleSearchRequest, pageable, memberId);
 
-        model.addAttribute("articles",articleViewDTOS);
+
+
         model.addAttribute("member", articleService.memberInfo(memberId));//MemberDTO
         return "/article/welcome";
     }

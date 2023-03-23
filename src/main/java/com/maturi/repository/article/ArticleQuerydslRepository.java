@@ -1,6 +1,7 @@
 package com.maturi.repository.article;
 
 import com.maturi.dto.article.search.ArticleSearchCond;
+import com.maturi.dto.article.search.MySliceImpl;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.member.Member;
 import com.querydsl.core.BooleanBuilder;
@@ -49,7 +50,7 @@ public class ArticleQuerydslRepository {
     }
 
     //페이징 처리한 동적쿼리문
-    public Slice<Article> searchDynamicQueryAndPaging(Long lastArticleId,
+    public MySliceImpl searchDynamicQueryAndPaging(Long lastArticleId,
                                                       ArticleSearchCond cond,
                                                       Pageable pageable) {
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
@@ -83,12 +84,11 @@ public class ArticleQuerydslRepository {
 
         boolean hasNext = false;
         if (results.size() > pageable.getPageSize()) {
-            results.remove(pageable.getPageSize());
             hasNext = true;
         }
 
+        return new MySliceImpl(results,hasNext);
         // 무한 스크롤 처리
-        return new SliceImpl<>(results, pageable, hasNext);
     }
     //페이징 처리를 하지않은 동적쿼리문
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
