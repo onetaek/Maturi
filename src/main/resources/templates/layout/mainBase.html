@@ -18,8 +18,12 @@
 <div id="wrap" >
     <div id="sideNav">
         <h1 class="logo"><a href="/articles">Maturi</a></h1>
+        <form name="goMyPageForm"></form>
         <div id="gnbWrap">
-            <h2 class="mProfileImg"><img th:src="${member.profileImg}" alt="프로필 이미지"></h2>
+            <h2 class="mProfileImg">
+                <img th:if="${#strings.startsWith(member.profileImg,'http://')}" th:src="${member.profileImg}" alt="프로필 이미지">
+                <img th:unless="${#strings.startsWith(member.profileImg,'http://')}" th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+            </h2>
             <div class="memberInfo">
                 <h3 class="mName" th:text="${member.name}">김혜현</h3>
                 <span class="mNick" th:text="${member.nickName}">@hyea._.hyun</span>
@@ -133,6 +137,7 @@
 <script src="/js/kakaoMapsSearch.js"></script>
 <script src="/js/reviewWriteBtn.js"></script>
 <script src="/js/article/logout.js"></script>
+<script src="/js/article/goPageBtn.js"></script>
 <script src="/js/popupDropdown.js"></script>
 <script src="/js/article/welcome/interLocation.js"></script>
 <script src="/js/article/welcome/searchBtn.js"></script>

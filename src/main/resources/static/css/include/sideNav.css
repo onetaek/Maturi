@@ -38,6 +38,7 @@
     background-color: var(--light-gray);
     border: 1px solid #000;
     overflow: hidden;
+    cursor: pointer;
 }
 #gnbWrap .mProfileImg img {
     width: 100%; height: 100%;
@@ -45,7 +46,9 @@
 #gnbWrap .memberInfo {
     margin-top: 80px;
 }
-
+#gnbWrap .memberInfo > * {
+    cursor: pointer;
+}
 #gnb ul {
     display: flex;
     flex-direction: column;

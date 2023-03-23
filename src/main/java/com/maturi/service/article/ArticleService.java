@@ -123,6 +123,7 @@ public class ArticleService {
                 .image(Arrays.asList(article.getImage().split(",")))
                 .modifiedDate(article.getModifiedDate())
                 .name(article.getMember().getName())
+                .nickName(article.getMember().getNickName())
                 .profileImg(article.getMember().getProfileImg())
                 .tags(tagName)
                 .like(likeNum)

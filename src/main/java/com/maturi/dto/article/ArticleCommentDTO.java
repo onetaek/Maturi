@@ -15,6 +15,7 @@ public class ArticleCommentDTO {
   private Long id;
   private String profileImg;
   private String name;
+  private String nickName;
   private String content;
   private LocalDateTime modifiedDate;
   private int like;

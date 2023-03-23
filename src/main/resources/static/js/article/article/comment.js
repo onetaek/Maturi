@@ -16,8 +16,7 @@ commentForm.commentSubmitBtn.addEventListener("click", ()=>{
   fetch(url, {
     method: "post",
     body: JSON.stringify({
-      commentBody: commentForm.commentBody.value,
-      lastCommentId: lastCommentId
+      commentBody: commentForm.commentBody.value
     }),
     headers: {
       "Content-type": "application/json"
@@ -80,9 +79,13 @@ comment.forEach(e =>{
       let content = e.querySelector(".commentWrap .cContent").innerText;
       const commentBox = e.querySelector(".commentBox");
       commentBox.innerHTML =
-        `<textarea type="text" class="commentModifyBody">${content}</textarea>
-        <button type="button" class="commentModifyBtn">수정하기</button>
-        <button type="button" class="commentModifyCancel">취소</button>`;
+        `
+        <textarea type="text" class="commentModifyBody">${content}</textarea>
+        <div class="commentModifyBtns">
+          <button type="button" class="commentModifyBtn">수정하기</button>
+          <button type="button" class="commentModifyCancel">취소</button>
+        </div>
+        `;
 
       // 취소 버튼 클릭
       commentBox.querySelector(".commentModifyCancel").addEventListener("click", ()=>{

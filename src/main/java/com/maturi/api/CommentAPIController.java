@@ -32,16 +32,13 @@ public class CommentAPIController {
     // parse
     JSONParser jsonParser = new JSONParser();
     JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
-    log.info("jsonObject = {}", jsonObject);
     String commentBody = (String) jsonObject.get("commentBody");
-    String lastCommentIdStr = String.valueOf(jsonObject.get("lastCommentId"));
-    Long lastCommentId = Long.parseLong(lastCommentIdStr);
 
     // 댓글 생성
     commentService.write(memberId, article_id, commentBody);
 
     // 새 댓글 목록
-    List<ArticleCommentDTO> newComments = commentService.newComments(memberId, article_id, lastCommentId);
+    List<ArticleCommentDTO> newComments = commentService.articleComment(memberId, article_id);
 
     return ResponseEntity.status(HttpStatus.OK).body(newComments);
   }
