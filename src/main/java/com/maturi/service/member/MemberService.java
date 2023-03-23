@@ -1,12 +1,11 @@
 package com.maturi.service.member;
 
-import com.maturi.dto.member.AreaInterDTO;
-import com.maturi.dto.member.MemberJoinDTO;
-import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.dto.member.*;
 import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.member.MemberRepository;
+import com.maturi.util.FileStore;
 import com.maturi.util.PasswdEncry;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +25,7 @@ public class MemberService {
 
   final private MemberRepository memberRepository;
   final private ModelMapper modelMapper;
+  final private FileStore fileStore;
 
   public Member join(MemberJoinDTO memberJoinDTO){
 
@@ -112,19 +113,69 @@ public class MemberService {
       findMember.changeInterArea(modelMapper.map(areaInterDTO, Area.class));
   }
 
-    public AreaInterDTO selectInterLocation(Long memberId) {
-        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
-                new IllegalArgumentException("맴버가 없습니다!"));
-        if(findMember.getArea() == null){
-            return null;
-        }else{
-            return modelMapper.map(findMember.getArea(), AreaInterDTO.class);
-        }
+  public AreaInterDTO selectInterLocation(Long memberId) {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
+            new IllegalArgumentException("맴버가 없습니다!"));
+    if(findMember.getArea() == null){
+        return null;
+    }else{
+        return modelMapper.map(findMember.getArea(), AreaInterDTO.class);
+    }
+  }
+
+  public void removeArea(Long memberId) {
+      Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
+              new IllegalArgumentException("맴버가 없습니다!"));
+      findMember.removeArea();
+  }
+
+  public MemberMyPageDTO myPageMemberInfo(Long memberId) {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+            new IllegalArgumentException("맴버가 없습니다!"));
+
+    MemberMyPageDTO myPageDTO = MemberMyPageDTO.builder()
+            .nickName(findMember.getNickName())
+            .name(findMember.getName())
+            .profileImg(findMember.getProfileImg())
+            .profile(findMember.getProfile())
+            .coverImg(findMember.getCoverImg())
+            .build();
+
+    return myPageDTO;
+  }
+
+  public boolean nickNameDuplCheck(String nickName) {
+    Member findMember = memberRepository.findByNickName(nickName);
+
+    if(findMember == null){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  public void editMemberProfileInfo(Long memberId,
+                                    MemberEditMyPageDTO memberEditMyPageDTO) throws IOException {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+            new IllegalArgumentException("맴버가 없습니다!"));
+
+
+    findMember.changeSimpleInfo(memberEditMyPageDTO.getNickName(),
+                                memberEditMyPageDTO.getName(),
+                                memberEditMyPageDTO.getProfile());
+
+    // 이미지 바꿨을 경우 (파일 업로드 로직)
+    if(!memberEditMyPageDTO.getCoverImg().isEmpty()) {
+      String storeCoverImg = fileStore.storeFile(memberEditMyPageDTO.getCoverImg());
+      findMember.changeCoverImg(storeCoverImg);
+    }
+    if(!memberEditMyPageDTO.getProfileImg().isEmpty()){
+      String storeprofileImg = fileStore.storeFile(memberEditMyPageDTO.getProfileImg());
+      findMember.changeProfileImg(storeprofileImg);
     }
 
-    public void removeArea(Long memberId) {
-        Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
-                new IllegalArgumentException("맴버가 없습니다!"));
-        findMember.removeArea();
-    }
+    log.info("editMemberInfo = {}", findMember);
+
+    memberRepository.save(findMember);
+  }
 }

@@ -24,6 +24,7 @@ public class Member {
   private String nickName;
   private String profileImg;
   private String profile;
+  private String coverImg;
   private String contact;
   @Enumerated(EnumType.STRING)
   private MemberStatus status;
@@ -36,5 +37,17 @@ public class Member {
 
   public void removeArea() {
       this.area = null;
+  }
+
+  public void changeSimpleInfo(String nickName, String name, String profile){
+    this.nickName = nickName;
+    this.name = name;
+    this.profile = profile;
+  }
+  public void changeProfileImg(String profileImg){
+    this.profileImg = profileImg;
+  }
+  public void changeCoverImg(String coverImg){
+    this.coverImg = coverImg;
   }
 }

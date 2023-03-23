@@ -1,6 +1,7 @@
 #coverImg {
     width: 100%;
     height: 30vh;
+    background-color: var(--light-gray);
     overflow: hidden;
 }
 #coverImg img {
@@ -30,6 +31,16 @@
 }
 #myPageInfo .mProfileImg img {
     width: 100%; height: 100%;
+}
+#myPageInfo .mNickName {
+    font-size: 20px;
+}
+#myPageInfo .detailInfo,
+#myPageInfo .followBtn{
+    width: 100px; padding: 5px 0; margin: 0 5px;
+    border-radius: 5px;
+    background-color: var(--hot-pink-color);
+    color: var(--white-color);
 }
 
 /* 더보기 버튼 */

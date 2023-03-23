@@ -12,3 +12,10 @@ moreBtn.addEventListener("click", ()=>{
   }
   memberBtnUl.style.display = ulDisplay;
 });
+
+/* 프로필 편집 버튼 클릭 */
+const editMyPage = document.querySelector(".editMyPage");
+editMyPage.addEventListener("click", (e)=>{
+  e.preventDefault();
+  location.href = "/member/editMyPage";
+})

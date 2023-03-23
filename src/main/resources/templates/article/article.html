@@ -8,14 +8,17 @@
     <link rel="stylesheet" href="/css/article/article/comment.css">
 </head>
 <body>
-<!-- 마이페이지 본문 -->
+<!-- 상세페이지 본문 -->
 <div layout:fragment="main" id="content">
     <div id="articleWrap" th:attr="data-articleid=${article.id}">
         <!--    글쓴이 정보 -->
         <div class="writerInfo">
             <p class="writerProfileImg"><img th:src="${article.profileImg}" alt="프로필 이미지"></p>
             <p class="written">
-                <span class="writerName" th:text="${article.name}">김혜현</span>
+                <span>
+                    <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
+                    (<span class="writerName" th:text="${article.name}">김혜현</span>)
+                </span>
                 <span class="writtenAt" th:text="${article.modifiedDate}">2023.03.12</span>
             </p>
         </div>
@@ -74,7 +77,10 @@
                 <div class="commentWrap">
                     <p class="cProfileImg"><img th:src="${comment.profileImg}" alt="프로필 이미지"></p>
                     <div class="commentBox">
-                        <h4 th:text="${comment.name}">이름</h4>
+                        <h4>
+                            <span th:text="${comment.nickName}">user-nick</span>
+                            (<span th:text="${comment.name}">이름</span>)
+                        </h4>
                         <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>
                         <p class="cSundry">
                             <span class="" th:text="${comment.modifiedDate}">1일전</span>
@@ -94,32 +100,6 @@
                                 <li th:if="${comment.name == member.name}"><a href="#" class="commentDelete">댓글 삭제</a></li>
                                 <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="replyWrap">
-                    <div class="reply">
-                        <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
-                        <div class="commentBox">
-                            <h4>이름</h4>
-                            <p class="cContent">댓글 내용이 출력됩니다.</p>
-                            <p class="cSundry">
-                                <span class="">1일전</span>
-                            </p>
-                            <span class="likeWrap">
-                              <span class="likeBtn">좋아요</span>
-                              <span class="likeNum">20</span>
-                            </span>
-                            <div class="ellipsis-btn-wrap">
-                            <span class="ellipsis-btn">
-                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-                            </span>
-                                <ul class="ellipsis-content">
-                                    <li th:if="${comment.name == member.name}"><a href="#">게시글 수정</a></li>
-                                    <li th:if="${comment.name == member.name}"><a href="#">게시글 삭제</a></li>
-                                    <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>

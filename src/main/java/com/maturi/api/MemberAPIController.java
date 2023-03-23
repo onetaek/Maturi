@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/member")
 public class MemberAPIController {
-  private final MemberRepository memberRepository;
 
   final private MemberService memberService;
   final private EmailService emailService;
@@ -95,4 +94,16 @@ public class MemberAPIController {
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
+  @PostMapping("/nickNameCheck")
+  public ResponseEntity<String> nickNameDuplCheck(@RequestBody String json) throws ParseException {
+    // parse
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+    String nickName = (String) jsonObject.get("nickName");
+
+    boolean existed = memberService.nickNameDuplCheck(nickName);
+    return existed ?
+            ResponseEntity.status(HttpStatus.OK).build() : // 중복 있음
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 중복 없음
+  }
 }

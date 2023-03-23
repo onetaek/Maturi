@@ -46,31 +46,6 @@ public class CommentService {
     return findComment;
   }
 
-  public List<ArticleCommentDTO> newComments(Long memberId, Long articleId, Long commentId) { // 해당 id 이후 댓글 리스트 (id포함)
-    List<Comment> newComments = commentRepository.findByArticleIdAndIdGreaterThanAndStatusOrderByIdDesc(articleId, commentId, CommentStatus.NORMAL);
-    log.info("newComments = {}", newComments);
-
-    List<ArticleCommentDTO> commentDTOList = new ArrayList<>();
-
-    for(Comment comment : newComments){
-      LikeComment likeComment = likeCommentRepository.findByCommentIdAndMemberId(comment.getId(), memberId);
-
-      ArticleCommentDTO commentDTO = ArticleCommentDTO.builder()
-              .id(comment.getId())
-              .profileImg(comment.getMember().getProfileImg())
-              .name(comment.getMember().getName())
-              .content(comment.getContent())
-              .modifiedDate(comment.getModifiedDate())
-              .like(likeCommentRepository.countByCommentId(comment.getId()))
-              .isLiked(likeComment != null ? true : false) // 로그인멤버가 좋아요 한상태인지 확인
-              .build();
-      commentDTOList.add(commentDTO);
-    }
-
-    log.info("ArticleCommentDTOList = {}", commentDTOList);
-    return commentDTOList;
-  }
-
   public List<ArticleCommentDTO> articleComment(Long memberId, Long articleId) {
     List<Comment> comments = commentRepository.findByArticleIdAndStatusOrderByIdDesc(articleId, CommentStatus.NORMAL);
     log.info("Comments = {}", comments);
@@ -84,6 +59,7 @@ public class CommentService {
               .id(comment.getId())
               .profileImg(comment.getMember().getProfileImg())
               .name(comment.getMember().getName())
+              .nickName(comment.getMember().getNickName())
               .content(comment.getContent())
               .modifiedDate(comment.getModifiedDate())
               .like(likeCommentRepository.countByCommentId(comment.getId()))

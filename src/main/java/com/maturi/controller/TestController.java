@@ -37,10 +37,6 @@ public class TestController {
     public String login(){
         return "/member/login";
     }
-    @GetMapping("/myPage")
-    public String myPage(){
-        return "/member/myPage";
-    }
     @GetMapping("/join")
     public String join(){
         return "/member/join";

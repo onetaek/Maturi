@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div class="replyWrap">
+  <div class="reply">
+    <p class="cProfileImg"><img src="#" alt="프로필 이미지"></p>
+    <div class="commentBox">
+      <h4>이름</h4>
+      <p class="cContent">댓글 내용이 출력됩니다.</p>
+      <p class="cSundry">
+        <span class="">1일전</span>
+      </p>
+      <span class="likeWrap">
+                              <span class="likeBtn">좋아요</span>
+                              <span class="likeNum">20</span>
+                            </span>
+      <div class="ellipsis-btn-wrap">
+                            <span class="ellipsis-btn">
+                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                            </span>
+        <ul class="ellipsis-content">
+          <li th:if="${comment.name == member.name}"><a href="#">게시글 수정</a></li>
+          <li th:if="${comment.name == member.name}"><a href="#">게시글 삭제</a></li>
+          <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

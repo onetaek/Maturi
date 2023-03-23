@@ -1,10 +1,14 @@
 package com.maturi.controller.member;
 
+import com.maturi.dto.member.MemberEditMyPageDTO;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.dto.member.MemberMyPageDTO;
 import com.maturi.entity.member.Member;
+import com.maturi.service.article.ArticleService;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
+import com.maturi.util.argumentresolver.Login;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +32,7 @@ import static com.maturi.util.constfield.SessionConst.*;
 @RequestMapping("/member")
 public class MemberController {
   final private MemberService memberService;
+  final private ArticleService articleService;
   final private MemberValidator memberValidator;
   final private EmailService emailService;
 
@@ -96,5 +101,30 @@ public class MemberController {
     return "redirect:/member/login";
   }
 
+  @GetMapping("/myPage")
+  public String myPage(@Login Long memberId,
+                       Model model){
+
+    model.addAttribute("member", articleService.memberInfo(memberId));
+    model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
+    return "/member/myPage";
+  }
+
+  @GetMapping("/editMyPage")
+  public String editMyPage(@Login Long memberId, Model model){
+
+    model.addAttribute("member", articleService.memberInfo(memberId));
+    model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
+    return "/member/editMyPage";
+  }
+  @PostMapping("/editMyPage")
+  public String editMemberProfileInfo(@Login Long memberId,
+                                      MemberEditMyPageDTO memberEditMyPageDTO,
+                                      Model model) throws IOException {
+
+    memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
+
+    return "redirect:/member/myPage";
+  }
 
 }
