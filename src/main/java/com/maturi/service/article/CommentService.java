@@ -41,7 +41,6 @@ public class CommentService {
             .content(commentBody)
             .status(CommentStatus.NORMAL)
             .build();
-
     Comment findComment = commentRepository.save(comment);
     log.info("writeComment! findComment = {}", findComment);
     return findComment;

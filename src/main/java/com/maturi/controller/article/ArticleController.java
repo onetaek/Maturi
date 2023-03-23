@@ -4,6 +4,7 @@ import com.maturi.dto.article.ArticleDTO;
 import com.maturi.dto.article.ArticleSearchRequest;
 import com.maturi.dto.article.RestaurantDTO;
 import com.maturi.dto.article.ArticleSearchResponse;
+import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.article.CommentService;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @Slf4j
@@ -48,12 +50,9 @@ public class ArticleController {
                                Pageable pageable,
                                Model model){
         log.info("articleSearchRequest={}",articleSearchRequest);
-        Page<ArticleSearchResponse> articleSearchResponsePage = articleService.articleSearch(articleSearchRequest,pageable,memberId);
+        List<Article> articles = articleService.articleSearch(articleSearchRequest, pageable, memberId);
 
-
-
-
-
+        model.addAttribute("articles",articles);
         model.addAttribute("member", articleService.memberInfo(memberId));//MemberDTO
         return "/article/welcome";
     }

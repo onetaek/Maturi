@@ -1,8 +1,7 @@
 package com.maturi.repository.article;
 
 import com.maturi.dto.article.ArticleSearchCond;
-import com.maturi.entity.article.*;
-import com.maturi.entity.member.Area;
+import com.maturi.entity.article.Article;
 import com.maturi.entity.member.Member;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.function.Supplier;
 
-import static com.maturi.entity.article.QArticle.*;
-import static com.maturi.entity.article.QLikeArticle.*;
-import static com.maturi.entity.article.QTagValue.*;
-import static com.maturi.util.constfield.LocationConst.*;
+import static com.maturi.entity.article.QArticle.article;
+import static com.maturi.entity.article.QLikeArticle.likeArticle;
+import static com.maturi.entity.article.QTagValue.tagValue;
+import static com.maturi.util.constfield.LocationConst.kmToLat;
 
 @RequiredArgsConstructor
 @Repository
@@ -50,17 +48,49 @@ public class ArticleQuerydslRepository {
                 .fetch();
     }
 
-    //페이징 처리를 하지않은 동적쿼리문
-    public List<Article> searchBySlice(ArticleSearchCond cond) {
+    //페이징 처리한 동적쿼리문
+    public Slice<Article> searchDynamicQueryAndPaging(Long lastArticleId,
+                                                      ArticleSearchCond cond,
+                                                      Pageable pageable) {
+        //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
+        //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
+        //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
+                .or(writerLike(cond.getWriter()))//작성자(닉네임) keyword검색
+                .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
+                .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
-        return query.selectFrom(article)
+        List<Article> results = query.selectFrom(article)
                 .where(
+                        // no-offset 페이징 처리
+                        ltStoreId(lastArticleId),
 
+                        // 검색조건들
+                        followMembersIn(cond.getFollowMembers()),//팔로우한 유저로 검색
+                        sidoEq(cond.getSido()),//시도로 검색
+                        sigoonEq(cond.getSigoon()),//시군으로 검색
+                        dongEq(cond.getDong()),//동으로 검색
+                        latitudeBetween(cond.getLatitude()),//위도로 검색
+                        longitudeBetween(cond.getLongitude()),//경도로 검색
+                        categoryEq(cond.getCategory()),//음식점 카테고리로 검색
+                        likeArticleIn(cond.getLikeArticles()),//좋아요누른 게시판 검색
+                        builder//keyword조건 검색
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
+                .limit(pageable.getPageSize()+1)
                 .fetch();
-    }
 
+        boolean hasNext = false;
+        if (results.size() > pageable.getPageSize()) {
+            results.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+
+        // 무한 스크롤 처리
+        return new SliceImpl<>(results, pageable, hasNext);
+    }
+    //페이징 처리를 하지않은 동적쿼리문
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
 
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
@@ -92,19 +122,19 @@ public class ArticleQuerydslRepository {
 
     //팔로우한 유저의 게시글들의 where절
     private BooleanExpression followMembersIn(List<Member> followMembers) {
-        return followMembers != null ? article.member.in(followMembers) : null;
+        return followMembers != null && followMembers.size() > 0 ? article.member.in(followMembers) : null;
     }
     //관심지역(시도)에 있는 음식점의 게시글들의 where절
     private BooleanExpression sidoEq(String sido) {
-        return sido != null ? article.restaurant.area.sido.eq(sido) : null;
+        return StringUtils.hasText(sido) ? article.restaurant.area.sido.eq(sido) : null;
     }
     //관심지역(시군)에 있는 음식점의 게시글들의 where절
     private BooleanExpression sigoonEq(String sigoon) {
-        return sigoon != null ? article.restaurant.area.sigoon.eq(sigoon) : null;
+        return StringUtils.hasText(sigoon) ? article.restaurant.area.sigoon.eq(sigoon) : null;
     }
     //관심지역(동)에 있는 음식점의 게시글들의 where절
     private BooleanExpression dongEq(String dong) {
-        return dong != null ? article.restaurant.area.dong.eq(dong) : null;
+        return StringUtils.hasText(dong) ? article.restaurant.area.dong.eq(dong) : null;
     }
     //현재 위치주면(위도) where절
     private BooleanExpression latitudeBetween(Double latitude) {
@@ -116,11 +146,11 @@ public class ArticleQuerydslRepository {
     }
     //음식점 카테고리가 일치하는 게시글들의 where절
     private BooleanExpression categoryEq(String category) {
-        return category!=null ? article.restaurant.category.eq(category) : null;
+        return StringUtils.hasText(category) && !category.equals("") ? article.restaurant.category.eq(category) : null;
     }
     //좋아요를 누른 게시글들
     private BooleanExpression likeArticleIn(List<Article> likeArticles) {
-        return likeArticles != null ? article.in(likeArticles) : null;
+        return likeArticles != null && likeArticles.size() > 0 ? article.in(likeArticles) : null;
     }
     //글 내용조건의 keyword로 검색한 게시글들
     private BooleanExpression contentLike(String content) {
@@ -132,7 +162,7 @@ public class ArticleQuerydslRepository {
     }
     //태그명 조건의 keyword로 검색한 게시글들
     private BooleanExpression tagArticleIn(List<Article> tagArticle) {
-        return tagArticle != null ? article.in(tagArticle) : null;
+        return tagArticle != null && tagArticle.size() > 0 ? article.in(tagArticle) : null;
     }
     //음식점명 조건의의 keyword로 검색한 게시글들
     private BooleanExpression restaurantNameLike(String restaurant) {
@@ -140,14 +170,12 @@ public class ArticleQuerydslRepository {
     }
 
     // 무한 스크롤 방식 처리하는 메서드
-    private Slice<Article> checkLastPage(Pageable pageable, List<Article> results) {
-        boolean hasNext = false;
-        // 조회한 결과 개수가 요청한 페이지 사이즈보다 크면 뒤에 더 있음, next = true
-        if (results.size() > pageable.getPageSize()) {
-            hasNext = true;
-            results.remove(pageable.getPageSize());
+    // no-offset 방식 처리하는 메서드
+    private BooleanExpression ltStoreId(Long articleId) {
+        if (articleId == null) {
+            return null;
         }
-        return new SliceImpl<>(results, pageable, hasNext);
+        return article.id.lt(articleId);
     }
 
 }

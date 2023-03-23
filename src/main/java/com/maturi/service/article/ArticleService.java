@@ -206,14 +206,13 @@ public class ArticleService {
     }
 
 
-    public Page<ArticleSearchResponse> articleSearch(ArticleSearchRequest searchRequest,
+    public List<Article> articleSearch(ArticleSearchRequest searchRequest,
                                                      Pageable pageable,
                                                      Long memberId) {
 
-        ArticleSearchCond searchCond = getSearchCond(searchRequest, memberId);
-
-
-        return null;
+        ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
+        List<Article> findArticles = articleQRepository.searchBooleanBuilder(cond);
+        return findArticles;
     }
 
 

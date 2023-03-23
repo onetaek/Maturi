@@ -15,7 +15,7 @@ public class ModelMapperConfig {
         modelMapper.getConfiguration()
                 .setFieldMatchingEnabled(true)
                 .setFieldAccessLevel(org.modelmapper.config.Configuration.AccessLevel.PRIVATE) // entity setter 적용 안하기 위한 설정
-                .setMatchingStrategy(MatchingStrategies.STRICT); // mapping 전략
+                .setMatchingStrategy(MatchingStrategies.STANDARD); // mapping 전략
         return modelMapper;
     }
 }

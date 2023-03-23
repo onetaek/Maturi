@@ -37,6 +37,18 @@ class ArticleQuerydslRepositoryTest {
     JPAQueryFactory query;
 
     @Test
+    @DisplayName("아무 조건 없이 전체 게시글조회")
+    void 전체조회(){
+        ArticleSearchCond cond = ArticleSearchCond.builder()
+                .build();
+        log.info("cond={}",cond);
+        List<Article> findArticles = articleQRepository.searchBooleanBuilder(cond);
+        for (Article findArticle : findArticles) {
+            log.info("findArticle = {}",findArticle);
+        }
+    }
+
+    @Test
     @DisplayName("카테고리로 한식을 선택하고 키워드에 null대신 쌍따옴표 입력")
     void 한식선택(){
         ArticleSearchCond cond = ArticleSearchCond.builder()
