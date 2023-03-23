@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,6 @@ public class CommentService {
               .build();
       commentDTOList.add(commentDTO);
     }
-
     log.info("ArticleCommentDTOList = {}", commentDTOList);
     return commentDTOList;
   }

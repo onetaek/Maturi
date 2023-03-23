@@ -20,7 +20,7 @@ public class ArticleSearchRequest {
      * 5. 카테고리
      * 6. 좋아요
      */
-    private String radioCond;//ex)all,follow,local,my-local,category
+    private String radioCond;//ex)all,follow,interLocal,myLocal,category
 
     //전체를 눌렀을 때는 where문에 싹다 null로 들어가야한다.
 
@@ -46,8 +46,9 @@ public class ArticleSearchRequest {
     private String tag;
     private String restaurantName;
 
-    //@RequestParam으로 받음
-//    private String keywordName;//input의 name이 되어준 값 ex) content, writer, tag, restaurantName
-//    private String keywordValue;//input의 value가 되어준 값 ex) 사용자가 입력한 keyword
+    private String keywordName;//input의 name이 되어준 값 ex) content, writer, tag, restaurantName
+    private String keywordValue;//input의 value가 되어준 값 ex) 사용자가 입력한 keyword
+    private String all;
+
 
 }

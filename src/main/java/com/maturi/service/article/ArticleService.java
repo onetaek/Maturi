@@ -3,6 +3,7 @@ package com.maturi.service.article;
 import com.maturi.dto.article.*;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
+import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.*;
 import com.maturi.repository.member.MemberRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,13 +23,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.maturi.util.constfield.SearchCondConst.*;
+
 @Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class ArticleService {
     private final CommentRepository commentRepository;
-
     final private ModelMapper modelMapper;
     final private MemberRepository memberRepository;
     final private ArticleRepository articleRepository;
@@ -36,6 +39,8 @@ public class ArticleService {
     final private TagValueRepository tagValueRepository;
     final private LikeArticleRepository likeArticleRepository;
     final private FileStore fileStore;
+    final private ArticleQuerydslRepository articleQRepository;
+    final private MemberQuerydslRepository memberQRepository;
 
     public MemberDTO memberInfo(Long memberId) {
         return modelMapper.map(memberRepository.findById(memberId).orElse(null), MemberDTO.class);
@@ -202,10 +207,55 @@ public class ArticleService {
     }
 
 
-    public Page<ArticleSearchResponse> articleSearch(ArticleSearchRequest articleSearchRequest, Pageable pageable) {
+    public Page<ArticleSearchResponse> articleSearch(ArticleSearchRequest searchRequest,
+                                                     Pageable pageable,
+                                                     Long memberId) {
 
+        ArticleSearchCond searchCond = getSearchCond(searchRequest, memberId);
 
 
         return null;
+    }
+
+
+    /**
+     * 클라이언트로 부터 받은 정보를 기반으로 검색조건에 데이터로 변환해줌(ArticleSearchRequest -> ArticleSearchCond)
+     */
+    public ArticleSearchCond getSearchCond(ArticleSearchRequest searchRequest, Long memberId) {
+        ArticleSearchCond searchCond = modelMapper.map(searchRequest, ArticleSearchCond.class);
+        switch (searchRequest.getRadioCond().trim()){
+            case follow://유저가 팔로우한 유저들
+                List<Member> followMember = memberQRepository.findFollowMemberById(memberId);
+                searchCond.setFollowMembers(followMember);
+                break;
+            case interestArea://유저의 관심 지역
+                Area interArea = memberRepository.findById(memberId).orElseThrow(() ->
+                        new IllegalArgumentException("맴버가 없습니다!")).getArea();
+                if (interArea == null ){
+                    searchCond.setSido(null);
+                    searchCond.setSigoon(null);
+                    searchCond.setDong(null);
+                } else {
+                    searchCond.setSido(interArea.getSido());
+                    searchCond.setSigoon(interArea.getSigoon());
+                    searchCond.setDong(interArea.getDong());
+                }
+                break;
+            case like://유저가 좋아요를 누른 게시판들
+                List<Article> likeArticles =    articleQRepository.findByLike(memberId);
+                searchCond.setLikeArticles(likeArticles);
+                break;
+        }
+        if (StringUtils.hasText(searchRequest.getAll())){//keyword검색의 dropdown메뉴중 전체를 선택했을 때
+            String keyword = searchRequest.getKeywordValue();
+            searchCond.setContent(keyword);
+            searchCond.setWriter(keyword);
+            searchCond.setRestaurantName(keyword);
+        }
+        if (StringUtils.hasText(searchRequest.getTag())) {//keyword검색의 dropdown메뉴중 태그를 선택했을 때
+            List<Article> articlesByTag = articleQRepository.findByTagValue(searchRequest.getTag().trim());
+            searchCond.setArticlesByTagValue(articlesByTag);
+        }
+        return searchCond;
     }
 }

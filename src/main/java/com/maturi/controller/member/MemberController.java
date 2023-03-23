@@ -65,6 +65,7 @@ public class MemberController {
 
   @GetMapping("/login")
   public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,Model model){
+
     model.addAttribute("redirectURL",redirectURL);
     model.addAttribute("member",new MemberLoginDTO());
     return "/member/login";

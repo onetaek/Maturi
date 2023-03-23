@@ -12,7 +12,9 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +31,7 @@ import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QRestaurant.restaurant;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.member;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -53,54 +56,50 @@ class ArticleServiceTest {
         Member member1 = Member.builder()
                 .email("test1@naver.com")
                 .passwd("1234")
-                .salt("난수1")
-                .name("오원택")
+                .salt("salt1")
+                .name("one taek")
                 .nickName("@user-12312412")
                 .status(MemberStatus.NORMAL)
                 .build();
         em.persist(member1);
-
         //글작성
         Location location = Location.builder()
-                .oldAddress("구주소1")
-                .address("주소1")
+                .oldAddress("oldAddress1")
+                .address("address1")
                 .latitude(35.123)
                 .longitude(36.4543)
                 .build();
 
         Restaurant restaurant1 = Restaurant.builder()
-                .name("맘스터치 동호점")
-                .category("패스트푸드")
+                .name("restaurant name")
+                .category("korean food")
                 .location(location)
                 .build();
         em.persist(restaurant1);
-
 //        UploadFile uploadFile = UploadFile.builder()
 //                .uploadFileName("이미지1.png,이미지2.png")
 //                .storeFileName("13214124.ppng,dsa42132.png")
 //                .build();
 //
-//        Article article1 = Article.builder()
-//                .member(member1)
-//                .restaurant(restaurant1)
-//                .content("리뷰글의 내용")
-//                .uploadFile(uploadFile)
-//                .status(ArticleStatus.NORMAL)
-//                .build();
-//        em.persist(article1);
-
+        Article article1 = Article.builder()
+                .member(member1)
+                .restaurant(restaurant1)
+                .content("testtest")
+                .image("image name1")
+                .status(ArticleStatus.NORMAL)
+                .build();
+        em.persist(article1);
         List<Article> findArticles = articleRepository.findAll();
         log.info("findArticles = {}",findArticles);
 
         Tag tag1 = Tag.builder()
-                .name("태그1")
+                .name("tag1")
                 .build();
         Tag tag2 = Tag.builder()
-                .name("태그2")
+                .name("tag2")
                 .build();
         em.persist(tag1);
         em.persist(tag2);
-
 //        TagValue tagValue1 = TagValue.builder()
 //                .tag(tag1)
 //                .article(article1)
@@ -276,6 +275,19 @@ class ArticleServiceTest {
                 .fetch();
         log.info("findMemberByIdAndEmail={}",findMemberByIdAndEmail);
 
+        Member member1 = Member.builder().build();
+
+        List<Member> members = new ArrayList<>();
+        members.add(member1);
+        members.add(member1);
+        members.add(member1);
+        members.add(member1);
+
+        List<Member> findMemberByIdAndEmail1 = queryFactory
+                .selectFrom(member)
+                .where(member.in(members))
+                .fetch();
+
     }
 
     private BooleanExpression usernameEq(String usernameCond){
@@ -290,6 +302,31 @@ class ArticleServiceTest {
         return usernameEq(usernameCond).and(userEmailEq(userEmailCond));
     }
 
+    @Test
+    @DisplayName("객체들 끼리 비교할때 참조 값이 달라도 값이 같을까?")
+    void entitySameTest(){
+        //전체 게시글 조회
+        List<Article> articles = articleRepository.findAll();
+        //게시글들중 첫번째꺼 선택
+        Article findArticle = articles.get(0);
+        //게시글에 등록된 member의 id를 get
+        Long memberId = findArticle.getMember().getId();
+        //id를 기반으로 member를 찾음
+        Member findMember = memberRepository.findById(memberId).orElse(null);
+
+        log.info("findMember={}",findMember);
+        log.info("findArticle={}",findArticle);
+
+        assertThat(findMember).isEqualTo(findArticle.getMember());
+    }
+
+    @Test
+    void distanceCal(){
+        //지하철역 8개 (성서산업단지역 ~ 청라언덕역 기준) = 7.1km(차로 이동했을 때 최단경로)
+        //위도 1도 : 111.1412Km = ? : 7.1km
+        log.info("7.1km / 2 는 위도로로 몇일까? = {}",7.1/111.1412/2);//0.03194135028234354
+        log.info("test={}",Math.random()/100);
+    }
 
 
 }

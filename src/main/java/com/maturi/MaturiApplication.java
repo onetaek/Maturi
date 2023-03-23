@@ -12,7 +12,6 @@ public class MaturiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MaturiApplication.class, args);
 	}
-
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
 		return new HiddenHttpMethodFilter();
