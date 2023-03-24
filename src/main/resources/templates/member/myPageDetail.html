@@ -17,8 +17,8 @@
   <div id="content">
     <div id="myPageInfo">
       <p class="mProfileImg">
-        <img th:if="${myPageMember.profileImg != null && #strings.startsWith(myPageMember.profileImg,'http://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
-        <img th:unless="${myPageMember.profileImg == null || #strings.startsWith(myPageMember.profileImg,'http://')}" th:src="|/test/file/${myPageMember.profileImg}|" alt="프로필 이미지">
+        <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
+        <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/test/file/${myPageMember.profileImg}|" alt="프로필 이미지">
         <img th:if="${myPageMember.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
       </p>
       <div class="memberInfo">
