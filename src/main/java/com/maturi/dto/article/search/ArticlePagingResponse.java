@@ -12,13 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ArticlePaging<T> {
+public class ArticlePagingResponse<T> {
 
     private List<T> content = new ArrayList<>();
     boolean hasNext;
     private String event;
     private Long lastArticleId;
-    public ArticlePaging(List<T> content, boolean hasNext) {
+    public ArticlePagingResponse(List<T> content, boolean hasNext) {
         this.content = content;
         this.hasNext = hasNext;
     }

@@ -1,9 +1,10 @@
 package com.maturi.service.article;
 
 import com.maturi.dto.article.*;
+import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticleSearchRequest;
-import com.maturi.dto.article.search.ArticlePaging;
+import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
@@ -15,7 +16,6 @@ import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -183,12 +183,13 @@ public class ArticleService {
     }
 
 
-    public ArticlePaging articleSearch(ArticleSearchRequest searchRequest,
-                                       Long memberId,
-                                       Long lastArticleId,
-                                       Pageable pageable) {
+    public ArticlePagingResponse articleSearch(ArticleSearchRequest searchRequest,
+                                               ArticlePagingRequest pagingRequest,
+                                               Long memberId) {
+
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
-        ArticlePaging<Article> result = articleQRepository.searchDynamicQueryAndPaging(lastArticleId, cond, pageable);//DTO로 변환해야함
+
+        ArticlePagingResponse<Article> result = articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(), cond,pagingRequest.getSize());
 
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
@@ -196,8 +197,8 @@ public class ArticleService {
             articleViewDTOS.add(articleViewDTO);
         }
         result.setContent(articleViewDTOS);
-        result.setEvent(searchRequest.getEvent());
-        if (articleViewDTOS.size() == 0 ){
+        result.setEvent(pagingRequest.getEvent());
+        if (articleViewDTOS.size() == 0 ){//검색조건에 맞는 게시글이 하나도 없을 때
             result.setLastArticleId(null);
         } else{
             result.setLastArticleId(articleViewDTOS.get(articleViewDTOS.size()-1).getId());

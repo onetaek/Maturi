@@ -1,19 +1,16 @@
 package com.maturi.repository.article;
 
+import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchCond;
-import com.maturi.dto.article.search.ArticlePaging;
+import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.entity.article.Article;
-import com.maturi.entity.article.QRestaurant;
 import com.maturi.entity.article.QTag;
 import com.maturi.entity.member.Member;
-import com.maturi.entity.member.QMember;
-import com.maturi.util.constfield.PagingConst;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -22,8 +19,6 @@ import java.util.List;
 import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
 import static com.maturi.entity.article.QRestaurant.*;
-import static com.maturi.entity.article.QTag.*;
-import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.*;
 import static com.maturi.util.constfield.LocationConst.kmToLat;
@@ -59,10 +54,10 @@ public class ArticleQuerydslRepository {
     }
 
     //누나꺼
-    public ArticlePaging<Article> findMyReviewArticles(Long lastArticleId,
-                                                       Long memberId,
-                                                       ArticleSearchCond cond,
-                                                       Pageable pageable){
+    public ArticlePagingResponse<Article> findMyReviewArticles(Long lastArticleId,
+                                                               Long memberId,
+                                                               ArticleSearchCond cond,
+                                                               Pageable pageable){
         List<Article> results = query.selectFrom(article)
                 .join(article.member,member)
                 .join(article.restaurant, restaurant)
@@ -82,16 +77,17 @@ public class ArticleQuerydslRepository {
             results.remove(results.size()-1);
         }
 
-        return new ArticlePaging(results,hasNext);
+        return new ArticlePagingResponse(results,hasNext);
     }
 
     //페이징 처리한 동적쿼리문
-    public ArticlePaging<Article> searchDynamicQueryAndPaging(Long lastArticleId,
-                                                     ArticleSearchCond cond,
-                                                     Pageable pageable) {
+    public ArticlePagingResponse<Article> searchDynamicQueryAndPaging(Long lastArticleId,
+                                                                      ArticleSearchCond cond,
+                                                                      int size) {
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
         //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
-        //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
+        //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이
+        //null일경우 에러가 발생하게되어서 or조건들은 BooleanBuilder에 체이닝을 해주었다.
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
                 .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색
@@ -100,8 +96,8 @@ public class ArticleQuerydslRepository {
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
         List<Article> results = query.selectFrom(article)
-                .join(article.member,member)
-                .join(article.restaurant, restaurant)
+                .join(article.member,member)//article.member는 Article테이블에 있는 member_id, member는 Member테이블에 있는 id라고 생각
+                .join(article.restaurant, restaurant)//article.restaurant는 Article테이블에 있는 restaurant_id, restaurant는 Restaurant테이블에 있는 id
                 .fetchJoin()
                 .where(
                         // no-offset 페이징 처리
@@ -118,18 +114,18 @@ public class ArticleQuerydslRepository {
                         builder//keyword조건 검색
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .limit(pageable.getPageSize()+1)
+                .limit(size)//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음
                 .fetch();
 
         boolean hasNext = false;
-        if (results.size() > size) {
+        if (results.size() > size) {//결과가 6개이면 size(5)보다 크므로 다음 페이지가 있다는 의미
             hasNext = true;
-            results.remove(results.size()-1);
+            results.remove(size - 1);//다음 페이지 확인을 위하 게시글을 하나더 가져왔으므로 확인 후 삭제
         }
-
-        return new ArticlePaging(results,hasNext);
+        return new ArticlePagingResponse<>(results,hasNext);
     }
-    //페이징 처리를 하지않은 동적쿼리문
+
+    //페이징 처리를 하지않은 동적쿼리문 -> 테스트에서 사용
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
 
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은

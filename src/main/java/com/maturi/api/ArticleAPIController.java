@@ -1,22 +1,19 @@
 package com.maturi.api;
 
+import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchRequest;
-import com.maturi.dto.article.search.ArticlePaging;
+import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.service.article.ArticleService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.maturi.util.constfield.PagingConst.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,13 +42,11 @@ public class ArticleAPIController {
   }
 
   @GetMapping("/articles")
-  public ResponseEntity<ArticlePaging> searchArticlePaging(@Login Long memberId,
-                                                           @ModelAttribute ArticleSearchRequest articleSearchRequest,
-                                                           @RequestParam Long lastArticleId,
-                                                           @PageableDefault(page = 0, size = size)Pageable pageable){
+  public ResponseEntity<ArticlePagingResponse> searchArticlePaging(@Login Long memberId,
+                                                                   @ModelAttribute ArticleSearchRequest articleSearchRequest,//검색조건에 필요한 값들
+                                                                   @ModelAttribute ArticlePagingRequest articlePagingRequest){//페이징에 필요한 값들
 
-
-    ArticlePaging articles = articleService.articleSearch(articleSearchRequest,memberId,lastArticleId, pageable);
+    ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,memberId);
 
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }

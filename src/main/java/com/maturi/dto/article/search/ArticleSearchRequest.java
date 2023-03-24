@@ -28,16 +28,6 @@ public class ArticleSearchRequest {
     private Double longitude;//내경도
     //카테고리를 눌렀을 때
     private String category;//ex) 한식, 중식, 패스트푸드
-    private String content;
-    private String writer;
-    private String tag;
-    private String restaurantName;
-
-    private String keyword;//input의 value가 되어준 값 ex) 사용자가 입력한 keyword
-    private String all;
-
-
-    private String event;
 
     /**
      * 키워드 검색 조건
@@ -47,6 +37,12 @@ public class ArticleSearchRequest {
      * 4. 해시태그
      * 5. 가게명
      */
+    private String all;
+    private String content;
+    private String writer;
+    private String tag;
+    private String restaurantName;
+    private String keyword;//input의 value가 되어준 값 ex) 사용자가 입력한 keyword
 
 
 }

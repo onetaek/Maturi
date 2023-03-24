@@ -89,19 +89,20 @@ function searchCondSetting(event){
         lastArticle = lastArticleInput.value;
     }
     let obj = {
-        'radioCond': radioCond,//
-        'latitude': latitude,//
-        'longitude': longitude,//
-        'category': category,//
-        'content': content,//
-        'writer': writer,//
-        'tag': tag,//
-        'restaurantName': restaurantName,//
-        'all': all,//
-        'keyword': searchKeyWordInput.value,//
-        'lastArticleId': lastArticle,
-        'size': 5, // max page size
-        'event' : event
+        'radioCond': radioCond,//검색에 필요한 값
+        'latitude': latitude,//검색에 필요한 값
+        'longitude': longitude,//검색에 필요한 값
+        'category': category,//검색에 필요한 값
+        'content': content,//검색에 필요한 값
+        'writer': writer,//검색에 필요한 값
+        'tag': tag,//검색에 필요한 값
+        'restaurantName': restaurantName,//검색에 필요한 값
+        'all': all,//검색에 필요한 값
+        'keyword': searchKeyWordInput.value,//검색에 필요한 값
+
+        'lastArticleId': lastArticle,//페이징에 필요한 값
+        'size': 5, // 페이징에 필요한 값
+        'event' : event//페이징에 필요한 값
     };
     return obj;
 }
