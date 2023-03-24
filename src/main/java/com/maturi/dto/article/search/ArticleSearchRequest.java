@@ -35,6 +35,8 @@ public class ArticleSearchRequest {
 
     private String keyword;//input의 value가 되어준 값 ex) 사용자가 입력한 keyword
     private String all;
+
+
     private String event;
 
     /**

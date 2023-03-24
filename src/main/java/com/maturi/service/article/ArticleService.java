@@ -110,10 +110,10 @@ public class ArticleService {
         return findArticle.getId();
     }
 
-    public ArticleViewDTO articleInfo(Long articleId) {
+    public ArticleViewDTO articleInfo(Long articleId, Long memberId) {
         Article article = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
         if (article == null ) return null;
-        ArticleViewDTO articleViewDTO = getArticleViewDTO(article);//메서드로 분리했습니당
+        ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
         log.info("articleViewDTO = {}",articleViewDTO);
         return articleViewDTO;
     }
@@ -187,15 +187,12 @@ public class ArticleService {
                                        Long memberId,
                                        Long lastArticleId,
                                        Pageable pageable) {
-        log.info("size? = {}",pageable.getPageSize());
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
-        ArticlePaging result = articleQRepository.searchDynamicQueryAndPaging(lastArticleId, cond, pageable);//DTO로 변환해야함
-        log.info("Slice<Article> articles = {}",result);
+        ArticlePaging<Article> result = articleQRepository.searchDynamicQueryAndPaging(lastArticleId, cond, pageable);//DTO로 변환해야함
 
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
-        for (Article article : (List<Article>)result.getContent()) {
-            ArticleViewDTO articleViewDTO = getArticleViewDTO(article);
-            log.info("[ArticleService] articleViewDTO = {}",articleViewDTO);
+        for (Article article : result.getContent()) {
+            ArticleViewDTO articleViewDTO = getArticleViewDTO(article,memberId);
             articleViewDTOS.add(articleViewDTO);
         }
         result.setContent(articleViewDTOS);
@@ -252,7 +249,7 @@ public class ArticleService {
     }
 
     //article Entity를 DTO로 변환
-    private ArticleViewDTO getArticleViewDTO(Article article) {
+    private ArticleViewDTO getArticleViewDTO(Article article, Long memberId) {
         if(article == null){
             return null;
         }
@@ -275,7 +272,7 @@ public class ArticleService {
                 .profileImg(article.getMember().getProfileImg())
                 .tags(tagName)
                 .like(likeNum)
-                .isLiked(this.isLikedArticle(article.getId(), article.getMember().getId()))
+                .isLiked(this.isLikedArticle(article.getId(), memberId))
 //                .restaurantName(article.getRestaurant().getName())
 //                .category(article.getRestaurant().getCategory()) // 수정??
 //                .oldAddress(article.getRestaurant().getLocation().getOldAddress())

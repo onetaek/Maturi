@@ -74,7 +74,7 @@ public class ArticleController {
             return "/layout/message";
         }
 
-        model.addAttribute("article", articleService.articleInfo(articleId));
+        model.addAttribute("article", articleService.articleInfo(articleId,memberId));
         model.addAttribute("restaurant", articleService.restaurantByArticle(articleId));
         model.addAttribute("comments", commentService.articleComment(memberId, articleId));
 //        model.addAttribute("isLikedComment")

@@ -89,16 +89,16 @@ function searchCondSetting(event){
         lastArticle = lastArticleInput.value;
     }
     let obj = {
-        'radioCond': radioCond,
-        'latitude': latitude,
-        'longitude': longitude,
-        'category': category,
-        'content': content,
-        'writer': writer,
-        'tag': tag,
-        'restaurantName': restaurantName,
-        'all': all,
-        'keyword': searchKeyWordInput.value,
+        'radioCond': radioCond,//
+        'latitude': latitude,//
+        'longitude': longitude,//
+        'category': category,//
+        'content': content,//
+        'writer': writer,//
+        'tag': tag,//
+        'restaurantName': restaurantName,//
+        'all': all,//
+        'keyword': searchKeyWordInput.value,//
         'lastArticleId': lastArticle,
         'size': 5, // max page size
         'event' : event

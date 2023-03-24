@@ -3,13 +3,17 @@ package com.maturi.repository.article;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticlePaging;
 import com.maturi.entity.article.Article;
+import com.maturi.entity.article.QRestaurant;
 import com.maturi.entity.article.QTag;
 import com.maturi.entity.member.Member;
+import com.maturi.entity.member.QMember;
+import com.maturi.util.constfield.PagingConst;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -17,10 +21,13 @@ import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
+import static com.maturi.entity.article.QRestaurant.*;
 import static com.maturi.entity.article.QTag.*;
 import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
+import static com.maturi.entity.member.QMember.*;
 import static com.maturi.util.constfield.LocationConst.kmToLat;
+import static com.maturi.util.constfield.PagingConst.*;
 
 @RequiredArgsConstructor
 @Repository
@@ -51,8 +58,35 @@ public class ArticleQuerydslRepository {
                 .fetch();
     }
 
+    //누나꺼
+    public ArticlePaging<Article> findMyReviewArticles(Long lastArticleId,
+                                                       Long memberId,
+                                                       ArticleSearchCond cond,
+                                                       Pageable pageable){
+        List<Article> results = query.selectFrom(article)
+                .join(article.member,member)
+                .join(article.restaurant, restaurant)
+                .fetchJoin()
+                .where(
+                        // no-offset 페이징 처리
+                        ltStoreId(lastArticleId),
+                        memberIdEq(memberId)
+                )
+                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
+                .limit(pageable.getPageSize()+1)
+                .fetch();
+
+        boolean hasNext = false;
+        if (results.size() > size) {
+            hasNext = true;
+            results.remove(results.size()-1);
+        }
+
+        return new ArticlePaging(results,hasNext);
+    }
+
     //페이징 처리한 동적쿼리문
-    public ArticlePaging searchDynamicQueryAndPaging(Long lastArticleId,
+    public ArticlePaging<Article> searchDynamicQueryAndPaging(Long lastArticleId,
                                                      ArticleSearchCond cond,
                                                      Pageable pageable) {
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
@@ -66,6 +100,9 @@ public class ArticleQuerydslRepository {
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
         List<Article> results = query.selectFrom(article)
+                .join(article.member,member)
+                .join(article.restaurant, restaurant)
+                .fetchJoin()
                 .where(
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
@@ -85,10 +122,11 @@ public class ArticleQuerydslRepository {
                 .fetch();
 
         boolean hasNext = false;
-        if (results.size() > pageable.getPageSize()) {
+        if (results.size() > size) {
             hasNext = true;
             results.remove(results.size()-1);
         }
+
         return new ArticlePaging(results,hasNext);
     }
     //페이징 처리를 하지않은 동적쿼리문
@@ -182,6 +220,11 @@ public class ArticleQuerydslRepository {
             return null;
         }
         return article.id.lt(articleId);
+    }
+
+
+    private BooleanExpression memberIdEq(Long memberId) {
+        return memberId != null ? article.member.id.eq(memberId) : null;
     }
 
 }

@@ -50,11 +50,9 @@ public class ArticleAPIController {
                                                            @RequestParam Long lastArticleId,
                                                            @PageableDefault(page = 0, size = size)Pageable pageable){
 
-    log.info("articleSearchRequest={}",articleSearchRequest);
-    log.info("lastArticleId={}",lastArticleId);
-    log.info("pageable={}",pageable);
+
     ArticlePaging articles = articleService.articleSearch(articleSearchRequest,memberId,lastArticleId, pageable);
-    log.info("[ArticleAPIController] articleViewDTOS={}",articles);
+
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 
