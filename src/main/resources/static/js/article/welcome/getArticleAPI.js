@@ -1,79 +1,23 @@
-const articlesPerPageSize = 5;
-
-function getPageId(n) {
-    return 'article-page-' + n;
-}
-
-function getDocumentHeight() {
-    const body = document.body;
-    const html = document.documentElement;
-
-    return Math.max(
-        body.scrollHeight,
-        body.offsetHeight,
-        html.clientHeight,
-        html.scrollHeight,
-        html.offsetHeight
-    );
-}
-
-function getScrollTop() {
-    return window.pageYOffset !== undefined
-        ? window.pageYOffset
-        : (
-            document.documentElement ||
-            document.body.parentNode ||
-            document.body
-        ).scrollTop;
-}
-
-// result data 로 image tag 생성
-function getArticle(data) {
-    const image = new Image();
-    image.className =
-        'article-list__item__image article-list__item__image--loading';
-    image.src = '/gallery/display?id=' + data.mainImageId;
-    image.onclick = function () {
-        location.href = '/gallery/' + data.id;
-    };
-
-    image.onload = function () {
-        image.classList.remove('article-list__item__image--loading');
-    };
-
-    const article = document.createElement('article');
-    article.className = 'article-list__item';
-    article.appendChild(image);
-
-    return article;
-}
-
-// 해당 page 정보를 pagination 리스트에 추가
-function addPaginationPage(page) {
-    const pageLink = document.createElement('a');
-    pageLink.href = '#' + getPageId(page);
-    pageLink.innerHTML = page;
-
-    const listItem = document.createElement('li');
-    listItem.className = 'article-list__pagination__item';
-    listItem.appendChild(pageLink);
-
-    articleListPagination.appendChild(listItem);
-
-    if (page === 2) {
-        articleListPagination.classList.remove(
-            'article-list__pagination--inactive'
-        );
-    }
-}
-
-// ajax 로 해당 page 데이터 가져와서 뿌려주기
-
+// 검색 조건을 세팅해주고 Ajax요청을 실행하는 함수
 function addPage(event) {
     let obj = searchCondSetting(event);
     searchArticleAjax(obj);
 }
 
+//검색 버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
+if(hasArticle === true){
+    document.querySelector('#main-search-btn').addEventListener('click',()=>{
+        console.log("검색 아이콘 클릭!");
+        let obj = searchCondSetting("click");
+        console.log("name",searchCategoryValue.name);
+        console.log("value",searchCategoryValue.value);
+        searchArticleAjax(obj);
+    });
+}
+
+//scrollEvent.js에 스크롤로 하단에 도달했을 때 Ajax요청코드 있음
+
+//Ajax요청으로 데이터를 받고 게시글을 화면에 추가해주는 코드
 function searchArticleAjax(obj){
     console.log("페이징 처리 ajax요청");
     const url = '/api/articles?radioCond='+_fnToNull(obj['radioCond'])
@@ -95,6 +39,10 @@ function searchArticleAjax(obj){
     .then((data) => {
         console.log(data);
         document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;
+        if(data.hasNext === false){
+            hasArticle = false;
+            document.querySelector('input[name="lastArticleId"]').value = null;
+        }
         console.log("어떤 동작인가요?",data.event);
         let articleList = document.querySelector('#article-list');
         let html = ``;
@@ -174,17 +122,17 @@ function searchArticleAjax(obj){
 
     })
 }
+//json에 값을 전달할 때 unfined,null처리
+function _fnToNull(data) {
+    // undifined나 null을 null string으로 변환하는 함수.
+    if (String(data) == 'undefined' || String(data) == 'null') {
+        return ''
+    } else {
+        return data
+    }
+}
 
-const articleList = document.getElementById('article-list');
-const articleListPagination = document.getElementById(
-    'article-list-pagination'
-);
-
-// 초기 페이지
-addPage("load");
-
-window.onscroll = function () {
-    if (getScrollTop() < getDocumentHeight() - window.innerHeight) return;
-    // 스크롤이 페이지 하단에 도달할 경우 새 페이지 로드
-    addPage("scroll");
-};
+// 초기 페이지가 load될때 Ajax요청으로 게시판 정보를 가져옴
+if(hasArticle === true){
+    addPage("load");
+}

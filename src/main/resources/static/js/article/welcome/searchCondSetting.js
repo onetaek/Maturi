@@ -1,7 +1,7 @@
 let searchKeyWordInput = document.querySelector(".search-input");//검색 keyword input
 let searchCategoryValue = document.querySelector(".search-category-value");//hidden input
 let searchDropdownList = document.querySelectorAll(".dropdown-list-item");//dropdown li들
-let articleSearchForm = document.articleSearchForm;
+let hasArticle = true;
 
 // keyword검색 조건(dropdown버튼)
 for(let i = 0 ; i < searchDropdownList.length; i++){
@@ -17,16 +17,6 @@ for(let i = 0 ; i < searchDropdownList.length; i++){
         =searchDropdownList[i].dataset.name;
     });
 }
-
-console.log("??",document.querySelector('#main-search-btn'));
-
-document.querySelector('#main-search-btn').addEventListener('click',()=>{
-    console.log("검색 아이콘 클릭!");
-    let obj = searchCondSetting("click");
-    console.log("name",searchCategoryValue.name);
-    console.log("value",searchCategoryValue.value);
-    searchArticleAjax(obj);
-});
 
 function searchCondSetting(event){
     console.log("무슨 동작이니?",event);
@@ -107,11 +97,3 @@ function searchCondSetting(event){
     return obj;
 }
 
-function _fnToNull(data) {
-    // undifined나 null을 null string으로 변환하는 함수.
-    if (String(data) == 'undefined' || String(data) == 'null') {
-        return ''
-    } else {
-        return data
-    }
-}

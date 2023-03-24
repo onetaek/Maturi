@@ -60,7 +60,8 @@ public class ArticleQuerydslRepository {
         //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
-                .or(writerLike(cond.getWriter()))//작성자(닉네임) keyword검색
+                .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색'
+                .or(nameLike(cond.getWriter()))//작성자(이름) keyword검색
                 .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
@@ -98,7 +99,8 @@ public class ArticleQuerydslRepository {
         //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
-                .or(writerLike(cond.getWriter()))//작성자(닉네임) keyword검색
+                .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색
+                .or(nameLike(cond.getWriter()))//작성자(이름) keyword검색
                 .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
@@ -157,8 +159,12 @@ public class ArticleQuerydslRepository {
         return StringUtils.hasText(content) ? article.content.contains(content) : null;
     }
     //작성자 조건의의 keyword로 검색한 게시글들
-    private BooleanExpression writerLike(String writer) {
+    private BooleanExpression nickNameLike(String writer) {
         return StringUtils.hasText(writer) ? article.member.nickName.contains(writer) : null;
+    }
+    //작성자 조건의의 keyword로 검색한 게시글들
+    private BooleanExpression nameLike(String writer) {
+        return StringUtils.hasText(writer) ? article.member.name.contains(writer) : null;
     }
     //태그명 조건의 keyword로 검색한 게시글들
     private BooleanExpression tagArticleIn(List<Article> tagArticle) {

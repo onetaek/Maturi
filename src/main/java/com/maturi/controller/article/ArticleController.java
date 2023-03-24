@@ -30,27 +30,11 @@ public class ArticleController {
     @GetMapping("/articles")
     public String articlesPage(@Login Long memberId,
                                Model model){
-        //검색조건 추가
-        //1. 관심지역을 선택했는지 확인 -> 있다면? -> 관심지역에 값추가
-        //                            없다면? -> 전체로 선택
-        //2.
-
-
         log.info("findMember = {}",articleService.memberInfo(memberId));
+        //게시글의 정보는 Ajax요청으로 데이터를 받아옴
         model.addAttribute("member", articleService.memberInfo(memberId));
         return "/article/welcome";
     }
-
-    @GetMapping("/articleList")//전체페이지 작업중에 에러뜨면 누나 글쓰기 페이지 못가니까 따로 작업중
-    public String articleListPage(@Login Long memberId,
-                               Model model){
-
-
-
-        model.addAttribute("member", articleService.memberInfo(memberId));//MemberDTO
-        return "/article/welcome";
-    }
-
 
     @GetMapping("/article")
     public String writeForm(@Login Long memberId,
