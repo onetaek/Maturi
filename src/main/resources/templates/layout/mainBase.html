@@ -21,8 +21,8 @@
         <form name="goMyPageForm"></form>
         <div id="gnbWrap">
             <h2 class="mProfileImg">
-                <img th:if="${#strings.startsWith(member.profileImg,'http')}" th:src="${member.profileImg}" alt="프로필 이미지">
-                <img th:unless="${#strings.startsWith(member.profileImg,'http')}" th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+                <img th:if="${member.profileImg != null && #strings.contains(member.profileImg,'://')}" th:src="${member.profileImg}" alt="프로필 이미지">
+                <img th:unless="${member.profileImg != null && #strings.contains(member.profileImg,'://')}" th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
             </h2>
             <div class="memberInfo">
                 <h3 class="mName" th:text="${member.name}">김혜현</h3>

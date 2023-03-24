@@ -73,7 +73,7 @@ function searchArticleAjax(obj){
                     </p>
                 </div>
                 <!--    글 본문 -->
-                <div class="contentWrap">
+                <div class="contentWrap contentWrap${article.id}">
                     <ul class="bImg">
                         <li><img src="/test/file/${article.image}" alt="사진1"></li>
                     </ul>
@@ -94,10 +94,10 @@ function searchArticleAjax(obj){
                 </div>
                 <!--     리뷰글 더보기 버튼 -->
                 <div class="ellipsis-btn-wrap">
-                    <span class="ellipsis-btn">
+                    <span class="ellipsis-btn ellipsis-btn${article.id}">
                         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                     </span>
-                    <ul class="ellipsis-content">
+                    <ul class="ellipsis-content ellipsis-content${article.id}">
                         <li><a href="#">게시글 수정</a></li>
                         <li><a href="#">게시글 삭제</a></li>
                         <li><a href="#">신고하기</a></li>
@@ -118,6 +118,7 @@ function searchArticleAjax(obj){
             console.log("click이벤트 또는 load이벤트입니다");
             articleList.innerHTML = html
         }
+
         articles.forEach((article) => {
             //좋아요 클릭 이벤트를 적용해준다.
             const likeBtn = document.querySelector(`.likeBtn${article.id}`);
@@ -146,6 +147,28 @@ function searchArticleAjax(obj){
                     likeNum.innerText = data.likeNum;
                 })
             });
+        });//articles.forEach끝(이벤트걸어줌)
+
+        articles.forEach((article) => {
+            //좋아요 클릭 이벤트를 적용해준다.
+            const ellipsisBtn = document.querySelector(`.ellipsis-btn${article.id}`);
+            const ellipsisContent = document.querySelector(`.ellipsis-content${article.id}`);
+
+            for(let i = 0 ; i < ellipsisBtn.length; i++){
+                ellipsisBtn[i].addEventListener("click",function(){
+                    ellipsisContent[i].classList.toggle("active");
+                });
+            }
+        });//articles.forEach끝(이벤트걸어줌)
+
+        articles.forEach((article,idx,arr) => {
+
+            let articleContent = document.querySelector(`.contentWrap${article.id}`);
+            const articleId = document.querySelector(`.article-wrap${article.id}`).dataset.articleid;
+            articleContent.addEventListener("click",()=>{
+                window.location.href=`/article/${articleId}`;
+            });
+
         });//articles.forEach끝(이벤트걸어줌)
 
     })
