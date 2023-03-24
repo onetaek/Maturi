@@ -14,8 +14,9 @@
         <!--    글쓴이 정보 -->
         <div class="writerInfo">
             <p class="writerProfileImg">
-                <img th:if="${#strings.startsWith(article.profileImg,'http://')}" th:src="${article.profileImg}" alt="프로필 이미지">
-                <img  th:unless="${#strings.startsWith(article.profileImg,'http://')}" th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
+                <img th:if="${article.profileImg != null && #strings.startsWith(article.profileImg,'http://')}" th:src="${article.profileImg}" alt="프로필 이미지">
+                <img  th:unless="${article.profileImg == null || #strings.startsWith(article.profileImg,'http://')}" th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
+                <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
             </p>
             <p class="written">
                 <span>
@@ -79,8 +80,9 @@
             <div class="comment" th:attr="data-commentid=${comment.id}">
                 <div class="commentWrap">
                     <p class="cProfileImg">
-                        <img th:if="${#strings.startsWith(comment.profileImg,'http://')}" th:src="${comment.profileImg}" alt="프로필 이미지">
-                        <img th:unless="${#strings.startsWith(comment.profileImg,'http://')}" th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
+                        <img th:if="${comment.profileImg != null && #strings.startsWith(comment.profileImg,'http://')}" th:src="${comment.profileImg}" alt="프로필 이미지">
+                        <img th:unless="${comment.profileImg == null || #strings.startsWith(comment.profileImg,'http://')}" th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
+                        <img th:if="${comment.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
                     </p>
                     <div class="commentBox">
                         <h4>

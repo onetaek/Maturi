@@ -50,7 +50,7 @@ editProfileForm.editSubmitBtn.addEventListener("click", ()=>{
     console.log("validate success");
     if(confirm("프로필을 수정하시겠습니까?")){
       editProfileForm.method = "post";
-      editProfileForm.action = "/member/editMyPage";
+      editProfileForm.action = "/member/myPage/edit";
       editProfileForm.submit();
     }
   }

@@ -3,16 +3,17 @@ const gnbWrap = document.getElementById("gnbWrap");
 const mProfileImgSideNav = gnbWrap.querySelector(".mProfileImg");
 const mNameSideNav = gnbWrap.querySelector(".mName");
 const mNickSideNav = gnbWrap.querySelector(".mNick");
-const myPageForm = document.goMyPageForm;
+
+const memberInfoSideNav = gnbWrap.querySelector(".memberInfo");
 
 mProfileImgSideNav.addEventListener("click",function(){
-  location.href = "/member/myPage";
+  location.href = "/member/myPage/" + memberInfoSideNav.dataset.memberid;
 });
 mNameSideNav.addEventListener("click",function(){
-  location.href = "/member/myPage";
+  location.href = "/member/myPage/" + memberInfoSideNav.dataset.memberid;
 });
 mNickSideNav.addEventListener("click",function(){
-  location.href = "/member/myPage";
+  location.href = "/member/myPage/" + memberInfoSideNav.dataset.memberid;
 });
 
 // function goMyPage(){

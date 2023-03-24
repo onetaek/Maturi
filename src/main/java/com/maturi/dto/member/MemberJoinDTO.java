@@ -6,10 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +21,7 @@ public class MemberJoinDTO {
     private String passwd;
     @NotBlank
     private String passwdCheck;
-    @Min(2)
+    @Size(min = 2)
     private String name;
 
     //유효성 검사하지 않는 필드

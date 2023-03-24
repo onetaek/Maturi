@@ -1,0 +1,23 @@
+#detail-info {
+    margin: 20px auto;
+    width: 600px;
+}
+#detail-info table {
+    width: 100%;
+
+}
+#detail-info table th,
+#detail-info table td {
+    /*border: 1px solid #000;*/
+    height:50px; width:120px;
+    text-align: center;
+}
+#detail-info .detail-info-button {
+    width: 100px;
+    border-radius: 5px;
+    padding: 5px 0;
+    color: var(--white-color);
+}
+#detail-info .active-btn {
+    background-color: var(--search-btn-background);
+}

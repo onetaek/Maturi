@@ -111,7 +111,8 @@ public class ArticleService {
     }
 
     public ArticleViewDTO articleInfo(Long articleId, Long memberId) {
-        Article article = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+//        Article article = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        Article article = articleQRepository.findByIdAndStatus(articleId);
         if (article == null ) return null;
         ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
         log.info("articleViewDTO = {}",articleViewDTO);
@@ -157,7 +158,8 @@ public class ArticleService {
         return likeArticleRepository.countByArticleId(articleId);
     }
     public boolean articleStatusNormal(Long articleId) {
-        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+//        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        Article findArticle = articleQRepository.findByIdAndStatus(articleId);
         log.info("findArticle = {}", findArticle);
         return findArticle != null;
     }
@@ -166,8 +168,9 @@ public class ArticleService {
         /* 게시글 삭제 */
         String msg = null;
 
-        // 조건 : id + NORMAL
-        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        // 조건 : id + NORMAL or REPORT
+//        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
         if(findArticle == null){
             msg = "게시글 삭제 실패! 해당 게시물을 찾을 수 없습니다!";
