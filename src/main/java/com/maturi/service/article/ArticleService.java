@@ -9,6 +9,7 @@ import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.*;
+import com.maturi.repository.member.MemberQuerydslRepository;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
 import lombok.RequiredArgsConstructor;

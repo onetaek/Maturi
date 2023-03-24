@@ -374,15 +374,18 @@ input[id='local']:checked+.radio-tile label{
     flex-direction: column;
     align-items: center;
 }
-.likeAndTag .likeWrap .likeBtn {
+.likeBtn {
     display: block;
     width: 16px; height: 16px;
     text-indent: -9999px;
     background: url("/img/button/loveBtn.png") no-repeat center / contain;
     cursor: pointer;
 }
-.likeAndTag .likeWrap .likeNum {
+.likeNum {
     font-size: 10px;
+}
+.isLikedArticle{
+    background: url("/img/button/loveBtn_Fill.png") no-repeat center / contain;
 }
 
 /* 더보기 버튼 */

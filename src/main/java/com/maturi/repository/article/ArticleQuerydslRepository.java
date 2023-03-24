@@ -34,7 +34,7 @@ public class ArticleQuerydslRepository {
         return query
                 .select(article)
                 .from(likeArticle)
-                .join(likeArticle.article, article).fetchJoin()
+                .join(likeArticle.article, article)
                 .where(likeArticle.member.id.eq(memberId))
                 .fetch();
     }
@@ -60,7 +60,7 @@ public class ArticleQuerydslRepository {
         //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
-                .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색'
+                .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색
                 .or(nameLike(cond.getWriter()))//작성자(이름) keyword검색
                 .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색

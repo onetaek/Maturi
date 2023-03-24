@@ -1,4 +1,3 @@
-
 /* 더보기 버튼 */
 const ellipsisBtn = document.querySelectorAll(".ellipsis-btn");
 const ellipsisContent = document.querySelectorAll(".ellipsis-content");

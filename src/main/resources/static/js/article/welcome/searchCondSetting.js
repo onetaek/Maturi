@@ -43,6 +43,13 @@ function searchCondSetting(event){
 
 
     //------search조건에 맞는 json데이터 만드는 과정--------
+    console.log("라디오 버튼 전체 선택 이냐?",$('#all').is(':checked'))
+    console.log("라디오 버튼 follow 선택 이냐?",$('#follow').is(':checked'))
+    console.log("라디오 버튼 관심지역 선택 이냐?",$('#local').is(':checked'))
+    console.log("라디오 버튼 내주변 선택 이냐?",$('#my-local').is(':checked'))
+    console.log("라디오 버튼 음식점 카테고리 선택 이냐?",$('#category').is(':checked'))
+    console.log("라디오 버튼 좋아요 선택 이냐?",$('#like').is(':checked'))
+
     let radioCond = "everything";
     if($('#all').is(':checked')){
         radioCond = "everything"
@@ -54,6 +61,8 @@ function searchCondSetting(event){
         radioCond = "myLocal"
     }else if($('#category').is(':checked')){
         radioCond = "category"
+    }else if($('#like').is(':checked')){
+        radioCond = "like"
     }
 
     let latitude = $('#local').is(':checked') ? $('input[name="latitude"]').val() : null;

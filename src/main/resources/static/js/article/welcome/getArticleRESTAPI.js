@@ -54,7 +54,7 @@ function searchArticleAjax(obj){
             return;
         }
         articles.forEach((article) => {
-            html += `<li class="article-wrap" data-articleid=${article.id}>
+            html += `<li class="article-wrap article-wrap${article.id}" data-articleid=${article.id}>
                 <!--    글쓴이 정보 -->
                 <div class="writerInfo">
                     <p class="writerProfileImg">`
@@ -84,8 +84,8 @@ function searchArticleAjax(obj){
                 <!--    좋아요 & 태그 -->
                 <div class="likeAndTag">
                     <span class="likeWrap">
-                      <span class="likeBtn">좋아요</span>
-                      <span class="likeNum">${article.like}</span>
+                      <span class="likeBtn likeBtn${article.id}">좋아요</span>
+                      <span class="likeNum likeNum${article.id}">${article.like}</span>
                     </span>`
             article.tags.forEach((tag) => {
                 html += `<span><a href="#">${tag}</a></span>`
@@ -105,13 +105,12 @@ function searchArticleAjax(obj){
                 </div>
             </li>`;
             if (data.event === "scroll"){
+                //위의 코드를 통해 만들어준 html을 append해준다.
                 const template = document.createElement('template');
                 template.innerHTML = html.trim();
-                console.log(template.innerHTML);
-                console.log(template.content);
                 articleList.appendChild(template.content.firstElementChild);
             }
-        })
+        });//forEach문끝 요소들 넣어줌
         if (data.hasNext === false ){
             html += `<li><p>더이상 게시글이 없습니다!</p></li>`;
         }
@@ -119,6 +118,35 @@ function searchArticleAjax(obj){
             console.log("click이벤트 또는 load이벤트입니다");
             articleList.innerHTML = html
         }
+        articles.forEach((article) => {
+            //좋아요 클릭 이벤트를 적용해준다.
+            const likeBtn = document.querySelector(`.likeBtn${article.id}`);
+            if(article.liked){
+                likeBtn.classList.add("isLikedArticle");
+            }
+            const likeNum = document.querySelector(`.likeNum${article.id}`);
+            console.log("likeNum",likeNum);
+            const articleLi = document.querySelector(`.article-wrap${article.id}`)
+            console.log("articleLi",articleLi);
+            likeBtn.addEventListener("click", ()=>{
+                const url = "/api/article/likeOrUnlike/" + articleLi.dataset.articleid;
+                fetch(url, {
+                    method: "post",
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                }).then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    if(data.isLiked == 1){ // 좋아요!
+                        likeBtn.classList.add("isLikedArticle");
+                    } else { // 좋아요 취소!
+                        likeBtn.classList.remove("isLikedArticle");
+                    }
+                    likeNum.innerText = data.likeNum;
+                })
+            });
+        });//articles.forEach끝(이벤트걸어줌)
 
     })
 }
