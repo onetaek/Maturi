@@ -12,6 +12,7 @@
     padding: 5px;
     border-radius: 5px;
 }
+#myPageInfo textarea { width: 100%; }
 #myPageInfo input[name=name] {
     width: 100px;
 }

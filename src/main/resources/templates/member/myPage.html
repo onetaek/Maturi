@@ -28,15 +28,26 @@
         </h3>
         <p class="mProfile" th:text="${myPageMember.profile}">인생은 고기서 고기 :)</p>
       </div>
-      <div class="memberBtn">
-        <span class="moreBtn">더보기</span>
-        <ul>
+      <div class="ellipsis-btn-wrap">
+        <span class="ellipsis-btn">
+            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+        </span>
+        <ul class="ellipsis-content">
           <li th:if="${member.nickName == myPageMember.nickName}"><a href="#" class="editMyPage">프로필 편집</a></li>
-          <li th:if="${member.nickName != myPageMember.nickName}"><a href="#">신고하기</a></li>
-          <li th:if="${member.nickName != myPageMember.nickName}"><a href="#">차단하기</a></li>
+          <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">신고하기</a></li>
+          <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">차단하기</a></li>
         </ul>
       </div>
     </div>
+<!--      <div class="memberBtn">-->
+<!--        <span class="moreBtn">더보기</span>-->
+<!--        <ul>-->
+<!--          <li th:if="${member.nickName == myPageMember.nickName}"><a href="#" class="editMyPage">프로필 편집</a></li>-->
+<!--          <li th:if="${member.nickName != myPageMember.nickName}"><a href="#">신고하기</a></li>-->
+<!--          <li th:if="${member.nickName != myPageMember.nickName}"><a href="#">차단하기</a></li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
 
 <!--  리뷰글 공간 -->
     <div id="reviewWrap">

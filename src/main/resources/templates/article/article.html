@@ -13,7 +13,10 @@
     <div id="articleWrap" th:attr="data-articleid=${article.id}">
         <!--    글쓴이 정보 -->
         <div class="writerInfo">
-            <p class="writerProfileImg"><img th:src="${article.profileImg}" alt="프로필 이미지"></p>
+            <p class="writerProfileImg">
+                <img th:if="${#strings.startsWith(article.profileImg,'http://')}" th:src="${article.profileImg}" alt="프로필 이미지">
+                <img  th:unless="${#strings.startsWith(article.profileImg,'http://')}" th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
+            </p>
             <p class="written">
                 <span>
                     <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
@@ -75,7 +78,10 @@
             <th:block th:each="comment: ${comments}">
             <div class="comment" th:attr="data-commentid=${comment.id}">
                 <div class="commentWrap">
-                    <p class="cProfileImg"><img th:src="${comment.profileImg}" alt="프로필 이미지"></p>
+                    <p class="cProfileImg">
+                        <img th:if="${#strings.startsWith(comment.profileImg,'http://')}" th:src="${comment.profileImg}" alt="프로필 이미지">
+                        <img th:unless="${#strings.startsWith(comment.profileImg,'http://')}" th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
+                    </p>
                     <div class="commentBox">
                         <h4>
                             <span th:text="${comment.nickName}">user-nick</span>

@@ -46,8 +46,9 @@ profileImg.addEventListener("change", (e)=>{
 
 /* 수정하기 버튼 */
 editProfileForm.editSubmitBtn.addEventListener("click", ()=>{
-  if(editProfileValidate){ // 유효성검사
-    if(!alert("프로필을 수정하시겠습니까?")){
+  if(editProfileValidate()){ // 유효성검사
+    console.log("validate success");
+    if(confirm("프로필을 수정하시겠습니까?")){
       editProfileForm.method = "post";
       editProfileForm.action = "/member/editMyPage";
       editProfileForm.submit();
@@ -57,7 +58,7 @@ editProfileForm.editSubmitBtn.addEventListener("click", ()=>{
 
 /* 취소 버튼 */
 editProfileForm.editCancelBtn.addEventListener("click", ()=>{
-  if(!alert("취소하시겠습니까?")){
+  if(confirm("취소하시겠습니까?")){
     location.href = "/member/myPage";
   }
 });
@@ -69,23 +70,25 @@ const editName = editProfileForm.name;
 let regExpNickName = /^@+[a-zA-Z0-9-_.]{5,30}$/;
 let regExpName = /[a-z|A-Z|가-힣]{2,12}$/;
 function editProfileValidate(){
-
+  console.log(!regExpNickName.test(editNickName.value));
+  console.log(!nickNameCheck);
+  console.log(!regExpName.test(editName.value));
   if(!regExpNickName.test(editNickName.value)){
     alert("닉네임은 @로 시작하며 [영문], [숫자], [-], [_], [.]를 조합하여 만들 수 있습니다. (5자 ~ 30자)");
     editNickName.focus();
     return false;
   }
-  if(!nickNameCheck){
+  else if(!nickNameCheck){
     alert("닉네임 중복 검사를 먼저 진행해주세요!");
     editNickName.focus();
     return false;
   }
-  if(!regExpName.test(editName.value)){
+  else if(!regExpName.test(editName.value)){
     alert("이름은 [영문], [한글]을 조합하여 만들 수 있습니다. (2자 ~ 12자)");
     editName.focus();
     return false;
   }
-  return true;
+  else return true;
 }
 
 /* 닉네임 중복 검사 */
@@ -122,5 +125,6 @@ nickNameDuplCheck.addEventListener("click", ()=>{
 editNickName.addEventListener("keyup", ()=>{
   if(nickNameCheck){
     nickNameCheck = false;
+    console.log("status = " + nickNameCheck);
   }
 })

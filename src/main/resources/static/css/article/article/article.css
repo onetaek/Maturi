@@ -52,6 +52,7 @@
 .contentWrap {
     overflow: hidden;
     max-width: 600px;
+    margin: 0 auto;
     display: flex; flex-direction: column;
     gap: 10px;
 }
