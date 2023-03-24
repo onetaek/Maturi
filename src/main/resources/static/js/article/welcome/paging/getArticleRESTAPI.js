@@ -49,7 +49,7 @@ function searchArticleAjax(obj){
         let articles = data['content'];
         console.log("articles",articles)
         if((data.event === "click" || data.event === "load") && articles.length === 0){
-            html += `<li><p>조건에 맞는 게시글이 없습니다ㅠㅠ</p></li>`;
+            html += `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
             articleList.innerHTML = html;
             return;
         }
@@ -112,7 +112,7 @@ function searchArticleAjax(obj){
             }
         });//forEach문끝 요소들 넣어줌
         if (data.hasNext === false ){
-            html += `<li><p>더이상 게시글이 없습니다!</p></li>`;
+            html += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
         }
         if (data.event === "click" || data.event === "load"){
             console.log("click이벤트 또는 load이벤트입니다");

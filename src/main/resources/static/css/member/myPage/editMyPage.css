@@ -21,6 +21,12 @@
     position: absolute;
     visibility: hidden;
 }
+
+/* 이미지 비율깨져서 추가했습니다 */
+#coverImg .coverImgTag{
+    object-fit: cover;
+}
+
 .ImgModifyBtn {
     width: 40px; height: 40px;
     display: flex; align-items: center; justify-content: center;

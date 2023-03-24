@@ -459,3 +459,13 @@ input[id='local']:checked+.radio-tile label{
     cursor: pointer;
 }
 
+/* 검색,페이징으로 인해 동적으로 생기는 요소 */
+.no-more-article-message p{
+    padding: 20px 0;
+    text-align: center;
+}
+
+.no-search-message{
+    padding: 20px 0;
+    text-align: center;
+}

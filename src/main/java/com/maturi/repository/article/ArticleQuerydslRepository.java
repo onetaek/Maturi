@@ -135,7 +135,7 @@ public class ArticleQuerydslRepository {
                         builder//keyword조건 검색
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .limit(size)//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음
+                .limit(size + 1)//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음
                 .fetch();
 
         boolean hasNext = false;
