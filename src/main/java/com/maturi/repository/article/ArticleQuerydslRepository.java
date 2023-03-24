@@ -4,6 +4,8 @@ import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.entity.article.Article;
+import com.maturi.entity.article.ArticleStatus;
+import com.maturi.entity.article.QArticle;
 import com.maturi.entity.article.QTag;
 import com.maturi.entity.member.Member;
 import com.querydsl.core.BooleanBuilder;
@@ -51,6 +53,23 @@ public class ArticleQuerydslRepository {
                 .join(QTag.tag,tagValue.tag)
                 .on(QTag.tag.name.contains(tag))
                 .fetch();
+    }
+
+    // WHERE article_id = ? AND (status = NORMAL OR status = REPORT) : 검색 가능한 리뷰글인지 확인 및 객체
+    public Article findByIdAndStatus(Long articleId){
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.or(article.status.eq(ArticleStatus.NORMAL))
+                .or(article.status.eq(ArticleStatus.REPORT));
+        List<Article> result = query.selectFrom(article)
+                .join(article.member,member)
+                .join(article.restaurant, restaurant)
+                .fetchJoin()
+                .where(
+                        articleIdEq(articleId),
+                        builder
+                )
+                .fetch();
+        return result.get(0);
     }
 
     //누나꺼
@@ -221,6 +240,9 @@ public class ArticleQuerydslRepository {
 
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? article.member.id.eq(memberId) : null;
+    }
+    private BooleanExpression articleIdEq(Long articleId) {
+        return articleId != null ? article.id.eq(articleId) : null;
     }
 
 }

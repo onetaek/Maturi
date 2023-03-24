@@ -5,6 +5,7 @@
 <head>
   <title>마이페이지</title>
   <link rel="stylesheet" href="/css/member/myPage/myPage.css">
+  <link rel="stylesheet" href="/css/member/myPage/myPageDetail.css">
 
 </head>
 <body>
@@ -27,7 +28,7 @@
         <button class="detailInfo" th:if="${member.nickName == myPageMember.nickName}">상세정보</button>
         <button class="followBtn" th:if="${member.nickName != myPageMember.nickName}">팔로우</button>
         </h3>
-        <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
+        <p class="mProfile" th:text="${myPageMember.profile}">인생은 고기서 고기 :)</p>
       </div>
       <div class="ellipsis-btn-wrap">
         <span class="ellipsis-btn">
@@ -41,10 +42,29 @@
       </div>
     </div>
 
-<!--  리뷰글 공간 -->
-    <div id="reviewWrap">
-      <div class="reviewArticle"></div>
-      <div class="reviewArticle"></div>
+<!--  세부 사항 -->
+    <div id="detail-info">
+      <table class="detail-info-table">
+        <tr>
+          <th class="info-list">이메일</th>
+          <td class="info-value"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <th class="info-list">휴대폰 번호</th>
+          <td class="info-value">-</td>
+          <td>
+            <button class="detail-info-button active-btn">인증하기</button>
+          </td>
+        </tr>
+        <tr>
+          <th class="info-list">비밀번호</th>
+          <td class="info-value">-</td>
+          <td>
+            <button class="detail-info-button active-btn">변경하기</button>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </main>

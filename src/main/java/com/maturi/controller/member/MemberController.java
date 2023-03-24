@@ -3,7 +3,6 @@ package com.maturi.controller.member;
 import com.maturi.dto.member.MemberEditMyPageDTO;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
-import com.maturi.dto.member.MemberMyPageDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.member.EmailService;
@@ -73,7 +72,7 @@ public class MemberController {
 
   @PostMapping("/login")
   public String login(
-          @Validated @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
+          @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
           BindingResult bindingResult,
           @RequestParam(defaultValue = "/") String redirectURL,
           HttpServletRequest request){
@@ -101,23 +100,24 @@ public class MemberController {
     return "redirect:/member/login";
   }
 
-  @GetMapping("/myPage")
+  @GetMapping("/myPage/{id}")
   public String myPage(@Login Long memberId,
+                       @PathVariable Long id, // 해당 마이페이지 유저
                        Model model){
 
     model.addAttribute("member", articleService.memberInfo(memberId));
-    model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
+    model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
     return "/member/myPage";
   }
 
-  @GetMapping("/editMyPage")
+  @GetMapping("/myPage/edit")
   public String editMyPage(@Login Long memberId, Model model){
 
     model.addAttribute("member", articleService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
     return "/member/editMyPage";
   }
-  @PostMapping("/editMyPage")
+  @PostMapping("/myPage/edit")
   public String editMemberProfileInfo(@Login Long memberId,
                                       MemberEditMyPageDTO memberEditMyPageDTO,
                                       Model model) throws IOException {
@@ -125,6 +125,15 @@ public class MemberController {
     memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
 
     return "redirect:/member/myPage";
+  }
+
+  @GetMapping("/myPage/detail")
+  public String myPageDetail(@Login Long memberId,
+                             Model model){
+
+    model.addAttribute("member", articleService.memberInfo(memberId));
+    model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
+    return "/member/myPageDetail";
   }
 
 }

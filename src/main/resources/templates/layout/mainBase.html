@@ -22,9 +22,10 @@
         <div id="gnbWrap">
             <h2 class="mProfileImg">
                 <img th:if="${member.profileImg != null && #strings.contains(member.profileImg,'://')}" th:src="${member.profileImg}" alt="프로필 이미지">
-                <img th:unless="${member.profileImg != null && #strings.contains(member.profileImg,'://')}" th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+                <img th:unless="${member.profileImg == null || #strings.contains(member.profileImg,'://')}" th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+                <img th:if="${member.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
             </h2>
-            <div class="memberInfo">
+            <div class="memberInfo" th:attr="data-memberId=${member.id}">
                 <h3 class="mName" th:text="${member.name}">김혜현</h3>
                 <span class="mNick" th:text="${member.nickName}">@hyea._.hyun</span>
             </div>
