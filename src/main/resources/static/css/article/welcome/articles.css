@@ -353,6 +353,7 @@ input[id='local']:checked+.radio-tile label{
 .contentWrap {
     overflow: hidden;
     display: flex; flex-direction: column;
+    cursor: pointer;
 }
 .contentWrap .bImg {
     width:100%;

@@ -119,6 +119,8 @@ public class ArticleQuerydslRepository {
                 .join(article.restaurant, restaurant)//article.restaurant는 Article테이블에 있는 restaurant_id, restaurant는 Restaurant테이블에 있는 id
                 .fetchJoin()
                 .where(
+                        // 상태가 NORMAL 게시글들만 출력
+                        statusEq(ArticleStatus.NORMAL),
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
                         // 검색조건들
@@ -226,6 +228,10 @@ public class ArticleQuerydslRepository {
     //음식점명 조건의의 keyword로 검색한 게시글들
     private BooleanExpression restaurantNameLike(String restaurant) {
         return StringUtils.hasText(restaurant) ? article.restaurant.name.contains(restaurant) : null;
+    }
+    //상태에 따른 게시글들 필터링
+    private BooleanExpression statusEq(ArticleStatus status){
+        return status != null ? article.status.eq(status) : null;
     }
 
     // 무한 스크롤 방식 처리하는 메서드
