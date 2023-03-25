@@ -50,4 +50,7 @@ public class Member {
   public void changeCoverImg(String coverImg){
     this.coverImg = coverImg;
   }
+  public void changeStatus(MemberStatus status) {
+    this.status = status;
+  }
 }

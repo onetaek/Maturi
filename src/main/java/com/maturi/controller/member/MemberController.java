@@ -66,10 +66,13 @@ public class MemberController {
   }
 
   @GetMapping("/login")
-  public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,Model model){
+  public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,
+                          @RequestParam(defaultValue = "") String successMassage,
+                          Model model){
 
     model.addAttribute("redirectURL",redirectURL);
     model.addAttribute("member",new MemberLoginDTO());
+    model.addAttribute("successMsg", successMassage);
     return "/member/login";
   }
 
@@ -116,11 +119,23 @@ public class MemberController {
     return "redirect:/member/login";
   }
 
-  @PostMapping("/withdrawal")
-  public String withdrawal(@Login Long memberId,
+  @PostMapping("/unregister")
+  public String unregister(@Login Long memberId,
+                           @RequestParam String passwd,
+                           RedirectAttributes redirectAttributes,
                            HttpServletRequest request){
+    boolean status = memberService.unregister(memberId, passwd);
 
-    return "redirect:/member/login";
+    if(!status){ // 회원 탈퇴 실패
+      return "redirect:/myPage/detail";
+    }
+    else { // 회원 탈퇴 성공
+      // 세션 삭제
+      request.getSession().invalidate();
+      redirectAttributes.addAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
+
+      return "redirect:/member/login";
+    }
   }
   @GetMapping("/myPage/{id}")
   public String myPage(@Login Long memberId,

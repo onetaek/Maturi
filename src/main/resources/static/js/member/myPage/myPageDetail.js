@@ -56,8 +56,8 @@ function modalToggle(){
 
 function withdrawalAction(){
   confirm("정말 회원탈퇴를 진행하시겠습니까?");
-  // withdrawalForm.action = "/member/withdrawal";
-  // withdrawalForm.method = "post";
-  // withdrawalForm.submit();
+  withdrawalForm.action = "/member/unregister";
+  withdrawalForm.method = "post";
+  withdrawalForm.submit();
 }
 

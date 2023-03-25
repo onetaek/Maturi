@@ -184,13 +184,11 @@ public class MemberService {
     return modelMapper.map(findMember, MemberDetailDTO.class);
   }
 
-  public boolean passwdCheck(Long memberId, String passwd) {
+  public Member passwdCheck(Long memberId, String passwd) {
     Member findMember = memberRepository.findById(memberId).orElseThrow(()->
             new IllegalArgumentException("맴버가 없습니다!"));
 
     String salt = findMember.getSalt();
-
-    String findPasswd = findMember.getPasswd();
 
     /* 비밀번호 암호화 */
     PasswdEncry passwdEncry = new PasswdEncry();
@@ -199,6 +197,23 @@ public class MemberService {
     String SHA256Pw = (passwd != null)?
                     passwdEncry.getEncry(passwd, salt) : null;
 
-    return findPasswd.equals(SHA256Pw);
+    // db에 저장된 패스워드
+    String findPasswd = findMember.getPasswd();
+
+    return findPasswd.equals(SHA256Pw)? findMember : null;
+  }
+
+  public boolean unregister(Long memberId, String passwd) {
+    Member findMember = passwdCheck(memberId, passwd);
+    if(findMember == null){
+      return false;
+    }
+    else {
+      // status -> WITHDRAW 로 수정
+      findMember.changeStatus(MemberStatus.WITHDRAW);
+      // db에 수정된 사항 저장
+      memberRepository.save(findMember);
+      return true;
+    }
   }
 }

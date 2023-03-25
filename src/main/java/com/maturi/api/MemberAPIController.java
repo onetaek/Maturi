@@ -1,6 +1,7 @@
 package com.maturi.api;
 
 import com.maturi.dto.member.AreaInterDTO;
+import com.maturi.entity.member.Member;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
@@ -115,8 +116,8 @@ public class MemberAPIController {
     JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
     String passwd = (String) jsonObject.get("passwd");
 
-    boolean verifyPassword = memberService.passwdCheck(memberId, passwd);
-    return verifyPassword?
+    Member member = memberService.passwdCheck(memberId, passwd);
+    return member != null?
             ResponseEntity.status(HttpStatus.OK).build() : // 비번 일치
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 비번 불일치
   }
