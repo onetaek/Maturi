@@ -1,5 +1,6 @@
 package com.maturi.controller.member;
 
+import com.maturi.dto.member.MemberDetailDTO;
 import com.maturi.dto.member.MemberEditMyPageDTO;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
@@ -64,7 +65,9 @@ public class MemberController {
   }
 
   @GetMapping("/login")
-  public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,Model model){
+  public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,
+                          @RequestParam(defaultValue = "") String successMassage,
+                          Model model){
 
     model.addAttribute("redirectURL",redirectURL);
     model.addAttribute("member",new MemberLoginDTO());
@@ -114,9 +117,20 @@ public class MemberController {
     return "redirect:/members/login";
   }
 
-  @PostMapping("/withdrawal")
-  public String withdrawal(@Login Long memberId,
+  @PostMapping("/unregister")
+  public String unregister(@Login Long memberId,
+                           @RequestParam String passwd,
+                           RedirectAttributes redirectAttributes,
                            HttpServletRequest request){
+    boolean status = memberService.unregister(memberId, passwd);
+
+    if(!status){ // 회원 탈퇴 실패
+      return "redirect:/myPage/detail";
+    }
+    else { // 회원 탈퇴 성공
+      // 세션 삭제
+      request.getSession().invalidate();
+      redirectAttributes.addAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
 
     return "redirect:/members/login";
   }
@@ -156,6 +170,14 @@ public class MemberController {
     model.addAttribute("memberDetailInfo", memberService.memberDetailInfo(memberId));
 
     return "/members/myPageDetail";
+  }
+
+  @PostMapping("/newPasswd")
+  public String newPasswd(@Login Long memberId,
+                          @RequestParam String passwd){
+    Member member = memberService.changePasswd(memberId, passwd);
+
+    return "redirect:/members/" + memberId;
   }
 
 }

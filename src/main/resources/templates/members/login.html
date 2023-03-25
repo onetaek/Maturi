@@ -10,6 +10,14 @@
 <body>
 
 <div layout:fragment="main" id="wrap">
+    <script th:inline="javascript">
+        let message = [[${successMsg}]];
+        console.log(message);
+        if(message != null && message == "unregister"){
+            alert("회원탈퇴가 완료되었습니다.");
+        }
+    </script>
+
     <section class="section-wrap">
         <div class="page-preview">
         </div>
