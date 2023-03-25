@@ -216,4 +216,21 @@ public class MemberService {
       return true;
     }
   }
+
+  public Member changePasswd(Long memberId, String passwd) {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+            new IllegalArgumentException("맴버가 없습니다!"));
+
+    String salt = findMember.getSalt();
+
+    /* 비밀번호 암호화 */
+    PasswdEncry passwdEncry = new PasswdEncry();
+    // 입력받은 비번 + 난수 => 암호화
+    String SHA256Pw = passwdEncry.getEncry(passwd, salt);
+
+    findMember.changePasswd(SHA256Pw); // 비번 수정
+    Member member = memberRepository.save(findMember); // db에 재저장
+
+    return member;
+  }
 }

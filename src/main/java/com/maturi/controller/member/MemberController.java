@@ -175,4 +175,12 @@ public class MemberController {
     return "/member/myPageDetail";
   }
 
+  @PostMapping("/newPasswd")
+  public String newPasswd(@Login Long memberId,
+                          @RequestParam String passwd){
+    Member member = memberService.changePasswd(memberId, passwd);
+
+    return "redirect:/member/myPage/" + memberId;
+  }
+
 }

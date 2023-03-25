@@ -53,4 +53,8 @@ public class Member {
   public void changeStatus(MemberStatus status) {
     this.status = status;
   }
+
+  public void changePasswd(String passwd) {
+    this.passwd = passwd;
+  }
 }
