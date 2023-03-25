@@ -1,4 +1,6 @@
 
+let modalStatus = false;
+
 const detailTable = document.getElementById("detail-info");
 const detailModalForm = document.modalForm;
 const detailModalFormWrap = detailModalForm.querySelector(".password-wrap");
@@ -47,6 +49,11 @@ const withdrawalCloseBtn = detailModal.querySelector(".withdrawal-close-btn");
 withdrawalCloseBtn.addEventListener("click", ()=>{
   detailModalForm.passwd.value = ""; // 값 비워주기
   detailModalFormWrap.querySelector("button").remove();
+  if(modalStatus){ // 새 비번 입력폼이면 ...
+    detailModalFormWrap.querySelector(".passwdCheck").remove();
+    detailModalForm.querySelector("label").innerText = "비밀번호 확인";
+    modalStatus = false;
+  }
   modalToggle(detailModal);
 });
 
@@ -62,15 +69,15 @@ function unregister(){
 }
 
 function modalToggle(modalWrap){ // 모달창 키고 끄는 토글
-  // 모달창 끄기
-  detailModal.classList.toggle("not-active");
-  // 블러처리
+  // 모달 창 끄기 & 블러처리
   if(detailModal.getAttribute("class").includes("not-active")){
-    document.getElementById("wrap").style.filter = "none";
-    document.getElementById("wrap").style.filter = "none";
+    detailModal.classList.remove("not-active");
+    document.getElementById("wrap").style.filter = "blur(10px)";
+    document.getElementById("wrap").style.filter = "blur(10px)";
   } else {
-    document.getElementById("wrap").style.filter = "blur(10px)";
-    document.getElementById("wrap").style.filter = "blur(10px)";
+    detailModal.classList.add("not-active");
+    document.getElementById("wrap").style.filter = "none";
+    document.getElementById("wrap").style.filter = "none";
   }
 }
 
@@ -103,10 +110,12 @@ function newPasswdForm(){
   detailModalForm.passwd.value = "";
   detailModalFormWrap.querySelector("button").remove();
 
-  let inputTamp = `<input type="password" name="passwdCheck" class="passwd" placeholder="비밀번호 확인">`;
+  let inputTamp = `<input type="password" name="passwdCheck" class="passwd passwdCheck" placeholder="비밀번호 확인">`;
   detailModalFormWrap.insertAdjacentHTML("beforeend", inputTamp);
   let buttonTamp = `<button type="button" class="newPasswd-submit-btn">비밀번호 변경</button>`;
   detailModalFormWrap.insertAdjacentHTML("beforeend", buttonTamp);
+
+  modalStatus = true; // 새 비밀번호 폼으로 변화시
 
   let newPasswdBtn = detailModalFormWrap.querySelector(".newPasswd-submit-btn");
   newPasswdBtn.addEventListener("click", ()=>{
