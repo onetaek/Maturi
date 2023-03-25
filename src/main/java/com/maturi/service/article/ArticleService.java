@@ -193,7 +193,7 @@ public class ArticleService {
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
 
         ArticlePagingResponse<Article> result = articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(), cond,pagingRequest.getSize());
-
+        log.info("페이징 써칭한 결과 result = {}",result);
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
             ArticleViewDTO articleViewDTO = getArticleViewDTO(article,memberId);
