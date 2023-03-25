@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -121,19 +122,21 @@ public class MemberController {
   public String unregister(@Login Long memberId,
                            @RequestParam String passwd,
                            RedirectAttributes redirectAttributes,
-                           HttpServletRequest request){
+                           HttpServletRequest request) {
     boolean status = memberService.unregister(memberId, passwd);
 
-    if(!status){ // 회원 탈퇴 실패
+    if (!status) { // 회원 탈퇴 실패
       return "redirect:/myPage/detail";
-    }
-    else { // 회원 탈퇴 성공
+    } else { // 회원 탈퇴 성공
       // 세션 삭제
       request.getSession().invalidate();
       redirectAttributes.addAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
 
-    return "redirect:/members/login";
+      return "redirect:/members/login";
+    }
   }
+
+
   @GetMapping("/{id}")//회원 마이페이지 이동
   public String myPage(@PathVariable Long id, // 해당 마이페이지 유저
                        @Login Long memberId,
@@ -151,6 +154,8 @@ public class MemberController {
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
     return "/members/editMyPage";
   }
+
+
   @PatchMapping("/{id}/edit")
   public String editMemberProfileInfo(@Login Long memberId,
                                       MemberEditMyPageDTO memberEditMyPageDTO,
