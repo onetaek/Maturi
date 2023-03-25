@@ -38,34 +38,39 @@ function searchArticleAjax(obj){
     .then((response) => response.json())
     .then((data) => {
         console.log(data);
-        document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;
+        document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;//마지막 게시글의 id를 저장
         if(data.hasNext === false){
             hasArticle = false;
             document.querySelector('input[name="lastArticleId"]').value = null;
         }
-        console.log("어떤 동작인가요?",data.event);
         let articleList = document.querySelector('#article-list');
         let html = ``;
         let articles = data['content'];
-        console.log("articles",articles)
+
         if((data.event === "click" || data.event === "load") && articles.length === 0){
             html += `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
             articleList.innerHTML = html;
+            html = ``;
+            console.log("조건에 맞는 게시글이 없습니다.")
             return;
         }
+
         articles.forEach((article) => {
-            html += `<li class="article-wrap article-wrap${article.id}" data-articleid=${article.id}>
+
+            let articleHtml = ``;
+
+            articleHtml += `<li class="article-wrap article-wrap${article.id}" data-articleid=${article.id}>
                 <!--    글쓴이 정보 -->
                 <div class="writerInfo">
                     <p class="writerProfileImg">`
                 if(article.profileImg == null || article.profileImg === ""){
-                    html += `<img src="#" alt="프로필 이미지">`
+                    articleHtml += `<img src="#" alt="프로필 이미지">`
                 }else if(article.profileImg.includes("http")){
-                    html += `<img src="${article.profileImg}" alt="프로필 이미지">`
+                    articleHtml += `<img src="${article.profileImg}" alt="프로필 이미지">`
                 }else{
-                    html += `<img src="/test/file/${article.profileImg}" alt="프로필 이미지">`
+                    articleHtml += `<img src="/test/file/${article.profileImg}" alt="프로필 이미지">`
                 }
-            html +=`</p>
+            articleHtml +=`</p>
                     <p class="written">
                         <span class="writerName">${article.name}</span>
                         <span class="writerNickName">${article.nickName}</span>
@@ -88,9 +93,9 @@ function searchArticleAjax(obj){
                       <span class="likeNum likeNum${article.id}">${article.like}</span>
                     </span>`
             article.tags.forEach((tag) => {
-                html += `<span><a href="#">${tag}</a></span>`
+                articleHtml += `<span><a href="#">${tag}</a></span>`
             });
-            html += `
+            articleHtml += `
                 </div>
                 <!--     리뷰글 더보기 버튼 -->
                 <div class="ellipsis-btn-wrap">
@@ -104,72 +109,75 @@ function searchArticleAjax(obj){
                     </ul>
                 </div>
             </li>`;
+
             if (data.event === "scroll"){
                 //위의 코드를 통해 만들어준 html을 append해준다.
                 const template = document.createElement('template');
-                template.innerHTML = html.trim();
+                template.innerHTML = articleHtml.trim();
+                console.log("template.content.firstElementChild",template.content.firstElementChild);
                 articleList.appendChild(template.content.firstElementChild);
+            } else if (data.event === "click" || data.event === "load" ) {
+                html += articleHtml;
             }
         });//forEach문끝 요소들 넣어줌
+
         if (data.hasNext === false ){
             html += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
         }
-        if (data.event === "click" || data.event === "load"){
-            console.log("click이벤트 또는 load이벤트입니다");
+        if (data.event === "click" || data.event === "load"){//클릭 or load면 기존 게시글을 덮어서 새로 입력
             articleList.innerHTML = html
         }
+        console.log("좋아요 클릭이벤트 걸어주기전의 articles ",articles);
+        // articles.forEach((article) => {
+        //     console.log("좋아요 클릭 이벤트 걸어줄 하나의 article",article);
+        //     //좋아요 클릭 이벤트를 적용해준다.
+        //     const likeBtn = document.querySelector(`.likeBtn${article.id}`);
+        //     if(article.liked){
+        //         likeBtn.classList.add("isLikedArticle");
+        //     }
+        //     const likeNum = document.querySelector(`.likeNum${article.id}`);
+        //     const articleLi = document.querySelector(`.article-wrap${article.id}`)
+        //     likeBtn.addEventListener("click", ()=>{
+        //         const url = "/api/article/likeOrUnlike/" + articleLi.dataset.articleid;
+        //         fetch(url, {
+        //             method: "post",
+        //             headers: {
+        //                 "Content-type": "application/json"
+        //             }
+        //         }).then((response) => response.json())
+        //         .then((data) => {
+        //             console.log(data);
+        //             if(data.isLiked == 1){ // 좋아요!
+        //                 likeBtn.classList.add("isLikedArticle");
+        //             } else { // 좋아요 취소!
+        //                 likeBtn.classList.remove("isLikedArticle");
+        //             }
+        //             likeNum.innerText = data.likeNum;
+        //         })
+        //     });
+        // });//articles.forEach끝(이벤트걸어줌)
 
-        articles.forEach((article) => {
-            //좋아요 클릭 이벤트를 적용해준다.
-            const likeBtn = document.querySelector(`.likeBtn${article.id}`);
-            if(article.liked){
-                likeBtn.classList.add("isLikedArticle");
-            }
-            const likeNum = document.querySelector(`.likeNum${article.id}`);
-            console.log("likeNum",likeNum);
-            const articleLi = document.querySelector(`.article-wrap${article.id}`)
-            console.log("articleLi",articleLi);
-            likeBtn.addEventListener("click", ()=>{
-                const url = "/api/article/likeOrUnlike/" + articleLi.dataset.articleid;
-                fetch(url, {
-                    method: "post",
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                }).then((response) => response.json())
-                .then((data) => {
-                    console.log(data);
-                    if(data.isLiked == 1){ // 좋아요!
-                        likeBtn.classList.add("isLikedArticle");
-                    } else { // 좋아요 취소!
-                        likeBtn.classList.remove("isLikedArticle");
-                    }
-                    likeNum.innerText = data.likeNum;
-                })
-            });
-        });//articles.forEach끝(이벤트걸어줌)
+        // articles.forEach((article) => {
+        //     //좋아요 클릭 이벤트를 적용해준다.
+        //     const ellipsisBtn = document.querySelector(`.ellipsis-btn${article.id}`);
+        //     const ellipsisContent = document.querySelector(`.ellipsis-content${article.id}`);
+        //
+        //     for(let i = 0 ; i < ellipsisBtn.length; i++){
+        //         ellipsisBtn[i].addEventListener("click",function(){
+        //             ellipsisContent[i].classList.toggle("active");
+        //         });
+        //     }
+        // });//articles.forEach끝(이벤트걸어줌)
 
-        articles.forEach((article) => {
-            //좋아요 클릭 이벤트를 적용해준다.
-            const ellipsisBtn = document.querySelector(`.ellipsis-btn${article.id}`);
-            const ellipsisContent = document.querySelector(`.ellipsis-content${article.id}`);
-
-            for(let i = 0 ; i < ellipsisBtn.length; i++){
-                ellipsisBtn[i].addEventListener("click",function(){
-                    ellipsisContent[i].classList.toggle("active");
-                });
-            }
-        });//articles.forEach끝(이벤트걸어줌)
-
-        articles.forEach((article,idx,arr) => {
-
-            let articleContent = document.querySelector(`.contentWrap${article.id}`);
-            const articleId = document.querySelector(`.article-wrap${article.id}`).dataset.articleid;
-            articleContent.addEventListener("click",()=>{
-                window.location.href=`/article/${articleId}`;
-            });
-
-        });//articles.forEach끝(이벤트걸어줌)
+        // articles.forEach((article,idx,arr) => {
+        //
+        //     let articleContent = document.querySelector(`.contentWrap${article.id}`);
+        //     const articleId = document.querySelector(`.article-wrap${article.id}`).dataset.articleid;
+        //     articleContent.addEventListener("click",()=>{
+        //         window.location.href=`/article/${articleId}`;
+        //     });
+        //
+        // });//articles.forEach끝(이벤트걸어줌)
 
     })
 }

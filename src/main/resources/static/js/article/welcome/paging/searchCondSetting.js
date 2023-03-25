@@ -6,11 +6,6 @@ let hasArticle = true;
 // keyword검색 조건(dropdown버튼)
 for(let i = 0 ; i < searchDropdownList.length; i++){
     searchDropdownList[i].addEventListener("click",()=>{
-
-        console.log("li요소",searchDropdownList[i]);
-        console.log('name에 넣을 값',searchDropdownList[i].getAttribute("data-keyword-name"));
-        console.log('value에 넣을 값',searchKeyWordInput.value);
-
        searchCategoryValue.setAttribute("name",
            searchDropdownList[i].dataset.name);
        document.querySelector('input[name="keywordName"]').value
@@ -39,17 +34,8 @@ function searchCondSetting(event){
     }
     //동적 hidden input에 value속성에 값추가
     searchCategoryValue.setAttribute("value",searchKeyWordInput.value);
-    console.log(document.querySelector('input[name="radioCond"]').value);
-
 
     //------search조건에 맞는 json데이터 만드는 과정--------
-    console.log("라디오 버튼 전체 선택 이냐?",$('#all').is(':checked'))
-    console.log("라디오 버튼 follow 선택 이냐?",$('#follow').is(':checked'))
-    console.log("라디오 버튼 관심지역 선택 이냐?",$('#local').is(':checked'))
-    console.log("라디오 버튼 내주변 선택 이냐?",$('#my-local').is(':checked'))
-    console.log("라디오 버튼 음식점 카테고리 선택 이냐?",$('#category').is(':checked'))
-    console.log("라디오 버튼 좋아요 선택 이냐?",$('#like').is(':checked'))
-
     let radioCond = "everything";
     if($('#all').is(':checked')){
         radioCond = "everything"
@@ -72,7 +58,6 @@ function searchCondSetting(event){
 
     let content = searchCategoryValue.name === "content" ? searchKeyWordInput.value : null;
     let writer = searchCategoryValue.name === "writer" ? searchKeyWordInput.value : null;
-    console.log("태그를 선택했나요?",searchCategoryValue.name === "tag");
     let tag = searchCategoryValue.name === "tag" ? searchKeyWordInput.value : null;
     let restaurantName = searchCategoryValue.name === "restaurantName" ? searchKeyWordInput.value : null;
     let all = searchCategoryValue.name === "all" ? searchKeyWordInput.value : null;

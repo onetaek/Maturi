@@ -1,4 +1,3 @@
-console.log("popup.js 파일 실행")
 let isModal = 0;
 let isInterBtnClick = false;
 
