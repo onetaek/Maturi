@@ -133,15 +133,7 @@ public class MemberService {
     Member findMember = memberRepository.findById(memberId).orElseThrow(()->
             new IllegalArgumentException("맴버가 없습니다!"));
 
-    MemberMyPageDTO myPageDTO = MemberMyPageDTO.builder()
-            .nickName(findMember.getNickName())
-            .name(findMember.getName())
-            .profileImg(findMember.getProfileImg())
-            .profile(findMember.getProfile())
-            .coverImg(findMember.getCoverImg())
-            .build();
-
-    return myPageDTO;
+    return modelMapper.map(findMember, MemberMyPageDTO.class);
   }
 
   public boolean nickNameDuplCheck(String nickName) {
@@ -177,5 +169,36 @@ public class MemberService {
     log.info("editMemberInfo = {}", findMember);
 
     memberRepository.save(findMember);
+  }
+
+  public boolean isBanMember(Long member_id){ // 밴된 멤버 -> true
+    Member findMember = memberRepository.findByIdAndStatus(member_id, MemberStatus.BAN);
+
+    return findMember != null;
+  }
+
+  public MemberDetailDTO memberDetailInfo(Long memberId) {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+            new IllegalArgumentException("맴버가 없습니다!"));
+
+    return modelMapper.map(findMember, MemberDetailDTO.class);
+  }
+
+  public boolean passwdCheck(Long memberId, String passwd) {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+            new IllegalArgumentException("맴버가 없습니다!"));
+
+    String salt = findMember.getSalt();
+
+    String findPasswd = findMember.getPasswd();
+
+    /* 비밀번호 암호화 */
+    PasswdEncry passwdEncry = new PasswdEncry();
+
+    // 입력받은 비번 + 난수 => 암호화
+    String SHA256Pw = (passwd != null)?
+                    passwdEncry.getEncry(passwd, salt) : null;
+
+    return findPasswd.equals(SHA256Pw);
   }
 }

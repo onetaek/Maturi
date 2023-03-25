@@ -1,5 +1,6 @@
 package com.maturi.controller.member;
 
+import com.maturi.dto.member.MemberDetailDTO;
 import com.maturi.dto.member.MemberEditMyPageDTO;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
@@ -8,6 +9,7 @@ import com.maturi.service.article.ArticleService;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
 import com.maturi.util.argumentresolver.Login;
+import com.maturi.util.constfield.MessageConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,21 +78,34 @@ public class MemberController {
           @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
           BindingResult bindingResult,
           @RequestParam(defaultValue = "/") String redirectURL,
-          HttpServletRequest request){
+          HttpServletRequest request,
+          Model model){
 
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
       log.info("errors={} ", bindingResult);
+      model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.LOGIN_FAIL);
       return "/member/login";
     }
 
     //정상 로직
     Member findMember = memberService.login(memberLoginDTO);
-    HttpSession session = request.getSession();
-    session.setAttribute(MEMBER_ID,findMember.getId());
+    if(findMember == null){
+      model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.LOGIN_FAIL);
 
-    log.info("redirectURL = {}",redirectURL);
-    return "redirect:" + redirectURL;
+      return "/member/login";
+    }
+    else if(memberService.isBanMember(findMember.getId())){ // 밴 멤버
+      model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.IS_BAN_MEMBER);
+
+      return "/member/login";
+    } else { // 정상 멤버
+      HttpSession session = request.getSession();
+      session.setAttribute(MEMBER_ID,findMember.getId());
+
+      log.info("redirectURL = {}",redirectURL);
+      return "redirect:" + redirectURL;
+    }
   }
 
   @PostMapping("/logout")
@@ -100,6 +116,12 @@ public class MemberController {
     return "redirect:/member/login";
   }
 
+  @PostMapping("/withdrawal")
+  public String withdrawal(@Login Long memberId,
+                           HttpServletRequest request){
+
+    return "redirect:/member/login";
+  }
   @GetMapping("/myPage/{id}")
   public String myPage(@Login Long memberId,
                        @PathVariable Long id, // 해당 마이페이지 유저
@@ -124,7 +146,7 @@ public class MemberController {
 
     memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
 
-    return "redirect:/member/myPage";
+    return "redirect:/member/myPage/" + memberId;
   }
 
   @GetMapping("/myPage/detail")
@@ -133,6 +155,8 @@ public class MemberController {
 
     model.addAttribute("member", articleService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
+    model.addAttribute("memberDetailInfo", memberService.memberDetailInfo(memberId));
+
     return "/member/myPageDetail";
   }
 

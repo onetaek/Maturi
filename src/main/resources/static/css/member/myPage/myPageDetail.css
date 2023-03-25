@@ -4,13 +4,15 @@
 }
 #detail-info table {
     width: 100%;
-
 }
 #detail-info table th,
 #detail-info table td {
     /*border: 1px solid #000;*/
     height:50px; width:120px;
     text-align: center;
+}
+#detail-info button {
+    cursor: pointer;
 }
 #detail-info .detail-info-button {
     width: 100px;
@@ -20,4 +22,52 @@
 }
 #detail-info .active-btn {
     background-color: var(--search-btn-background);
+}
+#detail-info .withdrawal-btn {
+    background-color: var(--error-color);
+}
+
+/* 회원 탈퇴 모달 (비번확인) */
+#withdrawal-modal {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; height: 200px;
+    background-color: var(--white-color);
+    /*border: 3px solid #000;*/
+    border-radius: 10px;
+}
+#withdrawal-modal form {
+    height: 100%;
+}
+#withdrawal-modal .password-wrap {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+#withdrawal-modal .password-wrap > * {
+    padding: 10px;
+    width: auto;
+    flex: 1;
+}
+#withdrawal-modal .password-wrap label {
+    background-color: var(--hot-pink-color);
+    color: var(--white-color);
+}
+#withdrawal-modal .password-wrap .passwd {
+    margin: 10px;
+    border-bottom: 2px solid var(--hot-pink-color);
+}
+#withdrawal-modal .withdrawal-submit-btn {
+    margin: 5px;
+    border-radius: 5px;
+    background-color: var(--hot-pink-color);
+    color: var(--white-color);
+    cursor: pointer;
+}
+#withdrawal-modal.not-active {
+    display: none;
+}
+#withdrawal-modal .popup-close-btn-wrap {
+    cursor: pointer;
 }

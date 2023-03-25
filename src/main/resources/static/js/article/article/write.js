@@ -44,12 +44,39 @@ tagInput.addEventListener("keyup", ()=>{
   }
 })
 
+/* 이미지 유효성 검사 - 이미지 적어도 1개 이상, 파일 확장자 검사 */
+const imageInput = writeForm.image;
+imageInput.addEventListener("change", ()=>{ // 테스트
+  let files = imageInput.files;
+  let fileArr = Array.prototype.slice.call(files);
+  console.log(files);
+  fileArr.forEach(file => {
+    let extension = file.name.slice(file.name.lastIndexOf(".")+1).toLowerCase();
+    // jpg, png, gif, bmp
+    if(extension != "jpg" && extension != "png" &&
+        extension != "gif" && extension != "bmp"){
+      alert("이미지 파일은 (jpg, png, gif, bmp) 형식만 사용 가능합니다.");
+      imageInput.value = "";
+      return;
+    }
+  })
+})
+
 /* 업로드 */
 function validation(){
+  let fileArr = Array.prototype.slice.call(imageInput.files);
+  console.log(fileArr);
+  console.log(fileArr.length);
+
+  if(fileArr.length == 0){ // 이미지 1개 이상
+    alert("리뷰 작성을 하기 위해서는 하나 이상의 사진이 필요합니다!");
+    return false;
+  }
+
   return true; // 유효성검사 통과시
 }
 writeForm.submitBtn.addEventListener("click", ()=>{
-  if(validation){
+  if(validation()){
     writeForm.method="POST";
     writeForm.action="/article";
     writeForm.submit();

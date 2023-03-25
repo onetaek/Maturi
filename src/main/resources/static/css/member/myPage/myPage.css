@@ -36,11 +36,12 @@
     font-size: 20px;
 }
 #myPageInfo .detailInfo,
-#myPageInfo .followBtn{
+#myPageInfo .followBtn {
     width: 100px; padding: 5px 0; margin: 0 5px;
     border-radius: 5px;
     background-color: var(--hot-pink-color);
     color: var(--white-color);
+    cursor: pointer;
 }
 
 /* 더보기 버튼 */

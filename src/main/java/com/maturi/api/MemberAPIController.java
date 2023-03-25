@@ -106,4 +106,18 @@ public class MemberAPIController {
             ResponseEntity.status(HttpStatus.OK).build() : // 중복 있음
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 중복 없음
   }
+
+  @PostMapping("/passwdCheck")
+  public ResponseEntity<String> passwdCheck(@RequestBody String json,
+                                            @Login Long memberId) throws ParseException {
+    // parse
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+    String passwd = (String) jsonObject.get("passwd");
+
+    boolean verifyPassword = memberService.passwdCheck(memberId, passwd);
+    return verifyPassword?
+            ResponseEntity.status(HttpStatus.OK).build() : // 비번 일치
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 비번 불일치
+  }
 }

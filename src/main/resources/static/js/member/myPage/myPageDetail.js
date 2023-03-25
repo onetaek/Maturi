@@ -1,21 +1,63 @@
-const moreBtn = document.querySelector(".moreBtn");
-const memberBtnUl = document.querySelector(".memberBtn ul");
 
-let ulDisplay = "none"; // 초기값 설정
-moreBtn.addEventListener("click", ()=>{
+const detailTable = document.getElementById("detail-info");
+const withdrawalModal = document.getElementById("withdrawal-modal");
 
-  if(ulDisplay == 'none'){
-    ulDisplay = "block";
+const emailValue = detailTable.querySelector(".email-value").innerText;
+
+/* 회원탈퇴 클릭 */
+const withdrawalBtn = detailTable.querySelector(".withdrawal-btn");
+withdrawalBtn.addEventListener("click", ()=>{
+  console.log(emailValue);
+  if(emailValue.includes("@k.com") || emailValue.includes("@n.com")){
+    // withdrawalAction();
+  } else {
+    // 모달창 키기
+    withdrawalModal.classList.remove("not-active");
+    // 블러처리
+    document.getElementById("wrap").style.filter = "blur(10px)";
+    document.getElementById("wrap").style.filter = "blur(10px)";
   }
-  else {
-    ulDisplay = "none";
-  }
-  memberBtnUl.style.display = ulDisplay;
 });
 
-/* 프로필 편집 버튼 클릭 */
-const editMyPage = document.querySelector(".editMyPage");
-editMyPage.addEventListener("click", (e)=>{
-  e.preventDefault();
-  location.href = "/member/editMyPage";
-})
+/* 회원탈퇴하기 */
+const withdrawalForm = document.withdrawalForm;
+const withdrawalSubmit = withdrawalForm.querySelector(".withdrawal-submit-btn");
+withdrawalSubmit.addEventListener("click", ()=>{
+  if(withdrawalForm.passwd.value != null && withdrawalForm.passwd.value != "") {
+    const url = "/api/member/passwdCheck";
+    fetch(url, {
+      method: "post", // PATCH 요청
+      body: JSON.stringify({
+        passwd: withdrawalForm.passwd.value
+      }),
+      headers: {
+        "Content-type": "application/json"
+      }
+    }).then(response => {
+      // http 응답 코드에 따른 메세지 출력
+      if (!response.ok) { // 비밀번호 불일치
+        alert("비밀번호가 일치하지 않습니다.");
+      } else { // 비밀번호 일치
+        withdrawalAction();
+      }
+    });
+  }
+});
+
+function modalToggle(){
+
+  // 모달창 끄기
+  withdrawalModal.classList.add("not-active");
+  // 블러처리
+  document.getElementById("wrap").style.filter = "none";
+  document.getElementById("wrap").style.filter = "none";
+
+}
+
+function withdrawalAction(){
+  confirm("정말 회원탈퇴를 진행하시겠습니까?");
+  // withdrawalForm.action = "/member/withdrawal";
+  // withdrawalForm.method = "post";
+  // withdrawalForm.submit();
+}
+
