@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/member")
+@RequestMapping("/api/members")
 public class MemberAPIController {
 
   final private MemberService memberService;

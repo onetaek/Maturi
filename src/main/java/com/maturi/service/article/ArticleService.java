@@ -10,6 +10,10 @@ import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.*;
+import com.maturi.repository.article.like.LikeArticleRepository;
+import com.maturi.repository.article.restaurant.RestaurantRepository;
+import com.maturi.repository.article.tag.TagRepository;
+import com.maturi.repository.article.tag.TagValueRepository;
 import com.maturi.repository.member.MemberQuerydslRepository;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
@@ -159,6 +163,7 @@ public class ArticleService {
     }
     public boolean articleStatusNormal(Long articleId) {
 //        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        log.info("articleId = {}", articleId);
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
         log.info("findArticle = {}", findArticle);
         return findArticle != null;
@@ -286,4 +291,6 @@ public class ArticleService {
                 .build();
         return articleViewDTO;
     }
+
+
 }

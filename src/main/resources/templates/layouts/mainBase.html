@@ -1,0 +1,156 @@
+<!--헤더랑 푸터는 모든 사이트에서 동일 할 경우 여기서 공통 부분을 작성함-->
+<!DOCTYPE html>
+<html xmlns:layout = "http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>base</title>
+    <!-- 공통 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/include/sideNav.css}">
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/include/searchMap.css}">
+    <link rel="stylesheet" th:href="@{/css/include/kakaoCSS.css}">
+    <link rel="stylesheet" th:href="@{/css/include/popup.css}">
+</head>
+<body>
+<div id="wrap" >
+    <div id="sideNav">
+        <h1 class="logo"><a href="/articles">Maturi</a></h1>
+        <form name="goMyPageForm"></form>
+        <div id="gnbWrap">
+            <h2 class="mProfileImg">
+                <img th:if="${member.profileImg != null && #strings.contains(member.profileImg,'://')}" th:src="${member.profileImg}" alt="프로필 이미지">
+                <img th:unless="${member.profileImg == null || #strings.contains(member.profileImg,'://')}" th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+                <img th:if="${member.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
+            </h2>
+            <div class="memberInfo" th:attr="data-memberId=${member.id}">
+                <h3 class="mName" th:text="${member.name}">김혜현</h3>
+                <span class="mNick" th:text="${member.nickName}">@hyea._.hyun</span>
+            </div>
+            <nav id="gnb">
+                <ul>
+                    <li><a href="#" onclick="popupToggle()">리뷰 쓰기</a></li>
+                    <li><a href="#">지도로 보기</a></li>
+                    <li><a href="#">팔로우/팔로잉</a></li>
+                </ul>
+            </nav>
+            <div id="snb">
+                <ul class="subContent">
+                    <li><a href="#">설정</a></li>
+                    <li><a class="logout-btn" href="#">로그아웃</a></li>
+                    <form name="logoutForm"></form>
+                </ul>
+                <footer>
+                    <ul>
+                        <li>
+                            <span>김혜현</span>
+                            <span>오원택</span>
+                        </li>
+                        <li><a href="#">Github</a></li>
+                    </ul>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <th:block layout:fragment="main"></th:block>
+
+</div>
+
+<div layout:fragment="popup" id="popup" >
+    <div id="popupContent">
+        <!--    지역 선택 태그 -->
+        <form name="nsdiSearchForm" id="nsdiSearchForm" action="#" class="form_data" onsubmit="return false;search();">
+            <div id="sido_code" name="sido_code" class="popup-dropdown">
+                <div id="sido-popup-drop-text" class="popup-dropdown-text">
+                    <span id="sido-popup-search-cond">전체</span>
+                    <i id="sido-popup-icon" class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div id="sigoon_code" name="sigoon_code" class="popup-dropdown">
+                <div id="sigoon-popup-drop-text" class="popup-dropdown-text">
+                    <span id="sigoon-popup-search-cond">전체</span>
+                    <i id="sigoon-popup-icon" class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <div id="dong_code" name="dong_code" class="popup-dropdown">
+                <div id="dong-popup-drop-text" class="popup-dropdown-text">
+                    <span id="dong-popup-search-cond">전체</span>
+                    <i id="dong-popup-icon" class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+
+            <button class="inter-location-btn"><ion-icon name="location"></ion-icon>관심지역으로 등록</button>
+        </form>
+        <!-- 맵에 해당 지역 찾아서 표시 -->
+        <div id="map_wrap">
+            <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+
+            <div id="menu_wrap" class="bg_white">
+                <div class="option">
+                    <div>
+                        <form onsubmit="searchPlaces(); return false;" name="searchRestaurant">
+                            키워드 : <input type="text" id="keyword" size="15" name="keyword">
+                            <button type="button" name="searchKeyword">검색</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <ul id="placesList"></ul>
+                <div id="pagination"></div>
+            </div>
+        </div>
+        <!-- 해당 지역 정보 -->
+        <div id="rInfoWrap">
+            <ul>
+                <li class="placeName">
+                    <i class="fa-solid fa-house"></i><span>가게명 : </span>
+                </li>
+                <li class="address">
+                    <i class="fa-solid fa-road"></i><span>도로명 주소 : </span>
+                </li>
+                <li class="oldAddress">
+                    <i class="fa-solid fa-map"></i><span>구주소 : </span>
+                </li>
+                <li class="placeCategory">
+                    <i class="fa-solid fa-list-ul"></i><span>카테고리 : </span>
+                </li>
+            </ul>
+        </div>
+        <button type="button" class="goWriteBtn">리뷰 작성</button>
+    </div>
+    <div class="popup-close-btn-wrap">
+        <ion-icon class="popup-close-btn" onclick="popupToggle()" name="close-circle-outline"></ion-icon>
+    </div>
+
+</div>
+
+<div layout:fragment="modal"></div>
+
+<script th:inline="javascript">
+    //세션에 있는 값을 꺼낼 수 있음
+    const memberId = "[[${session.memberId}]]";
+    console.log("memberId",memberId);
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c73f3bcc7e4f00b30a4596c094af88&libraries=services"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script src="/js/articles/welcome/popup.js"></script>
+<script src="/js/nsdiSearch.js"></script>
+<script src="/js/kakaoMapsSearch.js"></script>
+<script src="/js/reviewWriteBtn.js"></script>
+<script src="/js/articles/logout.js"></script>
+<script src="/js/articles/goPageBtn.js"></script>
+<script src="/js/popupDropdown.js"></script>
+<script src="/js/articles/welcome/interLocation.js"></script>
+<script src="/js/articles/welcome/paging/searchCondSetting.js"></script>
+
+<th:block layout:fragment="scripts"/>
+
+</body>
+</html>

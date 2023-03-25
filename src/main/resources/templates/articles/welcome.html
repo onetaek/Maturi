@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainBase}">
+<head>
+    <title>maturi 메인 페이지</title>
+    <link rel="stylesheet" href="/css/article/welcome/articles.css"/>
+    <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"/>
+</head>
+<body>
+<main layout:fragment="main">
+    <div class="main-background">
+    </div>
+    <!--검색 컨텐츠-->
+    <section id="search-section">
+        <form class="container" name="articleSearchForm">
+            <!--라디오 버튼들-->
+            <div class="radio-tile-group">
+                <div class="input-container">
+                    <input id="all" type="radio" name="radioCond" value="everything" checked>
+                    <div class="radio-tile">
+                        <ion-icon name="globe"></ion-icon>
+                        <label for="all">전체</label>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <input id="follow" type="radio" name="radioCond" value="follow">
+                    <div class="radio-tile">
+                        <ion-icon name="people"></ion-icon>
+                        <label for="follow">팔로우</label>
+                    </div>
+                </div>
+
+                <div class="input-container-interLocal-wrap">
+                    <div class="input-container input-container-interLocal">
+                        <input id="local" type="radio" name="radioCond" value="interLocal">
+                        <div class="radio-tile radio-title-local">
+                            <ion-icon name="compass"></ion-icon>
+                            <label for="local">관심지역</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <input id="my-local" type="radio" name="radioCond" value="myLocal">
+                    <div class="radio-tile">
+                        <ion-icon name="location"></ion-icon>
+                        <label for="my-local">현재위치</label>
+                    </div>
+                </div>
+
+                <div class="input-container input-container-category">
+                    <input id="category" type="radio" name="radioCond" value="category">
+                    <div class="radio-tile">
+                        <ion-icon name="restaurant-outline"></ion-icon>
+                        <label for="category">카테고리</label>
+                    </div>
+                    <ul class="category-drop-list">
+                        <!--js로추가-->
+                    </ul>
+                </div>
+
+                <div class="input-container">
+                    <input id="like" type="radio" name="radioCond" value="like">
+                    <div class="radio-tile">
+                        <ion-icon name="heart-circle-outline"></ion-icon>
+                        <label for="like">좋아요</label>
+                    </div>
+                </div>
+            </div>
+
+            <!--검색창-->
+            <div class="search-bar">
+                <!--드롭다운-->
+                <div class="dropdown">
+                    <div id="drop-text" class="dropdown-text">
+                        <span id="search-cond" data-keyword-name="all">전체</span>
+                        <i id="icon" class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <ul id="list" class="dropdown-list">
+                        <li class="dropdown-list-item" data-name="all">전체</li>
+                        <li class="dropdown-list-item" data-name="content">글 내용</li>
+                        <li class="dropdown-list-item" data-name="writer">작성자</li>
+                        <li class="dropdown-list-item" data-name="tag">해시태그</li>
+                        <li class="dropdown-list-item" data-name="restaurantName">가게명</li>
+                    </ul>
+                </div>
+                <input type="text" name="keywordValue" class="search-input" placeholder="아무 조건으로 검색하기...">
+                <button id="main-search-btn" class="search-button"  type="button">
+                    <ion-icon name="search"></ion-icon>
+                </button>
+            </div>
+
+            <input type="hidden" name="" value="" class="search-category-value"><!--name과 value를 동적으로 처리-->
+            <input type="hidden" name="keywordName" value="all">
+            <input type="hidden" name="latitude">
+            <input type="hidden" name="longitude">
+            <input type="hidden" name="category">
+            <input type="hidden" name="lastArticleId">
+        </form>
+    </section>
+    <!--게시글들-->
+    <section id="article-section">
+        <ul id="article-list">
+        </ul>
+    </section>
+</main>
+
+<!--my js-->
+<th:block layout:fragment="scripts">
+    <script src="/js/articles/welcome/ellipsis.js"></script>
+    <script src="/js/articles/welcome/dropdown.js"></script>
+    <script src="/js/articles/welcome/geolocation.js"></script>
+    <script src="/js/articles/welcome/categoryDropdown.js"></script>
+    <script src="/js/articles/welcome/paging/searchCondSetting.js"></script>
+    <script src="/js/articles/welcome/paging/getArticleRESTAPI.js"></script>
+    <script src="/js/articles/welcome/paging/scrollEvent.js"></script>
+</th:block>
+</body>
+</html>

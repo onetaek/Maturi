@@ -10,7 +10,7 @@ goWriteBtn.addEventListener("click", ()=>{
 
   if(rInfo_category.includes("음식점 >")){ // 카테고리에 음식점 포함이면!
     // submit!!
-    window.location.href = "/article?name="+rInfo_name+
+    window.location.href = "/articles/new?name="+rInfo_name+
         "&category="+rInfo_category+
         "&oldAddress="+rInfo_oldAddress+
         "&address="+rInfo_address+

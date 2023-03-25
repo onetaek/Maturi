@@ -2,8 +2,13 @@ package com.maturi.repository.article;
 
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.entity.article.Article;
+import com.maturi.entity.article.ArticleStatus;
+import com.maturi.entity.article.QArticle;
+import com.maturi.entity.article.Restaurant;
 import com.maturi.entity.member.Member;
+import com.maturi.repository.article.restaurant.RestaurantQuerydslRepository;
 import com.maturi.service.article.ArticleService;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -18,6 +23,7 @@ import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
+import static com.maturi.entity.article.QRestaurant.restaurant;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QFollow.follow;
 import static com.maturi.entity.member.QMember.member;
@@ -33,6 +39,8 @@ class ArticleQuerydslRepositoryTest {
     ArticleRepository articleRepository;
     @Autowired
     ArticleService articleService;
+    @Autowired
+    RestaurantQuerydslRepository restaurantQRepository;
     @Autowired
     JPAQueryFactory query;
 
@@ -309,5 +317,34 @@ class ArticleQuerydslRepositoryTest {
             log.info("article = {}",article1);
         }
     }
+
+    @Test
+    @DisplayName("카테고리만 들고오기")
+    void getCategoryQuery(){
+        List<String> fetch = query.select(
+                        restaurant.category)
+                .from(article)
+                .join(article.restaurant,restaurant)
+                .on(article.status.eq(ArticleStatus.NORMAL))
+                .groupBy(restaurant.category)
+                .fetch();
+        log.info("category들 = {}",fetch);
+    }
+
+    @Test
+    @DisplayName("카테고리만 들고오기 Repository꺼사용")
+    void getCategoryQueryByRepository(){
+        List<String> fetch = restaurantQRepository.getCategory();
+        log.info("category들 = {}",fetch);
+    }
+
+    @Test
+    @DisplayName("게시글 검증")
+    void findByIdAndStatus(){
+        Article findArticle = articleQRepository.findByIdAndStatus(13L);
+        log.info("findArticle = {}",findArticle);
+    }
+
+
 
 }

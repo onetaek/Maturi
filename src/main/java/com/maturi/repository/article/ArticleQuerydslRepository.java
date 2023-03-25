@@ -60,16 +60,15 @@ public class ArticleQuerydslRepository {
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(article.status.eq(ArticleStatus.NORMAL))
                 .or(article.status.eq(ArticleStatus.REPORT));
-        List<Article> result = query.selectFrom(article)
-                .join(article.member,member)
+        return query.selectFrom(article)
+                .join(article.member, member)
                 .join(article.restaurant, restaurant)
                 .fetchJoin()
                 .where(
                         articleIdEq(articleId),
                         builder
                 )
-                .fetch();
-        return result.get(0);
+                .fetchOne();//이거쓰면 하나만 가져올 수 있어요!
     }
 
     //누나꺼
@@ -112,15 +111,15 @@ public class ArticleQuerydslRepository {
                 .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색
                 .or(nameLike(cond.getWriter()))//작성자(이름) keyword검색
                 .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
-                .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
+                .or(restaurantNameLike(cond.getRestaurantName()))//음식점명 keyword검색
+                .or(statusEq(ArticleStatus.NORMAL))// 상태가 NORMAL 게시글들만 출력
+                .or(statusEq(ArticleStatus.REPORT));// 상태가 REPORT 게시글들만 출력
 
         List<Article> results = query.selectFrom(article)
                 .join(article.member,member)//article.member는 Article테이블에 있는 member_id, member는 Member테이블에 있는 id라고 생각
                 .join(article.restaurant, restaurant)//article.restaurant는 Article테이블에 있는 restaurant_id, restaurant는 Restaurant테이블에 있는 id
                 .fetchJoin()
                 .where(
-                        // 상태가 NORMAL 게시글들만 출력
-                        statusEq(ArticleStatus.NORMAL),
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
                         // 검색조건들

@@ -19,13 +19,14 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/api")
 @RestController
 public class CommentAPIController {
   private final CommentRepository commentRepository;
 
   private final CommentService commentService;
 
-  @PostMapping("/api/article/{article_id}/comment")
+  @PostMapping("/articles/{article_id}/comment")///api/article/{article_id}/comment 게시글 하나의 작성요청
   public ResponseEntity<List<ArticleCommentDTO>> write(@Login Long memberId,
                                                        @PathVariable Long article_id,
                                                        @RequestBody String json) throws ParseException { // 댓글 작성
@@ -43,7 +44,7 @@ public class CommentAPIController {
     return ResponseEntity.status(HttpStatus.OK).body(newComments);
   }
 
-  @DeleteMapping("/api/comment/{id}")
+  @DeleteMapping("/comment/{id}")// /api/comment/{id}
   public ResponseEntity<String> delete(@Login Long memberId,
                                        @PathVariable Long id){
     String msg = commentService.delete(memberId, id);
@@ -75,7 +76,7 @@ public class CommentAPIController {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
-  @PostMapping("/api/comment/{id}/likeOrUnlike")
+  @PostMapping("/comment/{id}/like")
   public ResponseEntity<Map<String, Integer>> likeOrUnlike(@Login Long memberId,
                                                            @PathVariable Long id){
     int isLiked = // 좋아요 상태가 됨 -> 1

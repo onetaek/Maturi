@@ -8,13 +8,12 @@ import com.maturi.entity.article.LikeComment;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.article.CommentRepository;
-import com.maturi.repository.article.LikeCommentRepository;
+import com.maturi.repository.article.like.LikeCommentRepository;
 import com.maturi.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
