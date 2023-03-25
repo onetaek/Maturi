@@ -26,32 +26,43 @@
                 <img th:if="${member.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
             </h2>
             <div class="memberInfo" th:attr="data-memberId=${member.id}">
-                <h3 class="mName" th:text="${member.name}">김혜현</h3>
-                <span class="mNick" th:text="${member.nickName}">@hyea._.hyun</span>
+                <h3 class="mName" th:text="${member.nickName}">@hyea._.hyun</h3>
+                <p class="mNick" th:text="${member.name}">김혜현</p>
             </div>
             <nav id="gnb">
                 <ul>
-                    <li><a href="#" onclick="popupToggle()">리뷰 쓰기</a></li>
-                    <li><a href="#">지도로 보기</a></li>
-                    <li><a href="#">팔로우/팔로잉</a></li>
+                    <li>
+                        <a href="#" onclick="popupToggle()">
+                            <ion-icon name="pencil-outline"></ion-icon><span>리뷰 쓰기</span>
+                        </a>
+                    </li>
+                    <li><a href="#">
+                        <ion-icon name="people-outline"></ion-icon>
+                        <span>팔로우/팔로잉</span>
+                    </a></li>
+                    <li><a href="#">
+                        <ion-icon name="person-circle-outline"></ion-icon>
+                        <span>프로필 편집</span>
+                    </a></li>
+                    <li><a href="#">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <span>비밀번호 설정</span>
+                    </a></li>
+                    <li><a class="logout-btn" href="#">
+                        <ion-icon name="log-out-outline"></ion-icon>
+                        <span>로그아웃</span>
+                    </a></li>
+                    <form name="logoutForm"></form>
+
                 </ul>
             </nav>
-            <div id="snb">
-                <ul class="subContent">
-                    <li><a href="#">설정</a></li>
-                    <li><a class="logout-btn" href="#">로그아웃</a></li>
-                    <form name="logoutForm"></form>
-                </ul>
-                <footer>
-                    <ul>
-                        <li>
-                            <span>김혜현</span>
-                            <span>오원택</span>
-                        </li>
-                        <li><a href="#">Github</a></li>
-                    </ul>
-                </footer>
-            </div>
+            <footer >
+                <span class="copy-right">Copyright © 2023 .김혜현.오원택 All rights reserved
+                    <a href="https://github.com/hyeahyun2/maturi">
+                        <ion-icon name="logo-github"></ion-icon>Github
+                    </a>
+                </span>
+            </footer>
         </div>
     </div>
     <th:block layout:fragment="main"></th:block>
@@ -125,9 +136,10 @@
     <div class="popup-close-btn-wrap">
         <ion-icon class="popup-close-btn" onclick="popupToggle()" name="close-circle-outline"></ion-icon>
     </div>
-
 </div>
-
+<div id="scroll-top-btn" onclick="scrollgoToTop()">
+    <ion-icon name="arrow-up-circle-outline"></ion-icon>
+</div>
 <div layout:fragment="modal"></div>
 
 <script th:inline="javascript">
@@ -139,7 +151,7 @@
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
+<script src="/js/articles/scrollTop.js"></script>
 <script src="/js/articles/welcome/popup.js"></script>
 <script src="/js/nsdiSearch.js"></script>
 <script src="/js/kakaoMapsSearch.js"></script>

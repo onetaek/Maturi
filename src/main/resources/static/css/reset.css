@@ -11,7 +11,7 @@
     --login-form-background: #FFFFFF;
     --login-height: 700px;
     --side-nav-background: #FFFFFF;
-    --side-nav-width: 250px;
+    --side-nav-width: 230px;
     --main-content-padding-left: 300px;
     --main-content-padding-top: 100px;
     --main-content-min-width: 900px;
@@ -29,8 +29,12 @@
     --black-color:#000000;
     --drop-down-color: #1f1f1f;
     --shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    /* sideNav */
+    --side-nav-border-color : #9b9b9b;
     /* 에러*/
     --error-color : #ff2f2f;
+
+    --light-pink-background-color: #fffcfc;
 }
 body {
     width: 100%;
