@@ -121,4 +121,28 @@ public class MemberAPIController {
             ResponseEntity.status(HttpStatus.OK).build() : // 비번 일치
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // 비번 불일치
   }
+
+  @PostMapping("/help/pwInquiry/emailAuth") // 이미 존재하는 이메일에 메일 전송
+  public ResponseEntity<String> memberEmailAuth(@RequestBody String json,
+                                          HttpServletRequest request) throws Exception {
+    // parse
+    JSONParser jsonParser = new JSONParser();
+    JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
+    String email = (String) jsonObject.get("email");
+
+    /* 이메일 중복 검사 */
+    boolean isJoinMember = memberService.emailDuplCheck(email);
+    if(!isJoinMember){ // 중복된 이메일 존재하지 않음
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    /* 이메일 인증 메일 보내기 */
+    String confirm = emailService.sendSimpleMessage(email);
+
+    HttpSession session = request.getSession();
+    session.setAttribute("emailConfirm", confirm);
+    log.info("emailConfirm Number = {}", confirm);
+
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
 }

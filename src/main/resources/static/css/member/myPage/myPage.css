@@ -79,30 +79,6 @@
 .ellipsis-btn-wrap .active > li:last-child{
     border-bottom:0px;
 }
-/*#myPageInfo .memberInfo {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    gap: 5px;*/
-/*}*/
-/*#myPageInfo .memberBtn > * {*/
-/*    position: absolute;*/
-/*}*/
-/*#myPageInfo .memberBtn > span {*/
-/*    display: block;*/
-/*    width: 30px; height: 30px;*/
-/*    top: 30px; right: 0;*/
-/*    text-indent: -9999px;*/
-/*    background: url('/img/button/memberBtn.png') no-repeat top center / contain;*/
-/*    cursor: pointer;*/
-/*}*/
-/*#myPageInfo .memberBtn > ul {*/
-/*    display: none;*/
-/*    padding: 10px;*/
-/*    top: 60px; right: 0;*/
-/*    background-color: #fff;*/
-/*    border: 1px solid #000;*/
-/*    border-radius: 5px;*/
-/*}*/
 
 #reviewWrap {
     display: flex;
@@ -110,8 +86,11 @@
     align-items: center;
     gap: var(--review-article-gap);
 }
-#reviewWrap .reviewArticle {
-    border: 1px solid #000;
-    width: var(--review-article-width);
-    height: var(--review-article-height);
+
+#reviewWrap #article-list {
+    display: flex; flex-direction: column;
+    gap: 30px;
+}
+#reviewWrap #article-list > li {
+
 }

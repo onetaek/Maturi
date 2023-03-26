@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/introBase}">
+<head>
+    <title>비밀번호 찾기</title>
+  <link rel="stylesheet" href="/css/member/join/join.css"/>
+  <link rel="stylesheet" href="/css/member/help/pwInquiry.css"/>
+</head>
+<body>
+<div layout:fragment="main" id="wrap">
+  <section class="section-wrap">
+    <div class="login-form">
+      <form name="pwInquiryForm" id="pwInquiryForm">
+        <h1><a href="/"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
+        <div class="pw-header-wrap">
+          <h2>비밀번호를 잊어버리셨나요?</h2>
+          <p>이메일 인증을 통해 비밀번호를 재설정 할 수 있습니다.</p>
+        </div>
+
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" name="email" required >
+            <span>아이디(이메일)</span>
+            <i></i>
+          </div>
+          <button class="email-certification-btn email-send-btn">인증번호 받기</button>
+          <input type="hidden">
+        </div>
+
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" name="emailConfirm" required >
+            <span>인증 번호</span>
+            <i class="confirmWrap"></i>
+          </div>
+          <button class="email-certification-btn confirm-check-btn">인증하기</button>
+        </div>
+
+      </form>
+
+    </div>
+  </section>
+</div>
+
+<th:block layout:fragment="scripts">
+  <script src="/js/members/help/pwInquiry.js"></script>
+</th:block>
+</body>
+</html>

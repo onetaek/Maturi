@@ -71,11 +71,10 @@ public class ArticleQuerydslRepository {
                 .fetchOne();//이거쓰면 하나만 가져올 수 있어요!
     }
 
-    //누나꺼
-    public ArticlePagingResponse<Article> findMyReviewArticles(Long lastArticleId,
-                                                               Long memberId,
-                                                               ArticleSearchCond cond,
-                                                               Pageable pageable){
+    // 마이페이지 게시글 페이징 처리
+    public ArticlePagingResponse<Article> findMyReviewArticles(Long memberId, // 마이페이지 회원 ID
+                                                               Long lastArticleId,
+                                                               int size){
         List<Article> results = query.selectFrom(article)
                 .join(article.member,member)
                 .join(article.restaurant, restaurant)
@@ -86,16 +85,16 @@ public class ArticleQuerydslRepository {
                         memberIdEq(memberId)
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .limit(pageable.getPageSize()+1)
+                .limit(size + 1)
                 .fetch();
 
         boolean hasNext = false;
-        if (results.size() > size) {
+        if (results.size() > size) { // 다음 페이즈 있는지 확인
             hasNext = true;
             results.remove(results.size()-1);
         }
 
-        return new ArticlePagingResponse(results,hasNext);
+        return new ArticlePagingResponse<>(results,hasNext);
     }
 
     //페이징 처리한 동적쿼리문
