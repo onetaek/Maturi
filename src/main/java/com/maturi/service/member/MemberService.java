@@ -238,5 +238,9 @@ public class MemberService {
     return member;
   }
 
+  public Member getMemberByEmail(String email) {
+    return memberRepository.findByEmail(email);
+  }
+
 
 }

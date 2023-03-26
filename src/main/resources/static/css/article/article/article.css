@@ -1,4 +1,4 @@
-#content {
+#content.articlePage {
     width:100%;
     max-width: var(--max-width);
     min-width: var(--main-content-min-width);

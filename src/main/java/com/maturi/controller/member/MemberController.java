@@ -11,6 +11,7 @@ import com.maturi.service.member.MemberService;
 import com.maturi.util.argumentresolver.Login;
 import com.maturi.util.constfield.MessageConst;
 import com.maturi.util.validator.MemberValidator;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.NO_PERMISSION;
@@ -208,6 +209,28 @@ public class MemberController {
     return "redirect:/members/" + memberId;
   }
 
+  @GetMapping("/help/passwd") // 비밀번호 찾기
+  public String pwInquiry(){
+    return "/members/pwInquiry";
+  }
+
+  @PostMapping("/help/passwd") // 비밀번호 찾기 -> 변경
+  public String pwChange(@ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
+                         RedirectAttributes redirectAttributes){
+    // email에 맞는 회원 찾기
+    Member findMember = memberService.getMemberByEmail(memberLoginDTO.getEmail());
+    if(findMember == null){
+      return "redirect:/members/help/passwd";
+    }
+
+    // 해당 회원의 비밀번호 변경
+    memberService.changePasswd(findMember.getId(), memberLoginDTO.getPasswd());
+
+    // 메세지 보내기
+    redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, MessageConst.PASSWD_CHANGE);
+
+    return "redirect:/members/login";
+  }
 
 
 }

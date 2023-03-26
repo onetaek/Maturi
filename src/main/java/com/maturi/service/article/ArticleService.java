@@ -264,7 +264,45 @@ public class ArticleService {
         return searchCond;
     }
 
-    //article Entity를 DTO로 변환
+    /**
+     * 해당 회원이 작성한 게시글 리스트 & 페이징 처리
+     * @param pagingRequest
+     * @param memberId (마이페이지 회원 ID)
+     * @param myId (로그인 회원 ID)
+     * @return ArticlePagingResponse
+     */
+    public ArticlePagingResponse articlesByMember(ArticlePagingRequest pagingRequest,
+                                                  Long memberId,  // 마이페이지 회원 ID
+                                                  Long myId) { // 로그인 회원 ID
+
+        ArticlePagingResponse<Article> result = articleQRepository.findMyReviewArticles(memberId, pagingRequest.getLastArticleId(), pagingRequest.getSize());
+        log.info("[articleSearch]페이징 결과 result = {}",result);
+
+        List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
+        for (Article article : result.getContent()) {
+            log.info("[articleSearch]페이징한 게시글 하나의 정보 = {}", article);
+            ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);
+            articleViewDTOS.add(articleViewDTO);
+        }
+        result.setContent(articleViewDTOS); // content를 DTO로 변환
+        result.setEvent(pagingRequest.getEvent());
+
+        if (articleViewDTOS.size() == 0 ){ // 게시글이 하나도 없을 때
+            result.setLastArticleId(null);
+        } else{ // 게시글 존재 -> 마지막 게시글 ID 저장
+            result.setLastArticleId(articleViewDTOS.get(articleViewDTOS.size()-1).getId());
+        }
+
+        return result;
+    }
+
+
+    /**
+     * article Entity를 DTO로 변환
+     * @param article
+     * @param memberId (로그인 회원 ID)
+     * @return ArticleViewDTO
+     */
     private ArticleViewDTO getArticleViewDTO(Article article, Long memberId) {
         if(article == null){
             return null;
@@ -289,15 +327,10 @@ public class ArticleService {
                 .tags(tagName)
                 .like(likeNum)
                 .isLiked(this.isLikedArticle(article.getId(), memberId))
-//                .restaurantName(article.getRestaurant().getName())
-//                .category(article.getRestaurant().getCategory()) // 수정??
-//                .oldAddress(article.getRestaurant().getLocation().getOldAddress())
-//                .address(article.getRestaurant().getLocation().getAddress())
-//                .latitude(article.getRestaurant().getLocation().getLatitude())
-//                .longitude(article.getRestaurant().getLocation().getLongitude())
                 .build();
         return articleViewDTO;
     }
+
 
 
 }
