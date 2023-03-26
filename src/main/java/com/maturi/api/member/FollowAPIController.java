@@ -21,25 +21,18 @@ public class FollowAPIController {
 
     private final FollowService followService;
 
-    //팔로워목록(나를 팔로우하는 사람들)
-    @GetMapping("/{id}/follows")
-    public List<MemberFollowResponse> selectFollowers(@Login Long memberId,
-                                                      @PathVariable Long id,
-                                                      @ModelAttribute MemberFollowRequest memberFollowRequest){
-        if(memberId != id){ // 다른 유저의 팔로워 목록을 조회하려고 할 때
-            throw new RuntimeException("잘못된 사용자");
-        }
-        return followService.selectFollowerMembers(id);
-    }
 
+
+    //팔로워목록(나를 팔로우하는 사람들)
     //팔로우목록(내가 팔로우 하는 사람들)
     @GetMapping("/{id}/follows")
     public List<MemberFollowResponse> selectFollowings(@Login Long memberId,
-                                                       @PathVariable Long id){
+                                                       @PathVariable Long id,
+                                                       @ModelAttribute MemberFollowRequest memberFollowRequest){
         if(memberId != id){ // 다른 유저의 팔로워 목록을 조회하려고 할 때
             throw new RuntimeException("잘못된 사용자");
         }
-        return followService.selectFollowingMembers(id);
+        return followService.selectFollowMembers(memberFollowRequest, id);
     }
 
     //팔로우 추가

@@ -19,14 +19,15 @@ public class FollowQuerydslRepository {
 
     private final JPAQueryFactory query;
 
-
+    //팔로워를 찾는다.(나를 팔로우해주는 멤버를 찾는다.)
     public List<MemberFollowResponse> findByFollowingMemberId(Long followingMemberId, String keyword) {
 
         QMember followingMember = new QMember("followingMember");
         QMember followerMember = new QMember("followerMember");
 
         BooleanBuilder builder = new BooleanBuilder();
-        builder.or(followerMemberNameLike(followerMember,keyword));
+        builder.or(followMemberNameLike(followerMember,keyword))
+                .or(followMemberNickNameLike(followerMember,keyword));
 
         return query.select(Projections.bean(MemberFollowResponse.class,
                         followerMember.id,
@@ -37,19 +38,19 @@ public class FollowQuerydslRepository {
                 .from(follow)
                 .join(follow.followingMember, followingMember)
                 .join(follow.followingMember, followerMember)
-                .on(followerMember.id.eq(followingMemberId))
-                .on(followerMember.name.contains(keyword))
+                .on(followingMember.id.eq(followingMemberId))
+                .on(builder)
                 .fetch();
     }
 
-    private BooleanExpression followerMemberNameLike(QMember followerMember,String keyword){
-        return keyword != null ? followerMember.name.contains(keyword) : null;
-    }
-
-
-    public List<MemberFollowResponse> findByFollowerMember(Long followerMemberId) {
+    //팔로잉 멤버를 찾는다.(내가 팔로우하는 멤버를 찾는다)
+    public List<MemberFollowResponse> findByFollowerMember(Long followerMemberId,String keyword) {
         QMember followerMember = new QMember("followerMember");
         QMember followingMember = new QMember("followingMember");
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.or(followMemberNameLike(followingMember,keyword))
+                .or(followMemberNickNameLike(followingMember,keyword));
 
         return query.select(Projections.bean(MemberFollowResponse.class,
                         followingMember.id,
@@ -60,7 +61,18 @@ public class FollowQuerydslRepository {
                 .from(follow)
                 .join(follow.followingMember, followingMember)
                 .join(follow.followerMember, followerMember)
-                .on(followingMember.id.eq(followerMemberId))
+                .on(followerMember.id.eq(followerMemberId))
+                .on(builder)
                 .fetch();
     }
+
+    private BooleanExpression followMemberNameLike(QMember followMember,String keyword){
+        return keyword != null ? followMember.name.contains(keyword) : null;
+    }
+
+    private BooleanExpression followMemberNickNameLike(QMember followMember,String keyword){
+        return keyword != null ? followMember.nickName.contains(keyword) : null;
+    }
+
+
 }
