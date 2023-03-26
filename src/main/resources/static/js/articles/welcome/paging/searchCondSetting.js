@@ -73,6 +73,9 @@ function searchCondSetting(event){
     }else{
         lastArticle = lastArticleInput.value;
     }
+    if(event === "click"){
+        lastArticle = null;
+    }
     let obj = {
         'radioCond': radioCond,//검색에 필요한 값
         'latitude': latitude,//검색에 필요한 값

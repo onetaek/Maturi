@@ -84,11 +84,8 @@ public class ArticleController {
                          @PathVariable Long articleId,
                          Model model){
         log.info("article delete method start!!");
-
         String msg = articleService.delete(memberId, articleId);
-
         model.addAttribute("alertMessage", msg);
-
         return "/layouts/message";
     }
 }

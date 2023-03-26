@@ -13,9 +13,12 @@
     <link rel="stylesheet" th:href="@{/css/include/searchMap.css}">
     <link rel="stylesheet" th:href="@{/css/include/kakaoCSS.css}">
     <link rel="stylesheet" th:href="@{/css/include/popup.css}">
+    <link rel="stylesheet" th:href="@{/css/include/followPopup.css}">
 </head>
 <body>
+<!--사이드네비게이션 + 내용물-->
 <div id="wrap" >
+    <!--사이드 네비게이션-->
     <div id="sideNav">
         <h1 class="logo"><a href="/articles">Maturi</a></h1>
         <form name="goMyPageForm"></form>
@@ -36,9 +39,9 @@
                             <ion-icon name="pencil-outline"></ion-icon><span>리뷰 쓰기</span>
                         </a>
                     </li>
-                    <li><a href="#">
+                    <li><a href="#" onclick="followPopupToggle()">
                         <ion-icon name="people-outline"></ion-icon>
-                        <span>팔로우/팔로잉</span>
+                        <span>팔로우/팔로워</span>
                     </a></li>
                     <li><a th:href="|/members/${session.memberId}/edit|">
                         <ion-icon name="person-circle-outline"></ion-icon>
@@ -52,8 +55,6 @@
                         <ion-icon name="log-out-outline"></ion-icon>
                         <span>로그아웃</span>
                     </a></li>
-                    <form name="logoutForm"></form>
-
                 </ul>
             </nav>
             <footer >
@@ -63,12 +64,13 @@
                     </a>
                 </span>
             </footer>
+            <input type="hidden" name="memberNickName">
         </div>
     </div>
+    <!--내용물-->
     <th:block layout:fragment="main"></th:block>
-
 </div>
-
+<!--지역선택 및 음식점 선택 팝업창-->
 <div layout:fragment="popup" id="popup" >
     <div id="popupContent">
         <!--    지역 선택 태그 -->
@@ -137,22 +139,72 @@
         <ion-icon class="popup-close-btn" onclick="popupToggle()" name="close-circle-outline"></ion-icon>
     </div>
 </div>
+<!--팔로우/팔로잉 목록 출력-->
+<div id="followPopup">
+    <div id="followPopupContent">
+        <form>
+            <ul id="follow-box">
+                <div id="horizontal-under-line"></div>
+                <li class="follow-container">
+                    <label for="follower">팔로워</label>
+                    <input id="follower" name="follow" type="radio">
+                </li>
+                <li class="follow-container">
+                    <label for="following">팔로우</label>
+                    <input id="following" name="follow" type="radio">
+                </li>
+            </ul>
+            <div class="follow-search-box">
+                <button id="follow-search-btn" class="search-button"  type="button">
+                    <ion-icon name="search"></ion-icon>
+                </button>
+                <input type="text" class="follow-search-input" placeholder="이름 또는 닉네임을 입력하시오...">
+            </div>
+        </form>
+            <ul id="follow-list">
+
+                <li class="follow-item">
+                    <div class="follow-item-info">
+                        <img src="#" alt="프로필">
+                        <div class="follow-item-profile">
+                            <p>
+                                <span class="nickName">닉네임</span>
+                                <span class="name">(이름)</span>
+                            </p>
+                            <p class="profile-message">상태 메세지</p>
+                        </div>
+                    </div>
+                    <button class="follow-btn">팔로우 취소</button>
+                </li>
+
+            </ul>
+
+    </div>
+    <div class="follow-popup-close-btn-wrap">
+        <ion-icon class="popup-close-btn" onclick="followPopupToggle()" name="close-circle-outline"></ion-icon>
+    </div>
+</div>
+
+
+<!--우측하단의 페이지 제일 위로 이동하는 버튼-->
 <div id="scroll-top-btn" onclick="scrollgoToTop()">
     <ion-icon name="arrow-up-circle-outline"></ion-icon>
 </div>
 <div layout:fragment="modal"></div>
-
 <script th:inline="javascript">
     //세션에 있는 값을 꺼낼 수 있음
     const memberId = "[[${session.memberId}]]";
+    const memberNickName = "[[${member.nickName}]]";
     console.log("memberId",memberId);
+    console.log("memberNickName",memberNickName);
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=31c73f3bcc7e4f00b30a4596c094af88&libraries=services"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/articles/scrollTop.js"></script>
-<script src="/js/articles/welcome/popup.js"></script>
+<script src="/js/articles/popup.js"></script>
+<script src="/js/articles/followPopup.js"></script>
 <script src="/js/nsdiSearch.js"></script>
 <script src="/js/kakaoMapsSearch.js"></script>
 <script src="/js/reviewWriteBtn.js"></script>

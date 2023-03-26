@@ -99,6 +99,10 @@
             <input type="hidden" name="category">
             <input type="hidden" name="lastArticleId">
         </form>
+        <!--form에서 method:delete방식으로 전송하기 위한 방법-->
+        <form name="articleDeleteForm" method="post">
+            <input type="hidden" name = "_method" value = "delete"/>
+        </form>
     </section>
     <!--게시글들-->
     <section id="article-section">
@@ -114,7 +118,7 @@
     <script src="/js/articles/welcome/geolocation.js"></script>
     <script src="/js/articles/welcome/categoryDropdown.js"></script>
     <script src="/js/articles/welcome/paging/searchCondSetting.js"></script>
-    <script src="/js/articles/welcome/paging/getArticleRESTAPI.js"></script>
+    <script th:inline="javascript" src="/js/articles/welcome/paging/getArticleRESTAPI.js"></script>
     <script src="/js/articles/welcome/paging/scrollEvent.js"></script>
 </th:block>
 </body>
