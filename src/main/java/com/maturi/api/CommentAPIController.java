@@ -56,7 +56,7 @@ public class CommentAPIController {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
-  @PatchMapping("/api/comment/{id}")
+  @PatchMapping("/comment/{id}")
   public ResponseEntity<String> modify(@Login Long memberId,
                                        @PathVariable Long id,
                                        @RequestBody String json) throws ParseException {

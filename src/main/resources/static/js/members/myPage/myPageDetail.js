@@ -146,14 +146,14 @@ function passwdCheckValidate(){
 }
 function newPasswdAction(){ // 비번 변경 액션
   if(confirm("비밀번호를 변경하시겠습니까??")){
-    detailModalForm.action = "/member/newPasswd";
+    detailModalForm.action = "/members/newPasswd";
     detailModalForm.method = "post";
     detailModalForm.submit();
   }
 }
 function withdrawalAction(){ // 회원 탈퇴 액션
   if(confirm("정말 회원탈퇴를 진행하시겠습니까?")){
-    detailModalForm.action = "/member/unregister";
+    detailModalForm.action = "/members/unregister";
     detailModalForm.method = "post";
     detailModalForm.submit();
   }

@@ -13,6 +13,7 @@ import com.maturi.util.constfield.MessageConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.omg.CORBA.NO_PERMISSION;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,7 +68,6 @@ public class MemberController {
 
   @GetMapping("/login")
   public String loginPage(@RequestParam(defaultValue = "/") String redirectURL,
-                          @RequestParam(defaultValue = "") String successMassage,
                           Model model){
 
     model.addAttribute("redirectURL",redirectURL);
@@ -130,7 +130,7 @@ public class MemberController {
     } else { // 회원 탈퇴 성공
       // 세션 삭제
       request.getSession().invalidate();
-      redirectAttributes.addAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
+      redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
 
       return "redirect:/members/login";
     }
@@ -147,28 +147,48 @@ public class MemberController {
     return "/members/myPage";
   }
 
-  @GetMapping("/{id}/edit")// myPage/edit 회원 상세페이지 이동
-  public String editMyPage(@Login Long memberId, Model model){
+  @GetMapping("/{id}/edit")// myPage/edit 회원 프로필수정 페이지 이동
+  public String editMyPage(@Login Long memberId,
+                           @PathVariable Long id,
+                           RedirectAttributes redirectAttributes,
+                           Model model){
+    if(memberId != id){ // 다른 회원의 프로필수정 페이지 이동 요청 들어왔을 경우
+      redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+      return "redirect:/members/" + id;
+    }
 
     model.addAttribute("member", articleService.memberInfo(memberId));
-    model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
+    model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
     return "/members/editMyPage";
   }
 
 
   @PatchMapping("/{id}/edit")
   public String editMemberProfileInfo(@Login Long memberId,
+                                      @PathVariable Long id,
                                       MemberEditMyPageDTO memberEditMyPageDTO,
+                                      RedirectAttributes redirectAttributes,
                                       Model model) throws IOException {
 
-    memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
+    if(memberId == id){ // 로그인 회원의 프로필 수정 요청일 경우만 시행
+      memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
+    }
+    else { // 타회원의 요청
+      redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+    }
 
-    return "redirect:/members/" + memberId;
+    return "redirect:/members/" + id;
   }
 
   @GetMapping("/{id}/detail")//회원의 상세페이지 이동
   public String myPageDetail(@Login Long memberId,
+                             @PathVariable Long id,
+                             RedirectAttributes redirectAttributes,
                              Model model){
+    if(memberId != id){ // 다른 회원의 상세페이지 이동 요청 들어왔을 경우
+      redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+      return "redirect:/members/" + id;
+    }
 
     model.addAttribute("member", articleService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
@@ -179,8 +199,11 @@ public class MemberController {
 
   @PostMapping("/newPasswd")
   public String newPasswd(@Login Long memberId,
-                          @RequestParam String passwd){
+                          @RequestParam String passwd,
+                          RedirectAttributes redirectAttributes){
     Member member = memberService.changePasswd(memberId, passwd);
+
+    redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, MessageConst.PASSWD_CHANGE);
 
     return "redirect:/members/" + memberId;
   }

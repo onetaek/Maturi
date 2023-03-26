@@ -11,7 +11,7 @@
 
 <div layout:fragment="main" id="wrap">
     <script th:inline="javascript">
-        let message = [[${successMsg}]];
+        let message = [[${successMassage}]];
         console.log(message);
         if(message != null && message == "unregister"){
             alert("회원탈퇴가 완료되었습니다.");

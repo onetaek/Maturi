@@ -31,9 +31,8 @@ function condSetting(event){
 
 /* 글 리스트 불러오기 */
 function myPageArticleAjax(obj){
-  const url = "/api/articles/myPage?"
-    + "myPageMemberId=" + myPageMain.dataset.memberid
-    +'&lastArticleId='+_fnToNull(obj['lastArticleId'])
+  const url = "/api/members/" + myPageMain.dataset.memberid
+    +'?lastArticleId='+_fnToNull(obj['lastArticleId'])
     +'&size='+_fnToNull(obj['size'])
     +'&event='+_fnToNull(obj['event']);
   console.log(url);

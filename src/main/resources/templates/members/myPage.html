@@ -24,7 +24,7 @@
         <h3>
           <span class="mNickName" th:text="${myPageMember.nickName}">@hyea._.hyun</span>
           (<span class="mName" th:text="${myPageMember.name}">김혜현</span>)
-        <button class="detailInfo" th:if="${member.nickName == myPageMember.nickName}">상세정보</button>
+<!--        <button class="detailInfo" th:if="${member.nickName == myPageMember.nickName}">상세정보</button>-->
         <button class="followBtn" th:if="${member.nickName != myPageMember.nickName}">팔로우</button>
         </h3>
         <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
@@ -50,6 +50,19 @@
       <div class="reviewArticle"></div>
     </div>
   </div>
+
+  <script th:inline="javascript">
+    // errorMassage
+    let errorMsg = [[${errorMassage}]];
+    console.log("errorMsg = " + errorMsg);
+    if(errorMsg != null && errorMsg == "noPermission"){
+      alert("해당 페이지에 접근할 권한이 없습니다. 해당 유저의 마이페이지로 이동합니다.");
+    }
+    let successMsg = [[${successMassage}]];
+    if(successMsg != null && successMsg == "passwdChange"){
+      alert("비밀번호 변경이 완료되었습니다.");
+    }
+  </script>
 </main>
 
 <th:block layout:fragment="scripts">

@@ -55,7 +55,7 @@ public class ArticleAPIController {
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 
-  @GetMapping("/articles/myPage")
+  @GetMapping("/members/{memeberId}")
   public ResponseEntity<ArticlePagingResponse> myPageArticlePaging(@Login Long memberId,
                                                                    @ModelAttribute ArticlePagingRequest articlePagingRequest,
                                                                    @RequestParam Long myPageMemberId){
