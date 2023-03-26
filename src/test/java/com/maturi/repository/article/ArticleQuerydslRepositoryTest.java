@@ -1,14 +1,12 @@
 package com.maturi.repository.article;
 
 import com.maturi.dto.article.search.ArticleSearchCond;
-import com.maturi.entity.article.Article;
-import com.maturi.entity.article.ArticleStatus;
-import com.maturi.entity.article.QArticle;
-import com.maturi.entity.article.Restaurant;
+import com.maturi.entity.article.*;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.restaurant.RestaurantQuerydslRepository;
 import com.maturi.service.article.ArticleService;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -24,6 +22,8 @@ import java.util.List;
 import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
 import static com.maturi.entity.article.QRestaurant.restaurant;
+import static com.maturi.entity.article.QTag.*;
+import static com.maturi.entity.article.QTagValue.*;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QFollow.follow;
 import static com.maturi.entity.member.QMember.member;
@@ -343,8 +343,47 @@ class ArticleQuerydslRepositoryTest {
     void findByIdAndStatus(){
         Article findArticle = articleQRepository.findByIdAndStatus(13L);
         log.info("findArticle = {}",findArticle);
+
+
+
     }
 
+    @Test
+    @DisplayName("게시글 검증")
+    void findByTag(){
+        String inputTag = "느끼";
 
+        List<Article> fetch = query
+                .select(article)
+                .from(tagValue)
+                .join(tagValue.article, article)
+                .join(tagValue.tag, tag)
+                .on(tag.name.contains(inputTag))
+                .fetch();
+        for (Article article : fetch) {
+            log.info("article = {}",article);
+        }
+
+    }
+
+    @Test
+    void selectByFindArticle(){
+        Article article2 = articleRepository.findById(7L).orElse(null);
+        Article article1 = articleRepository.findById(11L).orElse(null);
+        List<Article> articleList = new ArrayList<>();
+        articleList.add(article2);
+        articleList.add(article1);
+
+        List<Article> fetch = query.selectFrom(article)
+                .where(tagArticleIn(articleList))
+                .fetch();
+        for (Article fetch1 : fetch) {
+            log.info("article = {}",fetch1);
+        }
+    }
+
+    private BooleanExpression tagArticleIn(List<Article> tagArticle) {
+        return tagArticle != null && tagArticle.size() > 0 ? article.in(tagArticle) : null;
+    }
 
 }

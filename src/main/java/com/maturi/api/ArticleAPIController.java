@@ -48,8 +48,8 @@ public class ArticleAPIController {
   public ResponseEntity<ArticlePagingResponse> searchArticlePaging(@Login Long memberId,
                                                                    @ModelAttribute ArticleSearchRequest articleSearchRequest,//검색조건에 필요한 값들
                                                                    @ModelAttribute ArticlePagingRequest articlePagingRequest){//페이징에 필요한 값들
-    log.info("articleSearchRequest = {}",articleSearchRequest);
-    log.info("articlePagingRequest = {}",articlePagingRequest);
+    log.info("[ArticleAPIController] articleSearchRequest(검색 조건) = {}",articleSearchRequest);
+    log.info("[ArticleAPIController] articlePagingRequest(페이징 정보) = {}",articlePagingRequest);
     ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,memberId);
 
     return ResponseEntity.status(HttpStatus.OK).body(articles);
