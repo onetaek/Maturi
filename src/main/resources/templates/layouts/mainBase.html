@@ -40,13 +40,13 @@
                         <ion-icon name="people-outline"></ion-icon>
                         <span>팔로우/팔로잉</span>
                     </a></li>
-                    <li><a href="#">
+                    <li><a th:href="|/members/${session.memberId}/edit|">
                         <ion-icon name="person-circle-outline"></ion-icon>
                         <span>프로필 편집</span>
                     </a></li>
-                    <li><a href="#">
-                        <ion-icon name="lock-closed-outline"></ion-icon>
-                        <span>비밀번호 설정</span>
+                    <li><a th:href="|/members/${session.memberId}/detail|">
+                        <ion-icon name="settings-outline"></ion-icon>
+                        <span>개인정보 설정</span>
                     </a></li>
                     <li><a class="logout-btn" href="#">
                         <ion-icon name="log-out-outline"></ion-icon>
