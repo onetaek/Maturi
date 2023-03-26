@@ -4,6 +4,7 @@ import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.service.article.ArticleService;
+import com.maturi.service.article.RestaurantService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,16 +14,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/articles")
 public class ArticleAPIController {
   final private ArticleService articleService;
 
-  @PostMapping("/article/likeOrUnlike/{id}")
+
+  @PostMapping("/{id}/like")
   public ResponseEntity likeOrUnlike(@Login Long memberId,
                                      @PathVariable Long id) throws ParseException {
 //    ResponseEntity
@@ -41,12 +44,12 @@ public class ArticleAPIController {
     return new ResponseEntity(result, HttpStatus.OK);
   }
 
-  @GetMapping("/articles")
+  @GetMapping("")//게시글 출력 페이징, 검색
   public ResponseEntity<ArticlePagingResponse> searchArticlePaging(@Login Long memberId,
                                                                    @ModelAttribute ArticleSearchRequest articleSearchRequest,//검색조건에 필요한 값들
                                                                    @ModelAttribute ArticlePagingRequest articlePagingRequest){//페이징에 필요한 값들
-    log.info("articleSearchRequest = {}",articleSearchRequest);
-    log.info("articlePagingRequest = {}",articlePagingRequest);
+    log.info("[ArticleAPIController] articleSearchRequest(검색 조건) = {}",articleSearchRequest);
+    log.info("[ArticleAPIController] articlePagingRequest(페이징 정보) = {}",articlePagingRequest);
     ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,memberId);
 
     return ResponseEntity.status(HttpStatus.OK).body(articles);
@@ -60,6 +63,8 @@ public class ArticleAPIController {
     log.info("myPageMemberId = {}", myPageMemberId);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
+
+
 
 }
 

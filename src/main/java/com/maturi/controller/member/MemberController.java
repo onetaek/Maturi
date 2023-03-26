@@ -31,7 +31,7 @@ import static com.maturi.util.constfield.SessionConst.*;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/members")
 public class MemberController {
   final private MemberService memberService;
   final private ArticleService articleService;
@@ -45,7 +45,7 @@ public class MemberController {
   @GetMapping("/join")
   public String getJoin(Model model){
     model.addAttribute("member",new MemberJoinDTO());
-    return "/member/join";
+    return "/members/join";
   }
 
   @PostMapping("/join")
@@ -58,11 +58,11 @@ public class MemberController {
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
       log.info("errors={} ", bindingResult);
-      return "/member/join";
+      return "/members/join";
     }
 
     memberService.join(memberJoinDTO);
-    return "redirect:/member/login";
+    return "redirect:/members/login";
   }
 
   @GetMapping("/login")
@@ -72,8 +72,7 @@ public class MemberController {
 
     model.addAttribute("redirectURL",redirectURL);
     model.addAttribute("member",new MemberLoginDTO());
-    model.addAttribute("successMsg", successMassage);
-    return "/member/login";
+    return "/members/login";
   }
 
   @PostMapping("/login")
@@ -88,7 +87,7 @@ public class MemberController {
     if (bindingResult.hasErrors()) {
       log.info("errors={} ", bindingResult);
       model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.LOGIN_FAIL);
-      return "/member/login";
+      return "/members/login";
     }
 
     //정상 로직
@@ -96,12 +95,12 @@ public class MemberController {
     if(findMember == null){
       model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.LOGIN_FAIL);
 
-      return "/member/login";
+      return "/members/login";
     }
     else if(memberService.isBanMember(findMember.getId())){ // 밴 멤버
       model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.IS_BAN_MEMBER);
 
-      return "/member/login";
+      return "/members/login";
     } else { // 정상 멤버
       HttpSession session = request.getSession();
       session.setAttribute(MEMBER_ID,findMember.getId());
@@ -116,55 +115,58 @@ public class MemberController {
     Member LoginMember = memberService.getMemberById((Long) request.getSession().getAttribute(MEMBER_ID));
     request.getSession().invalidate();
 
-    return "redirect:/member/login";
+    return "redirect:/members/login";
   }
 
   @PostMapping("/unregister")
   public String unregister(@Login Long memberId,
                            @RequestParam String passwd,
                            RedirectAttributes redirectAttributes,
-                           HttpServletRequest request){
+                           HttpServletRequest request) {
     boolean status = memberService.unregister(memberId, passwd);
 
-    if(!status){ // 회원 탈퇴 실패
+    if (!status) { // 회원 탈퇴 실패
       return "redirect:/myPage/detail";
-    }
-    else { // 회원 탈퇴 성공
+    } else { // 회원 탈퇴 성공
       // 세션 삭제
       request.getSession().invalidate();
       redirectAttributes.addAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
 
-      return "redirect:/member/login";
+      return "redirect:/members/login";
     }
   }
-  @GetMapping("/myPage/{id}")
-  public String myPage(@Login Long memberId,
-                       @PathVariable Long id, // 해당 마이페이지 유저
+
+
+  @GetMapping("/{id}")//회원 마이페이지 이동
+  public String myPage(@PathVariable Long id, // 해당 마이페이지 유저
+                       @Login Long memberId,
                        Model model){
 
     model.addAttribute("member", articleService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
-    return "/member/myPage";
+    return "/members/myPage";
   }
 
-  @GetMapping("/myPage/edit")
+  @GetMapping("/{id}/edit")// myPage/edit 회원 상세페이지 이동
   public String editMyPage(@Login Long memberId, Model model){
 
     model.addAttribute("member", articleService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
-    return "/member/editMyPage";
+    return "/members/editMyPage";
   }
-  @PostMapping("/myPage/edit")
+
+
+  @PatchMapping("/{id}/edit")
   public String editMemberProfileInfo(@Login Long memberId,
                                       MemberEditMyPageDTO memberEditMyPageDTO,
                                       Model model) throws IOException {
 
     memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
 
-    return "redirect:/member/myPage/" + memberId;
+    return "redirect:/members/" + memberId;
   }
 
-  @GetMapping("/myPage/detail")
+  @GetMapping("/{id}/detail")//회원의 상세페이지 이동
   public String myPageDetail(@Login Long memberId,
                              Model model){
 
@@ -172,7 +174,7 @@ public class MemberController {
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
     model.addAttribute("memberDetailInfo", memberService.memberDetailInfo(memberId));
 
-    return "/member/myPageDetail";
+    return "/members/myPageDetail";
   }
 
   @PostMapping("/newPasswd")
@@ -180,7 +182,7 @@ public class MemberController {
                           @RequestParam String passwd){
     Member member = memberService.changePasswd(memberId, passwd);
 
-    return "redirect:/member/myPage/" + memberId;
+    return "redirect:/members/" + memberId;
   }
 
 }

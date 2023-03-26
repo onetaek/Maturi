@@ -306,14 +306,18 @@ input[id='local']:checked+.radio-tile label{
     z-index: 10;
     justify-content: center;
     flex-direction: column;
+    background: var(--light-pink-background-color);
+
     max-width: var(--middle-width);
     margin:20px auto 0;
     background: var(--article-list-background);
 }
 
-.article-wrap {
+.article-wrap {    background:
+        var(--light-pink-background-color);
+
     position: relative;
-    margin:20px;
+    padding:20px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -330,7 +334,7 @@ input[id='local']:checked+.radio-tile label{
 .writerInfo .writerProfileImg {
     width: 100px; height: 100px;
     border-radius: 100%;
-    border: 1px solid #000;
+    border: 1px solid var(--side-nav-border-color);
     background-color: var(--light-gray);
     overflow: hidden;
 }

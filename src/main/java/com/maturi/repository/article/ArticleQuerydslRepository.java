@@ -1,12 +1,11 @@
 package com.maturi.repository.article;
 
-import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
-import com.maturi.entity.article.QArticle;
 import com.maturi.entity.article.QTag;
+import com.maturi.entity.article.QTagValue;
 import com.maturi.entity.member.Member;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,6 +20,7 @@ import java.util.List;
 import static com.maturi.entity.article.QArticle.article;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
 import static com.maturi.entity.article.QRestaurant.*;
+import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.*;
 import static com.maturi.util.constfield.LocationConst.kmToLat;
@@ -44,14 +44,14 @@ public class ArticleQuerydslRepository {
     }
 
     //유저가 입력한 키워드가 태그명의 일부에 포함되는 게시글을 찾음
-    public List<Article> findByTagValue(String tag) {//테스트함
+    public List<Article> findByTagValue(String inputTag) {//테스트함
         //select a from TagValue t join Article a on t.article_id = a.id where tag like %?%;
         return query
                 .select(article)
                 .from(tagValue)
                 .join(tagValue.article, article)
-                .join(QTag.tag,tagValue.tag)
-                .on(QTag.tag.name.contains(tag))
+                .join(tagValue.tag, tag)
+                .on(tag.name.contains(inputTag))
                 .fetch();
     }
 
@@ -60,16 +60,15 @@ public class ArticleQuerydslRepository {
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(article.status.eq(ArticleStatus.NORMAL))
                 .or(article.status.eq(ArticleStatus.REPORT));
-        List<Article> result = query.selectFrom(article)
-                .join(article.member,member)
+        return query.selectFrom(article)
+                .join(article.member, member)
                 .join(article.restaurant, restaurant)
                 .fetchJoin()
                 .where(
                         articleIdEq(articleId),
                         builder
                 )
-                .fetch();
-        return result.get(0);
+                .fetchOne();//이거쓰면 하나만 가져올 수 있어요!
     }
 
     //누나꺼
@@ -107,20 +106,22 @@ public class ArticleQuerydslRepository {
         //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
         //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이
         //null일경우 에러가 발생하게되어서 or조건들은 BooleanBuilder에 체이닝을 해주었다.
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
+        BooleanBuilder keywordCond = new BooleanBuilder();
+        keywordCond.or(contentLike(cond.getContent()))//글 내용 keyword검색
                 .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색
                 .or(nameLike(cond.getWriter()))//작성자(이름) keyword검색
                 .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
+
+        BooleanBuilder statusCond = new BooleanBuilder();
+        statusCond.or(statusEq(ArticleStatus.NORMAL))// 상태가 NORMAL 게시글들만 출력
+                .or(statusEq(ArticleStatus.REPORT));// 상태가 REPORT 게시글들만 출력
 
         List<Article> results = query.selectFrom(article)
                 .join(article.member,member)//article.member는 Article테이블에 있는 member_id, member는 Member테이블에 있는 id라고 생각
                 .join(article.restaurant, restaurant)//article.restaurant는 Article테이블에 있는 restaurant_id, restaurant는 Restaurant테이블에 있는 id
                 .fetchJoin()
                 .where(
-                        // 상태가 NORMAL 게시글들만 출력
-                        statusEq(ArticleStatus.NORMAL),
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
                         // 검색조건들
@@ -132,7 +133,8 @@ public class ArticleQuerydslRepository {
                         longitudeBetween(cond.getLongitude()),//경도로 검색
                         categoryEq(cond.getCategory()),//음식점 카테고리로 검색
                         likeArticleIn(cond.getLikeArticles()),//좋아요누른 게시판 검색
-                        builder//keyword조건 검색
+                        keywordCond,//keyword조건 검색
+                        statusCond//게시글 상태조건 필터링
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
                 .limit(size + 1)//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음

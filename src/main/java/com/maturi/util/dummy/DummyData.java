@@ -7,9 +7,9 @@ import com.maturi.entity.member.Follow;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.article.ArticleRepository;
-import com.maturi.repository.article.RestaurantRepository;
-import com.maturi.repository.article.TagRepository;
-import com.maturi.repository.article.TagValueRepository;
+import com.maturi.repository.article.restaurant.RestaurantRepository;
+import com.maturi.repository.article.tag.TagRepository;
+import com.maturi.repository.article.tag.TagValueRepository;
 import com.maturi.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

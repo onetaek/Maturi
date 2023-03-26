@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainBase}">
+<head>
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/article/article/article.css">
+    <link rel="stylesheet" href="/css/article/article/comment.css">
+</head>
+<body>
+<!-- 상세페이지 본문 -->
+<div layout:fragment="main" id="content">
+    <div id="articleWrap" th:attr="data-articleid=${article.id}">
+        <!--    글쓴이 정보 -->
+        <div class="writerInfo">
+            <p class="writerProfileImg">
+                <img th:if="${article.profileImg != null && #strings.contains(article.profileImg,'://')}" th:src="${article.profileImg}" alt="프로필 이미지">
+                <img  th:unless="${article.profileImg == null || #strings.contains(article.profileImg,'://')}" th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
+                <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
+            </p>
+            <p class="written">
+                <span>
+                    <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
+                    (<span class="writerName" th:text="${article.name}">김혜현</span>)
+                </span>
+                <span class="writtenAt" th:text="${article.modifiedDate}">2023.03.12</span>
+            </p>
+        </div>
+        <!--    글 본문 -->
+        <div class="contentWrap">
+            <ul class="bImg">
+                <li th:each="img: ${article.image}"><img th:src="|/test/file/${img}|" alt="사진"></li>
+            </ul>
+            <p class="bContent" th:text="${article.content}">리뷰 글 내용</p>
+        </div>
+        <!--    좋아요 & 태그 -->
+        <div class="likeAndTag">
+            <span class="likeWrap">
+              <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>
+              <span class="likeBtn" th:unless="${article.getLike()}">좋아요</span>
+              <span class="likeNum" th:text="${article.like}">20</span>
+            </span>
+            <a href="#" th:each="tag: ${article.tags}" th:text="${tag}">#태그1</a>
+        </div>
+        <!--     리뷰글 더보기 버튼 -->
+        <div class="ellipsis-btn-wrap">
+            <span class="ellipsis-btn">
+                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+            </span>
+            <form th:action="@{/templates/articles/{articleId}(articleId=${article.id})}" th:method="delete" name="deleteForm"></form>
+            <ul class="ellipsis-content">
+                <li th:if="${article.name == member.name}"><a href="#">게시글 수정</a></li>
+                <li th:if="${article.name == member.name}"><a href="#" class="deleteArticle">게시글 삭제</a></li>
+                <li th:unless="${article.name == member.name}"><a href="#">신고하기</a></li>
+            </ul>
+        </div>
+    </div>
+    <!--      음식점 정보 -->
+    <div id="restaurantWrap">
+        <div class="rMap" id="articleMap" th:attr="data-lat=${restaurant.latitude}, data-long=${restaurant.longitude}"></div>
+        <div class="restaurantInfo">
+            <h4 class="rTitleWrap">
+                <span class="rTitle" th:text="${restaurant.name}">음식점명</span>
+                <span class="rSearch">리뷰 검색</span>
+            </h4>
+            <p class="rOldAddress">주소 : <span th:text="${restaurant.oldAddress}"></span></p>
+            <p class="rAddress">도로명 주소 : <span th:text="${restaurant.address}"></span></p>
+            <p class="rCategory">카테고리 : <span th:text="${restaurant.category}"></span> </p>
+        </div>
+    </div>
+    <!--  댓글 -->
+    <div id="commentWrap">
+        <form name="commentFrm" id="commentFrm">
+            <textarea type="text" class="commentBody" name="commentBody" placeholder="댓글 등록하기.."></textarea>
+            <button type="button" class="commentSubmitBtn" name="commentSubmitBtn">댓글 달기</button>
+        </form>
+        <!--    댓글 목록 -->
+        <div class="commentList">
+            <th:block th:each="comment: ${comments}">
+            <div class="comment" th:attr="data-commentid=${comment.id}">
+                <div class="commentWrap">
+                    <p class="cProfileImg">
+                        <img th:if="${comment.profileImg != null && #strings.contains(comment.profileImg,'://')}" th:src="${comment.profileImg}" alt="프로필 이미지">
+                        <img th:unless="${comment.profileImg == null || #strings.contains(comment.profileImg,'://')}" th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
+                        <img th:if="${comment.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
+                    </p>
+                    <div class="commentBox">
+                        <h4>
+                            <span th:text="${comment.nickName}">user-nick</span>
+                            (<span th:text="${comment.name}">이름</span>)
+                        </h4>
+                        <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>
+                        <p class="cSundry">
+                            <span class="" th:text="${comment.modifiedDate}">1일전</span>
+                            <span class="replyBtn">답글 달기</span>
+                        </p>
+                        <span class="likeWrap">
+                          <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>
+                          <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>
+                          <span class="likeNum" th:text="${comment.like}">20</span>
+                        </span>
+                        <div class="ellipsis-btn-wrap">
+                            <span class="ellipsis-btn">
+                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                            </span>
+                            <ul class="ellipsis-content">
+                                <li th:if="${comment.name == member.name}"><a href="#" class="commentModify">댓글 수정</a></li>
+                                <li th:if="${comment.name == member.name}"><a href="#" class="commentDelete">댓글 삭제</a></li>
+                                <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </th:block>
+        </div>
+    </div>
+</div>
+
+<!--my js-->
+<th:block layout:fragment="scripts">
+    <script src="/js/articles/article/article.js"></script>
+    <script src="/js/articles/article/comment.js"></script>
+    <script src="/js/articles/articleMap.js"></script>
+</th:block>
+
+</body>
+</html>

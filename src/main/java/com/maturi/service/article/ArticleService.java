@@ -10,6 +10,10 @@ import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.*;
+import com.maturi.repository.article.like.LikeArticleRepository;
+import com.maturi.repository.article.restaurant.RestaurantRepository;
+import com.maturi.repository.article.tag.TagRepository;
+import com.maturi.repository.article.tag.TagValueRepository;
 import com.maturi.repository.member.MemberQuerydslRepository;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
@@ -159,6 +163,7 @@ public class ArticleService {
     }
     public boolean articleStatusNormal(Long articleId) {
 //        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
+        log.info("articleId = {}", articleId);
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
         log.info("findArticle = {}", findArticle);
         return findArticle != null;
@@ -191,11 +196,12 @@ public class ArticleService {
                                                Long memberId) {
 
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
-
+        log.info("[articleSearch]검색조건을 필터링한 결과 = {}",cond);
         ArticlePagingResponse<Article> result = articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(), cond,pagingRequest.getSize());
-        log.info("페이징 써칭한 결과 result = {}",result);
+        log.info("[articleSearch]페이징 써칭한 결과 result = {}",result);
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
+            log.info("[articleSearch]페이징 써칭한 게시글 하나의 정보 = {}",article);
             ArticleViewDTO articleViewDTO = getArticleViewDTO(article,memberId);
             articleViewDTOS.add(articleViewDTO);
         }
@@ -246,9 +252,15 @@ public class ArticleService {
         }
         if (StringUtils.hasText(searchRequest.getTag())) {//keyword검색의 dropdown메뉴중 태그를 선택했을 때
             List<Article> articlesByTag = articleQRepository.findByTagValue(searchRequest.getTag().trim());
-            log.info("[ArticleService] articlesByTag = {}",articlesByTag);
+            log.info("[getSearchCond] articlesByTag = {}",articlesByTag);
             searchCond.setArticlesByTagValue(articlesByTag);
+            List<Article> articlesByTagValue = searchCond.getArticlesByTagValue();
+            for (Article article : articlesByTagValue) {
+                log.info("[getSearchCond] article각각의 값 = {}",article);
+            }
         }
+        log.info("searchCond = {}",searchCond);
+
         return searchCond;
     }
 
@@ -286,4 +298,6 @@ public class ArticleService {
                 .build();
         return articleViewDTO;
     }
+
+
 }

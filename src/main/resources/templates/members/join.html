@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/introBase}">
+<head>
+    <title>회원가입</title>
+  <link rel="stylesheet" href="/css/member/join/join.css"/>
+</head>
+<body>
+<div layout:fragment="main" id="wrap">
+  <section class="section-wrap">
+    <div class="login-form">
+
+      <form name="joinForm" th:object="${member}">
+        <h1><a href="/"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
+
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" th:field="*{email}" required >
+            <span>아이디(이메일)</span>
+            <i></i>
+          </div>
+          <button class="email-certification-btn email-send-btn">인증번호 받기</button>
+          <input type="hidden">
+        </div>
+          <div class="field-error" th:errors="*{email}">
+
+          email 관련 오류 메시지가 출력
+        </div>
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" name="emailConfirm" required >
+            <span>인증 번호</span>
+            <i class="confirmWrap"></i>
+          </div>
+          <button class="email-certification-btn confirm-check-btn">인증하기</button>
+        </div>
+
+        <div class="inputBox">
+          <input type="password" th:field="*{passwd}" required>
+          <span>비밀번호</span>
+          <i></i>
+        </div>
+        <div class="field-error" th:errors="*{passwd}">
+          passwd 관련 오류 메시지가 출력
+        </div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+          <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+        </div>
+
+        <div class="inputBox">
+          <input type="password" th:field="*{passwdCheck}" required>
+          <span>비밀번호 확인</span>
+          <i></i>
+        </div>
+        <div class="field-error" th:errors="*{passwdCheck}">
+          passwdCheck 관련 오류 메시지가 출력
+        </div>
+
+        <div class="inputBox">
+          <input type="text" th:field="*{name}" required>
+          <span>이름</span>
+          <i></i>
+        </div>
+        <div class="field-error" th:errors="*{name}">
+          name 관련 오류 메시지가 출력
+        </div>
+
+        <input type="button" name="submitBtn" value="가입하기"/>
+      </form>
+
+    </div>
+  </section>
+</div>
+
+<th:block layout:fragment="scripts">
+  <script src="/js/members/join/join.js"></script>
+</th:block>
+</body>
+</html>
