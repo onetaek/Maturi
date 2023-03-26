@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberMyPageDTO {
+  private Long id;
   private String nickName;
   private String name;
   private String profileImg;
