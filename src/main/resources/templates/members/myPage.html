@@ -13,7 +13,7 @@
   <div id="coverImg">
     <img th:if="${myPageMember.coverImg != null}" th:src="|/test/file/${myPageMember.coverImg}|" alt="커버 사진">
   </div>
-  <div id="content">
+  <div id="content" th:attr="data-memberid=${myPageMember.id}">
     <div id="myPageInfo">
       <p class="mProfileImg">
         <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
@@ -43,6 +43,9 @@
 
 <!--  리뷰글 공간 -->
     <div id="reviewWrap">
+      <form>
+        <input type="hidden" name="lastArticleId">
+      </form>
       <div class="reviewArticle"></div>
       <div class="reviewArticle"></div>
     </div>
@@ -51,6 +54,7 @@
 
 <th:block layout:fragment="scripts">
   <script src="/js/members/myPage/myPage.js"></script>
+  <script src="/js/members/myPage/myPageArticles.js"></script>
   <script src="/js/members/myPage/myPageMine.js"></script>
 </th:block>
 </body>

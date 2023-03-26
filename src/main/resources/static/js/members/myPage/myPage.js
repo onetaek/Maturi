@@ -8,21 +8,6 @@ for(let i = 0 ; i < ellipsisBtn.length; i++){
   });
 }
 
-// const moreBtn = document.querySelector(".moreBtn");
-// const memberBtnUl = document.querySelector(".memberBtn ul");
-//
-// let ulDisplay = "none"; // 초기값 설정
-// moreBtn.addEventListener("click", ()=>{
-//
-//   if(ulDisplay == 'none'){
-//     ulDisplay = "block";
-//   }
-//   else {
-//     ulDisplay = "none";
-//   }
-//   memberBtnUl.style.display = ulDisplay;
-// });
-
 
 //////////////// 로그인 멤버의 마이페이지 //////////////////
 /* 세부 정보 버튼 클릭 */
