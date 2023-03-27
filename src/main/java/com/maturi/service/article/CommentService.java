@@ -57,6 +57,7 @@ public class CommentService {
       ArticleCommentDTO commentDTO = ArticleCommentDTO.builder()
               .id(comment.getId())
               .profileImg(comment.getMember().getProfileImg())
+              .memberId(comment.getMember().getId())
               .name(comment.getMember().getName())
               .nickName(comment.getMember().getNickName())
               .content(comment.getContent())

@@ -7,7 +7,9 @@ const mNickSideNav = gnbWrap.querySelector(".mNick");
 // const memberInfoSideNav = gnbWrap.querySelector(".memberInfo");
 
 mProfileImgSideNav.addEventListener("click",function(){
+  // console.log("profile click => memberId=" + memberId);
   location.href = "/members/" + memberId;
+  // location.href = `/members/${memberId}`;
 });
 mNameSideNav.addEventListener("click",function(){
   location.href = "/members/" + memberId;

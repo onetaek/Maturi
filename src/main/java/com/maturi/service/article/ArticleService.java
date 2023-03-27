@@ -321,6 +321,7 @@ public class ArticleService {
                 .content(article.getContent())
                 .image(Arrays.asList(article.getImage().split(",")))
                 .modifiedDate(article.getModifiedDate())
+                .memberId(article.getMember().getId())
                 .name(article.getMember().getName())
                 .nickName(article.getMember().getNickName())
                 .profileImg(article.getMember().getProfileImg())

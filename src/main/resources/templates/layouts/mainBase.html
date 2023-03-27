@@ -55,6 +55,7 @@
                         <ion-icon name="log-out-outline"></ion-icon>
                         <span>로그아웃</span>
                     </a></li>
+                    <form name="logoutForm"></form>
                 </ul>
             </nav>
             <footer >
@@ -193,8 +194,8 @@
 <div layout:fragment="modal"></div>
 <script th:inline="javascript">
     //세션에 있는 값을 꺼낼 수 있음
-    const memberId = "[[${session.memberId}]]";
-    const memberNickName = "[[${member.nickName}]]";
+    const memberId = [[${session.memberId}]];
+    const memberNickName = [[${member.nickName}]];
     console.log("memberId",memberId);
     console.log("memberNickName",memberNickName);
 </script>

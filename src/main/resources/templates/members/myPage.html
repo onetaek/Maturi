@@ -6,6 +6,7 @@
   <title>마이페이지</title>
   <link rel="stylesheet" href="/css/member/myPage/myPage.css">
   <link rel="stylesheet" href="/css/article/article/article.css">
+  <link rel="stylesheet" href="/css/article/article/articleListImg.css">
 
 </head>
 <body>
@@ -36,8 +37,8 @@
         </span>
         <ul class="ellipsis-content">
           <li th:if="${member.nickName == myPageMember.nickName}"><a href="#" class="editMyPage">프로필 편집</a></li>
-          <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">신고하기</a></li>
           <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">차단하기</a></li>
+          <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">팔로잉</a></li>
         </ul>
       </div>
     </div>

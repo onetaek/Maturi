@@ -20,6 +20,7 @@ public class ArticleViewDTO {
   private List<String> image;
   private LocalDateTime modifiedDate; // 마지막 업데이트 날짜
   // 글 작성자 정보
+  private Long memberId;
   private String name;
   private String nickName;
   private String profileImg;

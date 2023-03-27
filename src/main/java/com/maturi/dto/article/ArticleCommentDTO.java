@@ -14,6 +14,7 @@ import java.util.List;
 public class ArticleCommentDTO {
   private Long id;
   private String profileImg;
+  private Long memberId;
   private String name;
   private String nickName;
   private String content;

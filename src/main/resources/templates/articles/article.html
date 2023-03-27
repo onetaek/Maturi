@@ -49,9 +49,9 @@
             </span>
             <form th:action="|/articles/${article.id}|" th:method="delete" name="deleteForm"></form>
             <ul class="ellipsis-content">
-                <li th:if="${article.name == member.name}"><a href="#">게시글 수정</a></li>
-                <li th:if="${article.name == member.name}"><a href="#" class="deleteArticle">게시글 삭제</a></li>
-                <li th:unless="${article.name == member.name}"><a href="#">신고하기</a></li>
+                <li th:if="${article.memberId == member.id}"><a href="#">게시글 수정</a></li>
+                <li th:if="${article.memberId == member.id}"><a href="#" class="deleteArticle">게시글 삭제</a></li>
+                <li th:unless="${article.memberId == member.id}"><a href="#">신고하기</a></li>
             </ul>
         </div>
     </div>
@@ -104,9 +104,9 @@
                                 <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                             </span>
                             <ul class="ellipsis-content">
-                                <li th:if="${comment.name == member.name}"><a href="#" class="commentModify">댓글 수정</a></li>
-                                <li th:if="${comment.name == member.name}"><a href="#" class="commentDelete">댓글 삭제</a></li>
-                                <li th:unless="${comment.name == member.name}"><a href="#">신고하기</a></li>
+                                <li th:if="${comment.memberId == member.id}"><a href="#" class="commentModify">댓글 수정</a></li>
+                                <li th:if="${comment.memberId == member.id}"><a href="#" class="commentDelete">댓글 삭제</a></li>
+                                <li th:unless="${comment.memberId == member.id}"><a href="#">신고하기</a></li>
                             </ul>
                         </div>
                     </div>

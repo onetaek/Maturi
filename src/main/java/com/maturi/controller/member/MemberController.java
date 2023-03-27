@@ -218,6 +218,8 @@ public class MemberController {
   public String pwChange(@ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
                          RedirectAttributes redirectAttributes,
                          Model model){
+
+    log.info("pwChange start");
     // email에 맞는 회원 찾기
     Member findMember = memberService.getMemberByEmail(memberLoginDTO.getEmail());
     if(findMember == null){

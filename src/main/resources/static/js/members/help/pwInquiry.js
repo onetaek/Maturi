@@ -81,7 +81,7 @@ function pwInquiryFormSubmit(){
       if(emailConfirmCheck){ // 이메일 인증 검사
         // post 타입으로 submit
         pwInquiryForm.method = "post";
-        pwInquiryForm.action = "/member/help/passwd";
+        pwInquiryForm.action = "/members/help/passwd";
         pwInquiryForm.submit();
       }
     } else {
