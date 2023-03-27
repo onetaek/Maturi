@@ -1,4 +1,4 @@
-package com.maturi.api;
+package com.maturi.api.member;
 
 import com.maturi.dto.member.AreaInterDTO;
 import com.maturi.entity.member.Member;

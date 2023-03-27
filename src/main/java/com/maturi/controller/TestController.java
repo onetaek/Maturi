@@ -28,7 +28,11 @@ import java.util.List;
 @RequestMapping("/test")
 @RequiredArgsConstructor
 public class TestController {
-
+    @RequestMapping
+    @GetMapping("/memberNickName")
+    public String memberNickName(@RequestParam("memberNickName")String nickName){
+        return nickName;
+    }
     @GetMapping("")
     public String index(){
         return "article/welcome";

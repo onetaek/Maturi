@@ -1,10 +1,13 @@
-/* 더보기 버튼 */
-// const ellipsisBtn = document.querySelectorAll(".ellipsis-btn");
-// const ellipsisContent = document.querySelectorAll(".ellipsis-content");
-//
-// for(let i = 0 ; i < ellipsisBtn.length; i++){
-//     ellipsisBtn[i].addEventListener("click",function(){
-//        ellipsisContent[i].classList.toggle("active");
-//     });
-// }
+function deleteArticle(articleId){
+
+    if(confirm("게시글을 삭제하시겠습니까?")){
+        console.log("게시글 삭제");
+
+        let articleDeleteForm = document.articleDeleteForm;
+        console.log(articleDeleteForm);
+        articleDeleteForm.action = `/articles/${articleId}`;
+        articleDeleteForm.submit();
+    }
+}
+
 

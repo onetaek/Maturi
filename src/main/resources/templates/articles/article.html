@@ -47,7 +47,7 @@
             <span class="ellipsis-btn">
                 <ion-icon name="ellipsis-vertical-outline"></ion-icon>
             </span>
-            <form th:action="@{/templates/articles/{articleId}(articleId=${article.id})}" th:method="delete" name="deleteForm"></form>
+            <form th:action="|/articles/${article.id}|" th:method="delete" name="deleteForm"></form>
             <ul class="ellipsis-content">
                 <li th:if="${article.name == member.name}"><a href="#">게시글 수정</a></li>
                 <li th:if="${article.name == member.name}"><a href="#" class="deleteArticle">게시글 삭제</a></li>

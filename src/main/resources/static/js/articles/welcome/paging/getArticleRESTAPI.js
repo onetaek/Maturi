@@ -46,8 +46,8 @@ function searchArticleAjax(obj){
     fetch(url)
     .then((response) => response.json())
     .then((data) => {
-
-
+        console.log("data",data);
+        console.log("memberId","[[${session.memberId}]]");
         document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;//마지막 게시글의 id를 저장
         if(data.hasNext === false){
             hasArticle = false;
@@ -80,11 +80,13 @@ function searchArticleAjax(obj){
                     articleHtml += `<img src="/test/file/${article.profileImg}" alt="프로필 이미지">`
                 }
             articleHtml +=`</p>
-                    <p class="written">
-                        <span class="writerName">${article.name}</span>
-                        <span class="writerNickName">${article.nickName}</span>
+                    <div class="user-info">
+                        <div class="writer-name">
+                            <span class="writerNickName">${article.nickName}</span>
+                            <span class="writerName">(${article.name})</span>
+                        </div>
                         <span class="writtenAt">${article.modifiedDate}</span>
-                    </p>
+                    </div>
                 </div>
                 <!--    글 본문 -->
                 <div class="contentWrap contentWrap${article.id}">
@@ -114,9 +116,23 @@ function searchArticleAjax(obj){
                         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                     </span>
                     <ul class="ellipsis-content ellipsis-content${article.id}">
-                        <li><a href="#">게시글 수정</a></li>
-                        <li><a href="#">게시글 삭제</a></li>
-                        <li><a href="#">신고하기</a></li>
+                        <li>
+                        <div>
+                            <ion-icon name="git-compare-outline"></ion-icon>
+                            <a href="/articles/${article.id}/edit">게시글 수정</a></div>
+                        </li>
+                        <li><div>
+                            <ion-icon name="trash-outline"></ion-icon>
+                            <a href="#" onclick="deleteArticle(${article.id})">게시글 삭제</a></div>
+                        </li>
+                        <li><div>
+                            <ion-icon name="person-add-outline"></ion-icon>
+                            <a href="#">팔로잉</a></div>
+                        </li>
+                        <li><div>
+                            <ion-icon name="warning-outline"></ion-icon>
+                            <a href="#">신고하기</a></div>
+                        </li>
                     </ul>
                 </div>
             </li>`;
@@ -135,9 +151,7 @@ function searchArticleAjax(obj){
         if (data.event === "click" || data.event === "load"){//클릭 or load면 기존 게시글을 덮어서 새로 입력
             articleList.innerHTML = html
         }
-        console.log("좋아요 클릭이벤트 걸어주기전의 articles ",articles);
         articles.forEach((article) => {
-            console.log("좋아요 클릭 이벤트 걸어줄 하나의 article",article);
             //좋아요 클릭 이벤트를 적용해준다.
             const likeBtn = document.querySelector(`.likeBtn${article.id}`);
             if(article.liked){
@@ -163,17 +177,13 @@ function searchArticleAjax(obj){
                     likeNum.innerText = data.likeNum;
                 })
             });
-        });//articles.forEach끝(이벤트걸어줌)
 
-        articles.forEach((article) => {
-            //좋아요 클릭 이벤트를 적용해준다.
+            //더보기 버튼 클릭 이벤트
             const ellipsisBtn = document.querySelector(`.ellipsis-btn${article.id}`);
             const ellipsisContent = document.querySelector(`.ellipsis-content${article.id}`);
-            for(let i = 0 ; i < ellipsisBtn.length; i++){
-                ellipsisBtn[i].addEventListener("click",function(){
-                    ellipsisContent[i].classList.toggle("active");
-                });
-            }
+            ellipsisBtn.addEventListener("click",function(){
+                ellipsisContent.classList.toggle("active");
+            });
 
             //게시글 화면 클릭시 해당 게시글 상세 페이지로 이동
             let articleContent = document.querySelector(`.contentWrap${article.id}`);

@@ -19,11 +19,11 @@
     --review-article-width: 500px;
     --review-article-height: 400px;
     --search-btn-background: #0c70f2;
-    --search-btn-color: #ffffff;
+    --search-btn-color: #1f1f1f;
     /* index페이지 */
     --welcome-background: #d2d2d2;
     --primary-color: #07afd9;
-    --ellipsis-color: #727272;
+    --ellipsis-color: #b2b2b2;
     --article-list-background:#FFFFFF;
     --white-color: #FFFFFF;
     --black-color:#000000;
@@ -35,6 +35,13 @@
     --error-color : #ff2f2f;
 
     --light-pink-background-color: #fffcfc;
+    /*팔로우 팝업*/
+    --follow-popup-background : #f5f5f5;
+    --follow-popup-max-width: 540px;
+    --profile-message-color: #8c8c8c;
+    --follow-search-input-underline-color : #b2b2b2;
+
+    --ellipsis-text-color: #2a2a2a;
 }
 body {
     width: 100%;

@@ -1,4 +1,4 @@
-package com.maturi.api;
+package com.maturi.api.article;
 
 import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchRequest;

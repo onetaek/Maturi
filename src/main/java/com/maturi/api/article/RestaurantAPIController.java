@@ -1,4 +1,4 @@
-package com.maturi.api;
+package com.maturi.api.article;
 
 import com.maturi.service.article.RestaurantService;
 import lombok.RequiredArgsConstructor;
