@@ -19,7 +19,7 @@
     position: absolute;
     top: 50%; transform: translateY(-50%); right: 3%;
     background-color: var(--hot-pink-color);
-    color: var(--search-btn-color);
+    color: var(--white-color);
     border-radius: 5px;
     padding: 5px 10px;
 }

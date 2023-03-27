@@ -37,5 +37,11 @@ public class Article extends BaseTimeEntity {
   public void changeStatus(ArticleStatus status){
     this.status = status;
   }
+  public void changeContent(String content){
+    this.content = content;
+  }
+  public void changeImage(String image){
+    this.image = image;
+  }
 
 }

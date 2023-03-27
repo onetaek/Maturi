@@ -90,11 +90,14 @@ function searchArticleAjax(obj){
                 </div>
                 <!--    글 본문 -->
                 <div class="contentWrap contentWrap${article.id}">
-                    <ul class="bImg">
-                        <li>
-                            <img src="/test/file/${article.image}" alt="사진1">
-                        </li>
-                    </ul>
+                    <ul class="bImg">`
+            // 이미지 처리 ..
+            article.image.forEach(img =>{
+                articleHtml += `<li>
+                              <img src="/test/file/${img}" alt="사진1">
+                          </li>`
+            })
+            articleHtml += `</ul>
                     <p class="bContent">
                         ${article.content}
                     </p>
@@ -192,6 +195,8 @@ function searchArticleAjax(obj){
                 window.location.href=`/articles/${articleId}`;
             });
         });//articles.forEach끝(이벤트걸어줌)
+
+        articleListImgStyle();
     })
 }
 

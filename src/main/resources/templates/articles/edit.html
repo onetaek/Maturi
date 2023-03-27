@@ -9,35 +9,35 @@
 <body>
   <div layout:fragment="main" id="content">
     <h2>리뷰 쓰기</h2>
-    <form name="writeForm" th:object="${restaurant}" id="writeForm" enctype="multipart/form-data">
+    <form name="writeForm" id="writeForm" enctype="multipart/form-data" th:attr="data-articleid=${article.id}">
       <div class="inputBox imageBox">
         <!--        <button type="button" data-name="image">사진</button>-->
         <span>사진</span>
         <input type="file" name="image" multiple="multiple">
       </div>
       <div class="inputBox">
-        <textarea name="content"  cols="100" rows="30" placeholder="내용 ..."></textarea>
+        <textarea name="content"  cols="100" rows="30" placeholder="내용 ..." th:text="${article.content}"></textarea>
       </div>
       <div class="inputBox tagBox">
         <div class="tagWrap">
+          <th:block th:each="tag: ${article.tags}">
+            <span class="tagSpan">
+              <span>[[${tag}]]</span>
+              <button type="button">x</button>
+            </span>
+          </th:block>
         </div>
         <input type="hidden" name="tags">
         <input type="text" name="tag" placeholder="#태그">
       </div>
-
-      <input type="hidden" th:field="*{name}">
-      <input type="hidden" th:field="*{category}">
-      <input type="hidden" th:field="*{oldAddress}">
-      <input type="hidden" th:field="*{address}">
-      <input type="hidden" th:field="*{latitude}">
-      <input type="hidden" th:field="*{longitude}">
       <input type="button" name="submitBtn" class="submitBtn" value="업로드">
     </form>
   </div>
 
 <th:block layout:fragment="scripts">
   <script src="/js/articles/article/write.js"></script>
-  <script src="/js/articles/article/newWriteForm.js"></script>
+  <script src="/js/articles/article/editWriteForm.js"></script>
+
 </th:block>
 </body>
 </html>

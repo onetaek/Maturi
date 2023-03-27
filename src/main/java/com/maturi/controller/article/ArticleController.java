@@ -1,16 +1,22 @@
 package com.maturi.controller.article;
 
 import com.maturi.dto.article.ArticleDTO;
+import com.maturi.dto.article.ArticleEditDTO;
+import com.maturi.dto.article.ArticleViewDTO;
 import com.maturi.dto.article.RestaurantDTO;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.article.CommentService;
 import com.maturi.util.argumentresolver.Login;
+import com.maturi.util.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 
@@ -82,10 +88,52 @@ public class ArticleController {
     @DeleteMapping("/{articleId}")//게시글 삭제요청
     public String delete(@Login Long memberId,
                          @PathVariable Long articleId,
+                         HttpServletRequest request,
+                         RedirectAttributes redirectAttributes,
                          Model model){
-        log.info("article delete method start!!");
+
         String msg = articleService.delete(memberId, articleId);
-        model.addAttribute("alertMessage", msg);
-        return "/layouts/message";
+//        model.addAttribute("alertMessage", msg);
+        if(msg.equals(MessageConst.SUCCESS_MESSAGE)){
+            redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, MessageConst.DELETE_SUCCESS);
+        } else if(msg.equals(MessageConst.NOT_FOUND)) { // 게시물 찾을 수 없음
+            redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NOT_FOUND);
+        } else { // 게시물 삭제 권한 없음 (글 작성자가 아님)
+            redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+        }
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
+    }
+
+    @GetMapping("/{articleId}/edit") // 게시글 수정요청
+    public String editArticlePage(@Login Long memberId,
+                           @PathVariable Long articleId,
+                           HttpServletRequest request,
+                           RedirectAttributes redirectAttributes,
+                           Model model){
+        ArticleViewDTO articleViewDTO = articleService.articleInfo(articleId, memberId);
+        if(!memberId.equals(articleViewDTO.getMemberId())){
+            String referer = request.getHeader("Referer");
+            log.info("referer : " + referer);
+            redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+            return "redirect:" + referer;
+        }
+        model.addAttribute("member", articleService.memberInfo(memberId));
+        model.addAttribute("article", articleViewDTO);
+        return "/articles/edit";
+    }
+
+    @PostMapping("/{articleId}/edit") // 게시글 수정 요청
+    public String editArticle(@Login Long memberId,
+                              @PathVariable Long articleId,
+                              ArticleEditDTO articleEditDTO,
+                              Model model){
+
+        log.info("articleEditDTO = {}", articleEditDTO);
+
+        ArticleViewDTO articleViewDTO = articleService.edit(memberId, articleId, articleEditDTO);
+
+        return "redirect:/articles/"+articleId;
     }
 }

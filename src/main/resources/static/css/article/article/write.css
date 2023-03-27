@@ -58,7 +58,7 @@
 
 #writeForm .submitBtn {
     background-color: var(--search-btn-background);
-    color: var(--search-btn-color);
+    color: var(--white-color);
     border-radius: 5px;
     cursor: pointer;
 }

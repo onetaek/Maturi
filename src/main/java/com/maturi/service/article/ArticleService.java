@@ -17,6 +17,7 @@ import com.maturi.repository.article.tag.TagValueRepository;
 import com.maturi.repository.member.MemberQuerydslRepository;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
+import com.maturi.util.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -178,13 +179,15 @@ public class ArticleService {
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
         if(findArticle == null){
-            msg = "게시글 삭제 실패! 해당 게시물을 찾을 수 없습니다!";
+//            msg = "게시글 삭제 실패! 해당 게시물을 찾을 수 없습니다!";
+            msg = MessageConst.NOT_FOUND;
         } else if(!Objects.equals(findArticle.getMember().getId(), memberId)){
-            msg = "게시글 삭제 실패! 게시글 작성자가 아닙니다!";
+//            msg = "게시글 삭제 실패! 게시글 작성자가 아닙니다!";
+            msg = MessageConst.NO_PERMISSION;
         } else { // 게시글 삭제 성공
             findArticle.changeStatus(ArticleStatus.DELETE);
-            articleRepository.save(findArticle);
-            msg = "게시글을 삭제하였습니다.";
+            findArticle = articleRepository.save(findArticle);
+            msg = MessageConst.SUCCESS_MESSAGE;
         }
 
         return msg;
@@ -333,5 +336,47 @@ public class ArticleService {
     }
 
 
+    public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) {
+        // db에 저장된 article 찾기
+        Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
+        /* 태그 */
+        // 기존 태그들 삭제
+        List<TagValue> tagValues = tagValueRepository.findByArticleId(articleId);
+        for(TagValue tagValue : tagValues){ // 해당 게시글의 모든 태그 삭제
+            tagValueRepository.delete(tagValue);
+        }
+
+        // 해당 게시글의 태그들 다시 추가하기
+        String[] tags = articleEditDTO.getTags().split("#");
+
+        for(String tagName : tags){
+            if(!tagName.equals("") && tagName != null){
+                Tag findTag = tagRepository.findByName(tagName);
+                if(findTag == null){ // TagName이 db에 저장되어있지 않는 경우
+                    Tag tag = Tag.builder()
+                            .name(tagName)
+                            .build();
+                    findTag = tagRepository.save(tag); // db에 해당 tagName 추가!!
+                }
+                TagValue tagValue = TagValue.builder()
+                        .tag(findTag)
+                        .article(findArticle)
+                        .build();
+
+                tagValueRepository.save(tagValue); // 해당 게시글의 태그들 생성!!
+            }
+        }
+
+        // 변경된 content 업데이트
+        findArticle.changeContent(articleEditDTO.getContent());
+
+        /* 이미지 로직 추가 */
+//        findArticle.changeImage(/*ㅇㅇㅇㅇㅇㅇ*/);
+
+        Article article = articleRepository.save(findArticle); // db에 업데이트
+
+        ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);
+        return articleViewDTO;
+    }
 }

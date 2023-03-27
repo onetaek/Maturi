@@ -153,7 +153,7 @@ public class MemberController {
                            @PathVariable Long id,
                            RedirectAttributes redirectAttributes,
                            Model model){
-    if(memberId != id){ // 다른 회원의 프로필수정 페이지 이동 요청 들어왔을 경우
+    if(!memberId.equals(id)){ // 다른 회원의 프로필수정 페이지 이동 요청 들어왔을 경우
       redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
       return "redirect:/members/" + id;
     }
@@ -171,7 +171,7 @@ public class MemberController {
                                       RedirectAttributes redirectAttributes,
                                       Model model) throws IOException {
 
-    if(memberId == id){ // 로그인 회원의 프로필 수정 요청일 경우만 시행
+    if(memberId.equals(id)){ // 로그인 회원의 프로필 수정 요청일 경우만 시행
       memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
     }
     else { // 타회원의 요청
@@ -186,7 +186,7 @@ public class MemberController {
                              @PathVariable Long id,
                              RedirectAttributes redirectAttributes,
                              Model model){
-    if(memberId != id){ // 다른 회원의 상세페이지 이동 요청 들어왔을 경우
+    if(!memberId.equals(id)){ // 다른 회원의 상세페이지 이동 요청 들어왔을 경우
       redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
       return "redirect:/members/" + id;
     }

@@ -16,6 +16,26 @@
     <link rel="stylesheet" th:href="@{/css/include/followPopup.css}">
 </head>
 <body>
+<script th:inline="javascript">
+    // errorMassage
+    let errorMsg = [[${errorMassage}]];
+    console.log("errorMsg = " + errorMsg);
+    if(errorMsg != null){
+        if( errorMsg == "noPermission"){
+            alert("해당 페이지에 접근할 권한이 없습니다.");
+        } else if( errorMsg == "notFound"){
+            alert("해당 게시글을 찾을 수 없습니다.");
+        }
+    }
+    let successMsg = [[${successMassage}]];
+    if(successMsg != null){
+        if(successMsg == "passwdChange"){
+            alert("비밀번호 변경이 완료되었습니다.");
+        } else if(successMsg == "deleteSuccess"){
+            alert("게시글 삭제에 성공하였습니다.");
+        }
+    }
+</script>
 <!--사이드네비게이션 + 내용물-->
 <div id="wrap" >
     <!--사이드 네비게이션-->

@@ -119,11 +119,8 @@ function myPageArticleAjax(obj){
         /* 작성자 = 로그인 회원 확인해서 버튼 매칭 */
         if(article.memberId == memberId){
           articleHtml +=
-            `<form action="/articles/${article.id}" method="post" name="articleUpdateForm${article.id}" class="articleUpdateForm${article.id}">
-              <input type="hidden" name="_method">
-              </form>
-            <li><a href="#" class="updateArticle${article.id}">게시글 수정</a></li>
-            <li><a href="#" class="deleteArticle${article.id}">게시글 삭제</a></li>`
+            `<li><a href="/articles/${article.id}/edit">게시글 수정</a></li>
+            <li><a href="#" onclick="deleteArticle(${article.id})">게시글 삭제</a></li>`
         } else {
           articleHtml += `<li><a href="#">신고하기</a></li>`
         }
@@ -138,6 +135,7 @@ function myPageArticleAjax(obj){
         } else if (data.event === "click" || data.event === "load" ) {
           html += articleHtml;
         }
+
       });//forEach문끝 요소들 넣어줌
 
       if (data.hasNext === false ){ // 게시글 모두 로드됐을 경우
@@ -196,17 +194,7 @@ function myPageArticleAjax(obj){
         });
       });//articles.forEach끝(이벤트걸어줌)
 
-      /* 게시글 삭제 이벤트 */
-      articles.forEach((article) => {
-        const articleUpdateForm = document.querySelector(`.articleUpdateForm${article.id}`);
-        const deleteBtn = document.querySelector(".deleteArticle${article.id}");
-        const updateBtn = document.querySelector(".updateArticle${article.id}");
-        deleteBtn.addEventListener("click", ()=>{
-          articleUpdateForm._method.value = "delete";
-          articleUpdateForm.action = `/articles/${article.id}`;
-          articleUpdateForm.submit();
-        })
-      })
+      articleListImgStyle();
     })
 }
 

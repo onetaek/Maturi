@@ -75,10 +75,3 @@ function validation(){
 
   return true; // 유효성검사 통과시
 }
-writeForm.submitBtn.addEventListener("click", ()=>{
-  if(validation()){
-    writeForm.method="POST";
-    writeForm.action="/articles/new";
-    writeForm.submit();
-  }
-})

@@ -44,6 +44,11 @@
     </div>
 
 <!--  리뷰글 공간 -->
+    <!--form에서 method:delete방식으로 전송하기 위한 방법-->
+    <form name="articleUpdateForm" method="post">
+      <input type="hidden" name = "_method" value = "delete"/>
+    </form>
+
     <div id="reviewWrap">
       <form>
         <input type="hidden" name="lastArticleId">
@@ -52,22 +57,13 @@
     </div>
   </div>
 
-  <script th:inline="javascript">
-    // errorMassage
-    let errorMsg = [[${errorMassage}]];
-    console.log("errorMsg = " + errorMsg);
-    if(errorMsg != null && errorMsg == "noPermission"){
-      alert("해당 페이지에 접근할 권한이 없습니다. 해당 유저의 마이페이지로 이동합니다.");
-    }
-    let successMsg = [[${successMassage}]];
-    if(successMsg != null && successMsg == "passwdChange"){
-      alert("비밀번호 변경이 완료되었습니다.");
-    }
-  </script>
 </main>
 
 <th:block layout:fragment="scripts">
   <script src="/js/members/myPage/myPage.js"></script>
+  <script src="/js/articles/welcome/ellipsis.js"></script>
+  <script src="/js/articles/article/articleImgRatio.js"></script>
+  <script src="/js/articles/article/articleListImg.js"></script>
   <script src="/js/members/myPage/myPageArticles.js"></script>
   <script src="/js/members/myPage/myPageMine.js"></script>
   <script src="/js/articles/welcome/paging/scrollEvent.js"></script>

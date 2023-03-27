@@ -1,0 +1,21 @@
+.contentWrap {
+    width: 600px; height: 600px;
+}
+.contentWrap .bImg {
+    flex-wrap: wrap;
+    position: relative;
+}
+.contentWrap .bImg li {
+    border-radius: 5px;
+    overflow: hidden;
+}
+.contentWrap .bImg li.ionImg {
+    border: 1px solid var(--light-gray);
+    color: var(--light-gray);
+    background-color: #000;
+    opacity: 0.5;
+}
+.contentWrap .bImg li ion-icon {
+    font-size: 70px;
+    color: var(--white-color);
+}

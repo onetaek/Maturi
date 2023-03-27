@@ -75,6 +75,10 @@ public class ArticleQuerydslRepository {
     public ArticlePagingResponse<Article> findMyReviewArticles(Long memberId, // 마이페이지 회원 ID
                                                                Long lastArticleId,
                                                                int size){
+        BooleanBuilder statusCond = new BooleanBuilder();
+        statusCond.or(statusEq(ArticleStatus.NORMAL))// 상태가 NORMAL 게시글들만 출력
+                .or(statusEq(ArticleStatus.REPORT));// 상태가 REPORT 게시글들만 출력
+
         List<Article> results = query.selectFrom(article)
                 .join(article.member,member)
                 .join(article.restaurant, restaurant)
@@ -82,7 +86,8 @@ public class ArticleQuerydslRepository {
                 .where(
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
-                        memberIdEq(memberId)
+                        memberIdEq(memberId),
+                        statusCond
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
                 .limit(size + 1)
