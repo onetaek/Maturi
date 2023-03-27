@@ -216,7 +216,8 @@ public class MemberController {
 
   @PostMapping("/help/passwd") // 비밀번호 찾기 -> 변경
   public String pwChange(@ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
-                         RedirectAttributes redirectAttributes){
+                         RedirectAttributes redirectAttributes,
+                         Model model){
     // email에 맞는 회원 찾기
     Member findMember = memberService.getMemberByEmail(memberLoginDTO.getEmail());
     if(findMember == null){

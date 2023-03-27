@@ -29,7 +29,7 @@ emailAuthBtn.addEventListener("click", ()=>{
       console.log(response);
       const msg = (response.ok) ?
         "이메일 인증 메일이 전송되었습니다. 이메일을 확인하여 주세요." :
-        "해당 이메일은 이미 가입되어있습니다.";
+        "가입된 정보가 존재하지 않습니다.";
       alert(msg);
 
       // 인증 버튼 이벤트 추가
@@ -58,19 +58,11 @@ function confirmCheck(){
         document.querySelector(".confirmWrap").style.height = "44px";
         emailConfirmCheck = true;
 
-        /* 비밀번호 폼 추가 */
-        let html = `<div class="inputBox">
-              <input type="password" name="passwd" required>
-              <span>새 비밀번호</span>
-              <i></i>
-            </div>
-            <div class="inputBox">
-              <input type="password" name="passwdCheck" required>
-              <span>새 비밀번호 확인</span>
-              <i></i>
-            </div>
-            <input type="button" name="submitBtn" value="비밀번호 변경"/>`;
-        pwInquiryForm.insertAdjacentHTML("beforeend", html);
+        // 비번/비번확인 태그 활성화
+        const notActiveTag = document.querySelectorAll(".not-active");
+        notActiveTag.forEach(tag => {
+          tag.classList.remove("not-active");
+        })
 
         /* 추가된 버튼에 이벤트 추가 */
         pwInquiryFormSubmit();
@@ -90,8 +82,9 @@ function pwInquiryFormSubmit(){
         // post 타입으로 submit
         pwInquiryForm.method = "post";
         pwInquiryForm.action = "/member/help/passwd";
-        // pwInquiryForm.submit();
+        pwInquiryForm.submit();
       }
+    } else {
     }
 
   });
@@ -99,17 +92,17 @@ function pwInquiryFormSubmit(){
 
 /* 비밀번호 유효성 검사 */
 function passwdCheckValidate(){
-  let passwdValue = detailModalForm.passwd.value;
-  let passwdCheckValue = detailModalForm.passwdCheck.value;
+  let passwdValue = pwInquiryForm.passwd.value;
+  let passwdCheckValue = pwInquiryForm.passwdCheck.value;
 
   let repExpPasswd = /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}/;
   if(!repExpPasswd.test(passwdValue)){ // 유효성검사
     alert("비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.");
-    detailModalForm.passwd.focus();
+    pwInquiryForm.passwd.focus();
     return false;
   } else if(passwdValue != passwdCheckValue){ // 일치 여부
     alert("비밀번호가 일치하지 않습니다. 다시 입력하세요.");
-    detailModalForm.passwdCheck.focus();
+    pwInquiryForm.passwdCheck.focus();
     return false;
   } else { // 검사 통과
     return true;
