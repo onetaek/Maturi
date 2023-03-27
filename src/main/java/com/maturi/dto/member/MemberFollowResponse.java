@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class MemberFollowResponse {
 
-    private String id;
+    private Long id;
     private String profileImg;
     private String nickName;
     private String name;

@@ -73,7 +73,7 @@ function searchCondSetting(event){
     }else{
         lastArticle = lastArticleInput.value;
     }
-    if(event === "click"){
+    if(event === "click" || event ==='load'){
         lastArticle = null;
     }
     let obj = {

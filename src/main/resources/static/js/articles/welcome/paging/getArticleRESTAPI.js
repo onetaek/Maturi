@@ -118,25 +118,19 @@ function searchArticleAjax(obj){
                     <span class="ellipsis-btn ellipsis-btn${article.id}">
                         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                     </span>
-                    <ul class="ellipsis-content ellipsis-content${article.id}">
-                        <li>
-                        <div>
-                            <ion-icon name="git-compare-outline"></ion-icon>
-                            <a href="/articles/${article.id}/edit">게시글 수정</a></div>
-                        </li>
-                        <li><div>
-                            <ion-icon name="trash-outline"></ion-icon>
-                            <a href="#" onclick="deleteArticle(${article.id})">게시글 삭제</a></div>
-                        </li>
-                        <li><div>
-                            <ion-icon name="person-add-outline"></ion-icon>
-                            <a href="#">팔로잉</a></div>
-                        </li>
-                        <li><div>
-                            <ion-icon name="warning-outline"></ion-icon>
-                            <a href="#">신고하기</a></div>
-                        </li>
-                    </ul>
+                    <ul class="ellipsis-content ellipsis-content${article.id}">`
+                    if(article.memberId === memberId){
+                        articleHtml += `<li><div><ion-icon name="git-compare-outline"></ion-icon><a href="/articles/${article.id}/edit">게시글 수정</a></div></li>
+                        <li><div><ion-icon name="trash-outline"></ion-icon><a href="#" onclick="deleteArticle(${article.id})">게시글 삭제</a></div></li>`;
+                    }else{
+                        if(article.followingMember){//팔로잉하고 있는 유저 -> 팔로우 취소 버튼 출력
+                            articleHtml += `<li class="followCancelBtnWrap${article.id}"><div onclick="followCancel(${article.id},${article.memberId},'${article.nickName}')"><ion-icon name="person-remove-outline"></ion-icon><span>팔로잉 취소</span></div></li>`
+                        }else{//팔로잉을 하지 않고있는 유저 -> 팔로잉 버튼 출력
+                            articleHtml += `<li class="followingBtnWrap${article.id}"><div onclick="following(${article.id},${article.memberId},'${article.nickName}')"><ion-icon name="person-add-outline"></ion-icon><span>팔로잉</span></div></li>`
+                        }
+                        articleHtml += `<li><div><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>`;
+                    }
+               articleHtml+=`</ul>
                 </div>
             </li>`;
 

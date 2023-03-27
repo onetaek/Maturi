@@ -90,7 +90,7 @@ public class SNSController {
     @GetMapping("/kakao/logout")
     public String kakaoLogout(HttpServletRequest request){
         request.getSession().invalidate();//로그아웃 처리 : 우리 사이트의 세션만 사라지고, SNS로그인은 유지한다.
-        return "/member/login";
+        return "/members/login";
     }
 
     /**
