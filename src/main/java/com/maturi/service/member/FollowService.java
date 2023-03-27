@@ -39,19 +39,28 @@ public class FollowService {
     public List<MemberFollowResponse> selectFollowMembers(MemberFollowRequest memberFollowRequest, Long followMemberId){
         String follow = memberFollowRequest.getFollow();
         String keyword = memberFollowRequest.getKeyword();
+
         switch (follow){
-            case "follower":
-                List<MemberFollowResponse> followingMember = followQRepository.findByFollowerMember(followMemberId,keyword);
+            case "follower"://팔로워 버튼 클릭시
+                List<MemberFollowResponse> followingMember = followQRepository.findFollowings(followMemberId,keyword);
+                log.info("[FollowService] followingMember = {}",followingMember);
                 return followingMember;
-            case "following":
-                List<MemberFollowResponse> followerMembers = followQRepository.findByFollowingMemberId(followMemberId,keyword);
+            case "following"://팔로우 버튼 클릭시
+                List<MemberFollowResponse> followerMembers = followQRepository.findFollowers(followMemberId,keyword);
+                log.info("[FollowService] followerMembers = {}",followerMembers);
                 return followerMembers;
         }
         return null;
     }
 
     //유저(followerMember)가 다른 유저(followingMember)를 팔로우하는 메서드
-    public void following(Long followerMemberId, Long followingMemberId){
+    public boolean following(Long followerMemberId, Long followingMemberId){
+        boolean isFollowingMember = followQRepository.isFollowingMember(followerMemberId, followingMemberId);
+        log.info("isFollowingMember = {}",isFollowingMember);
+        if(isFollowingMember){
+            log.info("이미 팔로잉하고 있는 멤버입니다.");
+            return false;
+        }
         Member followerMember = memberRepository.findById(followerMemberId).orElseThrow(() ->
                 new IllegalArgumentException("맴버가 없습니다!"));
         Member followingMember = memberRepository.findById(followingMemberId).orElseThrow(() ->
@@ -62,6 +71,7 @@ public class FollowService {
                 .build();
         Follow savedFollow = followRepository.save(follow);
         log.info("savedFollow = {}",savedFollow);
+        return true;
     }
 
     //나의(followerMember) 팔로우(followingMember)를 취소 하는 메서드

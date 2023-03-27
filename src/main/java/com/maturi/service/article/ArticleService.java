@@ -14,6 +14,7 @@ import com.maturi.repository.article.like.LikeArticleRepository;
 import com.maturi.repository.article.restaurant.RestaurantRepository;
 import com.maturi.repository.article.tag.TagRepository;
 import com.maturi.repository.article.tag.TagValueRepository;
+import com.maturi.repository.member.FollowQuerydslRepository;
 import com.maturi.repository.member.MemberQuerydslRepository;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
@@ -45,6 +46,7 @@ public class ArticleService {
     final private TagRepository tagRepository;
     final private TagValueRepository tagValueRepository;
     final private LikeArticleRepository likeArticleRepository;
+    final private FollowQuerydslRepository followQRepository;
     final private FileStore fileStore;
     final private ArticleQuerydslRepository articleQRepository;
     final private MemberQuerydslRepository memberQRepository;
@@ -315,7 +317,9 @@ public class ArticleService {
         }
 
         int likeNum = likeArticleRepository.countByArticleId(article.getId());
-
+        Long articleMemberId = article.getMember().getId();
+        boolean isFollowingMember = followQRepository.isFollowingMember(memberId, articleMemberId);
+        log.info("isFollowingMember = {}",isFollowingMember);
         ArticleViewDTO articleViewDTO = ArticleViewDTO.builder()
                 .id(article.getId())
                 .content(article.getContent())
@@ -328,7 +332,9 @@ public class ArticleService {
                 .tags(tagName)
                 .like(likeNum)
                 .isLiked(this.isLikedArticle(article.getId(), memberId))
+                .isFollowingMember(isFollowingMember)
                 .build();
+
         return articleViewDTO;
     }
 

@@ -165,7 +165,6 @@ public class SNSService {
 
         // API로 받은 로그인 정보를 회원가입하기 위한 정보로 변환
         MemberSNSJoinDTO memberJoinDTO = modelMapper.map(memberLoginDTO,MemberSNSJoinDTO.class);
-
         // 비밀번호는 필요없음
 
         // 닉네임 난수 생성

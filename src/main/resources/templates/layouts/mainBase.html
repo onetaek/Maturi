@@ -146,20 +146,20 @@
         <form>
             <ul id="follow-box">
                 <div id="horizontal-under-line"></div>
-                <li class="follow-container">
+                <li class="follow-container follow-container-follower">
                     <label for="follower">팔로워</label>
-                    <input id="follower" name="follow" type="radio">
+                    <input id="follower" name="follow" type="radio" value="follower" checked>
                 </li>
-                <li class="follow-container">
+                <li class="follow-container follow-container-following">
                     <label for="following">팔로우</label>
-                    <input id="following" name="follow" type="radio">
+                    <input id="following" name="follow" value="following" type="radio">
                 </li>
             </ul>
             <div class="follow-search-box">
                 <button id="follow-search-btn" class="search-button"  type="button">
                     <ion-icon name="search"></ion-icon>
                 </button>
-                <input type="text" class="follow-search-input" placeholder="이름 또는 닉네임을 입력하시오...">
+                <input type="text" class="follow-search-input"  onkeyup="getFollows()" placeholder="이름 또는 닉네임을 입력하시오...">
             </div>
         </form>
             <ul id="follow-list">
@@ -205,7 +205,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/js/articles/scrollTop.js"></script>
 <script src="/js/articles/popup.js"></script>
-<script src="/js/articles/followPopup.js"></script>
+<script src="/js/followPopup.js"></script>
 <script src="/js/nsdiSearch.js"></script>
 <script src="/js/kakaoMapsSearch.js"></script>
 <script src="/js/reviewWriteBtn.js"></script>

@@ -43,7 +43,7 @@ public class TestController {
     }
     @GetMapping("/join")
     public String join(){
-        return "/member/join";
+        return "/members/join";
     }
     @GetMapping("/article")
     public String article(){

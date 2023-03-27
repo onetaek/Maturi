@@ -7,7 +7,7 @@ submitBtn.addEventListener("click", ()=>{
   if(emailConfirmCheck){
     // post 타입으로 submit
     joinForm.method = "post";
-    joinForm.action = "/member/join";
+    joinForm.action = "/members/join";
     joinForm.submit();
   }
 });

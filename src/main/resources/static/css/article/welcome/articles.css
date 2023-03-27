@@ -444,6 +444,7 @@ input[id='local']:checked+.radio-tile label{
     align-items: center;
     transition:0.2s;
     color:var(--ellipsis-text-color);
+    cursor: pointer;
 }
 .ellipsis-btn-wrap .active li > div:hover {
     transform: translateX(15px);
