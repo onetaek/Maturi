@@ -1,13 +1,34 @@
-#pwInquiryForm {}
-#pwInquiryForm .pw-header-wrap {
+#pwInquiryForm, #emailInquiryForm {}
+#pwInquiryForm .pw-header-wrap,
+#emailInquiryForm .email-header-wrap {
     text-align: center;
     margin: 20px 0;
 }
-#pwInquiryForm h2 {
+#pwInquiryForm h2,
+#emailInquiryForm h2{
     font-weight: 600;
     font-size: 24px;
 }
 
-#pwInquiryForm .not-active {
+#pwInquiryForm .not-active,
+#emailInquiryForm .not-active{
     display: none;
+}
+
+
+.contact-input-box{
+    display:flex;
+    align-items:end;
+}
+.sms-certification-btn{
+    font-size:0.8em;
+    width: 100px;
+    height:44px;
+    background: var(--pink-color);
+    border-radius:4px;
+    color:var(--white-color);
+    cursor:pointer;
+}
+.contact-input-box .inputBox{
+    margin-right:5px;
 }

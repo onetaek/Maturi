@@ -20,6 +20,10 @@
     padding: 5px 0;
     color: var(--white-color);
 }
+#detail-info .contact-verified {
+    background-color: var(--light-gray);
+    cursor: default;
+}
 #detail-info .active-btn {
     background-color: var(--search-btn-background);
 }

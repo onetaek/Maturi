@@ -261,10 +261,10 @@ public class MemberService {
    * @param tel (입력받은 휴대폰 번호)
    * @return boolean (이미 사용중이면 true)
    */
-  public boolean usedMemberTel(String tel) {
+  public Member usedMemberTel(String tel) {
     Member findMember = memberRepository.findByContact(tel);
 
-    return findMember != null;
+    return findMember;
   }
 
   public void registerMemberContact(Long memberId, String contact) {

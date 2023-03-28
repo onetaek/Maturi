@@ -46,7 +46,7 @@ function sendSMS(btnType){
   }).then(response => {
     // http 응답 코드에 따른 메세지 출력
     if(response.status == 200){
-      if(btnType == "send"){ // 문자 송신 이벤트일 때
+      if(btnType == "send"){ // 문자 전송 이벤트일 때
         alert("인증 문자가 전송됐습니다.");
         authNumCheck(); // 폼 변경
       } else if(btnType == "confirm"){

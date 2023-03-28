@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -83,7 +84,7 @@ public class MemberAPIController {
     String tel = map.get("tel");
 
     try { // 이미 가입된 전화번호가 있으면 ...
-      if(memberService.usedMemberTel(tel)){
+      if(memberService.usedMemberTel(tel) != null){
         return ResponseEntity.status(HttpStatus.IM_USED).build();
       }
     } catch (Exception e) {
@@ -193,5 +194,55 @@ public class MemberAPIController {
     log.info("emailConfirm Number = {}", confirm);
 
     return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  @PostMapping("/help/emailInquiry/sms/send") // 회원 정보에 저장된 폰 번호에 인증 문자 보내기
+  public ResponseEntity memberPhoneAuth(@RequestBody Map<String, String> map,
+                                  HttpServletRequest request) {
+    // 입력받은 폰번호
+    String tel = map.get("tel");
+
+    // 폰번호와 일치하는 회원 찾기
+    Member findMember = memberService.usedMemberTel(tel);
+    if(findMember == null){ // 일치하는 회원 없는 경우 ..
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    } else if(findMember.getEmail().contains("@k.com") ||
+            findMember.getEmail().contains("@n.com")){ // 소셜 로그인이면
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    // 메세지 보내기
+    String code = smsService.sendRandomMessage(tel);
+
+    HttpSession session = request.getSession();
+    session.setAttribute("rand", code); // 세션에 인증번호 저장
+
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  @PostMapping("/help/emailInquiry/sms/confirm") // 인증번호 확인
+  public ResponseEntity<Map<String, String>> memberPhoneAuthOk(@RequestBody Map<String, String> map,
+                                    HttpServletRequest request) {
+    HttpSession session = request.getSession();
+    String rand = (String) session.getAttribute("rand");
+    String code = map.get("authCode");
+    String contect = map.get("tel");
+
+    System.out.println(rand + " : " + code);
+
+    Map<String, String> emailMap = new HashMap<>();
+    if (rand.equals(code)) { // 문자 인증 성공!!!
+      // 폰번호와 일치하는 회원 찾기
+      Member findMember = memberService.usedMemberTel(contect);
+
+      // 전송할 이메일 정보 저장
+      emailMap.put("email", findMember.getEmail());
+
+      session.removeAttribute("rand"); // 세션 값 지우기
+      return ResponseEntity.status(HttpStatus.OK).body(emailMap);
+    }
+
+    // 문자 인증 실패 ... (인증 번호 불일치)
+    return ResponseEntity.status(HttpStatus.OK).body(emailMap);
   }
 }

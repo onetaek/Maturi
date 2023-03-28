@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/introBase}">
+<head>
+  <title>아이디 찾기</title>
+  <link rel="stylesheet" href="/css/member/join/join.css"/>
+  <link rel="stylesheet" href="/css/member/help/pwInquiry.css"/>
+</head>
+<body>
+<div layout:fragment="main" id="wrap">
+  <section class="section-wrap">
+    <div class="login-form">
+      <form name="foundEmail" id="emailInquiryForm">
+        <h1><a href="/static"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
+        <div class="email-header-wrap">
+          <h2>아이디를 잊어버리셨나요?</h2>
+          <p>해당 휴대폰 번호로 가입된 이메일입니다.</p>
+        </div>
+
+        <div class="contact-input-box">
+          <div class="inputBox">
+            <h4 th:text="${email}">휴대폰 번호</h4>
+          </div>
+        </div>
+
+        <input type="button" name="goLoginPageBtn" value="로그인 페이지로 돌아가기"/>
+      </form>
+
+    </div>
+  </section>
+</div>
+
+<th:block layout:fragment="scripts">
+  <script src="/js/members/help/foundEmail.js"></script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/introBase}">
+<head>
+  <title>아이디 찾기</title>
+  <link rel="stylesheet" href="/css/member/join/join.css"/>
+  <link rel="stylesheet" href="/css/member/help/pwInquiry.css"/>
+</head>
+<body>
+<div layout:fragment="main" id="wrap">
+  <section class="section-wrap">
+    <div class="login-form">
+      <form name="emailInquiryForm" id="emailInquiryForm">
+        <h1><a href="/static"><img src="/img/logo/logo.png" alt="maturi"/></a></h1>
+        <div class="email-header-wrap">
+          <h2>아이디를 잊어버리셨나요?</h2>
+          <p>휴대폰 문자 인증을 통해 아이디를 찾을 수 있습니다.</p>
+        </div>
+
+        <div class="contact-input-box">
+          <div class="inputBox">
+            <input type="text" name="contact" minlength="11" maxlength="12" required >
+            <span>휴대폰 번호</span>
+            <i></i>
+          </div>
+          <button class="sms-certification-btn email-send-btn">인증코드 받기</button>
+          <input type="hidden">
+        </div>
+
+        <div class="email-input-box">
+          <div class="inputBox">
+            <input  type="text" name="authCode" required >
+            <span>인증 번호</span>
+            <i class="confirmWrap"></i>
+          </div>
+        </div>
+        <input type="hidden" name="email">
+        <input type="button" name="submitBtn" value="이메일 찾기"/>
+      </form>
+
+    </div>
+  </section>
+</div>
+
+<th:block layout:fragment="scripts">
+  <script src="/js/members/help/emailInquiry.js"></script>
+</th:block>
+</body>
+</html>

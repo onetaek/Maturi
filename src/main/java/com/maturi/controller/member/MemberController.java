@@ -209,7 +209,7 @@ public class MemberController {
 
   @GetMapping("/help/passwd") // 비밀번호 찾기
   public String pwInquiry(){
-    return "/members/pwInquiry";
+    return "/members/help/pwInquiry";
   }
 
   @PostMapping("/help/passwd") // 비밀번호 찾기 -> 변경
@@ -234,4 +234,15 @@ public class MemberController {
   }
 
 
+  @GetMapping("/help/email")
+  public String emailInquiry(){
+    return "/members/help/emailInquiry";
+  }
+
+  @PostMapping("/help/email")
+  public String foundEmailPage(@RequestParam String email,
+                               Model model){
+    model.addAttribute("email", email);
+    return "/members/help/foundEmail";
+  }
 }
