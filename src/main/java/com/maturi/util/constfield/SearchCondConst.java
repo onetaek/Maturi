@@ -6,7 +6,6 @@ public class SearchCondConst {
     public final static String follow = "follow";
     public final static String like = "like";
     public final static String NULL = "NULL";
-
     public final static String interestArea = "interLocal";
     public final static String myLocation = "myLocal";
     public final static String restaurantCategory = "category";

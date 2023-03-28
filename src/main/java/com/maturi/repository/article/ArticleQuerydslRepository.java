@@ -24,8 +24,6 @@ import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.*;
 import static com.maturi.util.constfield.LocationConst.kmToLat;
-import static com.maturi.util.constfield.PagingConst.*;
-
 @RequiredArgsConstructor
 @Repository
 public class ArticleQuerydslRepository {

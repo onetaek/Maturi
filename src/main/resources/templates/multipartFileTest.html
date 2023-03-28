@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<style>
+.preView{
+    background:center center / cover;
+    width:500px;
+    height:500px;
+}
+</style>
+<body>
+
+<div>
+    <label for="file">파일</label>
+    <input type="file" id="file" multiple name="file">
+    <button id="btn_submit" onclick="javascript:fn_submit()">전송</button>
+</div>
+
+<div>
+    <div class="img_wrap">
+    </div>
+</div>
+<input type="file" id="myFile" multiple name="hiddenFile">
+<script type="text/javascript">
+    function myCreateElement(html){
+        const template = document.createElement("template");
+        template.innerHTML = html.trim();
+        return template.content.firstElementChild;
+    }
+
+    $(document).ready(function() {
+        $("#file").on("change", handleImgFileSelect);
+    });
+
+    function handleImgFileSelect(e) {
+        let isFiles = true;
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+        filesArr.forEach(function(file){
+            if (!file.type.match(reg)) {
+                alert("확장자는 이미지 확장자만 가능합니다.");
+                isFiles = false;
+            }
+        })
+        if(isFiles === false){
+            return;
+        }
+        const dataTransfer = new DataTransfer();
+        let pastFiles = Array.from($('#myFile')[0].files);//원래있던 파일들
+        pastFiles.forEach(f =>{
+            dataTransfer.items.add(f);
+        })
+        let newFiles = Array.from(files);//새롭게 추가할 파일들
+        newFiles.forEach(f =>{
+            dataTransfer.items.add(f);
+        })
+        $('#myFile')[0].files = dataTransfer.files;//원래있던 파일들 + 새롭게 추가할 파일들
+
+        console.log("myfiles",$('#myFile')[0].files);
+
+        var filesArr = Array.prototype.slice.call(files);
+        var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+        filesArr.forEach(function(file) {
+
+            console.log("파일의 크기",file.size);
+            if (!file.type.match(reg)) {
+                alert("확장자는 이미지 확장자만 가능합니다.");
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // let li = document.createElement("li");
+                // let img = document.createElement("img");
+                // let deleteBtn = myCreateElement(`<button onclick="removePreview(this);">삭제</button>`)
+                // img.setAttribute("src", e.target.result);
+                // li.appendChild(img);
+                // li.appendChild(deleteBtn);
+
+                 let html = ``;
+                html += `<li class="preView" style="background-image:url(${e.target.result})"><button onclick="removePreview(this);">삭제</button></li>`;
+                let element = myCreateElement(html);
+
+                document.querySelector(".img_wrap").appendChild(element);
+            }
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function removePreview(obj){
+        console.log("obj",obj);
+        //현재 버튼(obj)의 상위 요소 중 가장 가까운 div 요소를 찾음
+        //div는 선택한 파일 목록을 보여주는 부분
+        const div = $(obj).closest('div');
+        console.log("파일 목록을 보여주는 부분(div)",div);
+        const parent = $(obj).closest('li');
+        console.log("삭제할 요소",parent);
+
+
+        //div에서 'button' 태그 중 현재 버튼(obj)의 index가 몇 번째인지 확인
+        //0부터 시작
+        const index = div.find('button').index(obj);
+        console.log("몇번째 버튼인지",index);
+
+        const dataTransfer = new DataTransfer();
+        let files = $('#myFile')[0].files;	//사용자가 입력한 파일을 변수에 할당
+        let fileArray = Array.from(files);	//변수에 할당된 파일을 배열로 변환(FileList -> Array)
+        console.log("0번쨰 친구",fileArray[1]);
+        console.log("0번쨰 친구 크기",fileArray[1].size);
+        fileArray.splice(index, 1);	//해당하는 index의 파일을 배열에서 제거
+        fileArray.forEach(file => { dataTransfer.items.add(file);});//남은 배열을 dataTransfer로 처리(Array -> FileList)
+
+        $('#myFile')[0].files = dataTransfer.files;	//제거 처리된 FileList를 돌려줌
+
+        console.log("삭제 처리가 완료된 input값",$('#myFile')[0].files);
+
+        parent.remove();
+    }
+</script>
+<script>
+    //파일 업로드
+    function fn_submit(){
+
+        var form = new FormData();
+        form.append( "file", $("#file")[0].files[0] );
+
+        jQuery.ajax({
+            url : "/myapp/result"
+            , type : "POST"
+            , processData : false
+            , contentType : false
+            , data : form
+            , success:function(response) {
+                alert("성공하였습니다.");
+                console.log(response);
+            }
+            ,error: function (jqXHR)
+            {
+                alert(jqXHR.responseText);
+            }
+        });
+    }
+</script>
+</body>
+</html>

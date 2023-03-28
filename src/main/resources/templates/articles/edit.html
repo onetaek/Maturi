@@ -11,7 +11,6 @@
     <h2>리뷰 쓰기</h2>
     <form name="writeForm" id="writeForm" enctype="multipart/form-data" th:attr="data-articleid=${article.id}">
       <div class="inputBox imageBox">
-        <!--        <button type="button" data-name="image">사진</button>-->
         <span>사진</span>
         <input type="file" name="image" multiple="multiple">
       </div>
@@ -35,7 +34,7 @@
   </div>
 
 <th:block layout:fragment="scripts">
-  <script src="/js/articles/article/write.js"></script>
+  <script src="/js/articles/article/write/write.js"></script>
   <script src="/js/articles/article/editWriteForm.js"></script>
 
 </th:block>

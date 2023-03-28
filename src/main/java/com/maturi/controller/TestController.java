@@ -72,4 +72,9 @@ public class TestController {
         model.addAttribute("test","도레미파");
         return "/error/test";
     }
+
+    @GetMapping("/multipart")
+    public String multipart(){
+        return "/multipartFileTest";
+    }
 }

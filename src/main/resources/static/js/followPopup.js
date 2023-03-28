@@ -19,6 +19,7 @@ followMenu.forEach((menu) =>
     horizontalIndicator(e))
 );
 
+//메뉴버튼 아래 따라다니는 선들
 function horizontalIndicator(e){
     horizontalUnderLine.style.left = e.currentTarget.offsetLeft + "px";
     horizontalUnderLine.style.width = e.currentTarget.offsetWidth + "px";
