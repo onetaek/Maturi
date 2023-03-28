@@ -71,7 +71,7 @@ function searchArticleAjax(obj){
             articleHtml += `<li class="article-wrap article-wrap${article.id}" data-articleid=${article.id}>
                 <!--    글쓴이 정보 -->
                 <div class="writerInfo">
-                    <p class="writerProfileImg">`
+                    <a class="writerProfileImg" href="/members/${article.memberId}">`
                 if(article.profileImg == null || article.profileImg === ""){
                     articleHtml += `<img src="/img/profileImg/default_profile.png" alt="프로필 이미지">`
                 }else if(article.profileImg.includes("http")){
@@ -79,12 +79,12 @@ function searchArticleAjax(obj){
                 }else{
                     articleHtml += `<img src="/test/file/${article.profileImg}" alt="프로필 이미지">`
                 }
-            articleHtml +=`</p>
+            articleHtml +=`</a>
                     <div class="user-info">
-                        <div class="writer-name">
+                        <a class="writer-name" href="/members/${article.memberId}">
                             <span class="writerNickName">${article.nickName}</span>
-                            <span class="writerName">(${article.name})</span>
-                        </div>
+                            (<span class="writerName">${article.name}</span>)
+                        </a>
                         <span class="writtenAt">${article.modifiedDate}</span>
                     </div>
                 </div>

@@ -1,4 +1,3 @@
-console.log("articleListImg");
 
 function articleListImgStyle(){
   const bImgUl_list = document.querySelectorAll(".bImg");
@@ -23,6 +22,6 @@ function articleListImgStyle(){
         bImgLi.style.height = "50%";
       })
     }
-    imgRatio(ul);
+    // imgRatio(ul);
   });
 }
