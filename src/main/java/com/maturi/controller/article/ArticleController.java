@@ -103,6 +103,9 @@ public class ArticleController {
         }
 
         String referer = request.getHeader("Referer");
+        if(referer.contains("/articles/")){
+            return "redirect:/articles";
+        }
         return "redirect:" + referer;
     }
 

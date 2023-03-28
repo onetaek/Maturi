@@ -3,6 +3,7 @@ package com.maturi.api.article;
 import com.maturi.dto.article.ArticleCommentDTO;
 import com.maturi.repository.article.CommentRepository;
 import com.maturi.service.article.CommentService;
+import com.maturi.service.article.ReportService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +23,8 @@ import java.util.Map;
 @RequestMapping("/api")
 @RestController
 public class CommentAPIController {
-  private final CommentRepository commentRepository;
-
   private final CommentService commentService;
+  final private ReportService reportService;
 
   @PostMapping("/articles/{article_id}/comment")///api/article/{article_id}/comment 게시글 하나의 작성요청
   public ResponseEntity<List<ArticleCommentDTO>> write(@Login Long memberId,
@@ -88,5 +88,22 @@ public class CommentAPIController {
     result.put("isLiked", isLiked);
     result.put("likeNum", likeNum);
     return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @PostMapping("/comment/{id}/report")
+  public ResponseEntity reportComment(@Login Long memberId,
+                                      @PathVariable Long id){
+
+    boolean status = commentService.commentStatusNormal(id); // 댓글 활성화상태인지 체크
+    if(!status){ // 댓글 비활성화 상태
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // 댓글 신고 (이미 해당 회원이 신고한 내역 있음 -> false)
+    boolean isNewReport = reportService.reportComment(memberId, id);
+    log.info("isNewReport?? " + isNewReport);
+    return isNewReport?
+            ResponseEntity.status(HttpStatus.OK).build() : // 신고 성공
+            ResponseEntity.status(HttpStatus.IM_USED).build(); // 이미 신고한 글
   }
 }

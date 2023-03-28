@@ -55,6 +55,7 @@
             <button class="detail-info-button active-btn">인증하기</button>
           </td>
         </tr>
+        <th:block th:if="${!#strings.equals(memberDetailInfo.email, 'KAKAO Login') && !#strings.equals(memberDetailInfo.email, 'NAVER Login')}">
         <tr>
           <th class="info-list">비밀번호</th>
           <td class="info-value"></td>
@@ -62,6 +63,7 @@
             <button class="detail-info-button active-btn change-passwd">변경하기</button>
           </td>
         </tr>
+        </th:block>
         <tr>
           <th class="info-list"></th>
           <td class="info-value"></td>

@@ -177,13 +177,14 @@ public class ArticleService {
         String msg = null;
 
         // 조건 : id + NORMAL or REPORT
-//        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
+
+        log.info("delete request... findArticle = {}", findArticle);
 
         if(findArticle == null){
 //            msg = "게시글 삭제 실패! 해당 게시물을 찾을 수 없습니다!";
             msg = MessageConst.NOT_FOUND;
-        } else if(!Objects.equals(findArticle.getMember().getId(), memberId)){
+        } else if(!findArticle.getMember().getId().equals(memberId)){
 //            msg = "게시글 삭제 실패! 게시글 작성자가 아닙니다!";
             msg = MessageConst.NO_PERMISSION;
         } else { // 게시글 삭제 성공

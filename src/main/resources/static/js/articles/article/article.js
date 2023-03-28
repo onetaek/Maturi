@@ -96,9 +96,9 @@ likeBtn.addEventListener("click", ()=>{
   })
 });
 
-/* 게시글 삭제 */
-const deleteForm = document.deleteForm;
-const deleteBtn = document.querySelector(".deleteArticle");
-deleteBtn.addEventListener("click", ()=>{
-  deleteForm.submit();
-})
+// /* 게시글 삭제 */
+// const deleteForm = document.deleteForm;
+// const deleteBtn = document.querySelector(".deleteArticle");
+// deleteBtn.addEventListener("click", ()=>{
+//   deleteForm.submit();
+// })

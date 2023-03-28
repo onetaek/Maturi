@@ -4,6 +4,7 @@ import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.service.article.ArticleService;
+import com.maturi.service.article.ReportService;
 import com.maturi.service.article.RestaurantService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Map;
 @RequestMapping("/api/articles")
 public class ArticleAPIController {
   final private ArticleService articleService;
+  final private ReportService reportService;
 
 
   @PostMapping("/{id}/like")
@@ -66,6 +68,23 @@ public class ArticleAPIController {
   }
 
 
+  @PostMapping("/{id}/report")
+  public ResponseEntity reportArticle(@Login Long memberId,
+                                      @PathVariable Long id){
+
+    boolean status = articleService.articleStatusNormal(id); // 게시글 활성화상태인지 체크
+    if(!status){ // 게시글 비활성화 상태
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    // 게시글 신고 (이미 해당 회원이 신고한 내역 있음 -> false)
+    boolean isNewReport = reportService.reportArticle(memberId, id);
+    log.info("isNewReport?? " + isNewReport);
+    return isNewReport?
+            ResponseEntity.status(HttpStatus.OK).build() : // 신고 성공
+            ResponseEntity.status(HttpStatus.IM_USED).build(); // 이미 신고한 글
+
+  }
 
 }
 

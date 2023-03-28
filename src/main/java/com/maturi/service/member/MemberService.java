@@ -54,9 +54,13 @@ public class MemberService {
   public Member login(MemberLoginDTO memberLoginDTO) {
       String email = memberLoginDTO.getEmail();
       Member findMemberByEmail = memberRepository.findByEmail(email);
+
+      if(findMemberByEmail == null){ // 해당되는 아이디 없으면 ..
+        return null;
+      }
+
       String salt = findMemberByEmail.getSalt();
 
-      String passwd = memberLoginDTO.getPasswd();
       /* 비밀번호 암호화 */
       PasswdEncry passwdEncry = new PasswdEncry();
 
@@ -185,7 +189,16 @@ public class MemberService {
     Member findMember = memberRepository.findById(memberId).orElseThrow(()->
             new IllegalArgumentException("맴버가 없습니다!"));
 
-    return modelMapper.map(findMember, MemberDetailDTO.class);
+    MemberDetailDTO memberDetailDTO = modelMapper.map(findMember, MemberDetailDTO.class);
+
+    // 소셜 로그인 => 해당 SNS명을 저장
+    if(memberDetailDTO.getEmail().contains("@k.com")){ // 카카오 로그인
+      memberDetailDTO.setEmail("KAKAO Login");
+    } else if(memberDetailDTO.getEmail().contains("@n.com")){ // 네이버 로그인
+      memberDetailDTO.setEmail("NAVER Login");
+    }
+
+    return memberDetailDTO;
   }
 
   public Member passwdCheck(Long memberId, String passwd) {

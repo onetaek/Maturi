@@ -4,6 +4,9 @@ let modalStatus = false;
 const detailTable = document.getElementById("detail-info");
 const detailModalForm = document.modalForm;
 const detailModalFormWrap = detailModalForm.querySelector(".password-wrap");
+
+// 소셜 로그인 확인을 위한 이메일 value
+const emailValue = detailTable.querySelector(".email-value").innerText;
 detailModalForm.passwd.addEventListener("keydown", (e)=>{ // 엔터의 원래 이벤트 방지
   if( window.event.keyCode == 13 ){
     e.preventDefault();
@@ -29,12 +32,11 @@ function newPasswd(){
 
 /* 회원탈퇴 클릭 */
 const detailModal = document.getElementById("detail-page-modal");
-const emailValue = detailTable.querySelector(".email-value").innerText;
 const withdrawalBtn = detailTable.querySelector(".withdrawal-btn");
 
 withdrawalBtn.addEventListener("click", ()=>{
   // 소셜 로그인 -> 바로 회원 탈퇴
-  if(emailValue.includes("@k.com") || emailValue.includes("@n.com")){
+  if(emailValue =="KAKAO Login" || emailValue =="NAVER Login"){
     withdrawalAction(); // 회원탈퇴
   } else { // 사용자 비번 확인하기
     let buttonTamp = `<button type="button" class="withdrawal-submit-btn">탈퇴하기</button>`;

@@ -128,7 +128,7 @@ function searchArticleAjax(obj){
                         }else{//팔로잉을 하지 않고있는 유저 -> 팔로잉 버튼 출력
                             articleHtml += `<li class="followingBtnWrap${article.id}"><div onclick="following(${article.id},${article.memberId},'${article.nickName}')"><ion-icon name="person-add-outline"></ion-icon><span>팔로잉</span></div></li>`
                         }
-                        articleHtml += `<li><div><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>`;
+                        articleHtml += `<li><div onclick="reportArticle(${article.id})"><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>`;
                     }
                articleHtml+=`</ul>
                 </div>

@@ -4,7 +4,6 @@ function articleListImgStyle(){
   const bImgUl_list = document.querySelectorAll(".bImg");
   bImgUl_list.forEach(ul => {
     const bImgLis = ul.querySelectorAll("li");
-    console.log("size : " + bImgLis.length);
     if(bImgLis.length > 1){ // 이미지 2개 이상
       ul.style.backgroundColor = "unset";
       if(bImgLis.length > 4){ // 이미지 4개 이상

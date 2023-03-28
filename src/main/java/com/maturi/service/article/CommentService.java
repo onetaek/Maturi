@@ -7,6 +7,7 @@ import com.maturi.entity.article.CommentStatus;
 import com.maturi.entity.article.LikeComment;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.ArticleRepository;
+import com.maturi.repository.article.CommentQuerydslRepository;
 import com.maturi.repository.article.CommentRepository;
 import com.maturi.repository.article.like.LikeCommentRepository;
 import com.maturi.repository.member.MemberRepository;
@@ -27,6 +28,7 @@ public class CommentService {
   final private MemberRepository memberRepository;
   final private ArticleRepository articleRepository;
   final private CommentRepository commentRepository;
+  final private CommentQuerydslRepository commentQRepository;
   final private LikeCommentRepository likeCommentRepository;
   public Comment write(Long memberId, Long articleId, String commentBody) {
     Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
@@ -46,7 +48,7 @@ public class CommentService {
   }
 
   public List<ArticleCommentDTO> articleComment(Long memberId, Long articleId) {
-    List<Comment> comments = commentRepository.findByArticleIdAndStatusOrderByIdDesc(articleId, CommentStatus.NORMAL);
+    List<Comment> comments = commentQRepository.findByArticleIdAndStatusOrderByIdDesc(articleId);
     log.info("Comments = {}", comments);
 
     List<ArticleCommentDTO> commentDTOList = new ArrayList<>();
@@ -100,7 +102,7 @@ public class CommentService {
   public String delete(Long memberId, Long commentId) {
     String msg = null;
 
-    Comment findComment = commentRepository.findByIdAndStatus(commentId, CommentStatus.NORMAL);
+    Comment findComment = commentQRepository.findByIdAndStatus(commentId);
     if(findComment == null){
       msg = "댓글 삭제 실패! 해당 댓글이 존재하지 않습니다!";
     } else if(!Objects.equals(findComment.getMember().getId(), memberId)){
@@ -117,7 +119,7 @@ public class CommentService {
   public String modify(Long memberId, Long commentId, String commentBody) {
     String msg = null;
 
-    Comment findComment = commentRepository.findByIdAndStatus(commentId, CommentStatus.NORMAL);
+    Comment findComment = commentQRepository.findByIdAndStatus(commentId);
     log.info("findComment = {}" + findComment);
 
     if(findComment == null){
@@ -133,5 +135,12 @@ public class CommentService {
     return msg;
   }
 
+  public boolean commentStatusNormal(Long commentId) {
+    Comment findComment = commentQRepository.findByIdAndStatus(commentId);
+
+    log.info("findComment by Status = {}", findComment);
+
+    return findComment != null;
   }
+}
 

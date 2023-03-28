@@ -119,10 +119,10 @@ function myPageArticleAjax(obj){
         /* 작성자 = 로그인 회원 확인해서 버튼 매칭 */
         if(article.memberId == memberId){
           articleHtml +=
-            `<li><a href="/articles/${article.id}/edit">게시글 수정</a></li>
-            <li><a href="#" onclick="deleteArticle(${article.id})">게시글 삭제</a></li>`
+            `<li><div><ion-icon name="git-compare-outline"></ion-icon><a href="/articles/${article.id}/edit">게시글 수정</a></div></li>
+            <li><div><ion-icon name="trash-outline"></ion-icon><a href="#" onclick="deleteArticle(${article.id})">게시글 삭제</a></div></li>`
         } else {
-          articleHtml += `<li><a href="#">신고하기</a></li>`
+          articleHtml += `<li><div onclick="reportArticle(${article.id})"><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>`
         }
 
         articleHtml += `</ul>
@@ -180,8 +180,6 @@ function myPageArticleAjax(obj){
         //좋아요 클릭 이벤트를 적용해준다.
         const ellipsisBtn = document.querySelector(`.ellipsis-btn${article.id}`);
         const ellipsisContent = document.querySelector(`.ellipsis-content${article.id}`);
-        console.log(ellipsisBtn);
-        console.log(ellipsisContent);
         ellipsisBtn.addEventListener("click",function(){
           ellipsisContent.classList.toggle("active");
         });
@@ -198,6 +196,11 @@ function myPageArticleAjax(obj){
     })
 }
 
+function myCreateElement(html){
+  const template = document.createElement("template");
+  template.innerHTML = html.trim();
+  return template.content.firstElementChild;
+}
 
 //json에 값을 전달할 때 unfined,null처리
 function _fnToNull(data) {

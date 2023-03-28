@@ -11,13 +11,18 @@
 
 <div layout:fragment="main" id="wrap">
     <script th:inline="javascript">
-        let message = [[${successMassage}]];
-        console.log(message);
-        if(message != null && message == "unregister"){
-            alert("회원탈퇴가 완료되었습니다.");
+        let successMsg = [[${successMassage}]];
+        if(successMsg != null){
+            if(successMsg == "unregister"){
+                alert("회원탈퇴가 완료되었습니다.");
+            }
+            if(successMsg == "passwdChange"){
+                alert("비밀번호가 변경되었습니다.");
+            }
         }
-        if(message != null && message == "passwdChange"){
-            alert("비밀번호가 변경되었습니다.");
+
+        let errorMsg = [[${errorMessage}]];
+        if(errorMsg != null){
         }
     </script>
 

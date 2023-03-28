@@ -52,9 +52,13 @@
             <form th:action="|/articles/${article.id}|" th:method="delete" name="deleteForm"></form>
             <ul class="ellipsis-content">
                 <li th:if="${article.memberId == member.id}"><a th:href="|/articles/${article.id}/edit|">게시글 수정</a></li>
-                <li th:if="${article.memberId == member.id}"><a href="#" class="deleteArticle">게시글 삭제</a></li>
-                <li th:unless="${article.memberId == member.id}"><a href="#">신고하기</a></li>
+                <li th:if="${article.memberId == member.id}"><div><ion-icon name="trash-outline"></ion-icon><a href="#" th:articleId="${article.id}" th:onclick="deleteArticle(this.getAttribute('articleId'))">게시글 삭제</a></div></li>
+                <li th:unless="${article.memberId == member.id}"><div th:articleId="${article.id}" th:onclick="reportArticle(this.getAttribute('articleId'))"><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>
             </ul>
+            <!--form에서 method:delete방식으로 전송하기 위한 방법-->
+            <form name="articleUpdateForm" method="post">
+                <input type="hidden" name = "_method" value = "delete"/>
+            </form>
         </div>
     </div>
     <!--      음식점 정보 -->
@@ -63,7 +67,7 @@
         <div class="restaurantInfo">
             <h4 class="rTitleWrap">
                 <span class="rTitle" th:text="${restaurant.name}">음식점명</span>
-                <span class="rSearch">리뷰 검색</span>
+                <a class="rSearch" th:href="|/articles?restaurantName=${restaurant.name}|">리뷰 검색</a>
             </h4>
             <p class="rOldAddress">주소 : <span th:text="${restaurant.oldAddress}"></span></p>
             <p class="rAddress">도로명 주소 : <span th:text="${restaurant.address}"></span></p>
@@ -97,9 +101,9 @@
                             <span class="replyBtn">답글 달기</span>
                         </p>
                         <span class="likeWrap">
-                          <span class="likeBtn isLikedArticle" th:if="${comment.liked}">좋아요</span>
+                          <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>
                           <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>
-                          <span class="likeNum" th:text="${comment.isLiked()}">20</span>
+                          <span class="likeNum" th:text="${comment.like}">20</span>
                         </span>
                         <div class="ellipsis-btn-wrap">
                             <span class="ellipsis-btn">
@@ -108,7 +112,7 @@
                             <ul class="ellipsis-content">
                                 <li th:if="${comment.memberId == member.id}"><a href="#" class="commentModify">댓글 수정</a></li>
                                 <li th:if="${comment.memberId == member.id}"><a href="#" class="commentDelete">댓글 삭제</a></li>
-                                <li th:unless="${comment.memberId == member.id}"><a href="#">신고하기</a></li>
+                                <li th:unless="${comment.memberId == member.id}"><div th:commentId="${comment.id}" th:onclick="reportComment(this.getAttribute('commentId'))"><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>
                             </ul>
                         </div>
                     </div>
@@ -123,6 +127,8 @@
 <th:block layout:fragment="scripts">
     <script src="/js/articles/article/articleImgRatio.js"></script>
     <script src="/js/articles/article/article.js"></script>
+    <script src="/js/articles/welcome/followAndDelete.js"></script>
+    <script src="/js/articles/article/report.js"></script>
     <script src="/js/articles/article/comment.js"></script>
     <script src="/js/articles/articleMap.js"></script>
 </th:block>

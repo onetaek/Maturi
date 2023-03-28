@@ -82,6 +82,7 @@ public class MemberController {
           BindingResult bindingResult,
           @RequestParam(defaultValue = "/") String redirectURL,
           HttpServletRequest request,
+          RedirectAttributes redirectAttributes,
           Model model){
 
     //검증에 실패하면 다시 입력 폼으로

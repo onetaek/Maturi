@@ -120,6 +120,9 @@
 .ellipsis-btn-wrap .ellipsis-content{
     display: none;
 }
+.ellipsis-content a {
+    cursor: pointer;
+}
 .ellipsis-btn-wrap .active{
     display: flex;
     background: #FFFFFF;
