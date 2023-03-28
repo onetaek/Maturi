@@ -52,7 +52,7 @@
           <th class="info-list">휴대폰 번호</th>
           <td class="info-value" th:text="${memberDetailInfo.contact}"></td>
           <td>
-            <button class="detail-info-button active-btn">인증하기</button>
+            <button class="detail-info-button active-btn sms-auth-Btn">인증하기</button>
           </td>
         </tr>
         <th:block th:if="${!#strings.equals(memberDetailInfo.email, 'KAKAO Login') && !#strings.equals(memberDetailInfo.email, 'NAVER Login')}">
@@ -77,22 +77,37 @@
 
 
 </main>
-<!--  Modal -->
-<div  layout:fragment="modal" id="detail-page-modal" class="not-active">
+<!--  비밀번호 관련 Modal -->
+<div  layout:fragment="modal" id="detail-page-modal" class="not-active detail-page-modal">
   <form name="modalForm">
-    <div class="password-wrap">
+    <div class="password-wrap detail-modal-wrap">
       <label>비밀번호 확인</label>
-      <input type="password" name="passwd" class="passwd" placeholder="비밀번호">
+      <input type="password" name="passwd" class="passwd detail-modal-input" placeholder="비밀번호">
     </div>
   </form>
   <div class="popup-close-btn-wrap">
     <ion-icon class="popup-close-btn withdrawal-close-btn" name="close-circle-outline"></ion-icon>
   </div>
 </div>
+<!-- 휴대폰 번호 관련 Modal -->
+<div  layout:fragment="modal_2" id="detail-page-modal-2" class="not-active detail-page-modal">
+  <form name="smsAuthForm">
+    <div class="sms-wrap detail-modal-wrap">
+      <label>문자 인증</label>
+      <input type="text" name="tel" class="numInput detail-modal-input" placeholder="번호 입력(-없이 입력)" maxlength="11">
+      <input type="text" name="authCode" class="numInput detail-modal-input not-active" placeholder="인증 번호 입력" maxlength="6">
+    </div>
+  </form>
+  <div class="popup-close-btn-wrap">
+    <ion-icon class="popup-close-btn smsModal-close-btn" name="close-circle-outline"></ion-icon>
+  </div>
+</div>
 
 <th:block layout:fragment="scripts">
   <script src="/js/members/myPage/myPage.js"></script>
   <script src="/js/members/myPage/myPageDetail.js"></script>
+  <script src="/js/members/myPage/changePW.js"></script>
+  <script src="/js/members/myPage/smsAuth.js"></script>
 </th:block>
 </body>
 </html>

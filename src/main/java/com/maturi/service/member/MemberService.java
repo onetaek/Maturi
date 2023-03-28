@@ -256,4 +256,22 @@ public class MemberService {
   }
 
 
+  /**
+   * 이미 사용중인 휴대폰 번호인지 확인
+   * @param tel (입력받은 휴대폰 번호)
+   * @return boolean (이미 사용중이면 true)
+   */
+  public boolean usedMemberTel(String tel) {
+    Member findMember = memberRepository.findByContact(tel);
+
+    return findMember != null;
+  }
+
+  public void registerMemberContact(Long memberId, String contact) {
+    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+            new IllegalArgumentException("맴버가 없습니다!"));
+
+    findMember.changeContact(contact); // 폰 번호 저장
+    memberRepository.save(findMember); // db 업데이트
+  }
 }

@@ -1,6 +1,5 @@
 package com.maturi.controller.member;
 
-import com.maturi.dto.member.MemberDetailDTO;
 import com.maturi.dto.member.MemberEditMyPageDTO;
 import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberLoginDTO;
@@ -11,10 +10,8 @@ import com.maturi.service.member.MemberService;
 import com.maturi.util.argumentresolver.Login;
 import com.maturi.util.constfield.MessageConst;
 import com.maturi.util.validator.MemberValidator;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.NO_PERMISSION;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

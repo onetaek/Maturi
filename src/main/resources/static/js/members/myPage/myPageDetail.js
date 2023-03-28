@@ -12,14 +12,6 @@ detailModalForm.passwd.addEventListener("keydown", (e)=>{ // 엔터의 원래 �
     e.preventDefault();
   }
 });
-/* 비밀번호 변경 */
-const changePwBtn = detailTable.querySelector(".change-passwd");
-changePwBtn.addEventListener("click", ()=>{
-  let buttonTamp = `<button type="button" class="passwd-check-btn">비밀번호 확인</button>`;
-  detailModalFormWrap.insertAdjacentHTML("beforeend", buttonTamp);
-  modalToggle(detailModalForm);
-  newPasswd();
-});
 
 function newPasswd(){
   let passwdCheckBtn = detailModalForm.querySelector(".passwd-check-btn");
@@ -112,7 +104,7 @@ function newPasswdForm(){
   detailModalForm.passwd.value = "";
   detailModalFormWrap.querySelector("button").remove();
 
-  let inputTamp = `<input type="password" name="passwdCheck" class="passwd passwdCheck" placeholder="비밀번호 확인">`;
+  let inputTamp = `<input type="password" name="passwdCheck" class="passwd passwdCheck detail-modal-input" placeholder="비밀번호 확인">`;
   detailModalFormWrap.insertAdjacentHTML("beforeend", inputTamp);
   let buttonTamp = `<button type="button" class="newPasswd-submit-btn">비밀번호 변경</button>`;
   detailModalFormWrap.insertAdjacentHTML("beforeend", buttonTamp);

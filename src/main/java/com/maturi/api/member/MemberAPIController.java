@@ -5,6 +5,7 @@ import com.maturi.entity.member.Member;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
+import com.maturi.service.member.SMSService;
 import com.maturi.util.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class MemberAPIController {
 
   final private MemberService memberService;
   final private EmailService emailService;
+  private final SMSService smsService;
 
   @PostMapping("/emailAuth")
   public ResponseEntity<String> emailAuth(@RequestBody String json,
@@ -72,6 +75,52 @@ public class MemberAPIController {
     }
     return response;
   }
+
+  @PostMapping("/sms/send") // 인증 문자 보내기
+  public ResponseEntity phoneAuth(@RequestBody Map<String, String> map,
+                                  HttpServletRequest request) {
+    // 입력받은 폰번호
+    String tel = map.get("tel");
+
+    try { // 이미 가입된 전화번호가 있으면 ...
+      if(memberService.usedMemberTel(tel)){
+        return ResponseEntity.status(HttpStatus.IM_USED).build();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    // 메세지 보내기
+    String code = smsService.sendRandomMessage(tel);
+
+    HttpSession session = request.getSession();
+    session.setAttribute("rand", code); // 세션에 인증번호 저장
+
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  @PostMapping("/sms/confirm") // 보낸 문자 인증 번호 확인하기
+  public ResponseEntity phoneAuthOk(@Login Long memberId,
+                                    @RequestBody Map<String, String> map,
+                                    HttpServletRequest request) {
+    HttpSession session = request.getSession();
+    String rand = (String) session.getAttribute("rand");
+    String code = map.get("authCode");
+    String contect = map.get("tel");
+
+    System.out.println(rand + " : " + code);
+
+    if (rand.equals(code)) { // 문자 인증 성공!!!
+      session.removeAttribute("rand"); // 세션 값 지우기
+      memberService.registerMemberContact(memberId, contect); // 폰 번호 저장
+      return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    // 문자 인증 실패 ... (인증 번호 불일치)
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+  }
+
+
   @ResponseBody
   @PatchMapping("/area")
   public ResponseEntity<AreaInterDTO> changeInterestLocation(@Login Long memberId,

@@ -39,3 +39,4 @@ out/
 ### custom ###
 application-dba.properties
 email.properties
+smsAuth.properties

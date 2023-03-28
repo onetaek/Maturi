@@ -57,4 +57,8 @@ public class Member {
   public void changePasswd(String passwd) {
     this.passwd = passwd;
   }
+
+  public void changeContact(String contact){
+    this.contact = contact;
+  }
 }
