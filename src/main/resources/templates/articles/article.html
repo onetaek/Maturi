@@ -13,16 +13,16 @@
     <div id="articleWrap" th:attr="data-articleid=${article.id}">
         <!--    글쓴이 정보 -->
         <div class="writerInfo">
-            <p class="writerProfileImg">
+            <a class="writerProfileImg" th:href="|/members/${article.memberId}|">
                 <img th:if="${article.profileImg != null && #strings.contains(article.profileImg,'://')}" th:src="${article.profileImg}" alt="프로필 이미지">
                 <img  th:unless="${article.profileImg == null || #strings.contains(article.profileImg,'://')}" th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
                 <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
-            </p>
+            </a>
             <p class="written">
-                <span>
+                <a th:href="|/members/${article.memberId}|">
                     <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
                     (<span class="writerName" th:text="${article.name}">김혜현</span>)
-                </span>
+                </a>
                 <span class="writtenAt" th:text="${article.modifiedDate}">2023.03.12</span>
             </p>
         </div>
@@ -85,15 +85,15 @@
             <th:block th:each="comment: ${comments}">
             <div class="comment" th:attr="data-commentid=${comment.id}">
                 <div class="commentWrap">
-                    <p class="cProfileImg">
+                    <a class="cProfileImg" th:href="|/members/${comment.memberId}|">
                         <img th:if="${comment.profileImg != null && #strings.contains(comment.profileImg,'://')}" th:src="${comment.profileImg}" alt="프로필 이미지">
                         <img th:unless="${comment.profileImg == null || #strings.contains(comment.profileImg,'://')}" th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
                         <img th:if="${comment.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
-                    </p>
+                    </a>
                     <div class="commentBox">
                         <h4>
-                            <span th:text="${comment.nickName}">user-nick</span>
-                            (<span th:text="${comment.name}">이름</span>)
+                            <a th:text="${comment.nickName}" th:href="|/members/${comment.memberId}|">user-nick</a>
+                            (<a th:text="${comment.name}" th:href="|/members/${comment.memberId}|">이름</a>)
                         </h4>
                         <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>
                         <p class="cSundry">

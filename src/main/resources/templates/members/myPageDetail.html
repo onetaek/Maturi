@@ -52,7 +52,8 @@
           <th class="info-list">휴대폰 번호</th>
           <td class="info-value" th:text="${memberDetailInfo.contact}"></td>
           <td>
-            <button class="detail-info-button active-btn sms-auth-Btn">인증하기</button>
+            <button th:if="${memberDetailInfo.contact == null}" class="detail-info-button active-btn sms-auth-Btn">인증하기</button>
+            <button th:unless="${memberDetailInfo.contact == null}" class="detail-info-button contact-verified">인증완료</button>
           </td>
         </tr>
         <th:block th:if="${!#strings.equals(memberDetailInfo.email, 'KAKAO Login') && !#strings.equals(memberDetailInfo.email, 'NAVER Login')}">

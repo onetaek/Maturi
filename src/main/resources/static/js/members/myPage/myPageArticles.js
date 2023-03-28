@@ -66,7 +66,7 @@ function myPageArticleAjax(obj){
         articleHtml += `<li id="articleWrap" class="article-wrap article-wrap${article.id}" data-articleid=${article.id}>
                 <!--    글쓴이 정보 -->
                 <div class="writerInfo">
-                    <p class="writerProfileImg">`
+                    <a class="writerProfileImg" href="/members/${article.memberId}">`
         if(article.profileImg == null || article.profileImg === ""){
           articleHtml += `<img src="/img/profileImg/default_profile.png" alt="프로필 이미지">`
         }else if(article.profileImg.includes("://")){
@@ -74,12 +74,12 @@ function myPageArticleAjax(obj){
         }else{
           articleHtml += `<img src="/test/file/${article.profileImg}" alt="프로필 이미지">`
         }
-        articleHtml +=`</p>
+        articleHtml +=`</a>
                     <p class="written">
-                        <span>
+                        <a href="/members/${article.memberId}">
                           <span class="writerNickName">${article.nickName}</span>
                           (<span class="writerName">${article.name}</span>)
-                        </span>
+                        </a>
                         <span class="writtenAt">${article.modifiedDate}</span>
                     </p>
                 </div>

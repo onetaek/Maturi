@@ -193,6 +193,9 @@ input[type="submit"]{
     text-align: center;
     color: darkblue;
 }
+.forgot-password .email-help {
+    color: #e22222;
+}
 .join{
     margin-top:18px;
     text-align: center;

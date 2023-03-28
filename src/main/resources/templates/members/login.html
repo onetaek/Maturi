@@ -52,7 +52,7 @@
                 </div>
                 <p th:if="${errorMassage != null && #strings.equals(errorMassage, 'loginFail')}" class="error">아이디 또는 비밀번호가 틀렸습니다.</p>
                 <p th:if="${errorMassage != null && #strings.equals(errorMassage, 'isBanMember')}" class="error">관리자에의해 차단된 사용자입니다.</p>
-                <p class="forgot-password"><a href="/members/help/passwd" >비밀번호를 잊으셨나요?</a></p>
+                <p class="forgot-password"><a href="/members/help/email" class="email-help">아이디</a>/<a href="/members/help/passwd" >비밀번호를 잊으셨나요?</a></p>
                 <p class="join"><span>계정이 없으신가요?</span><a href="/members/join"> 가입하기</a></p>
             </form>
         </div>
