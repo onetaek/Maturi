@@ -1,5 +1,3 @@
-loadingTagsInput();
-
 writeForm.submitBtn.addEventListener("click", ()=>{
   if(editeWriteFormValidation()){
     let oldImages = document.querySelectorAll('.load-img-item');
@@ -63,3 +61,5 @@ function editeWriteFormValidation(){
   }
   return true; // 유효성검사 통과시
 }
+
+loadingTagsInput();

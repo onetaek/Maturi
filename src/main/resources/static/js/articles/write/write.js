@@ -1,10 +1,3 @@
-function getIndex(ele) {
-  var _i = 0;
-  while ((ele = ele.previousSibling) != null) {
-    _i++;
-  }
-  return _i;
-}
 
 
 const writeForm = document.writeForm;
@@ -39,29 +32,9 @@ tagInput.addEventListener("keyup", ()=>{
       tagWrap.prepend(tagBtn);
       tags.value += tagInput.value; // 백에 넘길값(tags)에 추가
       tagInput.value = "";
-
-    //   tagBtn.addEventListener('click',(ev)=>{
-    //     console.log('닫기클릭');
-    //     console.log(ev.target);
-    //     console.log(ev.currentTarget);
-    //     console.log(ev.currentTarget.parentElement);
-    //     console.log(ev.currentTarget.parentElement.firstChild);
-    //     console.log(ev.currentTarget.parentElement.firstChild.innerText);
-    //     console.log('몇번째니?',$('.tag-box').index(this));
-    //     console.log("index찾기");
-    //     console.log(getIndex(ev));
-    //     console.log(getIndex(ev.currentTarget.parentElement));
-    //     console.log(getIndex(ev.currentTarget.parentElement.firstChild));
-    //       let str = ev.currentTarget.parentElement.firstChild.innerText;
-    //       ev.currentTarget.parentElement.firstChild.remove(); // 태그 객체 삭제
-    //       tags.value = tags.value.replace(str.substring(0, str.length-1),""); // 해당되는 태그값 hidden 에서 지우기
-    //   });
-    //   tagInput.focus();
     }
   }
 })
-
-
 
 /* 태그 삭제 */
 function removeTag(obj){
