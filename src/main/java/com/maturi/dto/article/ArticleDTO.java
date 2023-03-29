@@ -17,9 +17,8 @@ import java.util.List;
 public class ArticleDTO {
     private String content;
     private String tags;
-    @NotBlank
     private List<MultipartFile> image;
-
+    private String imageSize;// , 로 구분해서 받음
     private String name; // 음식점 이름
     private String category;
     private String oldAddress;

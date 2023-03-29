@@ -16,6 +16,8 @@ import java.util.List;
 public class ArticleEditDTO {
   private String content;
   private String tags;
-  @NotBlank
+  private String oldImage;
+//  @NotBlank
   private List<MultipartFile> image;
+  private String imageSize;
 }

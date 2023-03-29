@@ -1,9 +1,6 @@
 package com.maturi.controller.article;
 
-import com.maturi.dto.article.ArticleDTO;
-import com.maturi.dto.article.ArticleEditDTO;
-import com.maturi.dto.article.ArticleViewDTO;
-import com.maturi.dto.article.RestaurantDTO;
+import com.maturi.dto.article.*;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.article.CommentService;
 import com.maturi.util.argumentresolver.Login;
@@ -50,7 +47,7 @@ public class ArticleController {
 
     @PostMapping("/new")//게시글 작성 요청
     public String write(@Login Long memberId,
-                        ArticleDTO articleDTO,
+                        @ModelAttribute ArticleDTO articleDTO,
                         Model model) throws IOException {
         log.info(" POST요청");
         log.info("articleDTO={}",articleDTO);
@@ -109,21 +106,22 @@ public class ArticleController {
         return "redirect:" + referer;
     }
 
-    @GetMapping("/{articleId}/edit") // 게시글 수정요청
+    @GetMapping("/{articleId}/edit") // 게시글 수정페이지 이동
     public String editArticlePage(@Login Long memberId,
                            @PathVariable Long articleId,
                            HttpServletRequest request,
                            RedirectAttributes redirectAttributes,
                            Model model){
-        ArticleViewDTO articleViewDTO = articleService.articleInfo(articleId, memberId);
-        if(!memberId.equals(articleViewDTO.getMemberId())){
+
+        ArticleEditViewDTO articleEditViewDTO = articleService.articleEditInfo(articleId);
+        if(!memberId.equals(articleEditViewDTO.getMemberId())){
             String referer = request.getHeader("Referer");
             log.info("referer : " + referer);
             redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
             return "redirect:" + referer;
         }
         model.addAttribute("member", articleService.memberInfo(memberId));
-        model.addAttribute("article", articleViewDTO);
+        model.addAttribute("article", articleEditViewDTO);
         return "/articles/edit";
     }
 
@@ -131,7 +129,7 @@ public class ArticleController {
     public String editArticle(@Login Long memberId,
                               @PathVariable Long articleId,
                               ArticleEditDTO articleEditDTO,
-                              Model model){
+                              Model model) throws IOException {
 
         log.info("articleEditDTO = {}", articleEditDTO);
 

@@ -42,10 +42,10 @@
 /*    width: 100%; height: 40px;*/
 /*}*/
 #writeForm .inputBox input[name=title],
-/*#writeForm .inputBox textarea {*/
-/*    border: 1px solid #000;*/
-/*    border-radius: 5px;*/
-/*}*/
+    /*#writeForm .inputBox textarea {*/
+    /*    border: 1px solid #000;*/
+    /*    border-radius: 5px;*/
+    /*}*/
 textarea{
     width: 100%;
     resize: none;

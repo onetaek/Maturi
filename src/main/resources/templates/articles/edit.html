@@ -8,36 +8,85 @@
 </head>
 <body>
   <div layout:fragment="main" id="content">
-    <h2>리뷰 쓰기</h2>
+    <h2>리뷰 수정하기</h2>
     <form name="writeForm" id="writeForm" enctype="multipart/form-data" th:attr="data-articleid=${article.id}">
-      <div class="inputBox imageBox">
-        <!--        <button type="button" data-name="image">사진</button>-->
-        <span>사진</span>
-        <input type="file" name="image" multiple="multiple">
-      </div>
+      <p class="content-title">음식점 명</p>
+      <p class="restaurant-name" th:text="${article.name}">대구 동구 맘스터치</p>
+
+
+      <p class="content-title">리뷰 내용</p>
       <div class="inputBox">
-        <textarea name="content"  cols="100" rows="30" placeholder="내용 ..." th:text="${article.content}"></textarea>
+        <textarea name="content" th:text="${article.content}" spellcheck="false" placeholder="리뷰내용을 입력하시오..." required></textarea>
       </div>
+
+
+      <p class="content-title">리뷰 이미지</p>
+      <div class="image-input-box">
+        <div class="image-input">
+          <input type="file" class="hidden" id="add-new-files" multiple="multiple">
+          <label class="add-new-label" for="add-new-files">
+            <ion-icon class="image-icon" name="images-outline"></ion-icon><span>이미지 추가</span>
+          </label>
+          <input type="file" class="old-files hidden"  name="image" id="old-files" multiple="multiple">
+          <div class="total-file-size" >
+            0 / 50MB
+          </div>
+        </div>
+        <ul class="img-list" style="display:flex;">
+          <th:block th:each="image : ${article.image}">
+            <li class="img-item load-img-item" th:attr="data-image=${image}"
+                th:style="'background-image:url(/test/file/'+ ${image} +');'">
+              <button class="remove-btn" type="button" onclick="removePreview(this);">
+                <ion-icon name="close-circle-outline"></ion-icon>
+              </button>
+              <span class="img-size">이미지 크기...</span>
+            </li>
+          </th:block>
+        </ul>
+      </div>
+
+      <p class="content-title">해시 태그</p>
       <div class="inputBox tagBox">
         <div class="tagWrap">
           <th:block th:each="tag: ${article.tags}">
-            <span class="tagSpan">
-              <span>[[${tag}]]</span>
-              <button type="button">x</button>
+            <span class="tag-box">
+                <span>[[${tag}]]</span>
+                <button class="tag-remove-btn" onclick="removeTag(this);" type="button">
+                    <ion-icon name="close-circle-outline"></ion-icon>
+                </button>
             </span>
           </th:block>
+          <input type="text" class="tag-input" name="tag" placeholder="#해시태그">
         </div>
         <input type="hidden" name="tags">
-        <input type="text" name="tag" placeholder="#태그">
       </div>
+
       <input type="button" name="submitBtn" class="submitBtn" value="업로드">
     </form>
   </div>
 
 <th:block layout:fragment="scripts">
-  <script src="/js/articles/article/write.js"></script>
+  <script src="/js/articles/article/write/write.js"></script>
   <script src="/js/articles/article/editWriteForm.js"></script>
+  <script src="/js/articles/article/write/multipartFile.js"></script>
+  <script th:inline="javascript">
+    let imageSize = [[${article.imageSize}]];
+    console.log("imageSize",imageSize);
+    let imgSizeSpans = document.querySelectorAll('.img-size');
+    let imgLis = document.querySelectorAll('.img-item');
+    let imageSizeArr = imageSize.split(",");
 
+    imageSizeArr.splice(imageSizeArr.length - 1);
+    console.log("imageSizeArr",imageSizeArr);
+    for(let i = 0 ; i < imageSizeArr.length; i++){
+      console.log("변환완료",getByteSize(parseInt(imageSizeArr[i])));
+      imgSizeSpans[i].innerText = getByteSize(parseInt(imageSizeArr[i]));
+      imgLis[i].setAttribute("data-size",imageSizeArr[i]);
+      totalFileSize += parseInt(imageSizeArr[i]);
+    }
+    calFileSize = getByteSize(parseInt(totalFileSize));
+    document.querySelector('.total-file-size').innerHTML = `${calFileSize} / 50MB`;
+  </script>
 </th:block>
 </body>
 </html>

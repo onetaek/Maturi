@@ -45,9 +45,9 @@ public class FollowAPIController {
 
     //팔로우 추가
     @PostMapping("/{id}/following")
-    public ResponseEntity insertFollowering(@Login Long memberId,
-                                            @PathVariable Long id,
-                                            @RequestBody Map<String, Long> map){
+    public ResponseEntity addFollowing(@Login Long memberId,
+                                       @PathVariable Long id,
+                                       @RequestBody Map<String, Long> map){
         Long followingMemberId = map.get("followingMemberId");
         if(!memberId.equals(id)){ // 다른 유저의 팔로워 목록을 조회하려고 할 때
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -62,7 +62,7 @@ public class FollowAPIController {
 
     //팔로우 삭제
     @DeleteMapping("/{id}/following")
-    public ResponseEntity deleteFollowing(@Login Long memberId,
+    public ResponseEntity removeFollowing(@Login Long memberId,
                                           @PathVariable Long id,
                                           @RequestBody Map<String, Long> map){
         log.info("팔로우 취소 컨트롤러 시작");

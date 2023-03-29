@@ -17,6 +17,7 @@ goWriteBtn.addEventListener("click", ()=>{
         "&latitude="+rInfo_latPosition+
         "&longitude="+rInfo_lngPosition;
 
+
     // 글쓰기 : article
     // 글하나 보기 : article/1 get
     // 글삭제 : article/1 delete

@@ -24,8 +24,6 @@ import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.*;
 import static com.maturi.util.constfield.LocationConst.kmToLat;
-import static com.maturi.util.constfield.PagingConst.*;
-
 @RequiredArgsConstructor
 @Repository
 public class ArticleQuerydslRepository {
@@ -70,6 +68,7 @@ public class ArticleQuerydslRepository {
                 )
                 .fetchOne();//이거쓰면 하나만 가져올 수 있어요!
     }
+
 
     // 마이페이지 게시글 페이징 처리
     public ArticlePagingResponse<Article> findMyReviewArticles(Long memberId, // 마이페이지 회원 ID

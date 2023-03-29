@@ -7,12 +7,16 @@ import com.maturi.entity.member.Member;
 import com.maturi.repository.member.FollowQuerydslRepository;
 import com.maturi.repository.member.FollowRepository;
 import com.maturi.repository.member.MemberRepository;
+import com.maturi.util.constfield.FollowConst;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+
+import static com.maturi.util.constfield.FollowConst.*;
+
 @Slf4j
 @AllArgsConstructor
 @Transactional
@@ -41,14 +45,10 @@ public class FollowService {
         String keyword = memberFollowRequest.getKeyword();
 
         switch (follow){
-            case "follower"://팔로워 버튼 클릭시
-                List<MemberFollowResponse> followingMember = followQRepository.findFollowings(followMemberId,keyword);
-                log.info("[FollowService] followingMember = {}",followingMember);
-                return followingMember;
-            case "following"://팔로우 버튼 클릭시
-                List<MemberFollowResponse> followerMembers = followQRepository.findFollowers(followMemberId,keyword);
-                log.info("[FollowService] followerMembers = {}",followerMembers);
-                return followerMembers;
+            case follower://팔로워 버튼 클릭시
+                return followQRepository.findFollowers(followMemberId,keyword);
+            case following://팔로우 버튼 클릭시
+                return followQRepository.findFollowings(followMemberId,keyword);
         }
         return null;
     }

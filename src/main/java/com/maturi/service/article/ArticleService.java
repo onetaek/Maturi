@@ -83,16 +83,17 @@ public class ArticleService {
         for(String img : storeImageFiles){
             images += (img + ",");
         }
-        log.info("image = " + images);
+        log.info("images = " + images);
 
         Article article = Article.builder()
                 .member(findMember)
                 .restaurant(findRestaurant)
                 .content(articleDTO.getContent())
                 .image(images)
+                .imageSize(articleDTO.getImageSize())
                 .status(ArticleStatus.NORMAL)
                 .build();
-
+        log.info("저장하기 직전의 article",article);
         Article findArticle = articleRepository.save(article);
 
         String[] tags = articleDTO.getTags().split("#");
@@ -124,6 +125,14 @@ public class ArticleService {
         ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
         log.info("articleViewDTO = {}",articleViewDTO);
         return articleViewDTO;
+    }
+
+    public ArticleEditViewDTO articleEditInfo(Long articleId){
+        Article article = articleQRepository.findByIdAndStatus(articleId);
+        if(article == null) return null;
+        ArticleEditViewDTO articleEditDTO = getArticleEditDTO(article);
+        log.info("articleEditDTO = {}",articleEditDTO);
+        return articleEditDTO;
     }
 
     public RestaurantDTO restaurantByArticle(Long articleId) {
@@ -342,8 +351,29 @@ public class ArticleService {
         return articleViewDTO;
     }
 
+    private ArticleEditViewDTO getArticleEditDTO(Article article) {
+        if(article == null){
+            return null;
+        }
+        List<TagValue> tagValues = tagValueRepository.findByArticleId(article.getId());
+        ArrayList<String> tagName = new ArrayList<>();
+        for(TagValue tagValue : tagValues){
+            tagName.add("#" + tagValue.getTag().getName());
+        }
+        ArticleEditViewDTO articleEditViewDTO = ArticleEditViewDTO.builder()
+                .id(article.getId())
+                .memberId(article.getMember().getId())
+                .content(article.getContent())
+                .name(article.getRestaurant().getName())
+                .image(Arrays.asList(article.getImage().split(",")))
+                .imageSize(article.getImageSize())
+                .tags(tagName)
+                .build();
 
-    public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) {
+        return articleEditViewDTO;
+    }
+
+    public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) throws IOException {
         // db에 저장된 article 찾기
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
@@ -378,8 +408,23 @@ public class ArticleService {
         // 변경된 content 업데이트
         findArticle.changeContent(articleEditDTO.getContent());
 
-        /* 이미지 로직 추가 */
-//        findArticle.changeImage(/*ㅇㅇㅇㅇㅇㅇ*/);
+        /* 기존의 이미지 추가로직 */
+        log.info("images={},",articleEditDTO.getImage());
+        //파일 업로드 로직 필요
+        List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage());
+        log.info("storeImageFiles = {}", storeImageFiles);
+        log.info("index = " + storeImageFiles.size());
+        String images = "";
+        for(String img : storeImageFiles){
+            images += (img + ",");
+        }
+        log.info("images = " + images);
+        /* 수정게시글에서 추가된 로직 */
+        String oldImage = articleEditDTO.getOldImage();
+        oldImage += images;
+
+        findArticle.changeImage(oldImage);//이전 이미지 + 새롭개 추가된 이미지
+        findArticle.changeImageSize(articleEditDTO.getImageSize());
 
         Article article = articleRepository.save(findArticle); // db에 업데이트
 

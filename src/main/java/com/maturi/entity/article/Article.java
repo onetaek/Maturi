@@ -29,7 +29,8 @@ public class Article extends BaseTimeEntity {
   @Column(columnDefinition = "TEXT")
   private String content;
   @Column(columnDefinition = "TEXT", nullable = false)
-  private String image; // 이미지 여러개 업로드 가능
+  private String image; // 이미지 여러개 업로드 가능 , 로 구분해서 받음
+  private String imageSize;//의도치 않게 추가하게되었네요...하하
   @OneToMany(mappedBy = "article")
   private List<TagValue> tagValue;
   @Enumerated(EnumType.STRING)
@@ -42,6 +43,9 @@ public class Article extends BaseTimeEntity {
   }
   public void changeImage(String image){
     this.image = image;
+  }
+  public void changeImageSize(String imageSize){
+    this.imageSize = imageSize;
   }
 
 }
