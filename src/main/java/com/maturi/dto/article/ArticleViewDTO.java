@@ -18,6 +18,7 @@ public class ArticleViewDTO {
   private Long id;
   private String content;
   private List<String> image;
+  private Long imageSize;
   private LocalDateTime modifiedDate; // 마지막 업데이트 날짜
   // 글 작성자 정보
   private Long memberId;

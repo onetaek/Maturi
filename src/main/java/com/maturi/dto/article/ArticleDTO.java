@@ -19,7 +19,7 @@ public class ArticleDTO {
     private String tags;
     @NotBlank
     private List<MultipartFile> image;
-
+    private Long imageSize;
     private String name; // 음식점 이름
     private String category;
     private String oldAddress;

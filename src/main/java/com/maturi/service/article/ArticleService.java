@@ -90,6 +90,7 @@ public class ArticleService {
                 .restaurant(findRestaurant)
                 .content(articleDTO.getContent())
                 .image(images)
+                .imageSize(articleDTO.getImageSize())
                 .status(ArticleStatus.NORMAL)
                 .build();
 
@@ -124,6 +125,14 @@ public class ArticleService {
         ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
         log.info("articleViewDTO = {}",articleViewDTO);
         return articleViewDTO;
+    }
+
+    public ArticleEditViewDTO articleEditInfo(Long articleId){
+        Article article = articleQRepository.findByIdAndStatus(articleId);
+        if(article == null) return null;
+        ArticleEditViewDTO articleEditDTO = getArticleEditDTO(article);
+        log.info("articleEditDTO = {}",articleEditDTO);
+        return articleEditDTO;
     }
 
     public RestaurantDTO restaurantByArticle(Long articleId) {
@@ -328,6 +337,7 @@ public class ArticleService {
                 .id(article.getId())
                 .content(article.getContent())
                 .image(Arrays.asList(article.getImage().split(",")))
+                .imageSize(article.getImageSize())
                 .modifiedDate(article.getModifiedDate())
                 .memberId(article.getMember().getId())
                 .name(article.getMember().getName())
@@ -342,6 +352,27 @@ public class ArticleService {
         return articleViewDTO;
     }
 
+    private ArticleEditViewDTO getArticleEditDTO(Article article) {
+        if(article == null){
+            return null;
+        }
+        List<TagValue> tagValues = tagValueRepository.findByArticleId(article.getId());
+        ArrayList<String> tagName = new ArrayList<>();
+        for(TagValue tagValue : tagValues){
+            tagName.add("#" + tagValue.getTag().getName());
+        }
+        ArticleEditViewDTO articleEditViewDTO = ArticleEditViewDTO.builder()
+                .id(article.getId())
+                .memberId(article.getMember().getId())
+                .content(article.getContent())
+                .name(article.getRestaurant().getName())
+                .image(Arrays.asList(article.getImage().split(",")))
+                .imageSize(article.getImageSize())
+                .tags(tagName)
+                .build();
+
+        return articleEditViewDTO;
+    }
 
     public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) {
         // db에 저장된 article 찾기

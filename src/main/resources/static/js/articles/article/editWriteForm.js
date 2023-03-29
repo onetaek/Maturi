@@ -2,23 +2,30 @@ loadingTagsInput();
 
 writeForm.submitBtn.addEventListener("click", ()=>{
   if(validation()){
+    let oldImages = document.querySelectorAll('.load-img-item');
+    let oldImagesString = "";
+    oldImages.forEach((oldImage)=>{
+      let oldImageString = oldImage.dataset.image;
+      oldImagesString += oldImageString+",";
+    });
+
+    console.log("기존 이미지 String으로 변환",oldImagesString);
+    let hiddenField = document.createElement("input");
+    hiddenField.setAttribute("type", "hidden");
+    hiddenField.setAttribute("name", "oldImages");
+    hiddenField.setAttribute("value", oldImagesString);
+    writeForm.appendChild(hiddenField);
+
     writeForm.method="POST";
     writeForm.action="/articles/" + writeForm.dataset.articleid +"/edit";
-    writeForm.submit();
+    // writeForm.submit();
   }
 })
 
 function loadingTagsInput(){ // 로딩됐을 때 넘어온 tag들 hidden에 넣어주기
-  const loadTags = document.querySelectorAll(".tagSpan");
+  const loadTags = document.querySelectorAll(".tag-box");
   loadTags.forEach(loadTag => {
     tags.value += loadTag.children[0].innerText;
-
-    // 태그 삭제 버튼 및 삭제 이벤트 추가
-    let tagBtn = loadTag.querySelector('button');
-    tagBtn.onclick = (ev)=>{ // 삭제 이벤트 추가
-      let str = ev.currentTarget.parentElement.innerText;
-      tags.value = tags.value.replace(str.substring(0, str.length-2),""); // 해당되는 태그값 hidden 에서 지우기
-      ev.currentTarget.parentElement.remove(); // 태그 객체 삭제
-    }
+    console.log("로딩될때 tags에들어간 값들",tags.value);
   })
 }

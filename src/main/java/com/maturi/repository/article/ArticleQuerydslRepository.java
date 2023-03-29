@@ -69,6 +69,7 @@ public class ArticleQuerydslRepository {
                 .fetchOne();//이거쓰면 하나만 가져올 수 있어요!
     }
 
+
     // 마이페이지 게시글 페이징 처리
     public ArticlePagingResponse<Article> findMyReviewArticles(Long memberId, // 마이페이지 회원 ID
                                                                Long lastArticleId,
