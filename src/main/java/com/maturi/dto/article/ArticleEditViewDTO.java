@@ -17,7 +17,7 @@ public class ArticleEditViewDTO {
     private String name;
     private String content;
     private List<String> image;
-    private Long imageSize;
+    private String imageSize;
     // 태그 리스트
     private List<String> tags;
 }

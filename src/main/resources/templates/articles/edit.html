@@ -28,7 +28,7 @@
             <ion-icon class="image-icon" name="images-outline"></ion-icon><span>이미지 추가</span>
           </label>
           <input type="file" class="old-files hidden"  name="image" id="old-files" multiple="multiple">
-          <div class="total-file-size" th:text="|${article.imageSize} / 500MB|">
+          <div class="total-file-size" >
             0 / 50MB
           </div>
         </div>
@@ -69,6 +69,24 @@
   <script src="/js/articles/article/write/write.js"></script>
   <script src="/js/articles/article/editWriteForm.js"></script>
   <script src="/js/articles/article/write/multipartFile.js"></script>
+  <script th:inline="javascript">
+    let imageSize = [[${article.imageSize}]];
+    console.log("imageSize",imageSize);
+    let imgSizeSpans = document.querySelectorAll('.img-size');
+    let imgLis = document.querySelectorAll('.img-item');
+    let imageSizeArr = imageSize.split(",");
+
+    imageSizeArr.splice(imageSizeArr.length - 1);
+    console.log("imageSizeArr",imageSizeArr);
+    for(let i = 0 ; i < imageSizeArr.length; i++){
+      console.log("변환완료",getByteSize(parseInt(imageSizeArr[i])));
+      imgSizeSpans[i].innerText = getByteSize(parseInt(imageSizeArr[i]));
+      imgLis[i].setAttribute("data-size",imageSizeArr[i]);
+      totalFileSize += parseInt(imageSizeArr[i]);
+    }
+    calFileSize = getByteSize(parseInt(totalFileSize));
+    document.querySelector('.total-file-size').innerHTML = `${calFileSize} / 50MB`;
+  </script>
 </th:block>
 </body>
 </html>

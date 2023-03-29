@@ -47,7 +47,7 @@ public class ArticleController {
 
     @PostMapping("/new")//게시글 작성 요청
     public String write(@Login Long memberId,
-                        ArticleDTO articleDTO,
+                        @ModelAttribute ArticleDTO articleDTO,
                         Model model) throws IOException {
         log.info(" POST요청");
         log.info("articleDTO={}",articleDTO);
@@ -112,6 +112,7 @@ public class ArticleController {
                            HttpServletRequest request,
                            RedirectAttributes redirectAttributes,
                            Model model){
+
         ArticleEditViewDTO articleEditViewDTO = articleService.articleEditInfo(articleId);
         if(!memberId.equals(articleEditViewDTO.getMemberId())){
             String referer = request.getHeader("Referer");
@@ -128,7 +129,7 @@ public class ArticleController {
     public String editArticle(@Login Long memberId,
                               @PathVariable Long articleId,
                               ArticleEditDTO articleEditDTO,
-                              Model model){
+                              Model model) throws IOException {
 
         log.info("articleEditDTO = {}", articleEditDTO);
 

@@ -83,7 +83,7 @@ public class ArticleService {
         for(String img : storeImageFiles){
             images += (img + ",");
         }
-        log.info("image = " + images);
+        log.info("images = " + images);
 
         Article article = Article.builder()
                 .member(findMember)
@@ -93,7 +93,7 @@ public class ArticleService {
                 .imageSize(articleDTO.getImageSize())
                 .status(ArticleStatus.NORMAL)
                 .build();
-
+        log.info("저장하기 직전의 article",article);
         Article findArticle = articleRepository.save(article);
 
         String[] tags = articleDTO.getTags().split("#");
@@ -337,7 +337,6 @@ public class ArticleService {
                 .id(article.getId())
                 .content(article.getContent())
                 .image(Arrays.asList(article.getImage().split(",")))
-                .imageSize(article.getImageSize())
                 .modifiedDate(article.getModifiedDate())
                 .memberId(article.getMember().getId())
                 .name(article.getMember().getName())
@@ -374,7 +373,7 @@ public class ArticleService {
         return articleEditViewDTO;
     }
 
-    public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) {
+    public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) throws IOException {
         // db에 저장된 article 찾기
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
@@ -409,8 +408,23 @@ public class ArticleService {
         // 변경된 content 업데이트
         findArticle.changeContent(articleEditDTO.getContent());
 
-        /* 이미지 로직 추가 */
-//        findArticle.changeImage(/*ㅇㅇㅇㅇㅇㅇ*/);
+        /* 기존의 이미지 추가로직 */
+        log.info("images={},",articleEditDTO.getImage());
+        //파일 업로드 로직 필요
+        List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage());
+        log.info("storeImageFiles = {}", storeImageFiles);
+        log.info("index = " + storeImageFiles.size());
+        String images = "";
+        for(String img : storeImageFiles){
+            images += (img + ",");
+        }
+        log.info("images = " + images);
+        /* 수정게시글에서 추가된 로직 */
+        String oldImage = articleEditDTO.getOldImage();
+        oldImage += images;
+
+        findArticle.changeImage(oldImage);//이전 이미지 + 새롭개 추가된 이미지
+        findArticle.changeImageSize(articleEditDTO.getImageSize());
 
         Article article = articleRepository.save(findArticle); // db에 업데이트
 

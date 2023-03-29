@@ -11,7 +11,7 @@
     <h2>리뷰 작성하기</h2>
     <form name="writeForm" th:object="${restaurant}" id="writeForm" enctype="multipart/form-data">
       <p class="content-title">음식점 명</p>
-      <p class="restaurant-name">대구 동구 맘스터치</p>
+      <p class="restaurant-name" th:text="*{name}"></p>
 
       <p class="content-title">리뷰 내용</p>
       <div class="inputBox">
@@ -54,8 +54,8 @@
 
 <th:block layout:fragment="scripts">
   <script src="/js/articles/article/write/write.js"></script>
-  <script src="/js/articles/article/write/newWriteForm.js"></script>
   <script src="/js/articles/article/write/multipartFile.js"></script>
+  <script src="/js/articles/article/write/newWriteForm.js"></script>
 </th:block>
 </body>
 </html>

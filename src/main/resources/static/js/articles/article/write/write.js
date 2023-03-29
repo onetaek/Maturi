@@ -61,19 +61,7 @@ tagInput.addEventListener("keyup", ()=>{
   }
 })
 
-/* 업로드 */
-function validation(){
-  let imageInput = document.querySelector('.old-files');
-  let files = imageInput.files;
-  console.log("files",files);
-  console.log("길이",files.files === undefined);
-  let loadImgItem = document.querySelectorAll('.load-img-item');
-  if(loadImgItem.length === 0 && files.files === undefined){ // 이미지 1개 이상
-    alert("리뷰 작성을 하기 위해서는 하나 이상의 사진이 필요합니다!");
-    return false;
-  }
-  return true; // 유효성검사 통과시
-}
+
 
 /* 태그 삭제 */
 function removeTag(obj){
