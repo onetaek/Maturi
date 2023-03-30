@@ -79,7 +79,9 @@ $(function(){
 
 
       for(item of sido_popup_dropdown_listItem){
+
         item.onclick=function(e){
+          console.log("시도 선택");
           sido_popup_searchCond.innerText = e.target.innerText;
           sido_popup_list.classList.toggle("show");
           console.log("시도 코드 선택!");
@@ -150,8 +152,10 @@ $(function(){
               };
 
               for(item of sigoon_popup_dropdown_listItem){
+
                 // 시군 코드 선택
                 item.onclick=function(e){
+                  console.log("시군 코드선택!");
                   sigoon_popup_searchCond.innerText = e.target.innerText;
                   sigoon_popup_list.classList.toggle("show");
 
@@ -211,13 +215,14 @@ $(function(){
                         dong_popup_list.classList.toggle("show");
                       };
                       for(item of dong_popup_dropdown_listItem){
+
                         // 동 코드 선택
                         item.onclick=function(e){
                           dong_popup_searchCond.innerText = e.target.innerText;
                           dong_popup_list.classList.toggle("show");
                           let thisVal = $(this).data('location');//data-location속성의 값을 가져옴
                           // 주소값 얻는 코드 추가
-                          const dongOpt = sigoon.querySelectorAll("#dong-popup-list > .popup-dropdown-list-item");
+                          const dongOpt = dong.querySelectorAll("#dong-popup-list > .popup-dropdown-list-item");
                           dongOpt.forEach(element =>{
                             let optValue = element.getAttribute("data-location");
                             if(optValue != null && optValue == thisVal) {
