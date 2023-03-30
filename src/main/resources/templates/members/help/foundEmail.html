@@ -8,6 +8,13 @@
   <link rel="stylesheet" href="/css/member/help/pwInquiry.css"/>
 </head>
 <body>
+<script th:inline="javascript">
+  let email = [[${email}]];
+  if(email == null){
+    alert("잘못된 접근 방식입니다.");
+    location.href = "/members/login";
+  }
+</script>
 <div layout:fragment="main" id="wrap">
   <section class="section-wrap">
     <div class="login-form">
