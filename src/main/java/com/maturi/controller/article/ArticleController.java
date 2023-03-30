@@ -7,7 +7,6 @@ import com.maturi.util.argumentresolver.Login;
 import com.maturi.util.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -90,7 +89,6 @@ public class ArticleController {
                          Model model){
 
         String msg = articleService.delete(memberId, articleId);
-//        model.addAttribute("alertMessage", msg);
         if(msg.equals(MessageConst.SUCCESS_MESSAGE)){
             redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, MessageConst.DELETE_SUCCESS);
         } else if(msg.equals(MessageConst.NOT_FOUND)) { // 게시물 찾을 수 없음

@@ -33,7 +33,7 @@ writeForm.submitBtn.addEventListener("click", ()=>{
     writeForm.appendChild(hiddenField);
     writeForm.method="POST";
     writeForm.action="/articles/new";
-    // writeForm.submit();
+    writeForm.submit();
   }
 })
 

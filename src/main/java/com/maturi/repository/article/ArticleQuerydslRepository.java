@@ -89,7 +89,7 @@ public class ArticleQuerydslRepository {
                         statusCond
                 )
                 .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .limit(size + 1)
+                .limit(size+1)
                 .fetch();
 
         boolean hasNext = false;
@@ -181,7 +181,6 @@ public class ArticleQuerydslRepository {
                 .fetch();
     }
 
-
     //팔로우한 유저의 게시글들의 where절
     private BooleanExpression followMembersIn(List<Member> followMembers) {
         return followMembers != null && followMembers.size() > 0 ? article.member.in(followMembers) : null;
@@ -200,7 +199,7 @@ public class ArticleQuerydslRepository {
     }
     //현재 위치주면(위도) where절
     private BooleanExpression latitudeBetween(Double latitude) {
-        return latitude != null ? article.restaurant.location.longitude.between(latitude - kmToLat, latitude + kmToLat) : null;
+        return latitude != null ? article.restaurant.location.latitude.between(latitude - kmToLat, latitude + kmToLat) : null;
     }
     //현재 위치주면(경도) where절
     private BooleanExpression longitudeBetween(Double longitude) {

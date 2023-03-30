@@ -44,7 +44,20 @@ function searchArticleAjax(obj){
         +'&event='+_fnToNull(obj['event'])
     console.log("ajax요청 url",url);
     fetch(url)
-    .then((response) => response.json())
+    .then((response) => {
+        if(response.status === 404){
+            hasArticle = false;
+            document.querySelector('input[name="lastArticleId"]').value = null;
+            let articleList = document.querySelector('#article-list');
+            let html = ``;
+            html += `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
+            articleList.innerHTML = html;
+            html = ``;
+            console.log("조건에 맞는 게시글이 없습니다.")
+            return;
+        }
+        return response.json();
+    })
     .then((data) => {
         console.log("data",data);
         console.log("memberId","[[${session.memberId}]]");
@@ -52,7 +65,10 @@ function searchArticleAjax(obj){
         if(data.hasNext === false){
             hasArticle = false;
             document.querySelector('input[name="lastArticleId"]').value = null;
+        }else{
+            hasArticle = true;
         }
+
         let articleList = document.querySelector('#article-list');
         let html = ``;
         let articles = data['content'];
@@ -62,7 +78,7 @@ function searchArticleAjax(obj){
             articleList.innerHTML = html;
             html = ``;
             console.log("조건에 맞는 게시글이 없습니다.")
-            return;
+            return false;
         }
 
         articles.forEach((article) => {

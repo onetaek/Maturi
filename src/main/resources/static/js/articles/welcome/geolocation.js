@@ -7,7 +7,7 @@ function onGeoOk(position){
     myLongitude = position.coords.longitude; // 경도
     console.log({"latitude":myLatitude,"longitude":myLongitude});
     document.querySelector("input[name=latitude]").value = myLatitude;
-    document.querySelector("input[name=longitude]").value = myLongitude;
+    document.querySelector("input[name=longitude]").value = myLongitude;console.log()
 }
 function onGeoError(){
     alert("현재위치를 찾을 수 없습니다.");

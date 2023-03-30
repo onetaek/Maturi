@@ -4,6 +4,7 @@ window.onscroll = function () {
             return;
         }
         // 스크롤이 페이지 하단에 도달할 경우 ajax요청을 통해 게시글 데이터를 받아옴
+        console.log("hasArticle이 true이므로 게시글을요청");
         addPage("scroll");
     }
 };

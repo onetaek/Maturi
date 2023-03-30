@@ -67,7 +67,7 @@ public class FollowQuerydslRepository {
                 .fetch();
     }
 
-    //팔로잉 멤버를 찾는다.(내가 팔로우하는 멤버를 찾는다)
+    //팔로우하고 있는지를 확인한다. 팔로우하고있다 -> true
     public boolean isFollowingMember(Long followerMemberId,Long followingMemberId) {
         QMember followerMember = new QMember("followerMember");
         QMember followingMember = new QMember("followingMember");

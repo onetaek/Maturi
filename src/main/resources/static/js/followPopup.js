@@ -50,10 +50,14 @@ function getFollows(){
         .then((response) => {
             if(response.status === 400){
                 alert("잘못된 접근 방법입니다");
+                return false;
             }
             return response.json()
         })
         .then((members) => {
+            console.log("팔로우냐?팔로잉이냐?",followRadioValue);
+            console.log("팔로워 맞냐?",followRadioValue === "follower")
+            console.log("팔로잉 맞냐?",followRadioValue === "following")
             console.log(members);
             let followUl = document.querySelector('#follow-list');
             let html = ``;
@@ -75,10 +79,17 @@ function getFollows(){
                             <p class="profile-message">${member.profile}</p>
                         </div>
                     </div>`
-                if(keywordFollowValue === "follower"){
-                    html += `<button class="follow-btn">맞팔하기</button>`;
-                }else if(keywordFollowValue === "following"){
-                    html += `<button class="follow-btn">팔로잉 취소</button>`;
+                if(followRadioValue === "follower"){
+                    if(member.followingMember === true){
+                    html += `<button class="follow-btn" 
+                            style="cursor: auto;background-color:#62CDFF;">맞팔유저</button>`
+                    }else{
+                    html += `<button class="follow-btn" 
+                    onclick="popupFollowing(${member.id},'${member.nickName}')">맞팔하기</button>`;
+                    }
+                }else if(followRadioValue === "following"){
+                    html += `<button class="follow-btn" 
+                    onclick="popupFollowCancel(${member.id},'${member.nickName}')">팔로잉 취소</button>`;
                 }
                 `</li>`;
             })//forEach끝

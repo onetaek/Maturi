@@ -19,6 +19,7 @@ import com.maturi.repository.member.MemberQuerydslRepository;
 import com.maturi.repository.member.MemberRepository;
 import com.maturi.util.FileStore;
 import com.maturi.util.constfield.MessageConst;
+import com.maturi.util.constfield.SearchEventConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,9 +31,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 import static com.maturi.util.constfield.SearchCondConst.*;
+import static com.maturi.util.constfield.SearchEventConst.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,17 +41,17 @@ import static com.maturi.util.constfield.SearchCondConst.*;
 @Service
 public class ArticleService {
     private final CommentRepository commentRepository;
-    final private ModelMapper modelMapper;
-    final private MemberRepository memberRepository;
-    final private ArticleRepository articleRepository;
-    final private RestaurantRepository restaurantRepository;
-    final private TagRepository tagRepository;
-    final private TagValueRepository tagValueRepository;
-    final private LikeArticleRepository likeArticleRepository;
-    final private FollowQuerydslRepository followQRepository;
-    final private FileStore fileStore;
-    final private ArticleQuerydslRepository articleQRepository;
-    final private MemberQuerydslRepository memberQRepository;
+    private final ModelMapper modelMapper;
+    private final MemberRepository memberRepository;
+    private final ArticleRepository articleRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final TagRepository tagRepository;
+    private final TagValueRepository tagValueRepository;
+    private final LikeArticleRepository likeArticleRepository;
+    private final FollowQuerydslRepository followQRepository;
+    private final FileStore fileStore;
+    private final ArticleQuerydslRepository articleQRepository;
+    private final MemberQuerydslRepository memberQRepository;
 
     public MemberDTO memberInfo(Long memberId) {
         return modelMapper.map(memberRepository.findById(memberId).orElse(null), MemberDTO.class);
@@ -138,7 +139,7 @@ public class ArticleService {
     public RestaurantDTO restaurantByArticle(Long articleId) {
         Article article = articleRepository.findById(articleId).orElse(null);
 
-        RestaurantDTO restaurantDTO = RestaurantDTO.builder()
+        return RestaurantDTO.builder()
                 .name(article.getRestaurant().getName())
                 .category(article.getRestaurant().getCategory()) // 수정 필요
                 .oldAddress(article.getRestaurant().getLocation().getOldAddress())
@@ -146,7 +147,6 @@ public class ArticleService {
                 .latitude(article.getRestaurant().getLocation().getLatitude())
                 .longitude(article.getRestaurant().getLocation().getLongitude())
                 .build();
-        return restaurantDTO;
     }
 
     public boolean isLikedArticle(Long articleId, Long memberId){
@@ -212,6 +212,16 @@ public class ArticleService {
 
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
         log.info("[articleSearch]검색조건을 필터링한 결과 = {}",cond);
+        if((pagingRequest.getEvent().equals(click)  || pagingRequest.getEvent().equals(load))
+                &&(searchRequest.getRadioCond().equals(follow)&&(cond.getFollowMembers() == null || cond.getFollowMembers().isEmpty()))
+                ||searchRequest.getRadioCond().equals(interestArea) && StringUtils.isEmpty(cond.getSido())
+                &&StringUtils.isEmpty(cond.getSigoon()) && StringUtils.isEmpty(cond.getDong())
+                ||searchRequest.getRadioCond().equals(myLocation) && StringUtils.isEmpty(cond.getLongitude()) && StringUtils.isEmpty(cond.getLatitude())
+                ||searchRequest.getRadioCond().equals(restaurantCategory) && StringUtils.isEmpty(cond.getCategory())
+                ||searchRequest.getRadioCond().equals(like) && (cond.getLikeArticles() == null || cond.getLikeArticles().isEmpty())){
+            log.info("조건에 해당하는 게시글이 없거나 잘못된 조건입니다.");
+            return null;//팔로우한 유저의 게시글을 검색했는데 아무값도 없으면 null을 리턴
+        }
         ArticlePagingResponse<Article> result = articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(), cond,pagingRequest.getSize());
         log.info("[articleSearch]페이징 써칭한 결과 result = {}",result);
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
@@ -238,7 +248,7 @@ public class ArticleService {
         ArticleSearchCond searchCond = modelMapper.map(searchRequest, ArticleSearchCond.class);
         switch (searchRequest.getRadioCond() != null ? searchRequest.getRadioCond() : NULL){
             case follow://유저가 팔로우한 유저들
-                List<Member> followMember = memberQRepository.findFollowMemberById(memberId);
+                List<Member> followMember = memberQRepository.findFollowingsById(memberId);
                 searchCond.setFollowMembers(followMember);
                 break;
             case interestArea://유저의 관심 지역
@@ -333,7 +343,7 @@ public class ArticleService {
         Long articleMemberId = article.getMember().getId();
         boolean isFollowingMember = followQRepository.isFollowingMember(memberId, articleMemberId);
         log.info("isFollowingMember = {}",isFollowingMember);
-        ArticleViewDTO articleViewDTO = ArticleViewDTO.builder()
+        return ArticleViewDTO.builder()
                 .id(article.getId())
                 .content(article.getContent())
                 .image(Arrays.asList(article.getImage().split(",")))
@@ -347,8 +357,6 @@ public class ArticleService {
                 .isLiked(this.isLikedArticle(article.getId(), memberId))
                 .isFollowingMember(isFollowingMember)
                 .build();
-
-        return articleViewDTO;
     }
 
     private ArticleEditViewDTO getArticleEditDTO(Article article) {
@@ -360,7 +368,7 @@ public class ArticleService {
         for(TagValue tagValue : tagValues){
             tagName.add("#" + tagValue.getTag().getName());
         }
-        ArticleEditViewDTO articleEditViewDTO = ArticleEditViewDTO.builder()
+        return ArticleEditViewDTO.builder()
                 .id(article.getId())
                 .memberId(article.getMember().getId())
                 .content(article.getContent())
@@ -369,8 +377,6 @@ public class ArticleService {
                 .imageSize(article.getImageSize())
                 .tags(tagName)
                 .build();
-
-        return articleEditViewDTO;
     }
 
     public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) throws IOException {
@@ -380,9 +386,8 @@ public class ArticleService {
         /* 태그 */
         // 기존 태그들 삭제
         List<TagValue> tagValues = tagValueRepository.findByArticleId(articleId);
-        for(TagValue tagValue : tagValues){ // 해당 게시글의 모든 태그 삭제
-            tagValueRepository.delete(tagValue);
-        }
+        // 해당 게시글의 모든 태그 삭제
+        tagValueRepository.deleteAll(tagValues);//번크 연산으로 한번에 삭제
 
         // 해당 게시글의 태그들 다시 추가하기
         String[] tags = articleEditDTO.getTags().split("#");

@@ -22,9 +22,9 @@ import static com.maturi.util.constfield.FollowConst.*;
 @Transactional
 @Service
 public class FollowService {
-    final private MemberRepository memberRepository;
-    final private FollowRepository followRepository;
-    final private FollowQuerydslRepository followQRepository;
+    private final MemberRepository memberRepository;
+    private final FollowRepository followRepository;
+    private final FollowQuerydslRepository followQRepository;
 
     /**
      * 1번이 3번을 팔로우한다. -> follower : 1 , following : 3 save
@@ -46,7 +46,12 @@ public class FollowService {
 
         switch (follow){
             case follower://팔로워 버튼 클릭시
-                return followQRepository.findFollowers(followMemberId,keyword);
+                List<MemberFollowResponse> followers = followQRepository.findFollowers(followMemberId, keyword);
+                for (MemberFollowResponse follower : followers) {
+                    boolean isFollowingMember = followQRepository.isFollowingMember(followMemberId, follower.getId());
+                    follower.setFollowingMember(isFollowingMember);//내가 팔로워를 팔로잉하고있는지 확인
+                }
+                return followers;
             case following://팔로우 버튼 클릭시
                 return followQRepository.findFollowings(followMemberId,keyword);
         }

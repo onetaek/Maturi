@@ -35,7 +35,7 @@ public class FollowAPIController {
         if(!memberId.equals(id)){ // 다른 유저의 팔로워 목록을 조회하려고 할 때
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        List<MemberFollowResponse> response = followService.selectFollowMembers(memberFollowRequest, id);
+        List<MemberFollowResponse> response = followService.selectFollowMembers(memberFollowRequest, id);//정상 로직
 //        if(response == null || response.size() == 0){
 //            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 //        }

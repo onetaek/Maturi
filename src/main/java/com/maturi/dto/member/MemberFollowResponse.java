@@ -10,5 +10,6 @@ public class MemberFollowResponse {
     private String nickName;
     private String name;
     private String profile;
+    private boolean isFollowingMember;
 
 }

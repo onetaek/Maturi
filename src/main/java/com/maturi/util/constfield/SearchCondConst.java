@@ -2,18 +2,18 @@ package com.maturi.util.constfield;
 
 public class SearchCondConst {
     //radio
-    public final static String everything = "everything";
-    public final static String follow = "follow";
-    public final static String like = "like";
-    public final static String NULL = "NULL";
-    public final static String interestArea = "interLocal";
-    public final static String myLocation = "myLocal";
-    public final static String restaurantCategory = "category";
+    public static final String everything = "everything";
+    public static final String follow = "follow";
+    public static final String like = "like";
+    public static final String NULL = "NULL";
+    public static final String interestArea = "interLocal";
+    public static final String myLocation = "myLocal";
+    public static final String restaurantCategory = "category";
     //keyword
-    public final static String all = "all";
-    public final static String content = "content";
-    public final static String writer = "writer";
-    public final static String tag = "tag";
-    public final static String restaurantName = "restaurantName";
+    public static final String all = "all";
+    public static final String content = "content";
+    public static final String writer = "writer";
+    public static final String tag = "tag";
+    public static final String restaurantName = "restaurantName";
 
 }

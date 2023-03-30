@@ -23,8 +23,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/articles")
 public class ArticleAPIController {
-  final private ArticleService articleService;
-  final private ReportService reportService;
+  private final ArticleService articleService;
+  private final ReportService reportService;
 
 
   @PostMapping("/{id}/like")
@@ -53,7 +53,10 @@ public class ArticleAPIController {
     log.info("[ArticleAPIController] articleSearchRequest(검색 조건) = {}",articleSearchRequest);
     log.info("[ArticleAPIController] articlePagingRequest(페이징 정보) = {}",articlePagingRequest);
     ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,memberId);
-
+    log.info("articles의 페이징, 검색 정보 결과 = {}",articles);
+    if(articles == null){
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 
