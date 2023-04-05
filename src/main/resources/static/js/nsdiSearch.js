@@ -252,7 +252,7 @@ $(function(){
 
 //바깥을 클릭했을 때 dropdown 올리기
   window.onclick = function(e){
-
+    // console.log("클릭한 대상의 class명",e.target.className);
     if(
         e.target.id != "sido-popup-drop-text" &&
         e.target.id != "sido-popup-icon" &&
@@ -266,6 +266,7 @@ $(function(){
         e.target.id != "drop-text" &&
         e.target.id != "search-cond" &&
         e.target.id != "icon"
+
     ){
       if(document.getElementById("list")!= null){
         document.getElementById("list").classList.remove("show");
@@ -286,7 +287,21 @@ $(function(){
       $('#sido-popup-list').animate({height:`0px`},500);
       $('#sigoon-popup-list').animate({height:`0px`},500);
       $('#dong-popup-list').animate({height:`0px`},500);
+
+
     }
+    // if(
+    //     e.target.className != "ellipsis-btn-wrap"&&
+    //     e.target.className != "ellipsis-btn"&&
+    //     e.target.className != "ellipsis-content"
+    // ){
+    //   let ellipsisContents = document.querySelectorAll('.ellipsis-content');
+    //   ellipsisContents.forEach((item)=>{
+    //     item.style.height="0px";
+    //     item.style.border="0";
+    //     item.classList.remove('active');
+    //   });
+    // }
   }
 
 

@@ -1,12 +1,12 @@
 package com.maturi.repository.article;
 
-import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.member.MemberFollowResponse;
 import com.maturi.entity.article.*;
 import com.maturi.repository.article.restaurant.RestaurantQuerydslRepository;
-import com.maturi.repository.member.FollowQuerydslRepository;
+import com.maturi.repository.member.follow.FollowQuerydslRepository;
 import com.maturi.service.article.ArticleService;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
@@ -31,8 +32,8 @@ class ArticleQuerydslRepositoryTest {
     ArticleService articleService;
     @Autowired
     RestaurantQuerydslRepository restaurantQRepository;
-//    @Autowired
-//    JPAQueryFactory query;
+    @Autowired
+    JPAQueryFactory query;
     @Autowired
     FollowQuerydslRepository followQRepository;
 
@@ -357,21 +358,21 @@ class ArticleQuerydslRepositoryTest {
 //
 //    }
 //
-//    @Test
-//    void selectByFindArticle() {
-//        Article article2 = articleRepository.findById(7L).orElse(null);
-//        Article article1 = articleRepository.findById(11L).orElse(null);
-//        List<Article> articleList = new ArrayList<>();
-//        articleList.add(article2);
-//        articleList.add(article1);
-//
-//        List<Article> fetch = query.selectFrom(article)
-//                .where(tagArticleIn(articleList))
-//                .fetch();
-//        for (Article fetch1 : fetch) {
-//            log.info("article = {}", fetch1);
-//        }
-//    }
+    @Test
+    void selectByFindArticle() {
+        Article article2 = articleRepository.findById(7L).orElse(null);
+        Article article1 = articleRepository.findById(11L).orElse(null);
+        List<Article> articleList = new ArrayList<>();
+        articleList.add(article2);
+        articleList.add(article1);
+
+        List<Article> fetch = query.selectFrom(article)
+                .where(tagArticleIn(articleList))
+                .fetch();
+        for (Article fetch1 : fetch) {
+            log.info("article = {}", fetch1);
+        }
+    }
 
     private BooleanExpression tagArticleIn(List<Article> tagArticle) {
         return tagArticle != null && tagArticle.size() > 0 ? article.in(tagArticle) : null;

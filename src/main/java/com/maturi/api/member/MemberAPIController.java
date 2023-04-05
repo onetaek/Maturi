@@ -2,7 +2,6 @@ package com.maturi.api.member;
 
 import com.maturi.dto.member.AreaInterDTO;
 import com.maturi.entity.member.Member;
-import com.maturi.repository.member.MemberRepository;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
 import com.maturi.service.member.SMSService;

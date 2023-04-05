@@ -46,14 +46,41 @@
         </div>
         <!--     리뷰글 더보기 버튼 -->
         <div class="ellipsis-btn-wrap">
-            <span class="ellipsis-btn">
+            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
                 <ion-icon name="ellipsis-vertical-outline"></ion-icon>
             </span>
             <form th:action="|/articles/${article.id}|" th:method="delete" name="deleteForm"></form>
             <ul class="ellipsis-content">
-                <li th:if="${article.memberId == member.id}"><a th:href="|/articles/${article.id}/edit|">게시글 수정</a></li>
-                <li th:if="${article.memberId == member.id}"><div><ion-icon name="trash-outline"></ion-icon><a href="#" th:articleId="${article.id}" th:onclick="deleteArticle(this.getAttribute('articleId'))">게시글 삭제</a></div></li>
-                <li th:unless="${article.memberId == member.id}"><div th:articleId="${article.id}" th:onclick="reportArticle(this.getAttribute('articleId'))"><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>
+                <li th:if="${article.memberId == member.id}">
+                    <div>
+                        <ion-icon name="git-compare-outline"></ion-icon>
+                        <a th:href="|/articles/${article.id}/edit|">게시글 수정</a>
+                    </div>
+                </li>
+                <li th:if="${article.memberId == member.id}">
+                    <div>
+                        <ion-icon name="trash-outline"></ion-icon>
+                        <a href="#" th:articleId="${article.id}" th:onclick="deleteArticle(this.getAttribute('articleId'))">게시글 삭제</a>
+                    </div>
+                </li>
+                <li th:unless="${article.memberId == member.id}">
+                    <div th:articleId="${article.id}" th:onclick="reportArticle(this.getAttribute('articleId'))">
+                        <ion-icon name="warning-outline"></ion-icon>
+                        <a>신고하기</a>
+                    </div>
+                </li>
+                <li class="followingBtnWrap" th:if="${article.memberId != member.id && article.followingMember}">
+                    <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">
+                        <ion-icon name="person-remove-outline"></ion-icon>
+                        <span>팔로잉 취소</span>
+                    </div>
+                </li>
+                <li class="followingBtnWrap" th:if="${article.memberId != member.id && !article.followingMember}">
+                    <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">
+                        <ion-icon name="person-add-outline"></ion-icon>
+                        <span>팔로잉</span>
+                    </div>
+                </li>
             </ul>
             <!--form에서 method:delete방식으로 전송하기 위한 방법-->
             <form name="articleUpdateForm" method="post">
@@ -106,13 +133,40 @@
                           <span class="likeNum" th:text="${comment.like}">20</span>
                         </span>
                         <div class="ellipsis-btn-wrap">
-                            <span class="ellipsis-btn">
+                            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
                                 <ion-icon name="ellipsis-vertical-outline"></ion-icon>
                             </span>
                             <ul class="ellipsis-content">
-                                <li th:if="${comment.memberId == member.id}"><a href="#" class="commentModify">댓글 수정</a></li>
-                                <li th:if="${comment.memberId == member.id}"><a href="#" class="commentDelete">댓글 삭제</a></li>
-                                <li th:unless="${comment.memberId == member.id}"><div th:commentId="${comment.id}" th:onclick="reportComment(this.getAttribute('commentId'))"><ion-icon name="warning-outline"></ion-icon><a>신고하기</a></div></li>
+                                <li th:if="${comment.memberId == member.id}">
+                                    <div class="commentModify">
+                                        <ion-icon name="git-compare-outline"></ion-icon>
+                                        <a href="#" th:articleId="${article.id}">댓글 수정</a>
+                                    </div>
+                                </li>
+                                <li th:if="${comment.memberId == member.id}">
+                                    <div class="commentDelete">
+                                        <ion-icon name="trash-outline"></ion-icon>
+                                        <a href="#" th:articleId="${article.id}">댓글 삭제</a>
+                                    </div>
+                                </li>
+                                <li th:if="${comment.memberId != member.id}">
+                                    <div th:commentId="${comment.id}" th:onclick="reportComment(this.getAttribute('commentId'))">
+                                        <ion-icon name="warning-outline"></ion-icon>
+                                        <a>신고하기</a>
+                                    </div>
+                                </li>
+                                <li class="followingBtnWrap" th:if="${comment.memberId != member.id && article.followingMember}">
+                                    <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">
+                                        <ion-icon name="person-remove-outline"></ion-icon>
+                                        <span>팔로잉 취소</span>
+                                    </div>
+                                </li>
+                                <li class="followingBtnWrap" th:if="${comment.memberId != member.id && !article.followingMember}">
+                                    <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">
+                                        <ion-icon name="person-add-outline"></ion-icon>
+                                        <span>팔로잉</span>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>

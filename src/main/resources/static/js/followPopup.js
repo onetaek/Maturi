@@ -43,6 +43,7 @@ function settingFollowCond(){
     console.log("팔로우 검색 조건",keywordFollowValue);
 }
 
+<!--팔로우, 팔로워 목록을 가져오는 함수-->
 function getFollows(){
     console.log("getFollows시작");
     settingFollowCond();
@@ -63,7 +64,7 @@ function getFollows(){
             let html = ``;
             members.forEach((member) => {
                 html += `<li class="follow-item">
-                    <div class="follow-item-info">`
+                    <div class="follow-item-info" onclick="location.href='/members/${member.id}';" style="cursor: pointer;">`
                 if(member.profileImg == null || member.profileImg === ""){
                     html += `<img src="/img/profileImg/default_profile.png" alt="프로필 이미지">`
                 }else if(member.profileImg.includes("http")){
@@ -112,8 +113,9 @@ document.querySelector('.follow-container-following').addEventListener("click",(
 });
 
 document.querySelector('#follow-search-btn').addEventListener("click",()=>{
-    console.log("팔로우 버튼 클릭!");
+    console.log("팔로우 팔로워 검색 버튼 클릭!");
     getFollows();
+
 });
 
 getFollows();

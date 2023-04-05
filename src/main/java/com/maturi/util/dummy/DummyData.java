@@ -10,7 +10,7 @@ import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.article.restaurant.RestaurantRepository;
 import com.maturi.repository.article.tag.TagRepository;
 import com.maturi.repository.article.tag.TagValueRepository;
-import com.maturi.repository.member.MemberRepository;
+import com.maturi.repository.member.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

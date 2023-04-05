@@ -143,6 +143,7 @@ public class MemberController {
 
     model.addAttribute("member", articleService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
+    model.addAttribute("isFollowingMember",memberService.checkFollowing(id,memberId));
     return "/members/myPage";
   }
 

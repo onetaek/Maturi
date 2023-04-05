@@ -2,12 +2,10 @@ package com.maturi.service.member;
 
 import com.maturi.dto.member.*;
 import com.maturi.entity.member.Area;
-import com.maturi.entity.member.Follow;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
-import com.maturi.repository.member.FollowQuerydslRepository;
-import com.maturi.repository.member.FollowRepository;
-import com.maturi.repository.member.MemberRepository;
+import com.maturi.repository.member.follow.FollowQuerydslRepository;
+import com.maturi.repository.member.member.MemberRepository;
 import com.maturi.util.FileStore;
 import com.maturi.util.PasswdEncry;
 import lombok.AllArgsConstructor;
@@ -26,10 +24,12 @@ import java.util.UUID;
 @Service
 public class MemberService {
 
-  final private MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
 
-  final private ModelMapper modelMapper;
-  final private FileStore fileStore;
+  private final ModelMapper modelMapper;
+
+  private final FileStore fileStore;
+  private final FollowQuerydslRepository followQRepository;
 
   public Member join(MemberJoinDTO memberJoinDTO){
 
@@ -273,5 +273,9 @@ public class MemberService {
 
     findMember.changeContact(contact); // 폰 번호 저장
     memberRepository.save(findMember); // db 업데이트
+  }
+
+  public boolean checkFollowing(Long followerMemberId, Long followingMemberId) {
+    return followQRepository.isFollowingMember(followerMemberId, followingMemberId);
   }
 }

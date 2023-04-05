@@ -1,4 +1,4 @@
-package com.maturi.repository.member;
+package com.maturi.repository.member.member;
 
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;

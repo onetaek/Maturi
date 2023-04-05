@@ -1,4 +1,4 @@
-package com.maturi.repository.member;
+package com.maturi.repository.member.follow;
 
 import com.maturi.dto.member.MemberFollowResponse;
 import com.maturi.entity.member.Member;
@@ -74,15 +74,14 @@ public class FollowQuerydslRepository {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        List<Member> followingMembers = query.select(followingMember)
+        return query.select(followingMember)
                 .from(follow)
                 .join(follow.followingMember, followingMember)
                 .join(follow.followerMember, followerMember)
                 .on(followerMember.id.eq(followerMemberId))
                 .on(followingMember.id.eq(followingMemberId))
-                .fetch();
-
-        return followingMembers.size() != 0;//true면 팔로우멤버가 맞다.
+                .fetch()
+                .size() != 0;//true면 팔로우멤버가 맞다.
     }
 
     private BooleanExpression followMemberNameLike(QMember followMember,String keyword){

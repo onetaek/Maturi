@@ -14,6 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/include/kakaoCSS.css}">
     <link rel="stylesheet" th:href="@{/css/include/popup.css}">
     <link rel="stylesheet" th:href="@{/css/include/followPopup.css}">
+    <link rel="stylesheet" th:href="@{/css/include/ellipsis.css}">
 </head>
 <body>
 <script th:inline="javascript">
@@ -160,7 +161,7 @@
         <ion-icon class="popup-close-btn" onclick="popupToggle()" name="close-circle-outline"></ion-icon>
     </div>
 </div>
-<!--팔로우/팔로잉 목록 출력-->
+<!--팔로우/팔로잉 목록 출력 팝업-->
 <div id="followPopup">
     <div id="followPopupContent">
         <form>
@@ -182,21 +183,8 @@
                 <input type="text" class="follow-search-input"  onkeyup="getFollows()" placeholder="이름 또는 닉네임을 입력하시오...">
             </div>
         </form>
+            <!--팔로우/팔로잉 유저들 목록이 출력될 부분-->
             <ul id="follow-list">
-
-                <li class="follow-item">
-                    <div class="follow-item-info">
-                        <img src="#" alt="프로필">
-                        <div class="follow-item-profile">
-                            <p>
-                                <span class="nickName">닉네임</span>
-                                <span class="name">(이름)</span>
-                            </p>
-                            <p class="profile-message">상태 메세지</p>
-                        </div>
-                    </div>
-                    <button class="follow-btn">팔로우 취소</button>
-                </li>
             </ul>
 
     </div>
@@ -235,7 +223,7 @@
 <script src="/js/articles/goPageBtn.js"></script>
 <script src="/js/popupDropdown.js"></script>
 <script src="/js/articles/welcome/interLocation.js"></script>
-
+<script src="/js/ellipsis/ellipsis.js"></script>
 <th:block layout:fragment="scripts"/>
 
 </body>

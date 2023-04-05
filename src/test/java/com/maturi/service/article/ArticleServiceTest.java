@@ -6,7 +6,7 @@ import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.article.ArticleRepository;
-import com.maturi.repository.member.MemberRepository;
+import com.maturi.repository.member.member.MemberRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;

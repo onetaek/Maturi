@@ -10,7 +10,7 @@ import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.article.CommentQuerydslRepository;
 import com.maturi.repository.article.CommentRepository;
 import com.maturi.repository.article.like.LikeCommentRepository;
-import com.maturi.repository.member.MemberRepository;
+import com.maturi.repository.member.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

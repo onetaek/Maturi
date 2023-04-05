@@ -32,13 +32,44 @@
         <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
       </div>
       <div class="ellipsis-btn-wrap">
-        <span class="ellipsis-btn">
+        <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
             <ion-icon name="ellipsis-vertical-outline"></ion-icon>
         </span>
         <ul class="ellipsis-content">
-          <li th:if="${member.nickName == myPageMember.nickName}"><a href="#" class="editMyPage">프로필 편집</a></li>
-          <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">차단하기</a></li>
-          <li th:unless="${member.nickName == myPageMember.nickName}"><a href="#">팔로잉</a></li>
+
+          <!--자신이 자신의 마이페이지에 들어왔을 경우-->
+          <th:block th:if="${member.nickName == myPageMember.nickName}">
+            <li >
+              <div class="editMyPage">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <a href="#">프로필 편집</a>
+              </div>
+            </li>
+            <li th:unless="${member.nickName == myPageMember.nickName}">
+              <div>
+                <ion-icon name="ban-outline"></ion-icon>
+                <a href="#">차단하기</a>
+              </div>
+            </li>
+          </th:block>
+
+          <!--다른 사람의 마이페이지에 들어왔을 경우-->
+          <th:block th:if="${member.nickName == myPageMember.nickName}">
+            <!--팔로잉한 유저의 마이페이지에 들어왔을 경우-->
+            <li class="followingBtnWrap" th:if="${isFollowingMember}">
+              <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">
+                <ion-icon name="person-add-outline"></ion-icon>
+                <span>팔로잉</span>
+              </div>
+            </li>
+            <!--팔로잉하지 않은 유저의 마이페이지에 들어왔을 경우-->
+            <li class="followingBtnWrap" th:if="${!isFollowingMember}">
+              <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">
+                <ion-icon name="person-remove-outline"></ion-icon>
+                <span>팔로잉 취소</span>
+              </div>
+            </li>
+          </th:block>
         </ul>
       </div>
     </div>

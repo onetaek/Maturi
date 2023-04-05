@@ -408,59 +408,6 @@ input[id='local']:checked+.radio-tile label{
     background: url("/img/button/loveBtn_Fill.png") no-repeat center / contain;
 }
 
-/* 더보기 버튼 */
-.ellipsis-btn-wrap{
-    position:absolute;
-    top:10px;
-    right:0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-.ellipsis-btn-wrap .ellipsis-btn{
-    font-size:  30px;
-    cursor: pointer;
-}
-.ellipsis-btn-wrap .ellipsis-content{
-    display: none;
-}
-.ellipsis-btn-wrap .active{
-    display: flex;
-    background: #FFFFFF;
-    flex-direction: column;
-    justify-content: center;
-    align-items: start;
-    border:1px solid var(--ellipsis-color);
-    border-radius: 20px;
-}
-
-.ellipsis-btn-wrap .active  li{
-    width:150px;
-    line-height:50px;
-    border-bottom:1px solid var(--ellipsis-color);
-}
-.ellipsis-btn-wrap .active li > div{
-    display: flex;
-    align-items: center;
-    transition:0.2s;
-    color:var(--ellipsis-text-color);
-    cursor: pointer;
-}
-.ellipsis-btn-wrap .active li > div:hover {
-    transform: translateX(15px);
-    color:var(--hot-pink-color);
-}
-.ellipsis-btn-wrap .active  li ion-icon{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10px;
-    margin-right: 5px;
-}
-.ellipsis-btn-wrap .active > li:last-child{
-    border-bottom:0px;
-}
-
 /* 검색,페이징으로 인해 동적으로 생기는 요소 */
 .no-more-article-message p{
     padding: 20px 0;

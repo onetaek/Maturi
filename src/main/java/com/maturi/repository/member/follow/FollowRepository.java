@@ -1,4 +1,4 @@
-package com.maturi.repository.member;
+package com.maturi.repository.member.follow;
 
 import com.maturi.entity.member.Follow;
 import com.maturi.entity.member.Member;

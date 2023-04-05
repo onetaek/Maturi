@@ -37,7 +37,7 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:3.0.6'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.0'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -61,6 +61,9 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
+	//테스트코드 작성시 entityManagerFActory에러 때문에추가
+	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
 
 }
 test {

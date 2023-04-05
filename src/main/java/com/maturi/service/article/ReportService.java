@@ -2,15 +2,13 @@ package com.maturi.service.article;
 
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Member;
-import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.article.ArticleQuerydslRepository;
 import com.maturi.repository.article.ArticleRepository;
 import com.maturi.repository.article.CommentQuerydslRepository;
 import com.maturi.repository.article.CommentRepository;
 import com.maturi.repository.article.report.ArticleReportRepository;
 import com.maturi.repository.article.report.CommentReportRepository;
-import com.maturi.repository.member.MemberQuerydslRepository;
-import com.maturi.repository.member.MemberRepository;
+import com.maturi.repository.member.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
