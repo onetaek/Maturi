@@ -1,6 +1,12 @@
+main{
+    height:100vh;
+    background:var(--block-background);
+}
 #detail-info {
-    margin: 20px auto;
+    margin: 10px auto;
+    padding:20px 0;
     width: 600px;
+    background: var(--white-color);
 }
 #detail-info table {
     width: 100%;

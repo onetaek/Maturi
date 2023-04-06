@@ -5,13 +5,11 @@ function addPage(event) {
 }
 
 //enter버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
-// if(hasArticle === true){
-//     if (window.event.keyCode == 13) {
-//         // 엔터키가 눌렸을 때
-//         let obj = searchCondSetting("click");
-//         searchArticleAjax(obj);
-//     }
-// }
+document.querySelector('.search-input').addEventListener("keyup", ()=>{
+    if( window.event.keyCode === 13){
+        addPage("click");
+    }
+})
 
 //검색 버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
 document.querySelector('#main-search-btn').addEventListener('click',()=>{

@@ -17,7 +17,9 @@
 }
 
 /* map */
-#map_wrap {}
+#map_wrap {
+    height:20vh;
+}
 
 /* 선택 지역 정보 */
 #rInfoWrap {
