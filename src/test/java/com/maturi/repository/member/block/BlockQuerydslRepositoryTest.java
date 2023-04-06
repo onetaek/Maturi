@@ -1,9 +1,11 @@
 package com.maturi.repository.member.block;
 
+import com.maturi.dto.member.MemberBlockDTO;
 import com.maturi.entity.member.Block;
 import com.maturi.entity.member.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,12 +66,14 @@ class BlockQuerydslRepositoryTest {
     @DisplayName("member1이 member2,member3 를 신고했을 때 신고한 유저가 2명인지 확인")
     void findBlockMembers() throws Exception{
         //given
-        Member member1 = em.find(Member.class, 1L);
+        Member member1 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                                .setParameter("name","member1")
+                                .getSingleResult();
 
         //when
-        List<Member> blockMembers = blockQRepository.findBlockMembers(member1.getId());
-        for (Member blockMember : blockMembers) {
-            log.info("blockMember = {}",blockMember);
+        List<MemberBlockDTO> blockMembers = blockQRepository.findBlockMembers(member1.getId());
+        for (MemberBlockDTO blockMember : blockMembers) {
+            log.info("blockMember.js = {}",blockMember);
         }
 
         //then
@@ -80,9 +84,15 @@ class BlockQuerydslRepositoryTest {
     @DisplayName("member1이 member2과 member3를 차단했을 때, member2과 member3가 차단회원인지를 확인")
     void isBlockedMember() throws Exception{
         //given
-        Member member1 = em.find(Member.class, 1L);
-        Member member2 = em.find(Member.class,2L);
-        Member member3 = em.find(Member.class,3L);
+        Member member1 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member1")
+                .getSingleResult();
+        Member member2 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member2")
+                .getSingleResult();
+        Member member3 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member3")
+                .getSingleResult();
 
         //when
         boolean isBlockMember1 = blockQRepository.isBlockedMember(member1.getId(), member2.getId());
@@ -98,18 +108,51 @@ class BlockQuerydslRepositoryTest {
             "차단목록이 1명인지와 차단목록에 남아있는 회원이 member3인지 확인")
     void deleteBlock(){
         //given
-        Member member1 = em.find(Member.class, 1L);
-        Member member2 = em.find(Member.class,2L);
-        Member member3 = em.find(Member.class,3L);
+        Member member1 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member1")
+                .getSingleResult();
+        Member member2 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member2")
+                .getSingleResult();
+        Member member3 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member3")
+                .getSingleResult();
 
         //when
         boolean isDeletingSuccess = blockQRepository.deleteBlock(member1.getId(), member2.getId());
-        List<Member> blockMembers = blockQRepository.findBlockMembers(member1.getId());
+        List<MemberBlockDTO> blockMembers = blockQRepository.findBlockMembers(member1.getId());
 
         //then
         assertThat(isDeletingSuccess).isTrue();
-        assertThat(blockMembers.get(0)).isEqualTo(member3);
+        assertThat(blockMembers.get(0).getId()).isEqualTo(member3.getId());
         assertThat(blockMembers).hasSize(1);
 
+    }
+
+    @Test
+    @DisplayName("member2가 member1,3를 차단했을 때 차단 회원이 2명인지 확인")
+    void saveBlock(){
+        //given
+        Member member1 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member1")
+                .getSingleResult();
+        Member member2 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member2")
+                .getSingleResult();
+        Member member3 = em.createQuery("select m from Member m where m.name = :name",Member.class)
+                .setParameter("name","member3")
+                .getSingleResult();
+
+        blockQRepository.saveBlock(member2,member1);
+        blockQRepository.saveBlock(member2,member3);
+
+        //when
+        List<MemberBlockDTO> blockMembers = blockQRepository.findBlockMembers(member2.getId());
+        for (MemberBlockDTO blockMember : blockMembers) {
+            log.info("blockMembers = {}",blockMember);
+        }
+
+        //then
+        assertThat(blockMembers).hasSize(2);
     }
 }

@@ -29,12 +29,7 @@ public class ArticleViewDTO {
   // 좋아요 관련
   private int like;
   private boolean isLiked;
+  //팔로잉 유저인지 확인하기위함
   private boolean isFollowingMember;
-//  // 음식점 정보
-//  private String restaurantName;
-//  private Category category;
-//  private String oldAddress;
-//  private String address;
-//  private Double latitude;
-//  private Double longitude;
+  private boolean isBlockedMember;
 }

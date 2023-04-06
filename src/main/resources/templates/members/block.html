@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/mainBase}">
+<head>
+    <title>차단목록 페이지</title>
+    <link rel="stylesheet" href="/css/member/myPage/myPage.css">
+    <link rel="stylesheet" href="/css/article/article/article.css">
+    <link rel="stylesheet" href="/css/include/block.css">
+</head>
+<body>
+<!-- 마이페이지 본문 -->
+<main layout:fragment="main">
+    <div id="coverImg">
+        <img th:if="${myPageMember.coverImg != null}" th:src="|/test/file/${myPageMember.coverImg}|" alt="커버 사진">
+    </div>
+    <div id="content-wrap">
+        <div id="content" th:attr="data-memberid=${myPageMember.id}">
+            <div id="myPageInfo">
+                <p class="mProfileImg">
+                    <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
+                    <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/test/file/${myPageMember.profileImg}|" alt="프로필 이미지">
+                    <img th:if="${myPageMember.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
+                </p>
+                <div class="memberInfo">
+                    <h3>
+                        <span class="mNickName" th:text="${myPageMember.nickName}">@hyea._.hyun</span>
+                        (<span class="mName" th:text="${myPageMember.name}">김혜현</span>)
+                        <!--        <button class="detailInfo" th:if="${member.nickName == myPageMember.nickName}">상세정보</button>-->
+                        <button class="followBtn" onclick="" th:if="${member.nickName != myPageMember.nickName}">팔로우</button>
+                    </h3>
+                    <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
+                </div>
+                <div class="ellipsis-btn-wrap">
+            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
+                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+            </span>
+                    <ul class="ellipsis-content">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="block-list-wrap">
+        <ul id="block-list">
+            <th:block th:if="${#lists.isEmpty(blockMembers)}">
+                <li class="blcok-member-empty">차단한 회원이 없습니다</li>
+            </th:block>
+            <th:block th:each="blockMember: ${blockMembers}">
+                <li class="follow-item">
+                    <div class="follow-item-info">
+                        <img src="/img/profileImg/default_profile.png" alt="프로필 이미지">
+                        <div class="follow-item-profile">
+                            <p>
+                                <span class="nickName" th:text="${blockMember.nickName}">닉네임</span>
+                                <span class="name" th:text="${blockMember.name}">이름</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="block-item">
+                        <span>차단일:</span>
+                        <span th:text="${blockMember.formatDate}">2022-02-12</span>
+                        <button class="block-cancel-btn"
+                                th:onclick="blockCancel([[${blockMember.id}]],
+                                [[${blockMember.nickName}]])">차단해제
+                        </button>
+                    </div>
+                </li>
+            </th:block>
+            <li th:if="${blockMember}"></li>
+        </ul>
+    </div>
+
+</main>
+
+<th:block layout:fragment="scripts">
+    <script src="/js/members/myPage/myPage.js"></script>
+    <script src="/js/articles/article/report.js"></script>
+    <script src="/js/members/myPage/myPageMine.js"></script>
+    <script src="/js/articles/welcome/followAndDelete.js"></script>
+</th:block>
+</body>
+</html>

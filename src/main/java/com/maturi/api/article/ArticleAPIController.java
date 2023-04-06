@@ -61,12 +61,11 @@ public class ArticleAPIController {
   }
 
   @GetMapping("/members/{id}")
-  public ResponseEntity<ArticlePagingResponse> myPageArticlePaging(@Login Long memberId, // 로그인 회원 ID
-                                                                   @ModelAttribute ArticlePagingRequest articlePagingRequest,
+  public ResponseEntity<ArticlePagingResponse> myPageArticlePaging(@ModelAttribute ArticlePagingRequest articlePagingRequest,
                                                                    @PathVariable Long id){ // 마이페이지 회원 ID
     log.info("articlePagingRequest = {}", articlePagingRequest);
     log.info("myPage memberId = {}", id);
-    ArticlePagingResponse articles = articleService.articlesByMember(articlePagingRequest, id, memberId);
+    ArticlePagingResponse articles = articleService.articlesByMember(articlePagingRequest, id);
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 

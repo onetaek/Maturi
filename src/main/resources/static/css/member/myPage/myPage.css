@@ -9,11 +9,14 @@
     transform: translateY(-50%);
     opacity: 0.5;
 }
-
+#content-wrap{
+    width:100%;
+    background: var(--white-color);
+}
 #content {
-    max-width: var(--max-width);
-    min-width: var(--main-content-min-width);
-    padding-left: var(--main-content-padding-left);
+    margin:0 auto;
+    max-width: 720px;
+    /*min-width: var(--main-content-min-width);*/
 }
 #myPageInfo {
     position: relative;
@@ -42,42 +45,6 @@
     background-color: var(--hot-pink-color);
     color: var(--white-color);
     cursor: pointer;
-}
-
-/* 더보기 버튼 */
-.ellipsis-btn-wrap{
-    position:absolute;
-    top:10px;
-    right:0;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-}
-.ellipsis-btn-wrap .ellipsis-btn{
-    font-size:  30px;
-    cursor: pointer;
-}
-.ellipsis-btn-wrap .ellipsis-content{
-    display: none;
-}
-.ellipsis-btn-wrap .active{
-    display: flex;
-    background: #FFFFFF;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border:1px solid var(--ellipsis-color);
-    border-radius: 20px;
-    z-index: 2;
-}
-.ellipsis-btn-wrap .active > li{
-    width:150px;
-    line-height:50px;
-    text-align: center;
-    border-bottom:1px solid var(--ellipsis-color);
-}
-.ellipsis-btn-wrap .active > li:last-child{
-    border-bottom:0px;
 }
 
 #reviewWrap {

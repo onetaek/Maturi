@@ -4,14 +4,11 @@ import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
-import com.maturi.entity.article.QTag;
-import com.maturi.entity.article.QTagValue;
 import com.maturi.entity.member.Member;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -127,6 +124,7 @@ public class ArticleQuerydslRepository {
                 .where(
                         // no-offset 페이징 처리
                         ltStoreId(lastArticleId),
+                        blockMemberIdNotIn(cond.getBlockedMemberIds()),
                         // 검색조건들
                         followMembersIn(cond.getFollowMembers()),//팔로우한 유저로 검색
                         sidoEq(cond.getSido()),//시도로 검색
@@ -152,6 +150,7 @@ public class ArticleQuerydslRepository {
     }
 
     //페이징 처리를 하지않은 동적쿼리문 -> 테스트에서 사용
+
     public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
 
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
@@ -180,8 +179,8 @@ public class ArticleQuerydslRepository {
                 .limit(20)
                 .fetch();
     }
-
     //팔로우한 유저의 게시글들의 where절
+
     private BooleanExpression followMembersIn(List<Member> followMembers) {
         return followMembers != null && followMembers.size() > 0 ? article.member.in(followMembers) : null;
     }
@@ -211,7 +210,7 @@ public class ArticleQuerydslRepository {
     }
     //좋아요를 누른 게시글들
     private BooleanExpression likeArticleIn(List<Article> likeArticles) {
-        return likeArticles != null && likeArticles.size() > 0 ? article.in(likeArticles) : null;
+        return likeArticles != null && !likeArticles.isEmpty() ? article.in(likeArticles) : null;
     }
     //글 내용조건의 keyword로 검색한 게시글들
     private BooleanExpression contentLike(String content) {
@@ -237,9 +236,9 @@ public class ArticleQuerydslRepository {
     private BooleanExpression statusEq(ArticleStatus status){
         return status != null ? article.status.eq(status) : null;
     }
-
     // 무한 스크롤 방식 처리하는 메서드
     // no-offset 방식 처리하는 메서드
+
     private BooleanExpression ltStoreId(Long articleId) {
         if (articleId == null) {
             return null;
@@ -247,12 +246,15 @@ public class ArticleQuerydslRepository {
         return article.id.lt(articleId);
     }
 
-
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? article.member.id.eq(memberId) : null;
     }
+
     private BooleanExpression articleIdEq(Long articleId) {
         return articleId != null ? article.id.eq(articleId) : null;
     }
 
+    private BooleanExpression blockMemberIdNotIn(List<Long> blockedMemberIds) {
+        return blockedMemberIds != null && !blockedMemberIds.isEmpty() ? article.member.id.notIn(blockedMemberIds) : null;
+    }
 }

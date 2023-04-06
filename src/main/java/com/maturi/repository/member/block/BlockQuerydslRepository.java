@@ -1,28 +1,50 @@
 package com.maturi.repository.member.block;
 
+import com.maturi.dto.member.MemberBlockDTO;
+import com.maturi.entity.member.Block;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.QMember;
+import com.maturi.repository.member.member.MemberRepository;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.maturi.entity.article.QBlock.*;
+import static com.maturi.entity.member.QBlock.block;
+
 
 @RequiredArgsConstructor
 @Repository
 public class BlockQuerydslRepository {
 
     private final JPAQueryFactory query;
+    private final MemberRepository memberRepository;
+    private final EntityManager em;
+
+    //blockingMemberId와 blockedMemberId로 차단내역을 만든다
+    public void saveBlock(Member blockingMember, Member blockedMember){
+        Block block = Block.builder()
+                .blockingMember(blockingMember)
+                .blockedMember(blockedMember)
+                .build();
+        em.persist(block);
+    }
 
     //신고한 유저들을 찾는다.(내가 신고를한 유저를 찾는다.)
-    public List<Member> findBlockMembers(Long blockingMemberId){
+    public List<MemberBlockDTO> findBlockMembers(Long blockingMemberId){
 
         QMember blockingMember = new QMember("blockingMember");
         QMember blockedMember = new QMember("blockedMember");
 
-        return query.select(blockedMember)
+        return query.select(Projections.bean(MemberBlockDTO.class,
+                blockedMember.id,
+                blockedMember.profileImg,
+                blockedMember.nickName,
+                blockedMember.name,
+                block.blockDate))
                 .from(block)
                 .join(block.blockingMember, blockingMember)
                 .join(block.blockedMember, blockedMember)
@@ -45,7 +67,7 @@ public class BlockQuerydslRepository {
                 .isEmpty();//true면 신고한 유저다
     }
 
-    //차단 내역을 찾는 메서드(삭제할 때 사용하기위해 사용)
+    //차단을 해제
     public boolean deleteBlock(Long blockingMemberId, Long blockedMemberId){
 
         return query.delete(block)

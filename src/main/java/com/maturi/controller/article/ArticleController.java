@@ -3,6 +3,7 @@ package com.maturi.controller.article;
 import com.maturi.dto.article.*;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.article.CommentService;
+import com.maturi.service.member.MemberService;
 import com.maturi.util.argumentresolver.Login;
 import com.maturi.util.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +23,16 @@ import java.io.IOException;
 @Controller
 public class ArticleController {
 
-    final private ArticleService articleService;
-    final private CommentService commentService;
+    private final ArticleService articleService;
+    private final CommentService commentService;
+    private final MemberService memberService;
 
     @GetMapping("")//게시글 전체 페이지 이동
     public String articlesPage(@Login Long memberId,
                                Model model){
-        log.info("findMember = {}",articleService.memberInfo(memberId));
+        log.info("findMember = {}",memberService.memberInfo(memberId));
         //게시글의 정보는 Ajax요청으로 데이터를 받아옴
-        model.addAttribute("member", articleService.memberInfo(memberId));
+        model.addAttribute("member", memberService.memberInfo(memberId));
         return "/articles/welcome";
     }
 
@@ -40,7 +42,7 @@ public class ArticleController {
                             @ModelAttribute(name = "restaurant") RestaurantDTO restaurantDTO){
 
         log.info("restaurantDTO={}",restaurantDTO);
-        model.addAttribute("member", articleService.memberInfo(memberId));
+        model.addAttribute("member", memberService.memberInfo(memberId));
         return "/articles/write";
     }
 
@@ -63,7 +65,7 @@ public class ArticleController {
                               Model model){
         log.info("게시글 상세 페이지 이동");
         // 로그인 멤버 정보
-        model.addAttribute("member", articleService.memberInfo(memberId));
+        model.addAttribute("member", memberService.memberInfo(memberId));
 
         log.info("articleId={}",articleId);
 
@@ -118,7 +120,7 @@ public class ArticleController {
             redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
             return "redirect:" + referer;
         }
-        model.addAttribute("member", articleService.memberInfo(memberId));
+        model.addAttribute("member", memberService.memberInfo(memberId));
         model.addAttribute("article", articleEditViewDTO);
         return "/articles/edit";
     }

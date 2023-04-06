@@ -16,6 +16,7 @@ import java.util.List;
 @Data
 public class ArticleSearchCond {
 
+    private List<Long> blockedMemberIds;
     private List<Member> followMembers;//DB에서 가져옴 : 팔로우한 유저의
     private String sido;//DB에서 가져옴 : 관심지역(sido)
     private String sigoon;//DB에서 가져옴 : 관심지역(sigoon)

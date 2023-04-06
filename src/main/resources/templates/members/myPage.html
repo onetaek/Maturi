@@ -36,40 +36,39 @@
             <ion-icon name="ellipsis-vertical-outline"></ion-icon>
         </span>
         <ul class="ellipsis-content">
-
           <!--자신이 자신의 마이페이지에 들어왔을 경우-->
-          <th:block th:if="${member.nickName == myPageMember.nickName}">
-            <li >
-              <div class="editMyPage">
-                <ion-icon name="person-circle-outline"></ion-icon>
-                <a href="#">프로필 편집</a>
-              </div>
-            </li>
-            <li th:unless="${member.nickName == myPageMember.nickName}">
-              <div>
-                <ion-icon name="ban-outline"></ion-icon>
-                <a href="#">차단하기</a>
-              </div>
-            </li>
-          </th:block>
+<!--          <th:block th:if="${member.nickName == myPageMember.nickName}">-->
+<!--            <li >-->
+<!--              <div class="editMyPage">-->
+<!--                <ion-icon name="person-circle-outline"></ion-icon>-->
+<!--                <a href="#">프로필 편집</a>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--            <li th:unless="${member.nickName == myPageMember.nickName}">-->
+<!--              <div>-->
+<!--                <ion-icon name="ban-outline"></ion-icon>-->
+<!--                <a href="#">차단하기</a>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--          </th:block>-->
 
           <!--다른 사람의 마이페이지에 들어왔을 경우-->
-          <th:block th:if="${member.nickName == myPageMember.nickName}">
-            <!--팔로잉한 유저의 마이페이지에 들어왔을 경우-->
-            <li class="followingBtnWrap" th:if="${isFollowingMember}">
-              <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">
-                <ion-icon name="person-add-outline"></ion-icon>
-                <span>팔로잉</span>
-              </div>
-            </li>
-            <!--팔로잉하지 않은 유저의 마이페이지에 들어왔을 경우-->
-            <li class="followingBtnWrap" th:if="${!isFollowingMember}">
-              <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">
-                <ion-icon name="person-remove-outline"></ion-icon>
-                <span>팔로잉 취소</span>
-              </div>
-            </li>
-          </th:block>
+<!--          <th:block th:if="${member.nickName == myPageMember.nickName}">-->
+<!--            &lt;!&ndash;팔로잉한 유저의 마이페이지에 들어왔을 경우&ndash;&gt;-->
+<!--            <li class="followingBtnWrap" th:if="${isFollowingMember}">-->
+<!--              <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">-->
+<!--                <ion-icon name="person-add-outline"></ion-icon>-->
+<!--                <span>팔로잉</span>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--            &lt;!&ndash;팔로잉하지 않은 유저의 마이페이지에 들어왔을 경우&ndash;&gt;-->
+<!--            <li class="followingBtnWrap" th:if="${!isFollowingMember}">-->
+<!--              <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">-->
+<!--                <ion-icon name="person-remove-outline"></ion-icon>-->
+<!--                <span>팔로잉 취소</span>-->
+<!--              </div>-->
+<!--            </li>-->
+<!--          </th:block>-->
         </ul>
       </div>
     </div>
@@ -84,7 +83,9 @@
       <form>
         <input type="hidden" name="lastArticleId">
       </form>
-      <ul id="article-list"></ul>
+      <ul id="article-list">
+
+      </ul>
     </div>
   </div>
 
@@ -92,8 +93,8 @@
 
 <th:block layout:fragment="scripts">
   <script src="/js/members/myPage/myPage.js"></script>
-  <script src="/js/articles/article/articleImgRatio.js"></script>
-  <script src="/js/articles/article/articleListImg.js"></script>
+<!--  <script src="/js/articles/article/articleImgRatio.js"></script>-->
+<!--  <script src="/js/articles/article/articleListImg.js"></script>-->
   <script src="/js/articles/article/report.js"></script>
   <script src="/js/members/myPage/myPageArticles.js"></script>
   <script src="/js/members/myPage/myPageMine.js"></script>

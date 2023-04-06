@@ -77,8 +77,8 @@ public class MemberService {
       return findMember;
   }
 
-  public Member getMemberById(Long id){
-    return memberRepository.findById(id).orElse(null);
+  public MemberDTO memberInfo(Long memberId) {
+    return modelMapper.map(memberRepository.findById(memberId).orElse(null), MemberDTO.class);
   }
 
   public boolean emailDuplCheck(String email){

@@ -11,6 +11,7 @@ import com.maturi.util.argumentresolver.Login;
 import com.maturi.util.constfield.MessageConst;
 import com.maturi.util.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.maturi.util.constfield.MessageConst.*;
 import static com.maturi.util.constfield.SessionConst.*;
 
 @Slf4j
@@ -85,19 +87,19 @@ public class MemberController {
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
       log.info("errors={} ", bindingResult);
-      model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.LOGIN_FAIL);
+      model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
       return "/members/login";
     }
 
     //정상 로직
     Member findMember = memberService.login(memberLoginDTO);
     if(findMember == null){
-      model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.LOGIN_FAIL);
+      model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
 
       return "/members/login";
     }
     else if(memberService.isBanMember(findMember.getId())){ // 밴 멤버
-      model.addAttribute(MessageConst.ERROR_MESSAGE, MessageConst.IS_BAN_MEMBER);
+      model.addAttribute(ERROR_MESSAGE, IS_BAN_MEMBER);
 
       return "/members/login";
     } else { // 정상 멤버
@@ -110,10 +112,8 @@ public class MemberController {
   }
 
   @PostMapping("/logout")
-  public String logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Member LoginMember = memberService.getMemberById((Long) request.getSession().getAttribute(MEMBER_ID));
+  public String logout(HttpServletRequest request){
     request.getSession().invalidate();
-
     return "redirect:/members/login";
   }
 
@@ -129,7 +129,7 @@ public class MemberController {
     } else { // 회원 탈퇴 성공
       // 세션 삭제
       request.getSession().invalidate();
-      redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, "unregister");
+      redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "unregister");
 
       return "redirect:/members/login";
     }
@@ -141,7 +141,7 @@ public class MemberController {
                        @Login Long memberId,
                        Model model){
 
-    model.addAttribute("member", articleService.memberInfo(memberId));
+    model.addAttribute("member", memberService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
     model.addAttribute("isFollowingMember",memberService.checkFollowing(id,memberId));
     return "/members/myPage";
@@ -153,11 +153,11 @@ public class MemberController {
                            RedirectAttributes redirectAttributes,
                            Model model){
     if(!memberId.equals(id)){ // 다른 회원의 프로필수정 페이지 이동 요청 들어왔을 경우
-      redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+      redirectAttributes.addFlashAttribute(ERROR_MESSAGE, NO_PERMISSION);
       return "redirect:/members/" + id;
     }
 
-    model.addAttribute("member", articleService.memberInfo(memberId));
+    model.addAttribute("member", memberService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
     return "/members/editMyPage";
   }
@@ -174,7 +174,7 @@ public class MemberController {
       memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
     }
     else { // 타회원의 요청
-      redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+      redirectAttributes.addFlashAttribute(ERROR_MESSAGE, NO_PERMISSION);
     }
 
     return "redirect:/members/" + id;
@@ -186,11 +186,11 @@ public class MemberController {
                              RedirectAttributes redirectAttributes,
                              Model model){
     if(!memberId.equals(id)){ // 다른 회원의 상세페이지 이동 요청 들어왔을 경우
-      redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
+      redirectAttributes.addFlashAttribute(ERROR_MESSAGE, NO_PERMISSION);
       return "redirect:/members/" + id;
     }
 
-    model.addAttribute("member", articleService.memberInfo(memberId));
+    model.addAttribute("member", memberService.memberInfo(memberId));
     model.addAttribute("myPageMember", memberService.myPageMemberInfo(memberId));
     model.addAttribute("memberDetailInfo", memberService.memberDetailInfo(memberId));
 
@@ -203,7 +203,7 @@ public class MemberController {
                           RedirectAttributes redirectAttributes){
     Member member = memberService.changePasswd(memberId, passwd);
 
-    redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, MessageConst.PASSWD_CHANGE);
+    redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, PASSWD_CHANGE);
 
     return "redirect:/members/" + memberId;
   }
@@ -229,7 +229,7 @@ public class MemberController {
     memberService.changePasswd(findMember.getId(), memberLoginDTO.getPasswd());
 
     // 메세지 보내기
-    redirectAttributes.addFlashAttribute(MessageConst.SUCCESS_MESSAGE, MessageConst.PASSWD_CHANGE);
+    redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, PASSWD_CHANGE);
 
     return "redirect:/members/login";
   }

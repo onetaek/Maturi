@@ -15,6 +15,8 @@
     <link rel="stylesheet" th:href="@{/css/include/popup.css}">
     <link rel="stylesheet" th:href="@{/css/include/followPopup.css}">
     <link rel="stylesheet" th:href="@{/css/include/ellipsis.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 </head>
 <body>
 <script th:inline="javascript">
@@ -56,26 +58,41 @@
             <nav id="gnb">
                 <ul>
                     <li>
-                        <a href="#" onclick="popupToggle()">
-                            <ion-icon name="pencil-outline"></ion-icon><span>리뷰 쓰기</span>
+                        <a th:href="|/members/${session.memberId}/edit|">
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                            <span>프로필 편집</span>
                         </a>
                     </li>
-                    <li><a href="#" onclick="followPopupToggle()">
-                        <ion-icon name="people-outline"></ion-icon>
-                        <span>팔로우/팔로워</span>
-                    </a></li>
-                    <li><a th:href="|/members/${session.memberId}/edit|">
-                        <ion-icon name="person-circle-outline"></ion-icon>
-                        <span>프로필 편집</span>
-                    </a></li>
-                    <li><a th:href="|/members/${session.memberId}/detail|">
+                    <li>
+                        <a href="#" onclick="popupToggle()">
+                            <ion-icon name="pencil-outline"></ion-icon>
+                            <span>리뷰 쓰기</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="followPopupToggle()">
+                            <ion-icon name="people-outline"></ion-icon>
+                            <span>팔로우/팔로워</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="|/members/${session.memberId}/detail|">
                         <ion-icon name="settings-outline"></ion-icon>
                         <span>개인정보 설정</span>
-                    </a></li>
-                    <li><a class="logout-btn" href="#">
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="|/members/${session.memberId}/block|">
+                            <ion-icon name="ban-outline"></ion-icon>
+                            <span>차단목록</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="logout-btn" href="#">
                         <ion-icon name="log-out-outline"></ion-icon>
                         <span>로그아웃</span>
-                    </a></li>
+                        </a>
+                    </li>
                     <form name="logoutForm"></form>
                 </ul>
             </nav>
@@ -223,6 +240,7 @@
 <script src="/js/articles/goPageBtn.js"></script>
 <script src="/js/popupDropdown.js"></script>
 <script src="/js/articles/welcome/interLocation.js"></script>
+<script src="/js/ellipsis/blockMember.js"></script>
 <script src="/js/ellipsis/ellipsis.js"></script>
 <th:block layout:fragment="scripts"/>
 

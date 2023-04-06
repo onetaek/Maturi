@@ -34,12 +34,7 @@ function following(obj,articleId,articleMemberId,articleMemberNickName){
             }
             if(response.ok){
                 alert(`${articleMemberNickName}님을(를) 팔로잉하는데 성공했습니다.`);
-                console.log("obj",obj);
-                let element = obj.closest('.followingBtnWrap');
-                console.log("제발1",element);
-                // let element = document.querySelector(`.followingBtnWrap${articleId}`);
-                element.classList.replace(`followingBtnWrap${articleId}`, `followCancelBtnWrap${articleId}`);
-                element.innerHTML = `<div onclick="followCancel(this,${articleId},${articleMemberId},'${articleMemberNickName}')"><ion-icon name="person-remove-outline"></ion-icon><span>팔로잉 취소</span></div>`;
+                addPage("click");
                 getFollows();
             }
         })
@@ -47,10 +42,9 @@ function following(obj,articleId,articleMemberId,articleMemberNickName){
 }
 
 //게시글의 유저 팔로잉
-function followCancel(obj,articleId,articleMemberId,articleMemberNickName){
+function followCancel(articleId,articleMemberId,articleMemberNickName){
     console.log("팔로잉취소 시작");
     console.log("게시글의 memberId",articleMemberId);
-    console.log("this",obj);
     if(confirm(`${articleMemberNickName}님을(를) 팔로우 취소 하시겠습니까?`)){
         fetch(`/api/members/${memberId}/following`,{
             method:"DELETE",
@@ -64,12 +58,12 @@ function followCancel(obj,articleId,articleMemberId,articleMemberNickName){
             console.log("response의 상태코드",response.status);
             if(response.ok){
                 alert(`${articleMemberNickName}님을(를) 팔로우 취소하였습니다!`);
-                if($('#follow').is(':checked')) {
-                    window.location.href="/articles";
-                }
-                let element = obj.closest('.followingBtnWrap');
-                element.classList.replace(`followCancelBtnWrap${articleId}`, `followingBtnWrap${articleId}`);
-                element.innerHTML = `<li class="followingBtnWrap${articleId}"><div onclick="following(this,${articleId},${articleMemberId},'${articleMemberNickName}')"><ion-icon name="person-add-outline"></ion-icon><span>팔로잉</span></div></li>`;
+                // if($('#follow').is(':checked')) {
+                //     window.location.href="/articles";
+                // }
+                // let element = obj.closest('.followingBtnWrap');
+                // element.classList.replace(`followCancelBtnWrap${articleId}`, `followingBtnWrap${articleId}`);
+                // element.innerHTML = `<li class="followingBtnWrap${articleId}"><div onclick="following(this,${articleId},${articleMemberId},'${articleMemberNickName}')"><ion-icon name="person-add-outline"></ion-icon><span>팔로잉</span></div></li>`;
                 getFollows();
                 if(hasArticle === true){
                     console.log("팔로잉취소 후 게시글 가져오기");

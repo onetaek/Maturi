@@ -14,15 +14,14 @@ function addPage(event) {
 // }
 
 //검색 버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
-if(hasArticle === true){
-    document.querySelector('#main-search-btn').addEventListener('click',()=>{
-        console.log("검색 아이콘 클릭!");
-        let obj = searchCondSetting("click");
-        console.log("name",searchCategoryValue.name);
-        console.log("value",searchCategoryValue.value);
-        searchArticleAjax(obj);
-    });
-}
+document.querySelector('#main-search-btn').addEventListener('click',()=>{
+    console.log("검색 아이콘 클릭!");
+    let obj = searchCondSetting("click");
+    console.log("name",searchCategoryValue.name);
+    console.log("value",searchCategoryValue.value);
+    searchArticleAjax(obj);
+});
+
 
 //scrollEvent.js에 스크롤로 하단에 도달했을 때 Ajax요청코드 있음
 
@@ -151,14 +150,14 @@ function searchArticleAjax(obj){
                     }else{
                         if(article.followingMember){//팔로잉하고 있는 유저 -> 팔로우 취소 버튼 출력
                             articleHtml += `<li class="followingBtnWrap">
-                                                <div onclick="followCancel(this,${article.id},${article.memberId},'${article.nickName}')">
+                                                <div onclick="followCancel(${article.id},${article.memberId},'${article.nickName}')">
                                                     <ion-icon name="person-remove-outline"></ion-icon>
                                                     <span>팔로잉 취소</span>
                                                 </div>
                                             </li>`
                         }else{//팔로잉을 하지 않고있는 유저 -> 팔로잉 버튼 출력
                             articleHtml += `<li class="followingBtnWrap">
-                                                <div onclick="following(this,${article.id},${article.memberId},'${article.nickName}')">
+                                                <div onclick="following(${article.id},${article.memberId},'${article.nickName}')">
                                                     <ion-icon name="person-add-outline"></ion-icon>
                                                     <span>팔로잉</span>
                                                 </div>
@@ -168,6 +167,12 @@ function searchArticleAjax(obj){
                                             <div onclick="reportArticle(${article.id})">
                                                 <ion-icon name="warning-outline"></ion-icon>
                                                 <a>신고하기</a>
+                                            </div>
+                                        </li>`;
+                        articleHtml += `<li>
+                                            <div onclick="blockMember(${article.memberId},'${article.nickName}')">
+                                                <ion-icon name="ban-outline"></ion-icon>
+                                                <a>차단하기</a>
                                             </div>
                                         </li>`;
                     }
@@ -182,9 +187,9 @@ function searchArticleAjax(obj){
                 html += articleHtml;
             }
         });//forEach문끝 요소들 넣어줌
-
+        console.log("data.hasNext",data.hasNext);
         if (data.hasNext === false ){
-            html += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
+            articleList.appendChild(myCreateElement(`<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`));
         }
         if (data.event === "click" || data.event === "load"){//클릭 or load면 기존 게시글을 덮어서 새로 입력
             articleList.innerHTML = html
@@ -246,6 +251,5 @@ function _fnToNull(data) {
 }
 
 // 초기 페이지가 load될때 Ajax요청으로 게시판 정보를 가져옴
-if(hasArticle === true){
-    addPage("load");
-}
+addPage("load");
+

@@ -5,6 +5,7 @@ import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchCond;
 import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.article.search.ArticlePagingResponse;
+import com.maturi.dto.member.MemberBlockDTO;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
@@ -14,6 +15,7 @@ import com.maturi.repository.article.like.LikeArticleRepository;
 import com.maturi.repository.article.restaurant.RestaurantRepository;
 import com.maturi.repository.article.tag.TagRepository;
 import com.maturi.repository.article.tag.TagValueRepository;
+import com.maturi.repository.member.block.BlockQuerydslRepository;
 import com.maturi.repository.member.follow.FollowQuerydslRepository;
 import com.maturi.repository.member.member.MemberQuerydslRepository;
 import com.maturi.repository.member.member.MemberRepository;
@@ -39,7 +41,6 @@ import static com.maturi.util.constfield.SearchEventConst.*;
 @Transactional
 @Service
 public class ArticleService {
-    private final CommentRepository commentRepository;
     private final ModelMapper modelMapper;
     private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;
@@ -51,10 +52,8 @@ public class ArticleService {
     private final FileStore fileStore;
     private final ArticleQuerydslRepository articleQRepository;
     private final MemberQuerydslRepository memberQRepository;
-
-    public MemberDTO memberInfo(Long memberId) {
-        return modelMapper.map(memberRepository.findById(memberId).orElse(null), MemberDTO.class);
-    }
+    private final BlockQuerydslRepository blockQRepository;
+    private final CommentRepository commentRepository;
 
     public Long write(Long memberId, ArticleDTO articleDTO) throws IOException {
 
@@ -283,6 +282,14 @@ public class ArticleService {
                 log.info("[getSearchCond] article각각의 값 = {}",article);
             }
         }
+
+        List<Long> blockMemberIds = new ArrayList<>();
+        List<MemberBlockDTO> blockMembers = blockQRepository.findBlockMembers(memberId);
+        for (MemberBlockDTO blockMember : blockMembers) {
+            blockMemberIds.add(blockMember.getId());
+        }
+        searchCond.setBlockedMemberIds(blockMemberIds);
+
         log.info("searchCond = {}",searchCond);
 
         return searchCond;
@@ -292,23 +299,20 @@ public class ArticleService {
      * 해당 회원이 작성한 게시글 리스트 & 페이징 처리
      * @param pagingRequest
      * @param memberId (마이페이지 회원 ID)
-     * @param myId (로그인 회원 ID)
      * @return ArticlePagingResponse
      */
     public ArticlePagingResponse articlesByMember(ArticlePagingRequest pagingRequest,
-                                                  Long memberId,  // 마이페이지 회원 ID
-                                                  Long myId) { // 로그인 회원 ID
+                                                  Long memberId) {
 
         ArticlePagingResponse<Article> result = articleQRepository.findMyReviewArticles(memberId, pagingRequest.getLastArticleId(), pagingRequest.getSize());
         log.info("[articleSearch]페이징 결과 result = {}",result);
 
-        List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
+        List<ArticleMyPageViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
             log.info("[articleSearch]페이징한 게시글 하나의 정보 = {}", article);
-            ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);
+            ArticleMyPageViewDTO articleViewDTO = getArticleMyPageViewDTO(article);
             articleViewDTOS.add(articleViewDTO);
         }
-        result.setContent(articleViewDTOS); // content를 DTO로 변환
         result.setEvent(pagingRequest.getEvent());
 
         if (articleViewDTOS.size() == 0 ){ // 게시글이 하나도 없을 때
@@ -355,6 +359,18 @@ public class ArticleService {
                 .like(likeNum)
                 .isLiked(this.isLikedArticle(article.getId(), memberId))
                 .isFollowingMember(isFollowingMember)
+                .build();
+    }
+
+    private ArticleMyPageViewDTO getArticleMyPageViewDTO(Article article){
+        if(article == null) return null;
+        return ArticleMyPageViewDTO.builder()
+                .id(article.getId())
+                .image(Arrays.asList(article.getImage().split(",")).get(0))
+                .likeCount(likeArticleRepository.countByArticleId(article.getId()))
+                .commentCount(commentRepository.countByArticleId(article.getId()))
+                .restaurantName(article.getRestaurant().getName())
+                .area(article.getRestaurant().getArea())
                 .build();
     }
 

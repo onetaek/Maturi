@@ -36,7 +36,8 @@
 
     --light-pink-background-color: #fffcfc;
     /*팔로우 팝업*/
-    --follow-popup-background : #f5f5f5;
+    --follow-popup-background : #f9f9f9;
+    --block-background: #efefef;
     --follow-popup-max-width: 540px;
     --profile-message-color: #8c8c8c;
     --follow-search-input-underline-color : #b2b2b2;
