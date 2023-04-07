@@ -124,10 +124,10 @@ function displayPlaces(places) {
       });
       // 경도 위도 좌표 구하기!!! (마커 클릭)
       kakao.maps.event.addListener(marker, 'click', function(){
-        var addressTag = rInfoWrapUl.querySelector(".address > span");
-        var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress > span");
-        var nameTag = rInfoWrapUl.querySelector(".placeName > span");
-        var categoryTag = rInfoWrapUl.querySelector(".placeCategory > span");
+        var addressTag = rInfoWrapUl.querySelector(".address");
+        var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress");
+        var nameTag = rInfoWrapUl.querySelector(".placeName");
+        var categoryTag = rInfoWrapUl.querySelector(".placeCategory");
         rInfo_address = thisPlace.road_address_name;
         rInfo_oldAddress = thisPlace.address_name;
         rInfo_name = thisPlace.place_name;

@@ -3,7 +3,7 @@ main{
     /*display: flex;*/
     /*flex-direction: column;*/
     background: var(--block-background);
-    overflow: scroll;
+    overflow-y: scroll;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }

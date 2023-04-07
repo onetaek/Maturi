@@ -8,48 +8,59 @@
 </head>
 <body>
   <div layout:fragment="main" id="content">
-    <h2>리뷰 작성하기</h2>
-    <form name="writeForm" th:object="${restaurant}" id="writeForm" enctype="multipart/form-data">
-      <p class="content-title">음식점 명</p>
-      <p class="restaurant-name" th:text="*{name}"></p>
 
-      <p class="content-title">리뷰 내용</p>
-      <div class="inputBox">
-        <textarea name="content" spellcheck="false" placeholder="리뷰내용을 입력하시오..." required></textarea>
-      </div>
+    <div class="content-wrap">
+      <form name="writeForm" th:object="${restaurant}" id="writeForm" enctype="multipart/form-data">
+        <div class="title-wrap">
+          <h2>리뷰 작성하기</h2>
+        </div>
+        <p class="content-title">음식점 정보</p>
+        <div class="restaurant-name">
+          <p>음식점 위치 : <span th:text="|*{sido} *{sigoon} *{dong}|"></span></p>
+          <p>음식점명 : <span th:text="*{name}">맘스터치</span></p>
+        </div>
 
-      <p class="content-title">리뷰 이미지</p>
-      <div class="image-input-box">
-        <div class="image-input">
-          <input type="file" class="hidden" id="add-new-files" multiple="multiple">
-          <label class="add-new-label" for="add-new-files">
-            <ion-icon class="image-icon" name="images-outline"></ion-icon><span>이미지 추가</span>
-          </label>
-          <input type="file" class="old-files hidden" name="image" id="old-files" multiple="multiple">
-          <div class="total-file-size">
-            0 / 50MB
+        <p class="content-title">리뷰 내용</p>
+        <div class="inputBox">
+          <textarea name="content" spellcheck="false" placeholder="리뷰내용을 입력하시오..." required></textarea>
+        </div>
+
+        <p class="content-title">리뷰 이미지</p>
+        <div class="image-input-box">
+          <div class="image-input">
+            <input type="file" class="hidden" id="add-new-files" multiple="multiple">
+            <label class="add-new-label" for="add-new-files">
+              <ion-icon class="image-icon" name="images-outline"></ion-icon><span>이미지 추가</span>
+            </label>
+            <input type="file" class="old-files hidden" name="image" id="old-files" multiple="multiple">
+            <div class="total-file-size">
+              0 / 50MB
+            </div>
           </div>
+          <ul class="img-list" style="display:flex;">
+          </ul>
         </div>
-        <ul class="img-list" style="display:flex;">
-        </ul>
-      </div>
 
-      <p class="content-title">해시 태그</p>
-      <div class="inputBox tagBox">
-        <div class="tagWrap">
+        <p class="content-title">해시 태그</p>
+        <div class="inputBox tagBox">
+          <div class="tagWrap">
             <input type="text" class="tag-input" name="tag" placeholder="#해시태그">
+          </div>
+          <input type="hidden" name="tags">
         </div>
-        <input type="hidden" name="tags">
-      </div>
 
-      <input type="hidden" th:field="*{name}">
-      <input type="hidden" th:field="*{category}">
-      <input type="hidden" th:field="*{oldAddress}">
-      <input type="hidden" th:field="*{address}">
-      <input type="hidden" th:field="*{latitude}">
-      <input type="hidden" th:field="*{longitude}">
-      <input type="button" name="submitBtn" class="submitBtn" value="업로드">
-    </form>
+        <input type="hidden" th:field="*{name}">
+        <input type="hidden" th:field="*{category}">
+        <input type="hidden" th:field="*{oldAddress}">
+        <input type="hidden" th:field="*{address}">
+        <input type="hidden" th:field="*{latitude}">
+        <input type="hidden" th:field="*{longitude}">
+        <input type="hidden" th:field="*{sido}">
+        <input type="hidden" th:field="*{sigoon}">
+        <input type="hidden" th:field="*{dong}">
+        <input type="button" name="submitBtn" class="submitBtn" value="업로드">
+      </form>
+    </div>
   </div>
 
 <th:block layout:fragment="scripts">

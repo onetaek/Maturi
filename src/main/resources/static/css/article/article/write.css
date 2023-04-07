@@ -1,31 +1,72 @@
 #content {
-    max-width: 640px;
+    position:relative;
+    width:100%;
     margin:0 auto;
+    height:100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 20px;
+    background: url("/img/articles/restaurant2.jpg") center center / cover;
+
+}
+#content::after{
+    content:"";
+    position: absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
 }
 
-#content h2 {
-    font-size: 40px;
-    margin-top:50px;
-}
 
+.content-wrap{
+    position:relative;
+    z-index: 10;
+}
 #writeForm {
+    position: relative;
     display: flex;
     flex-direction: column;
     /*gap: 10px;*/
-    width: 100%;
+    width: 720px;
+    background: var(--white-color);
+    padding:30px 20px;
+    border-radius: 5px;
+    max-height: 90vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.title-wrap{
+    width:100%;
+    background: var(--white-color);
+}
+.title-wrap h2 {
+    font-size: 40px;
+    text-align: center;
 }
 #writeForm .inputBox {
     width: 100%;
 }
+#writeForm::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+#writeForm::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: var(--pink-color); /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+#writeForm::-webkit-scrollbar-track {
+    background: #efefef;  /*스크롤바 뒷 배경 색상*/
+}
+
 .restaurant-name{
     margin-top:10px;
     font-size: 16px;
     padding:10px;
-    border:2px solid var(--hot-pink-color);
+    border:2px solid #b2b2b2;
     /*background: #f3f3f3;*/
     border-radius: 5px;
 }
@@ -188,5 +229,4 @@ textarea::-webkit-scrollbar{
     color: var(--white-color);
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom:100px;
 }

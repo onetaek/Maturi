@@ -25,4 +25,7 @@ public class ArticleDTO {
     private String address;
     private Double latitude;
     private Double longitude;
+    private String sido;
+    private String sigoon;
+    private String dong;
 }

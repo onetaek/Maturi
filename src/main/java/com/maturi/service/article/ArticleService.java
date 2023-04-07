@@ -65,10 +65,16 @@ public class ArticleService {
                 .latitude(articleDTO.getLatitude())
                 .longitude(articleDTO.getLongitude())
                 .build();
+        Area area = Area.builder()
+                .sido(articleDTO.getSido())
+                .sigoon(articleDTO.getSigoon())
+                .dong(articleDTO.getDong())
+                .build();
         Restaurant restaurant = Restaurant.builder()
                 .name(articleDTO.getName())
                 .category(articleDTO.getCategory().split(" > ")[1])
                 .location(location)
+                .area(area)
                 .build();
 
         Restaurant findRestaurant = restaurantRepository.save(restaurant);
