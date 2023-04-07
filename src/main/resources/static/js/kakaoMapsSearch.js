@@ -52,7 +52,10 @@ function searchPlaces() {
                 + document.getElementById('keyword').value;
   console.log("keyword = " + keyword);
   if (!keyword.replace(/^\s+|\s+$/g, '')) {
-    alert('키워드를 입력해주세요!');
+    Swal.fire({
+      icon:'warning',
+      title:'키워드를 입력해주세요!'
+    })
     return false;
   }
 
@@ -73,13 +76,19 @@ function placesSearchCB(data, status, pagination) {
 
   } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
 
-    alert('검색 결과가 존재하지 않습니다.');
-    return;
-
+    Swal.fire({
+      icon:'error',
+      title:'검색 결과가 존재하지 않습니다.'
+    }).then(function(){
+      return;
+    })
   } else if (status === kakao.maps.services.Status.ERROR) {
-
-    alert('검색 결과 중 오류가 발생했습니다.');
-    return;
+    Swal.fire({
+      icon:'error',
+      title:'검색 결과 중 오류가 발생했습니다.'
+    }).then(function(){
+      return;
+    })
 
   }
 }

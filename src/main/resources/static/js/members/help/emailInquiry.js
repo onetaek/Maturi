@@ -18,9 +18,19 @@ emailAuthBtn.addEventListener("click", ()=>{
   }).then(response => {
     // http 응답 코드에 따른 메세지
     if(response.status == 200){ // 문자 전송 성공
-      alert("인증 문자가 전송됐습니다.");
+      Swal.fire({
+        icon:'success',
+        title:"인증 문자가 전송됐습니다."
+      }).then(function(){
+        confirmCheck();
+      })
     } else if(response.status == 404){ // 회원 정보 못찾음
-      alert("해당 휴대폰 번호로 가입된 아이디(이메일)이 없습니다.");
+      Swal.fire({
+        icon:'error',
+        title:"해당 휴대폰 번호로 가입된 아이디(이메일)이 없습니다."
+      }).then(function(){
+        confirmCheck();
+      })
     } else if(response.status == 401){ // 소셜 로그인일 경우 .. (문자 전송 x)
       if(!alert("해당 휴대폰 번호는 소셜 로그인(카카오/네이버)으로 가입되어 있습니다.")){
         location.href = "/members/login";
@@ -28,7 +38,7 @@ emailAuthBtn.addEventListener("click", ()=>{
     }
 
     // [이메일 찾기]버튼에 이벤트 추가
-    confirmCheck();
+
   })
 });
 
@@ -47,7 +57,11 @@ function confirmCheck(){
     }).then((response) => response.json())
       .then((data) => {
         if(data.email == null){
-          alert("인증 코드가 일치하지 않습니다.");
+          Swal.fire({
+            title: "인증 코드가 일치하지 않습니다.",
+            icon: 'error',
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+          })
         } else {
           if(!alert("인증 완료!!")){
             smsConfirmCheck = true;

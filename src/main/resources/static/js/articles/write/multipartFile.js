@@ -29,13 +29,21 @@ function handleImgFileSelect(e){//이미지 추가버튼을 클릭하고 파일�
     });
 
     if(!isImgFile){
-        alert("확장자는 이미지 확장자만 가능합니다.");
+        Swal.fire({
+            title: "확장자는 이미지 확장자만 가능합니다.",
+            icon: 'info',
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        })
         return;
     }
     console.log("중간 계산한 용량 합계",tempTotalSize);
 
     if(totalFileSize + tempTotalSize >= maximumFileSize){//파일들의 총합이 최대용량을 넘을경우
-        alert("파일의 총합이 50MB를 넘을 수 없습니다");
+        Swal.fire({
+            title: "파일의 총합이 50MB를 넘을 수 없습니다",
+            icon: 'warning',
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        })
         return false;
     } else{//최대 용량을 넘지않을 경우
         totalFileSize = totalFileSize + tempTotalSize;

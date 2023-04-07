@@ -30,7 +30,11 @@ function blockMember(blockedMemberId,blockedMemberNickName){
                     Swal.fire(`${blockedMemberNickName}을(를) 차단하는데 실패했습니다.`,'', 'error');
                 }
                 if(response.status === 201){
-                    alert(`${blockedMemberNickName}은(는) 이미 차단한 유저입니다`);
+                    Swal.fire({
+                        title: `${blockedMemberNickName}은(는) 이미 차단한 유저입니다`,
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
                 }
                 if(response.ok){
                     //"info,success,warning,error" 중 택1
@@ -119,7 +123,11 @@ function blockMemberAndHref(blockedMemberId,blockedMemberNickName){
                     Swal.fire(`${blockedMemberNickName}을(를) 차단하는데 실패했습니다.`,'', 'error');
                 }
                 if(response.status === 201){
-                    alert(`${blockedMemberNickName}은(는) 이미 차단한 유저입니다`);
+                    Swal.fire({
+                        title: `${blockedMemberNickName}은(는) 이미 차단한 유저입니다`,
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
                 }
                 if(response.ok){
                     //"info,success,warning,error" 중 택1

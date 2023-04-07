@@ -10,6 +10,10 @@ function onGeoOk(position){
     document.querySelector("input[name=longitude]").value = myLongitude;console.log()
 }
 function onGeoError(){
-    alert("현재위치를 찾을 수 없습니다.");
+    Swal.fire({
+        title: "현재위치를 찾을 수 없습니다.",
+        icon: 'error',
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    })
 }
 navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);

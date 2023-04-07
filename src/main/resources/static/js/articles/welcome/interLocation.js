@@ -8,14 +8,26 @@ interLocationRadioBtn.addEventListener('click',()=>{
     console.log("라벨 안에있는 값이 관심지역입니까?",localLabel.innerText === "관심지역");
 
     if(localLabel.innerText === "관심지역"){
-        if(confirm("관심지역을 등록하시겠습니까?")){
-            if($('#local').is(':checked')){
-                isInterBtnClick = true;
+        Swal.fire({
+            title: "관심지역을 등록하시겠습니까?",
+            icon: "question",
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+            confirmButtonText: '관심지역등록', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            reverseButtons: false, // 버튼 순서 거꾸로
+            // background-color: #6e7881
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if($('#local').is(':checked')){
+                    isInterBtnClick = true;
+                }
+                popupToggle();
+            }else{
+                $("#all").prop("checked",true);
             }
-            popupToggle();
-        }else{
-            $("#all").prop("checked",true);
-        }
+        });
     }
 });
 
@@ -29,41 +41,74 @@ interLocationRegisterBtn.addEventListener('click',()=>{
     console.log(sigoonText);
     console.log(dongText);
     if(sidoText === "전체"){
-        alert("관심지역을 등록하기 위해서는 적어도 시도는 선택하셔야합니다.");
+        Swal.fire({
+            title: "관심지역을 등록하기 위해서는 적어도 시도는 선택하셔야합니다.",
+            icon: 'info',
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        })
     }else{
         let checkSigoonText = sigoonText === "전체" ? "" : `>${sigoonText}`;
         let checkDongText = dongText === "전체" ? "" : `>${dongText}`;
-        if(confirm(`${sidoText}${checkSigoonText}${checkDongText}을(를) 관심지역으로 설정하시겠습니까?`)){
+        Swal.fire({
+            title: `${sidoText}${checkSigoonText}${checkDongText}을(를) 관심지역으로 설정하시겠습니까?`,
+            icon: "question",
+            showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+            confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+            confirmButtonText: '관심지역등록', // confirm 버튼 텍스트 지정
+            cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+            reverseButtons: false, // 버튼 순서 거꾸로
+            // background-color: #6e7881
+        }).then((result) => {
+            if (result.isConfirmed) {
+                let sidoValue = sidoText === "전체" ? null : `${sidoText}`;
+                let sigoonValue = sigoonText === "전체" ? null : `${sigoonText}`;
+                let dongValue = dongText === "전체" ? null : `${dongText}`;
 
-            let sidoValue = sidoText === "전체" ? null : `${sidoText}`;
-            let sigoonValue = sigoonText === "전체" ? null : `${sigoonText}`;
-            let dongValue = dongText === "전체" ? null : `${dongText}`;
+                fetch("/api/members/area",{
+                    method: "PATCH",
+                    headers:{
+                        "Content-Type":"application/json",
+                    },
+                    body:JSON.stringify({
+                        sido : sidoValue,
+                        sigoon : sigoonValue,
+                        dong : dongValue
+                    }),
+                })
+                    .then((response) => {
+                        if(response.ok){
+                            $("#all").prop("checked",true);//#local로 바꿨는데 안되네ㅠ
+                            Swal.fire({
+                                title: "인증 문자가 전송됐습니다.",
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                            }).then(function () {
+                                confirmCheck();
+                            })
+                            Swal.fire({
+                                title: `${sidoText}${checkSigoonText}${checkDongText}을(를) 관심지역으로 성공적으로 등록 하였습니다`,
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                            }).then(function () {
+                                popupToggle();
+                            })
 
-            fetch("/api/members/area",{
-                method: "PATCH",
-                headers:{
-                    "Content-Type":"application/json",
-                },
-                body:JSON.stringify({
-                    sido : sidoValue,
-                    sigoon : sigoonValue,
-                    dong : dongValue
-                }),
-            })
-            .then((response) => {
-                if(response.ok){
-                    $("#all").prop("checked",true);//#local로 바꿨는데 안되네ㅠ
-                    alert(`${sidoText}${checkSigoonText}${checkDongText}을(를) 관심지역으로 성공적으로 등록 하였습니다`);
-                    popupToggle();
-                }else{
-                    alert(`관심지역으로 등록하는데 실패했습니다`);
-                    $("#all").prop("checked",true);
-                    popupToggle();
-                }
-                selectInterLocation();
-            });
-            isInterBtnClick = false;
-        }
+                        }else{
+                            Swal.fire({
+                                title: `관심지역으로 등록하는데 실패했습니다`,
+                                icon: 'error',
+                                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                            }).then(function () {
+                                $("#all").prop("checked",true);
+                                popupToggle();
+                            })
+                        }
+                        selectInterLocation();
+                    });
+                isInterBtnClick = false;
+            }
+        });
     }
 });
 
@@ -101,51 +146,84 @@ function selectInterLocation(){
 //관심지역 DB에서 DELETE : 관심지역 옆의 X버튼 눌렀을 경우
 function deleteInterLocation(){
     console.log("관심지역 삭제 버튼 클릭");
-    if(confirm("관심지역을 삭제 하시겠습니까?")){
-        console.log("관심지역 삭제 동의");
-        fetch("/api/members/area",{
-            method: "DELETE",
-        })
-        .then((response) => {
-            if(response.ok){
-                alert("삭제 성공!");
-                selectInterLocation();
-                let element = document.querySelector('.input-container-interLocal-wrap');
-                element.innerHTML =
-                    `<div class="input-container-interLocal-wrap">
-                        <div class="input-container input-container-interLocal">
-                            <input id="local" type="radio" name="radioCond" value="interLocal">
-                            <div class="radio-tile radio-title-local">
-                                <ion-icon name="compass"></ion-icon>
-                                <label for="local">관심지역</label>
-                            </div>
+    Swal.fire({
+        title: "관심지역을 삭제 하시겠습니까?",
+        icon: "question",
+        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+        confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+        confirmButtonText: '관심지역삭제', // confirm 버튼 텍스트 지정
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+        reverseButtons: false, // 버튼 순서 거꾸로
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log("관심지역 삭제 동의");
+            fetch("/api/members/area",{
+                method: "DELETE",
+            })
+            .then((response) => {
+                if(response.ok){
+                    Swal.fire({
+                        title: "관심지역을 삭제하였습니다",
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                    selectInterLocation();
+                    let element = document.querySelector('.input-container-interLocal-wrap');
+                    element.innerHTML =
+                        `<div class="input-container-interLocal-wrap">
+                    <div class="input-container input-container-interLocal">
+                        <input id="local" type="radio" name="radioCond" value="interLocal">
+                        <div class="radio-tile radio-title-local">
+                            <ion-icon name="compass"></ion-icon>
+                            <label for="local">관심지역</label>
                         </div>
-                    </div>`;
-                //새로운 요소이므로 다시 이벤트를 걸어준다.
-                interLocationRadioBtn = document.querySelector('#local');
-                interLocationRadioBtn.addEventListener('click',()=>{
+                    </div>
+                </div>`;
+                    //새로운 요소이므로 다시 이벤트를 걸어준다.
+                    interLocationRadioBtn = document.querySelector('#local');
+                    interLocationRadioBtn.addEventListener('click',()=>{
 
-                    let localLabel = document.querySelector('label[for="local"]');
-                    console.log("관심지역을 눌렀습니다!!!!!!!!!");
-                    console.log("라벨 안에있는 값이 관심지역입니까?",localLabel.innerText === "관심지역");
+                        let localLabel = document.querySelector('label[for="local"]');
+                        console.log("관심지역을 눌렀습니다!!!!!!!!!");
+                        console.log("라벨 안에있는 값이 관심지역입니까?",localLabel.innerText === "관심지역");
 
-                    if(localLabel.innerText === "관심지역"){
-                        if(confirm("관심지역을 등록하시겠습니까?")){
-                            isInterBtnClick = true;
-                            popupToggle();
-                        }else{
-                            $("#all").prop("checked",true);
+                        if(localLabel.innerText === "관심지역"){
+                            Swal.fire({
+                                title: "관심지역을 등록하시겠습니까?",
+                                icon: "question",
+                                showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+                                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                                cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+                                confirmButtonText: '관심지역등록', // confirm 버튼 텍스트 지정
+                                cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+                                reverseButtons: false, // 버튼 순서 거꾸로
+                                // background-color: #6e7881
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    isInterBtnClick = true;
+                                    popupToggle();
+
+                                }else{
+                                    $("#all").prop("checked",true);
+                                }
+                            });
                         }
-                    }
-                });
-                $("#all").prop("checked",true);
-            }else{
-                alert("삭제 실패ㅠ");
-                selectInterLocation();
-                $("#local").prop("checked",true);
-            }
-        });
-    }
+                    });
+                    $("#all").prop("checked",true);
+                }else{
+                    Swal.fire({
+                        title: "관심지역을 삭제하는데 실패했습니다",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                    selectInterLocation();
+                    $("#local").prop("checked",true);
+                }
+            });
+        }
+    });
+
 }
 
 

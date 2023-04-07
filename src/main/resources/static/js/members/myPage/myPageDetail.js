@@ -89,7 +89,11 @@ function checkPasswd(btnType){
   }).then(response => {
     // http 응답 코드에 따른 메세지 출력
     if (!response.ok) { // 비밀번호 불일치
-      alert("비밀번호가 일치하지 않습니다.");
+      Swal.fire({
+        title: "비밀번호가 일치하지 않습니다.",
+        icon: 'warning',
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+      })
     } else { // 비밀번호 일치
       if(btnType == "unregister"){
       withdrawalAction();
@@ -127,11 +131,19 @@ function passwdCheckValidate(){
 
   let repExpPasswd = /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,20}/;
   if(!repExpPasswd.test(passwdValue)){ // 유효성검사
-    alert("비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.");
+    Swal.fire({
+      title: "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    })
     detailModalForm.passwd.focus();
     return false;
   } else if(passwdValue != passwdCheckValue){ // 일치 여부
-    alert("비밀번호가 일치하지 않습니다. 다시 입력하세요.");
+    Swal.fire({
+      title: "비밀번호가 일치하지 않습니다. 다시 입력하세요.",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    })
     detailModalForm.passwdCheck.focus();
     return false;
   } else { // 검사 통과
@@ -139,17 +151,45 @@ function passwdCheckValidate(){
   }
 }
 function newPasswdAction(){ // 비번 변경 액션
-  if(confirm("비밀번호를 변경하시겠습니까??")){
-    detailModalForm.action = "/members/newPasswd";
-    detailModalForm.method = "post";
-    detailModalForm.submit();
-  }
+  Swal.fire({
+    title: "비밀번호를 변경하시겠습니까??",
+    icon: "question",
+    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+    confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+    confirmButtonText: '변경하기', // confirm 버튼 텍스트 지정
+    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+    reverseButtons: false, // 버튼 순서 거꾸로
+    // background-color: #6e7881
+  }).then((result) => {
+    if (result.isConfirmed) {
+      detailModalForm.action = "/members/newPasswd";
+      detailModalForm.method = "post";
+      detailModalForm.submit();
+
+    }
+  });
+
 }
 function withdrawalAction(){ // 회원 탈퇴 액션
-  if(confirm("정말 회원탈퇴를 진행하시겠습니까?")){
-    detailModalForm.action = "/members/unregister";
-    detailModalForm.method = "post";
-    detailModalForm.submit();
-  }
+  Swal.fire({
+    title: "정말 회원탈퇴를 진행하시겠습니까?",
+    text: "회원탈퇴한 계정은 복구할 수 없습니다",
+    icon: "warning",
+    showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+    confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
+    cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+    confirmButtonText: '회원탈퇴', // confirm 버튼 텍스트 지정
+    cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+    reverseButtons: false, // 버튼 순서 거꾸로
+    // background-color: #6e7881
+  }).then((result) => {
+    if (result.isConfirmed) {
+      detailModalForm.action = "/members/unregister";
+      detailModalForm.method = "post";
+      detailModalForm.submit();
+    }
+  });
+
 }
 

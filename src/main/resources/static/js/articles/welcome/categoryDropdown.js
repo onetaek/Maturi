@@ -50,8 +50,14 @@ function getRestaruantCategory(){
                 console.log("testtest!!");
                 console.log(categoryLabel.innerText);
                 if(categoryLabel.innerText === "카테고리"){
-                    alert("카테고리를 선택해주세요");
-                    $("#all").prop("checked",true);
+                    Swal.fire({
+                        title: "카테고리를 선택해주세요",
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    }).then(function () {
+                        $("#all").prop("checked",true);
+                    })
+
                 }else{
                     document.querySelector('input[name=category]').value=categoryLabel.innerText;
                 }

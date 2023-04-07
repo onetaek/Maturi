@@ -12,54 +12,95 @@ function myPagefollowing(memberId,myPageMemberId,myPageMemberNickName){
     console.log("팔로잉 시작");
     console.log("게시글의 id",memberId);
     console.log("게시글의 memberId",myPageMemberId);
-    if(confirm(`${myPageMemberNickName}님을(를) 팔로잉 하시겠습니까?`)){
-        fetch(`/api/members/${memberId}/following`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                "followingMemberId":myPageMemberId
+    Swal.fire({
+        title: `${myPageMemberNickName}님을(를) 팔로잉 하시겠습니까?`,
+        icon: "question",
+        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+        confirmButtonText: '팔로잉하기', // confirm 버튼 텍스트 지정
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+        reverseButtons: false, // 버튼 순서 거꾸로
+    }).then((result)=>{
+        if(result.isConfirmed){
+            fetch(`/api/members/${memberId}/following`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    "followingMemberId":myPageMemberId
+                })
+            }).then((response) =>{
+                console.log("response의 상태코드",response.status);
+                if(response.status === 226){
+                    Swal.fire({
+                        icon:'error',
+                        title:`${myPageMemberNickName}님은(는) 이미 팔로잉하고있는 유저입니다.`
+                    })
+                }
+                if(response.status === 400){
+                    Swal.fire({
+                        icon:'error',
+                        title:`잘못된 접근 방법입니다`
+                    })
+                }
+                if(response.ok){
+                    Swal.fire({
+                        icon:'success',
+                        title:`${myPageMemberNickName}님을(를) 팔로잉하는데 성공했습니다.`
+                    }).then(function(){
+                        window.location.href=`/members/${myPageMemberId}`;
+                    })
+                }
             })
-        }).then((response) =>{
-            console.log("response의 상태코드",response.status);
-            if(response.status === 226){
-                alert(`${myPageMemberNickName}님은(는) 이미 팔로잉하고있는 유저입니다.`);
-            }
-            if(response.status === 400){
-                alert("잘못된 접근 방법입니다");
-            }
-            if(response.ok){
-                alert(`${myPageMemberNickName}님을(를) 팔로잉하는데 성공했습니다.`);
-                window.location.href=`/members/${myPageMemberId}`;
-            }
-        })
-    }
+        }
+    })
 }
 
 //게시글의 유저 팔로잉
 function myPagefollowCancel(memberId,myPageMemberId,myPageMemberNickName){
     console.log("팔로잉취소 시작");
     console.log("게시글의 memberId",myPageMemberId);
-    if(confirm(`${myPageMemberNickName}님을(를) 팔로우 취소 하시겠습니까?`)){
-        fetch(`/api/members/${memberId}/following`,{
-            method:"DELETE",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                "followingMemberId":myPageMemberId
+    Swal.fire({
+        title: `${myPageMemberNickName}님을(를) 팔로잉 취소 하시겠습니까?`,
+        icon: "question",
+        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+        confirmButtonText: '팔로잉취소하기', // confirm 버튼 텍스트 지정
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+        reverseButtons: false, // 버튼 순서 거꾸로
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/api/members/${memberId}/following`,{
+                method:"DELETE",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    "followingMemberId":myPageMemberId
+                })
+            }).then((response) =>{
+                console.log("response의 상태코드",response.status);
+                if(response.ok){
+                    Swal.fire({
+                        icon:'success',
+                        title:`${myPageMemberNickName}님을(를) 팔로우 취소하였습니다!`
+                    }).then(function(){
+                        window.location.href=`/members/${myPageMemberId}`;
+                    })
+
+                }else{
+                    Swal.fire({
+                        icon:'error',
+                        title:`${myPageMemberNickName}님을(를) 팔로우 취소하는데 실패하였습니다`
+                    })
+                }
             })
-        }).then((response) =>{
-            console.log("response의 상태코드",response.status);
-            if(response.ok){
-                alert(`${myPageMemberNickName}님을(를) 팔로우 취소하였습니다!`);
-                window.location.href=`/members/${myPageMemberId}`;
-            }else{
-                alert(`${myPageMemberNickName}님을(를) 팔로우 취소하는데 실패하였습니다`);
-            }
-        })
-    }
+        }
+    });
+
 }
 
 //프로필, 이름, 닉네임을 클릭하면 해당 유저의 마이페이지로 이동

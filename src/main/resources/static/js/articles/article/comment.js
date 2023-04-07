@@ -65,7 +65,11 @@ comment.forEach(e =>{
       }
     }).then(response => {
       if(!response.ok){
-        alert("댓글 삭제에 실패했습니다!");
+        Swal.fire({
+          title: "댓글 삭제에 실패했습니다!",
+          icon: 'success',
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        })
         return;
       } else {
         e.remove(); // 해당 댓글 태그 삭제
@@ -105,7 +109,11 @@ comment.forEach(e =>{
           }
         }).then(response => {
           if(!response.ok){
-            alert("댓글 수정에 실패했습니다!");
+            Swal.fire({
+              title: "댓글 수정에 실패했습니다!",
+              icon: 'success',
+              confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            })
             return;
           } else {
             window.location.reload();

@@ -13,11 +13,19 @@ tagInput.addEventListener("keyup", ()=>{
   if( window.event.keyCode === 13){
     if(!regExpTag.test(tagInput.value)){ // 유효성검사 통과 x
       tagInput.value = "";
-      alert("#태그 형식으로 작성해주세요 ..");
+      Swal.fire({
+        title: "#태그 형식으로 작성해주세요 ..",
+        icon: 'success',
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+      })
       tagInput.focus();
     }
     else if(tags.value.includes(tagInput.value)){
-      alert("이미 추가된 태그입니다!");
+      Swal.fire({
+        title: "이미 추가된 태그입니다!",
+        icon: 'success',
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+      })
       tagInput.focus();
     }
     else { // 유효성검사 통과

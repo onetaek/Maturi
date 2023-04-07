@@ -30,6 +30,9 @@ goWriteBtn.addEventListener("click", ()=>{
     // 글전체보기 : /articles
   }
   else { // 포함 x
-    alert("음식점으로 등록된 가게만 선택 가능합니다. 카테고리를 다시 확인해주세요.");
+    Swal.fire({
+      icon:'warning',
+      title:"음식점으로 등록된 가게만 선택 가능합니다. 카테고리를 다시 확인해주세요."
+    })
   }
 });

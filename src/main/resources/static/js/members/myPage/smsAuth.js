@@ -47,16 +47,33 @@ function sendSMS(btnType){
     // http 응답 코드에 따른 메세지 출력
     if(response.status == 200){
       if(btnType == "send"){ // 문자 전송 이벤트일 때
-        alert("인증 문자가 전송됐습니다.");
+        Swal.fire({
+          title: "인증 문자가 전송됐습니다.",
+          icon: 'success',
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        })
         authNumCheck(); // 폼 변경
       } else if(btnType == "confirm"){
-        alert("문자 인증에 성공했습니다.");
-        location.reload(); // 현재 페이지 새로고침
+        Swal.fire({
+          title: "문자 인증에 성공했습니다.",
+          icon: 'success',
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        }).then(function () {
+          location.reload(); // 현재 페이지 새로고침
+        })
       }
     } else if(response.status == 226){
-      alert("문자 인증이 불가능한 번호입니다.");
+      Swal.fire({
+        title: "문자 인증이 불가능한 번호입니다.",
+        icon: 'error',
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+      })
     } else if(response.status == 400){
-      alert("인증 번호가 일치하지 않습니다.");
+      Swal.fire({
+        title: "인증 번호가 일치하지 않습니다.",
+        icon: 'error',
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+      })
     }
   });
 }
@@ -87,7 +104,11 @@ function phoneNumValidate(){
 
   let repExpPhone = /^[0-9]{11,12}/;
   if(!repExpPhone.test(phoneValue)){ // 유효성검사
-    alert("휴대폰 번호는 11~12자 사이의 숫자로 입력 가능합니다.");
+    Swal.fire({
+      title: "휴대폰 번호는 11~12자 사이의 숫자로 입력 가능합니다.",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    })
     smsAuthForm.tel.focus();
     return false;
   } else { // 검사 통과

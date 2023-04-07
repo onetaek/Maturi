@@ -50,7 +50,11 @@ function getFollows(){
     fetch(`/api/members/${memberId}/follows?follow=${followRadioValue}&keyword=${keywordFollowValue}`)
         .then((response) => {
             if(response.status === 400){
-                alert("잘못된 접근 방법입니다");
+                Swal.fire({
+                    title: '잘못된 접근 방법입니다',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                })
                 return false;
             }
             return response.json()
@@ -102,62 +106,109 @@ function getFollows(){
 //팝업창에서 팔로우 취소
 function popupFollowCancel(followingMemberId,followingMemberNickName){
     console.log("팝업 팔로우 취소 시작");
-    if(confirm(`${followingMemberNickName}님을(를) 팔로우 취소 하시겠습니까?`)){
-        fetch(`/api/members/${memberId}/following`,{
-            method:"DELETE",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                "followingMemberId":followingMemberId
-            })
-        }).then((response) =>{
-            console.log("response의 상태코드",response.status);
-            if(response.ok){
-                alert(`${followingMemberNickName}님을(를) 팔로우 취소하였습니다!`);
-                if($('#follow').is(':checked')) {
-                    window.location.href="/articles";
+    Swal.fire({
+        title: `${followingMemberNickName}님을(를) 팔로잉 취소 하시겠습니까?`,
+        icon: "question",
+        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+        confirmButtonColor: '#d33', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+        confirmButtonText: '팔로잉취소', // confirm 버튼 텍스트 지정
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+        reverseButtons: false, // 버튼 순서 거꾸로
+        // background-color: #6e7881
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/api/members/${memberId}/following`,{
+                method:"DELETE",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    "followingMemberId":followingMemberId
+                })
+            }).then((response) =>{
+                console.log("response의 상태코드",response.status);
+                if(response.ok){
+                    Swal.fire({
+                        title: `${followingMemberNickName}님을(를) 팔로우 취소하였습니다!`,
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    }).then(function () {
+                        if($('#follow').is(':checked')) {
+                            window.location.href="/articles";
+                        }
+                    })
+                    getFollows();
+                }else{
+                    Swal.fire({
+                        title: `${followingMemberNickName}님을(를) 팔로우 취소하는데 실패하였습니다`,
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
                 }
-                getFollows();
-            }else{
-                alert(`${followingMemberNickName}님을(를) 팔로우 취소하는데 실패하였습니다`);
-            }
-        })
-    }
+            })
+        }
+    });
+
 }
 
 //팝업창에서 맞팔하기
 function popupFollowing(followerMemberId,followerMemberNickName){
     console.log("팔로잉 시작");
-    if(confirm(`${followerMemberNickName}님을(를) 팔로잉 하시겠습니까?`)){
-        fetch(`/api/members/${memberId}/following`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                "followingMemberId":followerMemberId//팝업창에서는 팔로워지만 이제 팔로우가될것이다.
-            })
-        }).then((response) =>{
-            console.log("response의 상태코드",response.status);
-            if(response.status === 226){
-                alert(`${followerMemberId}님은(는) 이미 팔로잉하고있는 유저입니다.`);
-            }
-            if(response.status === 400){
-                alert("잘못된 접근 방법입니다");
-            }
-            if(response.ok){
-                alert(`${followerMemberNickName}님을(를) 팔로잉하는데 성공했습니다.`);
-                getFollows();
-                //게시글을 다시 가져오는 작업
-                if(hasArticle === true){
-                    console.log("팔로잉 후 게시글 가져오기");
-                    let obj = searchCondSetting("click");
-                    searchArticleAjax(obj);
+    Swal.fire({
+        title: `${followerMemberNickName}님을(를) 팔로잉 하시겠습니까?`,
+        icon: "question",
+        showCancelButton: true, // cancel버튼 보이기. 기본은 원래 없음
+        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        cancelButtonColor: '#6e7881', // cancel 버튼 색깔 지정
+        confirmButtonText: '팔로잉하기', // confirm 버튼 텍스트 지정
+        cancelButtonText: '취소', // cancel 버튼 텍스트 지정
+        reverseButtons: false, // 버튼 순서 거꾸로
+        // background-color: #6e7881
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/api/members/${memberId}/following`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    "followingMemberId":followerMemberId//팝업창에서는 팔로워지만 이제 팔로우가될것이다.
+                })
+            }).then((response) =>{
+                console.log("response의 상태코드",response.status);
+                if(response.status === 226){
+                    Swal.fire({
+                        title: `${followerMemberId}님은(는) 이미 팔로잉하고있는 유저입니다.`,
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
                 }
-            }
-        })
-    }
+                if(response.status === 400){
+                    Swal.fire({
+                        title: "잘못된 접근 방법입니다",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                }
+                if(response.ok){
+                    Swal.fire({
+                        title: `${followerMemberNickName}님을(를) 팔로잉하는데 성공했습니다.`,
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                    getFollows();
+                    //게시글을 다시 가져오는 작업
+                    if(hasArticle === true){
+                        console.log("팔로잉 후 게시글 가져오기");
+                        let obj = searchCondSetting("click");
+                        searchArticleAjax(obj);
+                    }
+                }
+            })
+        }
+    });
+
 }
 
 

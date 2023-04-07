@@ -56,7 +56,11 @@ function editeWriteFormValidation(){
   console.log("loadImgItem",loadImgItem.length);
   console.log("document.querySelector('.old-files').files",document.querySelector('.old-files').files.length);
   if(loadImgItem.length === 0 && document.querySelector('.old-files').files.length === 0){ // 이미지 1개 이상
-    alert("리뷰 작성을 하기 위해서는 하나 이상의 사진이 필요합니다!");
+    Swal.fire({
+      title: "리뷰 작성을 하기 위해서는 하나 이상의 사진이 필요합니다",
+      icon: 'info',
+      confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    })
     return false;
   }
   return true; // 유효성검사 통과시
