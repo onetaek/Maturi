@@ -1,6 +1,15 @@
+main{
+    height: 100vh;
+    background: var(--block-background);
+}
 #coverImg {
     position: relative;
 }
+#myPageInfo{
+    display: flex;
+    flex-direction: column;
+}
+
 #coverImg .nullImg,
 #myPageInfo .nullImg {
     display: none;
@@ -8,14 +17,38 @@
 
 #myPageInfo input[type=text],
 #myPageInfo textarea {
-    border: 1px solid #000;
+    border: 1px solid #484848;
     padding: 5px;
     border-radius: 5px;
 }
-#myPageInfo textarea { width: 100%; }
+
 #myPageInfo input[name=name] {
     width: 100px;
 }
+
+#myPageInfo textarea.mProfile{
+    width: 100%;
+    resize: none;
+    height: 59px;
+    outline: none;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 5px;
+    max-height: 330px;
+    border: 1px solid #bfbfbf;
+    font-family : 'Lato', 'Noto Sans KR', sans-serif;
+}
+#myPageInfo textarea.mProfile::placeholder{
+    color: #b3b3b3;
+}
+#myPageInfo textarea.mProfile:is(:focus, :valid){
+    padding: 14px;
+    border: 1px solid #484848;
+}
+#myPageInfo textarea.mProfile::-webkit-scrollbar{
+    width: 0px;
+}
+
 #myPageInfo .profileImgModify,
 #coverImg .coverImgModify {
     position: absolute;
@@ -42,13 +75,16 @@
     color: #808080;
 }
 
-#myPageInfo textarea {
-    font-size: 16px;
-    height: 70px;
-}
+/*#myPageInfo textarea {*/
+/*    font-size: 16px;*/
+/*    height: 70px;*/
+/*}*/
+
+
 
 #myPageInfo .editSubmitBtn,
 #myPageInfo .editCancelBtn{
+    float: right;
     width: 100px; padding: 5px 0; margin: 5px;
     border-radius: 5px;
     background-color: var(--search-btn-background);

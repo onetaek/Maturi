@@ -313,14 +313,13 @@ public class ArticleService {
             ArticleMyPageViewDTO articleViewDTO = getArticleMyPageViewDTO(article);
             articleViewDTOS.add(articleViewDTO);
         }
+        result.setContentForMyPage(articleViewDTOS);
         result.setEvent(pagingRequest.getEvent());
-
         if (articleViewDTOS.size() == 0 ){ // 게시글이 하나도 없을 때
             result.setLastArticleId(null);
         } else{ // 게시글 존재 -> 마지막 게시글 ID 저장
             result.setLastArticleId(articleViewDTOS.get(articleViewDTOS.size()-1).getId());
         }
-
         return result;
     }
 
@@ -364,14 +363,20 @@ public class ArticleService {
 
     private ArticleMyPageViewDTO getArticleMyPageViewDTO(Article article){
         if(article == null) return null;
-        return ArticleMyPageViewDTO.builder()
+        ArticleMyPageViewDTO articleDTO = ArticleMyPageViewDTO.builder()
                 .id(article.getId())
                 .image(Arrays.asList(article.getImage().split(",")).get(0))
                 .likeCount(likeArticleRepository.countByArticleId(article.getId()))
                 .commentCount(commentRepository.countByArticleId(article.getId()))
                 .restaurantName(article.getRestaurant().getName())
-                .area(article.getRestaurant().getArea())
                 .build();
+        Area area = article.getRestaurant().getArea();
+        if(area != null){
+            articleDTO.setSido(area.getSido());
+            articleDTO.setSigoon(area.getSigoon());
+            articleDTO.setDong(area.getDong());
+        }
+        return articleDTO;
     }
 
     private ArticleEditViewDTO getArticleEditDTO(Article article) {

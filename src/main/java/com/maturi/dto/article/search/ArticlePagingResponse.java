@@ -1,5 +1,6 @@
 package com.maturi.dto.article.search;
 
+import com.maturi.dto.article.ArticleMyPageViewDTO;
 import com.maturi.dto.article.ArticleViewDTO;
 import lombok.*;
 
@@ -22,8 +23,12 @@ public class ArticlePagingResponse<T> {
         this.content = content;
         this.hasNext = hasNext;
     }
-
+    //메인페이지에서 사용할 게시글 DTO
     public void setContent(List<ArticleViewDTO> articleViewDTOS) {
         this.content = (List<T>) articleViewDTOS;
+    }
+    //마이페이지에서 사용할 게시글 DTO
+    public void setContentForMyPage(List<ArticleMyPageViewDTO> articleMyPageViewDTOS){
+        this.content = (List<T>) articleMyPageViewDTOS;
     }
 }

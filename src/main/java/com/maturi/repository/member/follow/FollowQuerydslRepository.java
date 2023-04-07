@@ -74,14 +74,14 @@ public class FollowQuerydslRepository {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        return query.select(followingMember)
+        return !query.select(followingMember)
                 .from(follow)
                 .join(follow.followingMember, followingMember)
                 .join(follow.followerMember, followerMember)
                 .on(followerMember.id.eq(followerMemberId))
                 .on(followingMember.id.eq(followingMemberId))
                 .fetch()
-                .size() != 0;//true면 팔로우멤버가 맞다.
+                .isEmpty();//true면 팔로우멤버가 맞다.
     }
 
     private BooleanExpression followMemberNameLike(QMember followMember,String keyword){

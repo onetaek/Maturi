@@ -1,3 +1,8 @@
+main{
+    min-height: 100vh;
+    background: var(--block-background);
+
+}
 #coverImg {
     width: 100%;
     height: 30vh;
@@ -47,17 +52,86 @@
     cursor: pointer;
 }
 
-#reviewWrap {
+
+#review-container {
+    width:720px;
+    margin: 10px auto 0;
+    background: var(--white-color);
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: var(--review-article-gap);
 }
 
-#reviewWrap #article-list {
-    display: flex; flex-direction: column;
-    gap: 30px;
+#review-container #article-list {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
-#reviewWrap #article-list > li {
+#review-container #article-list > li {
+    position:relative;
+    width:48%;
+    padding-bottom:48%;
+    margin:1%;
+    background: center center / cover;
+}
+#article-list li.article-item{
+    cursor: pointer;
+}
+#article-list li.article-item:hover .count-info-wrap{
+    visibility: inherit;
+}
+#review-container #article-list > li.no-more-article-message{
+    width:98%;
+    padding: 20px 0;
+    text-align: center;
+}
+#review-container #article-list > li.no-search-message{
+    width:98%;
+    padding: 20px 0;
+    text-align: center;
 
+}
+#review-container #article-list > li.no-search-message .popup-btn{
+    cursor: pointer;
+}
+/* 게시글 content 들*/
+.restaurant-info-wrap{
+    position:absolute;
+    bottom:5%;
+    left:5%;
+    display: flex;
+    flex-direction: column;
+}
+.restaurant-info-wrap .restaurant-area{
+    color:var(--white-color);
+}
+.restaurant-info-wrap .restaurant-name{
+    color:var(--white-color);
+    font-size: 1.3rem;
+}
+/* li에 hover시 보여지는 댓글과 좋아요 갯수 */
+.count-info-wrap{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+}
+.count-info-wrap > div{
+    display: flex;
+    flex-direction: row;
+    color:var(--white-color);
+    font-size: 1.5rem;
+}
+.count-info-wrap > div > ion-icon{
+    display: flex;
+}
+.count-info-wrap .like-count{
+    margin-right: 10%;
+}
+.count-info-wrap .comment-count{
 }

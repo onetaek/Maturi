@@ -15,91 +15,101 @@
   <div id="coverImg">
     <img th:if="${myPageMember.coverImg != null}" th:src="|/test/file/${myPageMember.coverImg}|" alt="커버 사진">
   </div>
-  <div id="content" th:attr="data-memberid=${myPageMember.id}">
-    <div id="myPageInfo">
-      <p class="mProfileImg">
-        <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
-        <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/test/file/${myPageMember.profileImg}|" alt="프로필 이미지">
-        <img th:if="${myPageMember.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
-      </p>
-      <div class="memberInfo">
-        <h3>
-          <span class="mNickName" th:text="${myPageMember.nickName}">@hyea._.hyun</span>
-          (<span class="mName" th:text="${myPageMember.name}">김혜현</span>)
-<!--        <button class="detailInfo" th:if="${member.nickName == myPageMember.nickName}">상세정보</button>-->
-        <button class="followBtn" onclick="" th:if="${member.nickName != myPageMember.nickName}">팔로우</button>
-        </h3>
-        <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
-      </div>
-      <div class="ellipsis-btn-wrap">
+  <div id="content-wrap">
+    <div id="content" th:attr="data-memberid=${myPageMember.id}">
+      <div id="myPageInfo">
+        <p class="mProfileImg">
+          <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
+          <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/test/file/${myPageMember.profileImg}|" alt="프로필 이미지">
+          <img th:if="${myPageMember.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
+        </p>
+        <div class="memberInfo">
+          <h3>
+            <span class="mNickName" th:text="${myPageMember.nickName}">@hyea._.hyun</span>
+            (<span class="mName" th:text="${myPageMember.name}">김혜현</span>)
+            <!--        <button class="detailInfo" th:if="${member.nickName == myPageMember.nickName}">상세정보</button>-->
+<!--            <button class="followBtn" onclick="" th:if="${member.nickName != myPageMember.nickName}">팔로우</button>-->
+          </h3>
+          <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
+        </div>
+        <div class="ellipsis-btn-wrap">
         <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
             <ion-icon name="ellipsis-vertical-outline"></ion-icon>
         </span>
-        <ul class="ellipsis-content">
-          <!--자신이 자신의 마이페이지에 들어왔을 경우-->
-<!--          <th:block th:if="${member.nickName == myPageMember.nickName}">-->
-<!--            <li >-->
-<!--              <div class="editMyPage">-->
-<!--                <ion-icon name="person-circle-outline"></ion-icon>-->
-<!--                <a href="#">프로필 편집</a>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--            <li th:unless="${member.nickName == myPageMember.nickName}">-->
-<!--              <div>-->
-<!--                <ion-icon name="ban-outline"></ion-icon>-->
-<!--                <a href="#">차단하기</a>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--          </th:block>-->
+          <ul class="ellipsis-content">
+            <!--자신이 자신의 마이페이지에 들어왔을 경우-->
+            <th:block th:if="${member.nickName == myPageMember.nickName}">
+              <li>
+                <div class="editMyPage">
+                  <ion-icon name="person-circle-outline"></ion-icon>
+                  <a href="#">프로필 편집</a>
+                </div>
+              </li>
+            </th:block>
 
-          <!--다른 사람의 마이페이지에 들어왔을 경우-->
-<!--          <th:block th:if="${member.nickName == myPageMember.nickName}">-->
-<!--            &lt;!&ndash;팔로잉한 유저의 마이페이지에 들어왔을 경우&ndash;&gt;-->
-<!--            <li class="followingBtnWrap" th:if="${isFollowingMember}">-->
-<!--              <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">-->
-<!--                <ion-icon name="person-add-outline"></ion-icon>-->
-<!--                <span>팔로잉</span>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--            &lt;!&ndash;팔로잉하지 않은 유저의 마이페이지에 들어왔을 경우&ndash;&gt;-->
-<!--            <li class="followingBtnWrap" th:if="${!isFollowingMember}">-->
-<!--              <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">-->
-<!--                <ion-icon name="person-remove-outline"></ion-icon>-->
-<!--                <span>팔로잉 취소</span>-->
-<!--              </div>-->
-<!--            </li>-->
-<!--          </th:block>-->
-        </ul>
+            <!--자신이 다른사람의 마이페이지에 들어왔을 경우-->
+            <th:block th:unless="${member.nickName == myPageMember.nickName}">
+              <!--팔로잉하지 않은 유저의 마이페이지에 들어왔을 경우-->
+              <li class="followingBtnWrap" th:unless="${isFollowingMember}">
+                <div th:memberId="${session.memberId}"
+                     th:myPageMemberId="${myPageMember.id}"
+                     th:myPageMemberNickName="${myPageMember.nickName}"
+                     th:onclick="myPagefollowing(this.getAttribute('memberId'),
+                                           this.getAttribute('myPageMemberId'),
+                                           this.getAttribute('myPageMemberNickName'))">
+                  <ion-icon name="person-add-outline"></ion-icon>
+                  <span>팔로잉</span>
+                </div>
+              </li>
+              <!--팔로잉한 유저의 마이페이지에 들어왔을 경우-->
+              <li class="followingBtnWrap" th:if="${isFollowingMember}">
+                <div th:memberId="${session.memberId}"
+                     th:myPageMemberId="${myPageMember.id}"
+                     th:myPageMemberNickName="${myPageMember.nickName}"
+                     th:onclick="myPagefollowCancel(this.getAttribute('memberId'),
+                                           this.getAttribute('myPageMemberId'),
+                                           this.getAttribute('myPageMemberNickName'))">
+                  <ion-icon name="person-remove-outline"></ion-icon>
+                  <span>팔로잉 취소</span>
+                </div>
+              </li>
+              <!--차단하기-->
+              <li>
+                <div th:blockedMemberId="${myPageMember.id}"
+                     th:blockedMemberNickName="${myPageMember.nickName}"
+                     th:onclick="blockMemberAndHref(this.getAttribute('blockedMemberId'),
+                                            this.getAttribute('blockedMemberNickName'))">
+                  <ion-icon name="ban-outline"></ion-icon>
+                  <a href="#">차단하기</a>
+                </div>
+              </li>
+            </th:block>
+
+
+          </ul>
+        </div>
       </div>
     </div>
-
-<!--  리뷰글 공간 -->
-    <!--form에서 method:delete방식으로 전송하기 위한 방법-->
-    <form name="articleUpdateForm" method="post">
-      <input type="hidden" name = "_method" value = "delete"/>
-    </form>
-
-    <div id="reviewWrap">
-      <form>
-        <input type="hidden" name="lastArticleId">
-      </form>
-      <ul id="article-list">
-
-      </ul>
-    </div>
+  </div>
+  <div id="review-container">
+    <input type="hidden" name="lastArticleId">
+    <!--js로 게시글들을 넣어줌-->
+    <ul id="article-list">
+    </ul>
   </div>
 
 </main>
 
 <th:block layout:fragment="scripts">
+  <script>
+    let isMyPage = [[${member.nickName == myPageMember.nickName}]]
+    console.log("isMyPage",isMyPage);
+    let myPageMemberId = [[${myPageMember.id}]];
+    console.log("myPageMemberId",myPageMemberId);
+  </script>
   <script src="/js/members/myPage/myPage.js"></script>
-<!--  <script src="/js/articles/article/articleImgRatio.js"></script>-->
-<!--  <script src="/js/articles/article/articleListImg.js"></script>-->
-  <script src="/js/articles/article/report.js"></script>
   <script src="/js/members/myPage/myPageArticles.js"></script>
-  <script src="/js/members/myPage/myPageMine.js"></script>
   <script src="/js/articles/welcome/paging/scrollEvent.js"></script>
-  <script src="/js/articles/welcome/followAndDelete.js"></script>
 </th:block>
 </body>
 </html>

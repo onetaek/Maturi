@@ -19,5 +19,7 @@ public class ArticleMyPageViewDTO {
     private int likeCount;
     private int commentCount;
     private String restaurantName;
-    private Area area;
+    private String sido;
+    private String sigoon;
+    private String dong;
 }

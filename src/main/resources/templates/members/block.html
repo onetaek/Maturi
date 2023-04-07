@@ -31,14 +31,6 @@
                     </h3>
                     <p class="mProfile" th:text="${myPageMember.profile}">상태글</p>
                 </div>
-                <div class="ellipsis-btn-wrap">
-            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
-                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-            </span>
-                    <ul class="ellipsis-content">
-
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
@@ -79,7 +71,6 @@
 <th:block layout:fragment="scripts">
     <script src="/js/members/myPage/myPage.js"></script>
     <script src="/js/articles/article/report.js"></script>
-    <script src="/js/members/myPage/myPageMine.js"></script>
     <script src="/js/articles/welcome/followAndDelete.js"></script>
 </th:block>
 </body>

@@ -22,6 +22,7 @@ public class ArticleReport extends BaseTimeEntity {
   private Member member; // 신고한 회원
   @ManyToOne(fetch = FetchType.LAZY) // 필요한 경우에만 해당 테이블 join함
   private Article article;
+  private String reportReason;//신고사유
   @Enumerated(EnumType.STRING)
   private ReportStatus status;
 }

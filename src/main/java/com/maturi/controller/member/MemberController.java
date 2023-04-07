@@ -141,9 +141,11 @@ public class MemberController {
                        @Login Long memberId,
                        Model model){
 
-    model.addAttribute("member", memberService.memberInfo(memberId));
-    model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
-    model.addAttribute("isFollowingMember",memberService.checkFollowing(id,memberId));
+    model.addAttribute("member", memberService.memberInfo(memberId));//사이드바에 들어갈 로그인한 유저의 정보
+    model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));//프로필 정보에 들어갈 해당 마이페이지 유저의 저옵
+    if(id != memberId){
+      model.addAttribute("isFollowingMember",memberService.checkFollowing(memberId,id));//로그인한 유저가 해당 마이페이지 유저를 팔로잉하는지 확인
+    }
     return "/members/myPage";
   }
 

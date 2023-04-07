@@ -66,13 +66,15 @@ public class ArticleAPIController {
     log.info("articlePagingRequest = {}", articlePagingRequest);
     log.info("myPage memberId = {}", id);
     ArticlePagingResponse articles = articleService.articlesByMember(articlePagingRequest, id);
+    log.info("body에 담기전의 articles = {}",articles);
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 
 
   @PostMapping("/{id}/report")
   public ResponseEntity reportArticle(@Login Long memberId,
-                                      @PathVariable Long id){
+                                      @PathVariable Long id,
+                                      @RequestBody Map<String,String> map){
 
     boolean status = articleService.articleStatusNormal(id); // 게시글 활성화상태인지 체크
     if(!status){ // 게시글 비활성화 상태
@@ -80,7 +82,7 @@ public class ArticleAPIController {
     }
 
     // 게시글 신고 (이미 해당 회원이 신고한 내역 있음 -> false)
-    boolean isNewReport = reportService.reportArticle(memberId, id);
+    boolean isNewReport = reportService.reportArticle(memberId, id,map.get("reportReason"));
     log.info("isNewReport?? " + isNewReport);
     return isNewReport?
             ResponseEntity.status(HttpStatus.OK).build() : // 신고 성공

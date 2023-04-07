@@ -33,7 +33,7 @@ public class ReportService {
    * @param articleId
    * @return boolean (새로운 신고자&&신고글 여부)
    */
-  public boolean reportArticle(Long memberId, Long articleId) {
+  public boolean reportArticle(Long memberId, Long articleId,String reportReason) {
     Member member = memberRepository.findById(memberId).orElseThrow(()->
             new IllegalArgumentException("맴버가 없습니다!"));
     Article findArticle = articleQRepository.findByIdAndStatus(articleId);
@@ -49,6 +49,7 @@ public class ReportService {
     ArticleReport articleReport = ArticleReport.builder()
             .member(member)
             .article(findArticle)
+            .reportReason(reportReason)
             .status(ReportStatus.WAITING) // 처리 대기 상태 ..
             .build();
     articleReportRepository.save(articleReport); // db에 저장

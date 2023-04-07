@@ -1,6 +1,6 @@
 window.onscroll = function () {
     if (hasArticle){
-        if (getScrollTop() < getDocumentHeight() - window.innerHeight){
+        if (getScrollTop() < getDocumentHeight() - window.innerHeight - 1){
             return;
         }
         // 스크롤이 페이지 하단에 도달할 경우 ajax요청을 통해 게시글 데이터를 받아옴

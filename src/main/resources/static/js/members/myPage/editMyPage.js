@@ -127,3 +127,11 @@ editNickName.addEventListener("keyup", ()=>{
     console.log("status = " + nickNameCheck);
   }
 })
+
+//textarea 동적 크기조절
+const textarea = document.querySelector("textarea");
+textarea.addEventListener("keyup", e =>{
+  textarea.style.height = "63px";
+  let scHeight = e.target.scrollHeight;
+  textarea.style.height = `${scHeight}px`;
+});
