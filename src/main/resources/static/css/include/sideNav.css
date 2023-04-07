@@ -9,6 +9,9 @@
     transition: 0.5s;
     z-index: 9999;
 }
+#sideNav.close{
+    width: 50px;
+}
 #sideNav .logo {
     width: 100%;
 }
@@ -31,6 +34,10 @@
     justify-content: space-between;
     background-color: var(--light-pink-background-color);
 }
+#sideNav.close #gnbWrap{
+    padding:0;
+    height:inherit;
+}
 #gnbWrap .mProfileImg {
     width: 120px; height: 120px;
     position: absolute;
@@ -42,11 +49,17 @@
     overflow: hidden;
     cursor: pointer;
 }
+#sideNav.close .mProfileImg{
+    display: none;
+}
 #gnbWrap .mProfileImg img {
     width: 100%; height: 100%;
 }
 #gnbWrap .memberInfo {
     margin-top: 60px;
+}
+#sideNav.close .memberInfo{
+    display: none;
 }
 #gnbWrap .memberInfo .mName{
     font-size: 24px;
@@ -62,10 +75,18 @@
     margin-top : 50px;
     margin-bottom:100px;
 }
+#sideNav.close #gnb{
+    margin-bottom:50px;
+}
 #gnb ul {
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+#sideNav.close #gnb ul li{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #gnb ul li a{
     display: flex;
@@ -74,19 +95,37 @@
     margin-left: 20px;
     transition: margin-left 0.2s ease, color 0.2s ease;
 }
+#sideNav.close #gnb ul li a{
+    margin-left:0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 #gnb ul li a:hover{
     margin-left:35px;
     color:var(--hot-pink-color);
+}
+#sideNav.close #gnb ul li a:hover{
+    margin-left:0;
 }
 #gnb ul li a ion-icon{
     font-size: 1.8rem;
     margin-right : 10px;
 }
+#sideNav.close #gnb ul li a ion-icon{
+    margin-right: 0;
+}
 #gnb ul li a span{
     font-size: 1rem;
 }
+#sideNav.close #gnb ul li a span{
+    display: none;
+}
 footer {
     border-top: 1px solid var(--side-nav-border-color);
+}
+#sideNav.close footer{
+    display: none;
 }
 footer .copy-right{
     font-size: 12px;
@@ -111,4 +150,24 @@ footer .copy-right a:hover{
 }
 #scroll-top-btn:hover{
     color: var(--hot-pink-color);
+}
+.side-nav-toggle-btn{
+    position:absolute;
+    top:5px;
+    right:7px;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #a6a6a6;
+    transition: color 0.2s;
+}
+.side-nav-toggle-btn ion-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#sideNav.close .side-nav-toggle-btn{
+    transform: rotate(180deg);
+}
+.side-nav-toggle-btn:hover{
+    color:var(--hot-pink-color);
 }
