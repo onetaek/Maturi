@@ -23,7 +23,6 @@ main{
 #search-section{
     position:relative;
     z-index:999;
-    width:var(--max-width);
     margin:0 auto;
     padding-top:10px;
 }
