@@ -120,11 +120,13 @@ function searchArticleAjax(obj){
                     <span class="likeWrap">
                       <span class="likeBtn likeBtn${article.id}">좋아요</span>
                       <span class="likeNum likeNum${article.id}">${article.like}</span>
-                    </span>`
+                    </span>
+                    <div class="tagWrap">`
             article.tags.forEach((tag) => {
-                articleHtml += `<span><a href="#">${tag}</a></span>`
+                articleHtml += `<span class="tag-box"><span>${tag}</span></span>`
             });
             articleHtml += `
+                       </div>
                 </div>
                 <!--     리뷰글 더보기 버튼 -->
                 <div class="ellipsis-btn-wrap">

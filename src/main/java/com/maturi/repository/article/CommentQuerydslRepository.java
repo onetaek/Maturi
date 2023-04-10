@@ -1,7 +1,5 @@
 package com.maturi.repository.article;
 
-import com.maturi.entity.article.Article;
-import com.maturi.entity.article.ArticleStatus;
 import com.maturi.entity.article.Comment;
 import com.maturi.entity.article.CommentStatus;
 import com.querydsl.core.BooleanBuilder;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
-import static com.maturi.entity.article.QRestaurant.restaurant;
 import static com.maturi.entity.member.QMember.member;
 import static com.maturi.entity.article.QComment.comment;
 
@@ -55,6 +52,13 @@ public class CommentQuerydslRepository {
             .orderBy(comment.id.desc())
             .fetch();
   }
+  public Long findMaxRef(Long articleId) {
+    return query.select(comment.ref)
+            .from(comment)
+            .where(articleIdEq(articleId))
+            .orderBy(comment.ref.desc())
+            .fetchFirst();
+  }
 
   private BooleanExpression commentIdEq(Long commentId) {
     return commentId != null ? comment.id.eq(commentId) : null;
@@ -62,4 +66,5 @@ public class CommentQuerydslRepository {
   private BooleanExpression articleIdEq(Long articleId) {
     return articleId != null ? article.id.eq(articleId) : null;
   }
+
 }

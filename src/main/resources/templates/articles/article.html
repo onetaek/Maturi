@@ -6,176 +6,261 @@
     <title>게시판</title>
     <link rel="stylesheet" href="/css/article/article/article.css">
     <link rel="stylesheet" href="/css/article/article/comment.css">
+    <link rel="stylesheet" href="/css/article/article/articleRestaurantMap.css">
 </head>
 <body>
 <!-- 상세페이지 본문 -->
 <div layout:fragment="main" id="content" class="articlePage">
-    <div id="articleWrap" th:attr="data-articleid=${article.id}">
-        <!--    글쓴이 정보 -->
-        <div class="writerInfo">
-            <a class="writerProfileImg" th:href="|/members/${article.memberId}|">
-                <img th:if="${article.profileImg != null && #strings.contains(article.profileImg,'://')}" th:src="${article.profileImg}" alt="프로필 이미지">
-                <img  th:unless="${article.profileImg == null || #strings.contains(article.profileImg,'://')}" th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
-                <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
-            </a>
-            <p class="written">
-                <a th:href="|/members/${article.memberId}|">
-                    <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
-                    (<span class="writerName" th:text="${article.name}">김혜현</span>)
-                </a>
-                <span class="writtenAt" th:text="${article.modifiedDate}">2023.03.12</span>
-            </p>
-        </div>
-        <!--    글 본문 -->
-        <div class="contentWrap">
-            <div class="bImgWrap">
-                <ul class="bImg">
-                    <li th:each="img: ${article.image}"><img th:src="|/test/file/${img}|" alt="사진"></li>
-                </ul>
+    <div id="review-container" th:attr="data-articleid=${article.id}">
+        <!--      음식점 정보 -->
+        <div id="restaurantWrap">
+            <div class="restaurantInfo">
+                <div class="restaurant-title-wrap">
+                    <h4 class="restaurant-title" th:text="${restaurant.name}">음식점명</h4>
+                    <button onclick="restaurantMapPopupToggle()">
+                        <ion-icon name="map"></ion-icon>
+                        지도로보기
+                    </button>
+                </div>
+
+                <p class="restaurant-etc">
+                    <span th:text="${restaurant.category}">카테고리</span>&nbsp;&nbsp;
+                    <span th:text="${restaurant.oldAddress}">주소</span>
+                </p>
             </div>
-            <p class="bContent" th:text="${article.content}">리뷰 글 내용</p>
         </div>
-        <!--    좋아요 & 태그 -->
-        <div class="likeAndTag">
-            <span class="likeWrap">
-              <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>
-              <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>
-              <span class="likeNum" th:text="${article.like}">20</span>
-            </span>
-            <a href="#" th:each="tag: ${article.tags}" th:text="${tag}">#태그1</a>
-        </div>
-        <!--     리뷰글 더보기 버튼 -->
-        <div class="ellipsis-btn-wrap">
+
+        <div id="article-wrap">
+            <div id="my-article-wrap">
+                <!--    글쓴이 정보 -->
+                <div class="writerInfo">
+                    <a class="writerProfileImg" th:href="|/members/${article.memberId}|">
+                        <img th:if="${article.profileImg != null && #strings.contains(article.profileImg,'://')}"
+                             th:src="${article.profileImg}" alt="프로필 이미지">
+                        <img th:unless="${article.profileImg == null || #strings.contains(article.profileImg,'://')}"
+                             th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
+                        <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png"
+                             alt="기본 이미지">
+                    </a>
+                    <p class="written">
+                        <a th:href="|/members/${article.memberId}|">
+                            <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
+                            <span class="writerName" th:text="|(${article.name})|">김혜현</span>
+                        </a>
+                        <span class="writtenAt" th:text="${article.modifiedDate}">2023.03.12</span>
+                    </p>
+                    <!--     리뷰글 더보기 버튼 -->
+                    <div class="ellipsis-btn-wrap">
             <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
                 <ion-icon name="ellipsis-vertical-outline"></ion-icon>
             </span>
-            <form th:action="|/articles/${article.id}|" th:method="delete" name="deleteForm"></form>
-            <ul class="ellipsis-content">
-                <li th:if="${article.memberId == member.id}">
-                    <div>
-                        <ion-icon name="git-compare-outline"></ion-icon>
-                        <a th:href="|/articles/${article.id}/edit|">게시글 수정</a>
-                    </div>
-                </li>
-                <li th:if="${article.memberId == member.id}">
-                    <div>
-                        <ion-icon name="trash-outline"></ion-icon>
-                        <a href="#" th:articleId="${article.id}" th:onclick="deleteArticle(this.getAttribute('articleId'))">게시글 삭제</a>
-                    </div>
-                </li>
-                <li th:unless="${article.memberId == member.id}">
-                    <div th:articleId="${article.id}" th:onclick="reportArticle(this.getAttribute('articleId'))">
-                        <ion-icon name="warning-outline"></ion-icon>
-                        <a>신고하기</a>
-                    </div>
-                </li>
-                <li class="followingBtnWrap" th:if="${article.memberId != member.id && article.followingMember}">
-                    <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">
-                        <ion-icon name="person-remove-outline"></ion-icon>
-                        <span>팔로잉 취소</span>
-                    </div>
-                </li>
-                <li class="followingBtnWrap" th:if="${article.memberId != member.id && !article.followingMember}">
-                    <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">
-                        <ion-icon name="person-add-outline"></ion-icon>
-                        <span>팔로잉</span>
-                    </div>
-                </li>
-            </ul>
-            <!--form에서 method:delete방식으로 전송하기 위한 방법-->
-            <form name="articleUpdateForm" method="post">
-                <input type="hidden" name = "_method" value = "delete"/>
-            </form>
-        </div>
-    </div>
-    <!--      음식점 정보 -->
-    <div id="restaurantWrap">
-        <div class="rMap" id="articleMap" th:attr="data-lat=${restaurant.latitude}, data-long=${restaurant.longitude}"></div>
-        <div class="restaurantInfo">
-            <h4 class="rTitleWrap">
-                <span class="rTitle" th:text="${restaurant.name}">음식점명</span>
-                <a class="rSearch" th:href="|/articles?restaurantName=${restaurant.name}|">리뷰 검색</a>
-            </h4>
-            <p class="rOldAddress">주소 : <span th:text="${restaurant.oldAddress}"></span></p>
-            <p class="rAddress">도로명 주소 : <span th:text="${restaurant.address}"></span></p>
-            <p class="rCategory">카테고리 : <span th:text="${restaurant.category}"></span> </p>
-        </div>
-    </div>
-    <!--  댓글 -->
-    <div id="commentWrap">
-        <form name="commentFrm" id="commentFrm">
-            <textarea type="text" class="commentBody" name="commentBody" placeholder="댓글 등록하기.."></textarea>
-            <button type="button" class="commentSubmitBtn" name="commentSubmitBtn">댓글 달기</button>
-        </form>
-        <!--    댓글 목록 -->
-        <div class="commentList">
-            <th:block th:each="comment: ${comments}">
-            <div class="comment" th:attr="data-commentid=${comment.id}">
-                <div class="commentWrap">
-                    <a class="cProfileImg" th:href="|/members/${comment.memberId}|">
-                        <img th:if="${comment.profileImg != null && #strings.contains(comment.profileImg,'://')}" th:src="${comment.profileImg}" alt="프로필 이미지">
-                        <img th:unless="${comment.profileImg == null || #strings.contains(comment.profileImg,'://')}" th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
-                        <img th:if="${comment.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
-                    </a>
-                    <div class="commentBox">
-                        <h4>
-                            <a th:text="${comment.nickName}" th:href="|/members/${comment.memberId}|">user-nick</a>
-                            (<a th:text="${comment.name}" th:href="|/members/${comment.memberId}|">이름</a>)
-                        </h4>
-                        <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>
-                        <p class="cSundry">
-                            <span class="" th:text="${comment.modifiedDate}">1일전</span>
-                            <span class="replyBtn">답글 달기</span>
-                        </p>
-                        <span class="likeWrap">
-                          <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>
-                          <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>
-                          <span class="likeNum" th:text="${comment.like}">20</span>
-                        </span>
-                        <div class="ellipsis-btn-wrap">
-                            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
-                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-                            </span>
-                            <ul class="ellipsis-content">
-                                <li th:if="${comment.memberId == member.id}">
-                                    <div class="commentModify">
+                        <form th:action="|/articles/${article.id}|" th:method="delete" name="deleteForm"></form>
+                        <ul class="ellipsis-content">
+                            <!--자기 자신의 게시글 상세페이지에 들어왔을 경우-->
+                            <th:block th:if="${article.memberId == member.id}">
+                                <li>
+                                    <div>
                                         <ion-icon name="git-compare-outline"></ion-icon>
-                                        <a href="#" th:articleId="${article.id}">댓글 수정</a>
+                                        <a th:href="|/articles/${article.id}/edit|">게시글 수정</a>
                                     </div>
                                 </li>
-                                <li th:if="${comment.memberId == member.id}">
-                                    <div class="commentDelete">
+                                <li>
+                                    <div>
                                         <ion-icon name="trash-outline"></ion-icon>
-                                        <a href="#" th:articleId="${article.id}">댓글 삭제</a>
+                                        <a href="#" th:articleId="${article.id}"
+                                           th:onclick="deleteArticle(this.getAttribute('articleId'))">게시글 삭제</a>
                                     </div>
                                 </li>
-                                <li th:if="${comment.memberId != member.id}">
-                                    <div th:commentId="${comment.id}" th:onclick="reportComment(this.getAttribute('commentId'))">
-                                        <ion-icon name="warning-outline"></ion-icon>
-                                        <a>신고하기</a>
-                                    </div>
-                                </li>
-                                <li class="followingBtnWrap" th:if="${comment.memberId != member.id && article.followingMember}">
-                                    <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">
-                                        <ion-icon name="person-remove-outline"></ion-icon>
-                                        <span>팔로잉 취소</span>
-                                    </div>
-                                </li>
-                                <li class="followingBtnWrap" th:if="${comment.memberId != member.id && !article.followingMember}">
-                                    <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">
+                            </th:block>
+
+                            <!--다른 사람의 게시글 상세 페이지에 들어왔을 경우-->
+                            <th:block th:unless="${article.memberId == member.id}">
+                                <!--팔로잉하지 않은 유저의 마이페이지에 들어왔을 경우-->
+                                <li class="followingBtnWrap" th:unless="${article.followingMember}">
+                                    <div th:memberId="${session.memberId}"
+                                         th:articleMemberId="${article.memberId}"
+                                         th:articleMemberNickName="${article.nickName}"
+                                         th:onclick="ArticleFollowing(this.getAttribute('memberId'),
+                                           this.getAttribute('articleMemberId'),
+                                           this.getAttribute('articleMemberNickName'))">
                                         <ion-icon name="person-add-outline"></ion-icon>
                                         <span>팔로잉</span>
                                     </div>
                                 </li>
-                            </ul>
+                                <!--팔로잉한 유저의 마이페이지에 들어왔을 경우-->
+                                <li class="followingBtnWrap" th:if="${article.followingMember}">
+                                    <div th:memberId="${session.memberId}"
+                                         th:articleMemberId="${myPageMember.id}"
+                                         th:articleMemberNickName="${myPageMember.nickName}"
+                                         th:onclick="articleFollowCancel(this.getAttribute('memberId'),
+                                           this.getAttribute('articleMemberId'),
+                                           this.getAttribute('articleMemberNickName'))">
+                                        <ion-icon name="person-remove-outline"></ion-icon>
+                                        <span>팔로잉 취소</span>
+                                    </div>
+                                </li>
+                                <!--신고하기-->
+                                <li>
+                                    <div th:articleId="${article.id}"
+                                         th:onclick="reportArticle(this.getAttribute('articleId'))">
+                                        <ion-icon name="warning-outline"></ion-icon>
+                                        <a>신고하기</a>
+                                    </div>
+                                </li>
+                                <!--차단하기-->
+                                <li>
+                                    <div th:articleMemberId="${article.memberId}"
+                                         th:articleMemberNickName="${article.nickName}"
+                                         th:onclick="blockMemberAndHref(this.getAttribute('articleMemberId'),
+                                            this.getAttribute('articleMemberNickName'))">
+                                        <ion-icon name="ban-outline"></ion-icon>
+                                        <a>차단하기</a>
+                                    </div>
+                                </li>
+                            </th:block>
+
+
+                        </ul>
+                        <!--form에서 method:delete방식으로 전송하기 위한 방법-->
+                        <form name="articleUpdateForm" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                        </form>
+                    </div>
+                </div>
+                <!--    글 본문 -->
+                <div class="contentWrap">
+                    <div class="bImgWrap">
+                        <ul class="bImg">
+                            <li th:each="img: ${article.image}"><img th:src="|/test/file/${img}|" alt="사진"></li>
+                        </ul>
+                        <div class="drag-info">
+                            <span>좌우로 드래그하세요</span>
+                            <div>
+                                <i class="fa-solid fa-arrow-left-long"></i>
+                                <i class="fa-solid fa-arrow-right-long"></i>
+                            </div>
+                            <i class="fa-regular fa-hand-pointer"></i>
                         </div>
+                    </div>
+                    <p class="bContent" th:text="${article.content}">리뷰 글 내용</p>
+                </div>
+                <!--    좋아요 & 태그 -->
+                <div class="likeAndTag">
+                    <span class="likeWrap">
+                      <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>
+                      <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>
+                      <span class="likeNum" th:text="${article.like}">20</span>
+                    </span>
+
+                    <div class="tagWrap" th:each="tag: ${article.tags}">
+                        <span class="tag-box">
+                            <span th:text="${tag}">#태그1</span>
+                        </span>
+                    </div>
+                </div>
+                <!--  댓글 -->
+                <div id="commentWrap">
+                    <form name="commentFrm" id="commentFrm">
+                        <textarea type="text" class="commentBody" name="commentBody" placeholder="댓글 등록하기.."></textarea>
+                        <button type="button" class="commentSubmitBtn" name="commentSubmitBtn">댓글 달기</button>
+                    </form>
+                    <!--    댓글 목록 -->
+                    <div class="commentList">
+                        <th:block th:each="comment: ${comments}">
+                            <div class="comment" th:attr="data-commentid=${comment.id}">
+                                <div class="commentWrap">
+                                    <a class="cProfileImg" th:href="|/members/${comment.memberId}|">
+                                        <img th:if="${comment.profileImg != null && #strings.contains(comment.profileImg,'://')}"
+                                             th:src="${comment.profileImg}" alt="프로필 이미지">
+                                        <img th:unless="${comment.profileImg == null || #strings.contains(comment.profileImg,'://')}"
+                                             th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">
+                                        <img th:if="${comment.profileImg == null}"
+                                             src="/img/profileImg/default_profile.png" alt="기본 이미지">
+                                    </a>
+                                    <div class="commentBox">
+                                        <h4>
+                                            <a th:text="${comment.nickName}" th:href="|/members/${comment.memberId}|">user-nick</a>
+                                            (<a th:text="${comment.name}"
+                                                th:href="|/members/${comment.memberId}|">이름</a>)
+                                        </h4>
+                                        <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>
+                                        <p class="cSundry">
+                                            <span class="" th:text="${comment.modifiedDate}">1일전</span>
+                                            <span class="replyBtn">답글 달기</span>
+                                        </p>
+                                        <span class="likeWrap">
+                                          <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>
+                                          <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>
+                                          <span class="likeNum" th:text="${comment.like}">20</span>
+                                        </span>
+                                        <div class="ellipsis-btn-wrap">
+                                            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">
+                                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                                            </span>
+                                            <ul class="ellipsis-content">
+<!--                                                <li th:if="${comment.memberId == member.id}">-->
+<!--                                                    <div class="commentModify">-->
+<!--                                                        <ion-icon name="git-compare-outline"></ion-icon>-->
+<!--                                                        <a href="#" th:articleId="${article.id}">댓글 수정</a>-->
+<!--                                                    </div>-->
+<!--                                                </li>-->
+<!--                                                <li th:if="${comment.memberId == member.id}">-->
+<!--                                                    <div class="commentDelete">-->
+<!--                                                        <ion-icon name="trash-outline"></ion-icon>-->
+<!--                                                        <a href="#" th:articleId="${article.id}">댓글 삭제</a>-->
+<!--                                                    </div>-->
+<!--                                                </li>-->
+<!--                                                <li th:if="${comment.memberId != member.id}">-->
+<!--                                                    <div th:commentId="${comment.id}"-->
+<!--                                                         th:onclick="reportComment(this.getAttribute('commentId'))">-->
+<!--                                                        <ion-icon name="warning-outline"></ion-icon>-->
+<!--                                                        <a>신고하기</a>-->
+<!--                                                    </div>-->
+<!--                                                </li>-->
+<!--                                                <li class="followingBtnWrap"-->
+<!--                                                    th:if="${comment.memberId != member.id && article.followingMember}">-->
+<!--                                                    <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">-->
+<!--                                                        <ion-icon name="person-remove-outline"></ion-icon>-->
+<!--                                                        <span>팔로잉 취소</span>-->
+<!--                                                    </div>-->
+<!--                                                </li>-->
+<!--                                                <li class="followingBtnWrap"-->
+<!--                                                    th:if="${comment.memberId != member.id && !article.followingMember}">-->
+<!--                                                    <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">-->
+<!--                                                        <ion-icon name="person-add-outline"></ion-icon>-->
+<!--                                                        <span>팔로잉</span>-->
+<!--                                                    </div>-->
+<!--                                                </li>-->
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
                     </div>
                 </div>
             </div>
-            </th:block>
+
+            <!--해당 레스토랑에 작성한 게시글 출력-->
+            <div id="restaurant-article-wrap">
+
+            </div>
         </div>
     </div>
 </div>
+
+<th:block layout:fragment="restaurant-map">
+    <div id="restaurantMapPopup">
+        <div id="restaurantMapPopupContent">
+            <div class="rMap" id="articleMap"
+                 th:attr="data-lat=${restaurant.latitude}, data-long=${restaurant.longitude}"></div>
+        </div>
+        <div class="restaurant-map-popup-close-btn-wrap">
+            <ion-icon class="popup-close-btn" onclick="restaurantMapPopupToggle()"
+                      name="close-circle-outline"></ion-icon>
+        </div>
+    </div>
+</th:block>
 
 <!--my js-->
 <th:block layout:fragment="scripts">
@@ -185,6 +270,7 @@
     <script src="/js/articles/article/report.js"></script>
     <script src="/js/articles/article/comment.js"></script>
     <script src="/js/articles/articleMap.js"></script>
+    <script src="/js/articles/article/articleRestaurantPopup.js"></script>
 </th:block>
 
 </body>

@@ -78,7 +78,8 @@ public class ArticleController {
 
         model.addAttribute("article", articleService.articleInfo(articleId,memberId));
         model.addAttribute("restaurant", articleService.restaurantByArticle(articleId));
-        model.addAttribute("comments", commentService.articleComment(memberId, articleId));
+        //댓글을 가져오는 작업은 ajax로 처리해서 새로고침 없도록 변경
+//        model.addAttribute("comments", commentService.articleComment(memberId, articleId));
 //        model.addAttribute("isLikedComment")
         return "/articles/article";
     }

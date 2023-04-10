@@ -14,12 +14,13 @@
         <div class="title-wrap">
           <h2>리뷰 작성하기</h2>
         </div>
-        <p class="content-title">음식점 정보</p>
-        <div class="restaurant-name">
-          <p>음식점 위치 : <span th:text="|*{sido} *{sigoon} *{dong}|"></span></p>
-          <p>음식점명 : <span th:text="*{name}">맘스터치</span></p>
+        <div class="restaurant-info-wrap">
+          <p th:text="*{name}" class="restaurant-name">맘스터치</p>
+          <p class="restaurant-category">
+            <span th:text="*{category}"></span>&nbsp;&nbsp;
+            <span th:text="|*{sido} *{sigoon} *{dong}|"></span>
+          </p>
         </div>
-
         <p class="content-title">리뷰 내용</p>
         <div class="inputBox">
           <textarea name="content" spellcheck="false" placeholder="리뷰내용을 입력하시오..." required></textarea>

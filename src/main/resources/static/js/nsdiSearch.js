@@ -28,6 +28,13 @@ let dong_popup_dropdown_listItem;
 let sidoName = "";
 let sigoonName = "";
 let dongName = "";
+
+//드롭다운 되서나오는 시,도,군이 너무 많을 때를 대비한 변수들
+let mapPopupContent = document.querySelector('#popupContent');
+let maxDropdownHeight = mapPopupContent.clientHeight - 35 -10;//select버튼의 높이 - padding값
+let popup_list_count;
+console.log("최대 허용할의 높이",maxDropdownHeight);
+
 $(function(){
   $.ajax({
     type: "get",
@@ -48,6 +55,9 @@ $(function(){
       })
       html += `</ul>`;
       $('#sido_code').html(html);
+      //전체 버튼 추가
+      $('#sido-popup-list').prepend('<li class="popup-dropdown-list-item" data-location="all">전체</li>')
+
       //sido관련 변수
       sido_popup_dropdownBtn = document.getElementById("sido-popup-drop-text");
       sido_popup_list = document.getElementById("sido-popup-list");
@@ -67,7 +77,7 @@ $(function(){
           $('#sido-popup-list').animate({height:`0px`},500);
         }else{
           sido_popup_icon.style.rotate="180deg"
-          let popup_list_count = sido_popup_dropdown_listItem.length / 2;
+          popup_list_count = sido_popup_dropdown_listItem.length / 2;
           console.log(popup_list_count);
           popup_list_count = Number.isInteger(popup_list_count) ? popup_list_count : popup_list_count + 0.5;
           $('#sido-popup-list').animate({height:`${sido_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20 }px`},500);
@@ -90,7 +100,21 @@ $(function(){
           const sidoOpt = sido.querySelectorAll("#sido-popup-list > .popup-dropdown-list-item");
           sidoOpt.forEach(element =>{
             let optValue = element.getAttribute("data-location");
-            if(optValue != null && optValue == thisVal) {
+            if(optValue != null && optValue == "all"){//전체를 선택했을 경우 입력 값 없음 + 시군,동 요소 없에고 전체로 변경
+              sidoName = "";
+              console.log(sidoName + " " + sigoonName + " " + dongName);
+              let sigoonItems = document.querySelectorAll('#sigoon-popup-list > .popup-dropdown-list-item');
+              let goonItems = document.querySelectorAll('#dong-popup-list > .popup-dropdown-list-item');
+              if(sigoonItems.length > 0){
+                document.querySelector('#sigoon-popup-list').remove();
+                document.querySelector('#sigoon-popup-drop-text').innerText = "전체";
+              }
+              if(goonItems.length > 0){
+                document.querySelector('#dong-popup-list').remove();
+                document.querySelector('#dong-popup-drop-text').innerText = "전체";
+              }
+              return false;
+            }else if(optValue != null && optValue == thisVal) {
               sidoName = element.innerText;
               console.log(sidoName + " " + sigoonName + " " + dongName);
             }
@@ -125,14 +149,23 @@ $(function(){
               })
               html += `</ul>`;
               $('#sigoon_code').html(html);
-
+              //전체 버튼 추가
+              $('#sigoon-popup-list').prepend('<li class="popup-dropdown-list-item" data-location="all">전체</li>')
 
               //sigoon관련 변수
               sigoon_popup_dropdownBtn = document.getElementById("sigoon-popup-drop-text");
               sigoon_popup_list = document.getElementById("sigoon-popup-list");
               sigoon_popup_icon = document.getElementById("sigoon-popup-icon");
               sigoon_popup_searchCond = document.getElementById("sigoon-popup-search-cond");
-              sigoon_popup_dropdown_listItem = document.querySelectorAll("#sigoon-popup-list>.popup-dropdown-list-item")
+              sigoon_popup_dropdown_listItem = document.querySelectorAll("#sigoon-popup-list>.popup-dropdown-list-item");
+
+              /**
+               * sigoon css처이(넘칠경우 overflow scroll처리)
+               */
+              popup_list_count = sigoon_popup_dropdown_listItem.length / 2;
+              if((sigoon_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20) > maxDropdownHeight){
+                sigoon_popup_list.style.overflowY = "scroll";
+              }
 
               /**
                * sigoon 관련 이벤트 처리
@@ -144,9 +177,16 @@ $(function(){
                   $('#sigoon-popup-list').animate({height:`0px`},500);
                 }else{
                   sigoon_popup_icon.style.rotate="180deg"
-                  let popup_list_count = sigoon_popup_dropdown_listItem.length / 2;
+                  popup_list_count = sigoon_popup_dropdown_listItem.length / 2;
                   popup_list_count = Number.isInteger(popup_list_count) ? popup_list_count : popup_list_count + 0.5;
-                  $('#sigoon-popup-list').animate({height:`${sigoon_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20 }px`},500);
+                  if((sigoon_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20) > maxDropdownHeight){
+                    console.log("동 넘었다");
+                    dong_popup_list.style.overflowY = "scroll";
+                    $('#sigoon-popup-list').animate({height:`${maxDropdownHeight + 20}px`},500);
+                  }else{
+                    $('#sigoon-popup-list').animate({height:`${sigoon_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20 }px`},500);
+
+                  }
                 }
                 sigoon_popup_list.classList.toggle("show");
               };
@@ -164,7 +204,16 @@ $(function(){
                   const sigoonOpt = sigoon.querySelectorAll("#sigoon-popup-list > .popup-dropdown-list-item");
                   sigoonOpt.forEach(element =>{
                     let optValue = element.getAttribute("data-location");
-                    if(optValue != null && optValue == thisVal) {
+                    if(optValue != null && optValue == "all"){
+                      sigoonName = "";
+                      console.log(sidoName + " " + sigoonName + " " + dongName);
+                      let goonItems = document.querySelectorAll('#dong-popup-list > .popup-dropdown-list-item');
+                      if(goonItems.length > 0){
+                        document.querySelector('#dong-popup-list').remove();
+                        document.querySelector('#dong-popup-drop-text').innerText = "전체";
+                      }
+                      return false;
+                    }else if(optValue != null && optValue == thisVal) {
                       sigoonName = element.innerText;
                       console.log(sidoName + " " + sigoonName + " " + dongName);
                     }
@@ -191,6 +240,8 @@ $(function(){
                       })
                       html += `</ul>`;
                       $('#dong_code').html(html);
+                      //전체 버튼 추가
+                      $('#dong-popup-list').prepend('<li class="popup-dropdown-list-item" data-location="all">전체</li>')
 
                       //dong관련 변수
                       dong_popup_dropdownBtn = document.getElementById("dong-popup-drop-text");
@@ -199,6 +250,14 @@ $(function(){
                       dong_popup_searchCond = document.getElementById("dong-popup-search-cond");
                       dong_popup_dropdown_listItem = document.querySelectorAll("#dong-popup-list>.popup-dropdown-list-item")
 
+
+                      /**
+                       * dong css처리(넘칠경우 overflow scroll처리)
+                       */
+                      // let dongHeight;
+
+                      console.log("동의 높이",(dong_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20));
+                      console.log("최대치 높이",maxDropdownHeight);
                       /**
                        * dong과련 이벤트 처리
                        */
@@ -208,9 +267,15 @@ $(function(){
                           $('#dong-popup-list').animate({height:`0px`},500);
                         }else{
                           dong_popup_icon.style.rotate="180deg"
-                          let popup_list_count = dong_popup_dropdown_listItem.length / 2;
+                          popup_list_count = dong_popup_dropdown_listItem.length / 2;
                           popup_list_count = Number.isInteger(popup_list_count) ? popup_list_count : popup_list_count + 0.5;
-                          $('#dong-popup-list').animate({height:`${dong_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20 }px`},500);
+                          if((dong_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20) > maxDropdownHeight){
+                            console.log("동 넘었다");
+                            dong_popup_list.style.overflowY = "scroll";
+                            $('#dong-popup-list').animate({height:`${maxDropdownHeight + 20}px`},500);
+                          }else{
+                            $('#dong-popup-list').animate({height:`${dong_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20}px`},500);
+                          }
                         }
                         dong_popup_list.classList.toggle("show");
                       };
@@ -225,7 +290,10 @@ $(function(){
                           const dongOpt = dong.querySelectorAll("#dong-popup-list > .popup-dropdown-list-item");
                           dongOpt.forEach(element =>{
                             let optValue = element.getAttribute("data-location");
-                            if(optValue != null && optValue == thisVal) {
+                            if(optValue != null && optValue == "all"){
+                              dongName = "";
+                              console.log(sidoName + " " + sigoonName + " " + dongName);
+                            }else if(optValue != null && optValue == thisVal) {
                               dongName = element.innerText;
                               console.log(sidoName + " " + sigoonName + " " + dongName);
                             }

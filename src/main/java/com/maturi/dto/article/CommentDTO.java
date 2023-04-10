@@ -5,20 +5,28 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleCommentDTO {
+public class CommentDTO {
+
   private Long id;
+  private Long ref;//댓글의 묶음을 표현하기 위한 변수
+  private Long refStep;//댓글의 깊이
   private String profileImg;
   private Long memberId;
   private String name;
   private String nickName;
   private String content;
+  private LocalDateTime createdDate;
   private LocalDateTime modifiedDate;
-  private int like;
+  private int likeCount;//좋아요 갯수
   private boolean isLiked;
+
+  //댓글의 깊이(refStep)가 3일 때만 사용하는 변수
+  private Long refMemberId;
+  private String refMemberNickName;
+
 }

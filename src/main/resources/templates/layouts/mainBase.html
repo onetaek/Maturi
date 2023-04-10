@@ -60,9 +60,15 @@
             <nav id="gnb">
                 <ul>
                     <li>
+                        <a href="/articles">
+                            <ion-icon name="home-outline"></ion-icon>
+                            <span>메인페이지</span>
+                        </a>
+                    </li>
+                    <li>
                         <a th:href="|/members/${session.memberId}|">
                             <ion-icon name="person-circle-outline"></ion-icon>
-                            <span>마이페이지</span>
+                            <span>프로필</span>
                         </a>
                     </li>
                     <li>
@@ -79,8 +85,8 @@
                     </li>
                     <li>
                         <a th:href="|/members/${session.memberId}/detail|">
-                        <ion-icon name="settings-outline"></ion-icon>
-                        <span>개인정보 설정</span>
+                            <ion-icon name="settings-outline"></ion-icon>
+                            <span>개인정보 설정</span>
                         </a>
                     </li>
                     <li>
@@ -215,6 +221,9 @@
     </div>
 </div>
 
+<!--게시글 상세페이지에서 사용할 카카오맵-->
+<th:block layout:fragment="restaurant-map">
+</th:block>
 
 <!--우측하단의 페이지 제일 위로 이동하는 버튼-->
 <div id="scroll-top-btn" onclick="scrollgoToTop()">

@@ -64,8 +64,8 @@ bImg.addEventListener("mousemove", function(e){ // 클링중
 });
 
 /* 좋아요 클릭 */
-const articleWrap = document.getElementById("articleWrap");
-const likeAndTag = document.querySelector("#articleWrap .likeAndTag");
+const articleWrap = document.getElementById("review-container");
+const likeAndTag = document.querySelector(".likeAndTag");
 const likeBtn = likeAndTag.querySelector(".likeBtn");
 const likeNum = likeAndTag.querySelector(".likeNum");
 likeBtn.addEventListener("click", ()=>{

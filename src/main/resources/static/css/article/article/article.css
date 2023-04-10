@@ -1,25 +1,82 @@
 #content.articlePage {
     width:100%;
-    max-width: var(--max-width);
-    min-width: var(--main-content-min-width);
-    padding-left: var(--main-content-padding-left);
-    padding-top: var(--main-content-padding-top);
+    /*max-width: var(--max-width);*/
+    /*min-width: var(--main-content-min-width);*/
+    /*padding-left: var(--main-content-padding-left);*/
+    /*padding-top: var(--main-content-padding-top);*/
     display: flex;
     flex-direction: column;
     gap: 20px;
+    background: var(--block-background);
+}
+#review-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+/* 음식점 정보란 */
+#restaurantWrap {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    background: var(--white-color);
+    box-shadow: 0 0 10px rgba(0,0,0,.1);
+    z-index: 1;
+}
+#restaurantMapPopup .rMap {
+    width: 500px; height: 400px;
+    border: 1px solid #000;
+}
+.restaurantInfo {
+    margin:0 auto;
+    width:var(--middle-width);
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding-bottom:15px;
+}
+.restaurantInfo .restaurant-title-wrap{
+    padding-top:50px;
+    display: flex;
+    align-items: center;
+}
+.restaurant-title-wrap button{
+    background: var(--pink-color);
+    border-radius: 5px;
+    color:var(--white-color);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding:5px 10px;
+    margin-left:10px;
+}
+.restaurant-title-wrap ion-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:5px;
+}
+.restaurantInfo .restaurant-title{
+    font-size: 2rem;
+
+}
+.restaurantInfo .restaurant-etc{
+    color: #888888;
+    font-size: 1.2rem;
 }
 
-#articleWrap {
-    position: relative;
+#article-wrap{
+    width:var(--middle-width);
     margin: 0 auto;
-    width: var(--middle-width);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    gap: 20px;
+    background: var(--white-color);
+    padding:10px;
 }
+
+
 /* 글쓴이 정보 */
-#articleWrap .writerInfo {
+.writerInfo {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -27,7 +84,7 @@
     font-size: 16px;
 }
 .writerInfo .writerProfileImg {
-    width: 100px; height: 100px;
+    width: 70px; height: 70px;
     border-radius: 100%;
     border: 1px solid #000;
     background-color: var(--light-gray);
@@ -42,10 +99,13 @@
     align-items: start;
 }
 .writerInfo .written .writerNickName {
-    font-size: 24px;
+    font-size: 1.2rem;
+}
+.writerInfo .written .writerName{
+    font-size: 0.8rem;
 }
 .writerInfo .written .writtenAt {
-    font-size: 16px;
+    font-size: 0.8rem;
 }
 
 /* 글 본문 */
@@ -58,12 +118,57 @@
     gap: 10px;
 }
 .contentWrap .bImgWrap {
+    position:relative;
     width: 100%; height: 500px;
 }
+.contentWrap .bImgWrap:hover .drag-info{
+    display: flex;
+}
+.drag-info{
+    position: absolute;
+    top:0;
+    left:0;
+    /*transform:translateY(-50%) translateX(-50%);*/
+    width:560px;
+    height:500px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    color:var(--white-color);
+}
+.drag-info::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+}
+.drag-info span{
+    z-index: 1;
+    font-size: 1.2rem;
+}
+.drag-info div{
+    z-index: 1;
+}
+.drag-info .fa-arrow-left-long{
+    margin-right: 20px;
+    font-size: 2rem;
+}
+.drag-info .fa-arrow-right-long{
+    font-size: 2rem;
+}
+.drag-info .fa-hand-pointer{
+    z-index: 1;
+    font-size: 2rem;
+}
+
+
 .contentWrap .bImg {
     width: 100%; height: 100%;
     display: flex;
-    background-color: var(--black-color);
+    background-color: var(--white-color);
     align-items: center;
     overflow: hidden;
 }
@@ -84,6 +189,9 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-left:10px;
 }
 .likeAndTag .likeWrap {
     display: flex;
@@ -92,8 +200,9 @@
 }
 .likeAndTag .likeWrap .likeBtn {
     display: block;
-    width: 16px; height: 16px;
+    width: 20px; height: 20px;
     text-indent: -9999px;
+
     background: url("/img/button/loveBtn.png") no-repeat center / contain;
     cursor: pointer;
 }
@@ -104,77 +213,20 @@
     font-size: 10px;
 }
 
-/*!* 더보기 버튼 *!*/
-/*.ellipsis-btn-wrap{*/
-/*    position:absolute;*/
-/*    top:10px;*/
-/*    right:0;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: flex-end;*/
-/*}*/
-/*.ellipsis-btn-wrap .ellipsis-btn{*/
-/*    font-size:  30px;*/
-/*    cursor: pointer;*/
-/*}*/
-/*.ellipsis-btn-wrap .ellipsis-content{*/
-/*    display: none;*/
-/*}*/
-/*.ellipsis-content a {*/
-/*    cursor: pointer;*/
-/*}*/
-/*.ellipsis-btn-wrap .active{*/
-/*    display: flex;*/
-/*    background: #FFFFFF;*/
-/*    flex-direction: column;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    border:1px solid var(--ellipsis-color);*/
-/*    border-radius: 20px;*/
-/*    z-index: 2;*/
-/*}*/
-/*.ellipsis-btn-wrap .active > li{*/
-/*    width:150px;*/
-/*    line-height:50px;*/
-/*    text-align: center;*/
-/*    border-bottom:1px solid var(--ellipsis-color);*/
-/*}*/
-/*.ellipsis-btn-wrap .active > li:last-child{*/
-/*    border-bottom:0px;*/
-/*}*/
-
-/* 음식점 정보란 */
-#restaurantWrap {
-    border-top: 1px solid #808080;
-    width: 100%; height: 500px;
-    padding: 20px;
+.tagWrap {
+    width: auto;
     display: flex;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap:8px;
 }
-#restaurantWrap .rMap {
-    width: 500px; height: 400px;
-    border: 1px solid #000;
-}
-.restaurantInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.restaurantInfo .rTitleWrap {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    margin: 10px 0;
-}
-.restaurantInfo .rTitleWrap .rTitle {
-    font-size: 24px;
-    font-weight: 600;
-}
-.restaurantInfo .rTitleWrap .rSearch {
-    background-color: var(--hot-pink-color);
-    color: var(--white-color);
-    padding: 5px 20px;
+.tag-box{
+    padding:5px 12px 5px 12px;
     border-radius: 5px;
-    cursor: pointer;
+    background: var(--hot-pink-color);
+    color:var(--white-color);
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: normal;
 }
 

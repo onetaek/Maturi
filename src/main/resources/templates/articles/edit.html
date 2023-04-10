@@ -8,61 +8,70 @@
 </head>
 <body>
   <div layout:fragment="main" id="content">
-    <h2>리뷰 수정하기</h2>
-    <form name="writeForm" id="writeForm" enctype="multipart/form-data" th:attr="data-articleid=${article.id}">
-      <p class="content-title">음식점 명</p>
-      <p class="restaurant-name" th:text="${article.name}">대구 동구 맘스터치</p>
-
-
-      <p class="content-title">리뷰 내용</p>
-      <div class="inputBox">
-        <textarea name="content" th:text="${article.content}" spellcheck="false" placeholder="리뷰내용을 입력하시오..." required></textarea>
-      </div>
-
-
-      <p class="content-title">리뷰 이미지</p>
-      <div class="image-input-box">
-        <div class="image-input">
-          <input type="file" class="hidden" id="add-new-files" multiple="multiple">
-          <label class="add-new-label" for="add-new-files">
-            <ion-icon class="image-icon" name="images-outline"></ion-icon><span>이미지 추가</span>
-          </label>
-          <input type="file" class="old-files hidden"  name="image" id="old-files" multiple="multiple">
-          <div class="total-file-size" >
-            0 / 50MB
-          </div>
+    <div class="content-wrap">
+      <form name="writeForm" th:object="${article}" id="writeForm" enctype="multipart/form-data" th:attr="data-articleid=${article.id}">
+        <div class="title-wrap">
+          <h2>리뷰 수정하기</h2>
         </div>
-        <ul class="img-list" style="display:flex;">
-          <th:block th:each="image : ${article.image}">
-            <li class="img-item load-img-item" th:attr="data-image=${image}"
-                th:style="'background-image:url(/test/file/'+ ${image} +');'">
-              <button class="remove-btn" type="button" onclick="removePreview(this);">
-                <ion-icon name="close-circle-outline"></ion-icon>
-              </button>
-              <span class="img-size">이미지 크기...</span>
-            </li>
-          </th:block>
-        </ul>
-      </div>
 
-      <p class="content-title">해시 태그</p>
-      <div class="inputBox tagBox">
-        <div class="tagWrap">
-          <th:block th:each="tag: ${article.tags}">
+        <div class="restaurant-info-wrap">
+          <p th:text="*{restaurantName}" class="restaurant-name">맘스터치</p>
+          <p class="restaurant-category">
+            <span th:text="*{category}"></span>&nbsp&nbsp;
+            <span th:text="|*{sido} *{sigoon} *{dong}|"></span>
+          </p>
+        </div>
+        <p class="content-title">리뷰 내용</p>
+        <div class="inputBox">
+          <textarea name="content" th:text="*{content}" spellcheck="false" placeholder="리뷰내용을 입력하시오..." required></textarea>
+        </div>
+
+
+        <p class="content-title">리뷰 이미지</p>
+        <div class="image-input-box">
+          <div class="image-input">
+            <input type="file" class="hidden" id="add-new-files" multiple="multiple">
+            <label class="add-new-label" for="add-new-files">
+              <ion-icon class="image-icon" name="images-outline"></ion-icon><span>이미지 추가</span>
+            </label>
+            <input type="file" class="old-files hidden"  name="image" id="old-files" multiple="multiple">
+            <div class="total-file-size" >
+              0 / 50MB
+            </div>
+          </div>
+          <ul class="img-list" style="display:flex;">
+            <th:block th:each="image : ${article.image}">
+              <li class="img-item load-img-item" th:attr="data-image=${image}"
+                  th:style="'background-image:url(/test/file/'+ ${image} +');'">
+                <button class="remove-btn" type="button" onclick="removePreview(this);">
+                  <ion-icon name="close-circle-outline"></ion-icon>
+                </button>
+                <span class="img-size">이미지 크기...</span>
+              </li>
+            </th:block>
+          </ul>
+        </div>
+
+        <p class="content-title">해시 태그</p>
+        <div class="inputBox tagBox">
+          <div class="tagWrap">
+            <th:block th:each="tag: ${article.tags}">
             <span class="tag-box">
                 <span>[[${tag}]]</span>
                 <button class="tag-remove-btn" onclick="removeTag(this);" type="button">
                     <ion-icon name="close-circle-outline"></ion-icon>
                 </button>
             </span>
-          </th:block>
-          <input type="text" class="tag-input" name="tag" placeholder="#해시태그">
+            </th:block>
+            <input type="text" class="tag-input" name="tag" placeholder="#해시태그">
+          </div>
+          <input type="hidden" name="tags">
         </div>
-        <input type="hidden" name="tags">
-      </div>
 
-      <input type="button" name="submitBtn" class="submitBtn" value="업로드">
-    </form>
+        <input type="button" name="submitBtn" class="submitBtn" value="업로드">
+      </form>
+    </div>
+
   </div>
 
 <th:block layout:fragment="scripts">

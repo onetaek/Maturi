@@ -137,6 +137,7 @@
     background: var(--white-color);
     display: flex;
     border-radius: 50%;
+    cursor: pointer;
 }
 .popup-close-btn{
     position:absolute;

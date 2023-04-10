@@ -1,7 +1,6 @@
 package com.maturi.api.article;
 
-import com.maturi.dto.article.ArticleCommentDTO;
-import com.maturi.repository.article.CommentRepository;
+import com.maturi.dto.article.CommentDTO;
 import com.maturi.service.article.CommentService;
 import com.maturi.service.article.ReportService;
 import com.maturi.util.argumentresolver.Login;
@@ -26,24 +25,38 @@ public class CommentAPIController {
   private final CommentService commentService;
   final private ReportService reportService;
 
-  @PostMapping("/articles/{article_id}/comment")///api/article/{article_id}/comment 게시글 하나의 작성요청
-  public ResponseEntity<List<ArticleCommentDTO>> write(@Login Long memberId,
-                                                       @PathVariable Long article_id,
-                                                       @RequestBody String json) throws ParseException { // 댓글 작성
-    // parse
-    JSONParser jsonParser = new JSONParser();
-    JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
-    String commentBody = (String) jsonObject.get("commentBody");
+  @GetMapping("/articles/{articleId}/comments")
+  public ResponseEntity<List<CommentDTO>> getComments(@Login Long memberId,
+                                                      @PathVariable Long articleId){
+    List<CommentDTO> comments = commentService.articleComment(memberId, articleId);
 
-    // 댓글 생성
-    commentService.write(memberId, article_id, commentBody);
-
-    // 새 댓글 목록
-    List<ArticleCommentDTO> newComments = commentService.articleComment(memberId, article_id);
-
-    return ResponseEntity.status(HttpStatus.OK).body(newComments);
+    return ResponseEntity.status(HttpStatus.OK).body(comments);
   }
 
+  @PostMapping("/articles/{article_id}/comments")///api/article/{article_id}/comment 게시글 하나의 작성요청
+  public ResponseEntity write(@Login Long memberId,
+                              @PathVariable Long article_id,
+                              @RequestBody Map<String,String> map) throws ParseException { // 댓글 작성
+    //댓글 작성시 HTTP message body로 받아야할 값
+    //1. ref값 -> null일 경우 1로 저장
+    //2. refStep -> null일 경우 1로 저장
+    Long ref = Long.parseLong(map.get("ref"));
+    Long refStep = Long.parseLong(map.get("refStep"));
+    String content = map.get("content");
+    Long refMemberId = Long.parseLong(map.get("refMemberId"));
+    String refMemberNickName = map.get("refMemberNickName");
+
+    // 댓글 생성
+    commentService.write(memberId, article_id, ref, refStep,refMemberId,refMemberNickName, content);
+
+    //GET메서드를 만들어서 그걸로 가져오는 걸로 변경
+    // 새 댓글 목록
+//    List<ArticleCommentDTO> newComments = commentService.articleComment(memberId, article_id);
+
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  //댓글 삭제
   @DeleteMapping("/comment/{id}")// /api/comment/{id}
   public ResponseEntity<String> delete(@Login Long memberId,
                                        @PathVariable Long id){
@@ -56,6 +69,7 @@ public class CommentAPIController {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
+  //댓글 수정
   @PatchMapping("/comment/{id}")
   public ResponseEntity<String> modify(@Login Long memberId,
                                        @PathVariable Long id,
@@ -76,6 +90,7 @@ public class CommentAPIController {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
+  //댓글 좋아요 클릭시 좋아요 갯수 증가/감소
   @PostMapping("/comment/{id}/like")
   public ResponseEntity<Map<String, Integer>> likeOrUnlike(@Login Long memberId,
                                                            @PathVariable Long id){
@@ -90,6 +105,7 @@ public class CommentAPIController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  //댓글 신고기능
   @PostMapping("/comment/{id}/report")
   public ResponseEntity reportComment(@Login Long memberId,
                                       @PathVariable Long id){

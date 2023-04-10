@@ -14,8 +14,14 @@ import java.util.List;
 public class ArticleEditViewDTO {
     private Long id;
     private Long memberId;
-    private String name;
     private String content;
+    private String restaurantName;
+
+    private String category;
+    private String sido;
+    private String sigoon;
+    private String dong;
+
     private List<String> image;
     private String imageSize;
     // 태그 리스트

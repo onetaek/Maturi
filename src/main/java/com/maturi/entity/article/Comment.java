@@ -19,6 +19,13 @@ public class Comment extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  //대댓글 구현하기위한 변수
+  private Long ref;//댓글의 덩어리
+  private Long refStep;//댓글의 깊이
+  private Long refMemberId;//댓글의 깊이가 3일때 사용할 변수
+  private String refMemberNickName;//유튜브의 @닉네임을 표현하기위한 변수
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
   @ManyToOne(fetch = FetchType.LAZY)
@@ -27,6 +34,8 @@ public class Comment extends BaseTimeEntity {
   private String content;
   @Enumerated(EnumType.STRING)
   private CommentStatus status;
+
+
 
   public void changeStatus(CommentStatus status){
     this.status = status;
