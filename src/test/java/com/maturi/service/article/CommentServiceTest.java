@@ -5,6 +5,8 @@ import com.maturi.entity.article.ArticleStatus;
 import com.maturi.entity.article.Comment;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.ArticleRepository;
+import com.maturi.repository.article.CommentQuerydslRepository;
+import com.maturi.repository.article.CommentRepository;
 import com.maturi.repository.member.member.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -17,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +29,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @SpringBootTest
 class CommentServiceTest {
-
+    @Autowired private CommentRepository commentRepository;
+    @Autowired CommentQuerydslRepository commentQRepository;
     @Autowired CommentService commentService;
     @Autowired EntityManager em;
 
@@ -141,5 +146,43 @@ class CommentServiceTest {
         //then
         assertThat(두번째_새로운_댓글.getRef()).isEqualTo(comment1.getRef() + 1);
         assertThat(두번째_새로운_댓글.getRefStep()).isEqualTo(1L);
+    }
+
+    @Test
+    void getComments(){
+        //given
+        Member member1 = em.createQuery("select m from Member m where m.name = :name", Member.class)
+                .setParameter("name", "member1")
+                .getSingleResult();
+        Article article1 = em.createQuery("select a from Article a where a.content = :content", Article.class)
+                .setParameter("content", "내용")
+                .getSingleResult();
+        Long memberId = member1.getId();
+        Long articleId = article1.getId();
+        Long ref = null;
+        Long refStep = null;
+        Long refMemberId = null;
+        String refMemberNickName = null;
+        String content = "안녕하세요";
+        Comment comment1 = commentService.write(memberId, articleId, null, null, null, null, "content1");//ref:1, refStep:1
+        Comment comment2 = commentService.write(memberId, articleId, comment1.getRef(), comment1.getRefStep(), null, null, "content2");//ref:1, refStep:2
+        Comment comment3 = commentService.write(memberId, articleId, comment2.getRef(), comment2.getRefStep(), null, null, "content3");//ref:1, refStep:3
+        Comment comment4 = commentService.write(memberId, articleId, null, null, null, null, "content4");//ref:2, refStep:1
+        Comment comment5 = commentService.write(memberId, articleId, comment3.getRef(), comment3.getRefStep(), null, null, "content5");//ref:1, refStep:4
+        Comment comment6 = commentService.write(memberId, articleId, null, null, null, null, "content6");//ref:3, refStep:1
+        commentRepository.save(comment1);
+        commentRepository.save(comment2);
+        commentRepository.save(comment3);
+        commentRepository.save(comment4);
+        commentRepository.save(comment5);
+        commentRepository.save(comment6);
+
+        List<Comment> findComments = commentQRepository.findByArticleId(articleId);
+        for (Comment findComment : findComments) {
+            log.info("findComment = {}",findComment);
+        }
+        assertThat(findComments).hasSize(6);
+
+
     }
 }

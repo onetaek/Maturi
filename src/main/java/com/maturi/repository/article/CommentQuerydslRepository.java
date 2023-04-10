@@ -37,6 +37,26 @@ public class CommentQuerydslRepository {
             .fetchOne();//이거쓰면 하나만 가져올 수 있어요!
   }
 
+  public List<Comment> findByArticleId(Long articleId){
+    BooleanBuilder builder = new BooleanBuilder();
+    builder.or(comment.status.eq(CommentStatus.NORMAL))
+            .or(comment.status.eq(CommentStatus.REPORT));
+    return query.selectFrom(comment)
+            .join(comment.member, member)
+            .join(comment.article, article)
+            .fetchJoin()
+            .where(
+                    articleIdEq(articleId),
+                    builder
+            )
+            .orderBy(
+                    comment.ref.asc(),
+                    comment.createdDate.asc()
+            )
+            .fetch();
+  }
+
+
   public List<Comment> findByArticleIdAndStatusOrderByIdDesc(Long articleId){
     BooleanBuilder builder = new BooleanBuilder();
     builder.or(comment.status.eq(CommentStatus.NORMAL))

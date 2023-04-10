@@ -68,7 +68,8 @@ public class CommentService {
   }
 
   public List<CommentDTO> articleComment(Long memberId, Long articleId) {
-    List<Comment> comments = commentQRepository.findByArticleIdAndStatusOrderByIdDesc(articleId);
+//    List<Comment> comments = commentQRepository.findByArticleIdAndStatusOrderByIdDesc(articleId);
+    List<Comment> comments = commentQRepository.findByArticleId(articleId);
     log.info("Comments = {}", comments);
 
     List<CommentDTO> commentDTOList = new ArrayList<>();
@@ -78,15 +79,24 @@ public class CommentService {
 
       CommentDTO commentDTO = CommentDTO.builder()
               .id(comment.getId())
+              .ref(comment.getRef())
+              .refStep(comment.getRefStep())
               .profileImg(comment.getMember().getProfileImg())
               .memberId(comment.getMember().getId())
               .name(comment.getMember().getName())
               .nickName(comment.getMember().getNickName())
               .content(comment.getContent())
-              .modifiedDate(comment.getModifiedDate())
+              .createdDate(comment.getModifiedDate())
               .likeCount(likeCommentRepository.countByCommentId(comment.getId()))
               .isLiked(likeComment != null ? true : false) // 로그인멤버가 좋아요 한상태인지 확인
+              .refMemberId(comment.getRefMemberId())
+              .refMemberNickName(comment.getRefMemberNickName())
               .build();
+      if(comment.getCreatedDate() != comment.getModifiedDate()){
+        commentDTO.setModified(true);
+      }else{
+        commentDTO.setModified(false);
+      }
       commentDTOList.add(commentDTO);
     }
     log.info("ArticleCommentDTOList = {}", commentDTOList);
