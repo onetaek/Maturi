@@ -1,6 +1,7 @@
 package com.maturi.api.article;
 
 import com.maturi.dto.article.CommentDTO;
+import com.maturi.dto.article.CommentRequest;
 import com.maturi.service.article.CommentService;
 import com.maturi.service.article.ReportService;
 import com.maturi.util.argumentresolver.Login;
@@ -33,22 +34,22 @@ public class CommentAPIController {
     return ResponseEntity.status(HttpStatus.OK).body(comments);
   }
 
-  @PostMapping("/articles/{article_id}/comments")///api/article/{article_id}/comment 게시글 하나의 작성요청
+  @PostMapping("/articles/{articleId}/comments")///api/article/{article_id}/comment 게시글 하나의 작성요청
   public ResponseEntity write(@Login Long memberId,
-                              @PathVariable Long article_id,
-                              @RequestBody Map<String,String> map) throws ParseException { // 댓글 작성
+                              @PathVariable Long articleId,
+                              @RequestBody CommentRequest commentRequest) throws ParseException { // 댓글 작성
     //댓글 작성시 HTTP message body로 받아야할 값
     //1. ref값 -> null일 경우 1로 저장
     //2. refStep -> null일 경우 1로 저장
-    Long ref = Long.parseLong(map.get("ref"));
-    Long refStep = Long.parseLong(map.get("refStep"));
-    String content = map.get("content");
-    Long refMemberId = Long.parseLong(map.get("refMemberId"));
-    String refMemberNickName = map.get("refMemberNickName");
-
+    log.info("commentRequest = {}",commentRequest);
     // 댓글 생성
-    commentService.write(memberId, article_id, ref, refStep,refMemberId,refMemberNickName, content);
-
+    commentService.write(memberId,
+            articleId,
+            commentRequest.getRef(),
+            commentRequest.getRefStep(),
+            commentRequest.getRefMemberId(),
+            commentRequest.getRefMemberNickName(),
+            commentRequest.getContent());
     //GET메서드를 만들어서 그걸로 가져오는 걸로 변경
     // 새 댓글 목록
 //    List<ArticleCommentDTO> newComments = commentService.articleComment(memberId, article_id);

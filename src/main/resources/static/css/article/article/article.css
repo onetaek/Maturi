@@ -4,6 +4,7 @@
     /*min-width: var(--main-content-min-width);*/
     /*padding-left: var(--main-content-padding-left);*/
     /*padding-top: var(--main-content-padding-top);*/
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -65,6 +66,7 @@
     color: #888888;
     font-size: 1.2rem;
 }
+
 
 #article-wrap{
     width:var(--middle-width);

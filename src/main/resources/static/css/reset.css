@@ -41,8 +41,18 @@
     --follow-popup-max-width: 540px;
     --profile-message-color: #8c8c8c;
     --follow-search-input-underline-color : #b2b2b2;
-
     --ellipsis-text-color: #2a2a2a;
+
+    /* 댓글 및 대댓글*/
+    --textarea-color: #484848;
+    --textarea-border-bottom-color:#a2a2a2;
+    --textarea-placeholder-color:#5b5b5b;
+    --comment-cancel-btn-background:none;
+    --comment-cancel-btn-hover-background:#d7d7d7;
+    --comment-btn-background:#f2f2f2;
+    --comment-btn-color:#9090aa;
+    --comment-btn-active-color:#FFF;
+    --comment-date-info-color:#737373;
 }
 body {
     width: 100%;
