@@ -91,8 +91,8 @@
                                 <!--팔로잉한 유저의 마이페이지에 들어왔을 경우-->
                                 <li class="followingBtnWrap" th:if="${article.followingMember}">
                                     <div th:memberId="${session.memberId}"
-                                         th:articleMemberId="${myPageMember.id}"
-                                         th:articleMemberNickName="${myPageMember.nickName}"
+                                         th:articleMemberId="${article.memberId}"
+                                         th:articleMemberNickName="${article.nickName}"
                                          th:onclick="articleFollowCancel(this.getAttribute('memberId'),
                                            this.getAttribute('articleMemberId'),
                                            this.getAttribute('articleMemberNickName'))">
@@ -164,12 +164,12 @@
                 <div id="comments-wrap">
                     <!--새로운 댓글을 작성할 form역할을 하는 곳-->
                     <div class="comment-form-container ref-1">
-                        <div class="comment-form-left-wrap" th:onclick="|location.href='/members/${article.memberId}'|">
-                            <img th:if="${article.profileImg != null && #strings.contains(article.profileImg,'://')}"
-                                 th:src="${article.profileImg}" alt="프로필 이미지">
-                            <img th:unless="${article.profileImg == null || #strings.contains(article.profileImg,'://')}"
-                                 th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
-                            <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png"
+                        <div class="comment-form-left-wrap" th:onclick="|location.href='/members/${member.id}'|">
+                            <img th:if="${member.profileImg != null && #strings.contains(member.profileImg,'://')}"
+                                 th:src="${member.profileImg}" alt="프로필 이미지">
+                            <img th:unless="${member.profileImg == null || #strings.contains(member.profileImg,'://')}"
+                                 th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+                            <img th:if="${member.profileImg == null}" src="/img/profileImg/default_profile.png"
                                  alt="기본 이미지">
                         </div>
                         <div class="comment-form-right-wrap">
@@ -182,7 +182,7 @@
                             </div>
                             <div class="comment-btn-wrap">
                                 <button onclick="cancelCommentBtn(this)" class="cancel-btn">취소</button>
-                                <button onclick="commentBtn(this)" class="comment-btn">댓글</button>
+                                <button onclick="commentCreate(this)" class="comment-btn">댓글</button>
                             </div>
                         </div>
                     </div>
@@ -419,12 +419,14 @@
         console.log("상세페이지의 articleId", articleId);
         const article = [[${article}]]
         console.log("상세페이지의 article 객체",article);
+        const member = [[${member}]]
+        console.log("상세페이지의 member 객체",member);
     </script>
     <script src="/js/articles/article/articleImgRatio.js"></script>
     <script src="/js/articles/article/article.js"></script>
     <script src="/js/articles/welcome/followAndDelete.js"></script>
     <script src="/js/articles/article/report.js"></script>
-    <!--    <script src="/js/articles/article/comment.js"></script>-->
+<!--        <script src="/js/articles/article/comment.js"></script>-->
     <script src="/js/articles/article/comment/comments.js"></script>
     <script src="/js/articles/article/comment/commentsRESTAPI.js"></script>
     <script src="/js/articles/articleMap.js"></script>

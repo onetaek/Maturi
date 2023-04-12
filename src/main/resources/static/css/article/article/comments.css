@@ -21,6 +21,10 @@
 .comment-form-right-wrap{
     width: 100%;
 }
+.comment-replys-wrap .user-info{
+    font-size: 1rem;
+    color: #131313;
+}
 .textarea-wrap{
     position:relative;
 }
@@ -30,7 +34,7 @@ textarea{
     resize: none;
     outline: none;
     padding:0;
-    font-size: 16px;
+    font-size: 1.1rem;
     color: var(--textarea-color);
     height:22px;
     line-height: 22px;
@@ -90,13 +94,14 @@ textarea:focus + .textarea-under-line{
     margin-top:10px;
     display: flex;
 }
-.comment-wrap .comment-left-wrap{
+.comment-left-wrap{
     margin-right:16px;
 }
-.comment-wrap .comment-left-wrap img{
+.comment-left-wrap img{
     width:40px;
     height:40px;
     border-radius: 50%;
+    cursor: pointer;
 }
 .comment-wrap .comment-right-wrap{
     width:100%;
@@ -130,7 +135,27 @@ textarea:focus + .textarea-under-line{
 }
 .like-reply-wrap .likeWrap{
     margin-right:20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+.likeWrap .likeBtn {
+    display: block;
+    width: 20px; height: 20px;
+    text-indent: -9999px;
+    background: url("/img/button/loveBtn.png") no-repeat center / contain;
+    cursor: pointer;
+}
+
+.likeWrap .isLikedArticle{
+    background: url("/img/button/loveBtn_Fill.png") no-repeat center / contain;
+}
+
+.likeWrap .likeNum {
+    font-size: 10px;
+}
+
 .like-reply-wrap .reply-btn-wrap{
 }
 .like-reply-wrap .reply-btn-wrap button{
@@ -189,11 +214,18 @@ textarea:focus + .textarea-under-line{
     display: flex;
     align-items: center;
 }
+.ref-member-nick-name{
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+    color:var(--hot-pink-color);
+}
 .reply-item .textarea-wrap textarea{
     width:100%;
 }
-.comment-form-container.ref-3 .textarea-wrap .textarea-ref3 span,
-.reply-item .textarea-wrap .ref-member-nick-name{
+.comment-form-container.ref-3 .textarea-wrap .textarea-ref3 span{
     white-space: nowrap;
     display: flex;
     align-items: center;

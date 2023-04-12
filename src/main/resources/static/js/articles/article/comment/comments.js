@@ -37,34 +37,6 @@ function cancelCommentBtn(obj){
     textarea.val('');
 }
 
-//댓글 버튼 눌렀을 때 댓글 등록
-function commentBtn(obj){
-    let commentFormRightWrap = $(obj).closest('.comment-form-right-wrap');
-    let textarea = commentFormRightWrap.find('.textarea-wrap textarea');
-    console.log("textarea val",textarea.val());
-    if(textarea.val().trim()!==""){
-        //댓글 등록 ajax요청
-        fetch(`/api/articles/${articleId}/comments`,{
-            method: "POST",
-            headers:{
-                "Content-Type":"application/json",
-            },
-            body:JSON.stringify({
-                ref:null,
-                refStep:null,
-                content:textarea.val(),
-                refMemberId:null,
-                refMemberNickName:null
-            })
-        }).then((response)=>{
-            if(response.ok){
-                alert("댓글 등록 성공!");
-            }
-        })
-
-    }
-}
-
 //---------대댓글(ref: 2)------------
 //답글 버튼을 누르면 대댓글을 입력할 수 있는 form이 출력
 function replyRef2FormShow(obj){
@@ -96,26 +68,6 @@ function replyListToggle(obj){
         ionIcon.css('transform','rotate(180deg)');
     }
 }
-function commentRef2Btn(ref,refStep){
-    console.log("ref",ref,"refStep",refStep);
-    fetch(`/articles/${articleId}/comments`,{
-        method: "post",
-        body: JSON.stringify({
-            ref:ref,
-            refStep:refStep,
-            refMemberId:null,
-            refMemberNickName:null
-        }),
-        headers: {
-            "Content-type": "application/json"
-        }
-    }).then((response)=>{
-        if(response.ok){
-            alert("댓글 ref2 등록 성공!");
-        }
-    })
-}
-
 
 //---------대대댓글(ref: 3)------------
 //답글 버튼을 누르면 대댓글을 입력할 수 있는 form이 출력
@@ -134,10 +86,8 @@ function cancelRef3ReplyBtn(obj){
     commentReplysWrap.css('display','none');
 }
 
-//답글 버튼을 누를때 ajax요청을할 함수
-function commentRef3Btn(){
 
-}
+
 
 
 

@@ -5,6 +5,7 @@ import com.maturi.dto.article.CommentRequest;
 import com.maturi.service.article.CommentService;
 import com.maturi.service.article.ReportService;
 import com.maturi.util.argumentresolver.Login;
+import com.maturi.util.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.maturi.util.constfield.MessageConst.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,7 +61,7 @@ public class CommentAPIController {
   }
 
   //댓글 삭제
-  @DeleteMapping("/comment/{id}")// /api/comment/{id}
+//  @DeleteMapping("/comments/{id}")// /api/comment/{id}
   public ResponseEntity<String> delete(@Login Long memberId,
                                        @PathVariable Long id){
     String msg = commentService.delete(memberId, id);
@@ -68,6 +71,29 @@ public class CommentAPIController {
     return msg == null ?
             ResponseEntity.status(HttpStatus.OK).build() :
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+  }
+
+  @DeleteMapping("/comments/{id}")
+  public ResponseEntity remove(@Login Long memberId,
+                               @PathVariable Long id,
+                               @RequestBody Map<String,Long> map){
+    log.info("delete comment 시작!");
+    log.info("commentId = {}",id);
+    log.info("articleId = {}",map.get("articleId"));
+    log.info("memberId = {}",memberId);
+    log.info("ref = {}",map.get("ref"));
+    String status = commentService.remove(id,map.get("articleId"), memberId, map.get("ref"));
+    switch (status){
+      case NOT_FOUND:
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//404
+      case NOT_WRITER:
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();//403
+      case UPDATE_FAIL:
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();//409
+      case SUCCESS_MESSAGE:
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    return null;
   }
 
   //댓글 수정

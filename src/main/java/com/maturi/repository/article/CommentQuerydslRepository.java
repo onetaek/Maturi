@@ -4,6 +4,7 @@ import com.maturi.entity.article.Comment;
 import com.maturi.entity.article.CommentStatus;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -80,11 +81,21 @@ public class CommentQuerydslRepository {
             .fetchFirst();
   }
 
+  public boolean updateStatusToDelete(Long articleId, Long ref) {
+    return query.update(comment)
+            .set(comment.status, Expressions.constant(CommentStatus.DELETE))
+            .where(articleIdEq(articleId),refEq(ref))
+            .execute() > 0;
+  }
+
   private BooleanExpression commentIdEq(Long commentId) {
     return commentId != null ? comment.id.eq(commentId) : null;
   }
   private BooleanExpression articleIdEq(Long articleId) {
     return articleId != null ? article.id.eq(articleId) : null;
+  }
+  private BooleanExpression refEq(Long ref) {
+    return ref != null ? comment.ref.eq(ref) : null;
   }
 
 }

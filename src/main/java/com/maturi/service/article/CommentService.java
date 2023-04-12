@@ -12,6 +12,7 @@ import com.maturi.repository.article.CommentQuerydslRepository;
 import com.maturi.repository.article.CommentRepository;
 import com.maturi.repository.article.like.LikeCommentRepository;
 import com.maturi.repository.member.member.MemberRepository;
+import com.maturi.util.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static com.maturi.util.constfield.MessageConst.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -126,6 +129,26 @@ public class CommentService {
     return msg; // 정삭 작동 -> null
   }
 
+  public String remove(Long commentId,Long articleId, Long memberId, Long ref){
+    Comment findComment = commentQRepository.findByIdAndStatus(commentId);
+    if(findComment == null){
+      return NOT_FOUND;
+    }else if(!Objects.equals(findComment.getMember().getId(), memberId)){
+      return NOT_WRITER;
+    }else{
+     if(findComment.getRefStep().equals(1L)){//최상위 계층의 댓글일 경우 하위에 있는 댓글 모두 삭제한다.
+       boolean isSuccess = commentQRepository.updateStatusToDelete(articleId, ref);
+       if(!isSuccess){
+         return UPDATE_FAIL;
+       }
+     }else{
+       findComment.changeStatus(CommentStatus.DELETE);
+     }
+    }
+    return DELETE_SUCCESS;
+  }
+
+
   public String modify(Long memberId, Long commentId, String content) {
     String msg = null;
 
@@ -184,29 +207,24 @@ public class CommentService {
   private List<List<CommentDTO>> groupComments(List<CommentDTO> comments) {
 
     List<List<CommentDTO>> groupedComments = new ArrayList<>();
-    List<CommentDTO> currentGroup = new ArrayList<>();
+    List<CommentDTO> currentGroup = null;
+    Long previousRef = null;
 
-    // 2. 현재 댓글과 이전 댓글의 ref 값을 비교하여 같은 그룹에 속하는지를 판단합니다.
-    for (int i = 0; i < comments.size(); i++) {
-      CommentDTO comment = comments.get(i);
-      if (i == 0 || !comments.get(i - 1).getRef().equals(comment.getRef())) {
-        // 3. 같은 그룹에 속하지 않는다면 새로운 그룹을 만들어서 DTO를 추가합니다.
-        if (!currentGroup.isEmpty()) {
-          groupedComments.add(currentGroup);
-        }
+    // 1. 현재 댓글과 이전 댓글의 ref 값을 비교하여 같은 그룹에 속하는지를 판단합니다.
+    for (CommentDTO comment : comments) {
+      Long currentRef = comment.getRef();
+
+      // 2. 같은 그룹에 속하지 않는다면 새로운 그룹을 만들어서 DTO를 추가합니다.
+      if (currentGroup == null || !previousRef.equals(currentRef)) {
         currentGroup = new ArrayList<>();
+        groupedComments.add(currentGroup);
       }
 
       // 3. 같은 그룹에 속한다면, 현재 그룹의 DTO에 댓글을 추가합니다.
       currentGroup.add(comment);
+      previousRef = currentRef;
     }
-
-    // 마지막 그룹을 추가합니다.
-    if (!currentGroup.isEmpty()) {
-      groupedComments.add(currentGroup);
-    }
-
-    // 4. 모든 댓글을 처리한 후, 그룹화된 DTO 리스트를 반환합니다.
+    // 4. 그룹화된 DTO 리스트를 반환합니다.
     return groupedComments;
   }
 }
