@@ -1,6 +1,5 @@
 //댓글을 입력하는 textarea의 값이 변경될때 실행
 function commentKeyUp(obj){
-
     //textarea 동적 크기조절
     $(obj).height("22px");
     let scHeight = $(obj).prop('scrollHeight')
@@ -17,6 +16,27 @@ function commentKeyUp(obj){
         commentBtn.style.background = "var(--comment-btn-background)";
         commentBtn.style.color = "var(--comment-btn-color)";
         commentBtn.style.cursor = "none";
+    }
+}
+
+//댓글 수정하는 폼의 textarea의 값이 변경될 때 실행
+function commentUpdateKeyUp(obj){
+    //textarea 동적 크기조절
+    $(obj).height("22px");
+    let scHeight = $(obj).prop('scrollHeight')
+    $(obj).height(`${scHeight}px`);
+
+    //textarea에 글을 작성하면 댓글 버튼 활성화
+    let commentRightWrap = $(obj).closest('.comment-right-wrap');
+    let updateBtn = commentRightWrap.find('.update-btn')[0];
+    if($(obj).val().trim()!==""){
+        updateBtn.style.background = "var(--hot-pink-color)";
+        updateBtn.style.color = "var(--comment-btn-active-color)";
+        updateBtn.style.cursor = "pointer";
+    }else{
+        updateBtn.style.background = "var(--comment-btn-background)";
+        updateBtn.style.color = "var(--comment-btn-color)";
+        updateBtn.style.cursor = "inherit";
     }
 }
 
@@ -84,10 +104,59 @@ function replyRef3FormShow(obj){
 function cancelRef3ReplyBtn(obj){
     let commentReplysWrap = $(obj).closest('.comment-form-container.ref-3');
     commentReplysWrap.css('display','none');
+
 }
 
+//refStep3단계의 textarea의 focus under-line 이벤트 처리하는 함수
+function textareaFocus(obj){
+    let textareaWrap = $(obj).closest('.textarea-wrap');
+    if(!textareaWrap.hasClass('readonly')){
+        let underLine = textareaWrap.find('.textarea-under-line');
+        underLine.css('width','100%');
+    }
+}
+//refStep3단계의 textarea의 focusout under-line 이벤트 처리하는 함수
+function textareaFocusOut(obj){
+    let textareaWrap = $(obj).closest('.textarea-wrap');
+    let underLine = textareaWrap.find('.textarea-under-line');
+    underLine.css('width','0%');
+}
 
+//---------refStep2,3 공통------------
+//댓글 수정을 누르면 수정 폼으로 변경되도록
+function updateFormShow(obj){
+    let commentReplysWrap = $(obj).closest('.comment-wrap');
+    let textareaWrap = commentReplysWrap.find('.comment-right-wrap .textarea-wrap');
+    let textarea = textareaWrap.find('textarea');
+    let updateBtnWrap = commentReplysWrap.find('.update-btn-wrap');
 
+    //더보기 버튼을 닫아준다.
+    $(".ellipsis-content").removeClass("active"); // .active 클래스 제거
+    $(".ellipsis-content").css("height","0");
+    $(".ellipsis-content").css("border","0");
+
+    //textarea css적용
+    textareaWrap.removeClass("readonly");
+    textarea.prop("readonly",false);
+    textareaWrap.find(".textarea-under-line").css("width","100%");
+
+    //버튼 보여지도록 변경
+    updateBtnWrap.css('display','flex');
+}
+function updateFormHidden(obj){
+    let commentReplysWrap = $(obj).closest('.comment-wrap');
+    let textareaWrap = commentReplysWrap.find('.comment-right-wrap .textarea-wrap');
+    let textarea = textareaWrap.find('textarea');
+    let updateBtnWrap = $(obj).closest('.update-btn-wrap');
+
+    //textarea css적용
+    textareaWrap.addClass("readonly");
+    textarea.prop("readonly",true);
+    textareaWrap.find(".textarea-under-line").css("width","0");
+
+    //버튼을 사라지도록 변경
+    updateBtnWrap.css('display','none');
+}
 
 
 

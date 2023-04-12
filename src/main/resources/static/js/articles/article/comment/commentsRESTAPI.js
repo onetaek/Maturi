@@ -46,9 +46,16 @@ function getComments(){
                             commentHtml += `<span class="is-modified"></span>`
                         }
                         commentHtml+=`</div>      
-                                <div class="textarea-wrap readonly">
-                                    <textarea readonly>${comment.content}</textarea>
+                                <div class="textarea-wrap readonly" data-commentid="${comment.id}">
+                                    <textarea
+                                    placeholder="내용을 입력해 주십시오." 
+                                    oninput="commentUpdateKeyUp(this)" 
+                                    readonly>${comment.content}</textarea>
                                     <span class="textarea-under-line"></span>
+                                </div>
+                                <div class="update-btn-wrap">
+                                    <button onclick="updateFormHidden(this)" class="cancel-btn">취소</button>
+                                    <button onclick="updateReply(this)" class="update-btn">수정</button>
                                 </div>
                                 <div class="like-reply-wrap">
                                     <span class="likeWrap">`
@@ -73,7 +80,7 @@ function getComments(){
                             commentHtml += `<li>
                                             <div>
                                                 <ion-icon name="git-compare-outline"></ion-icon>
-                                                <a href="/articles/${article.id}/edit">댓글 수정</a>
+                                                <a onclick="updateFormShow(this)">댓글 수정</a>
                                             </div>
                                         </li>
                                         <li>
@@ -91,7 +98,7 @@ function getComments(){
                                             <div th:articleId="${article.id}"
                                                  th:onclick="reposrtComment(${comment.id})">
                                                 <ion-icon name="warning-outline"></ion-icon>
-                                                <a>신고하기</a>
+                                                <a onclick="reportComment(${comment.id})">신고하기</a>
                                             </div>
                                         </li>`
                         }
@@ -176,14 +183,24 @@ function getComments(){
                                     replyHtml+=`<span class="is-modified"></span>`
                                 }
                                 replyHtml+=`</div>
-                                            <div class="textarea-wrap readonly">`
+                                            <div class="textarea-wrap readonly" data-commentid="${comment.id}">`
                                     if(comment.refMemberNickName !== null){
                                         replyHtml+=`<span class="ref-member-nick-name" 
                                                         onclick="location.href='/members/${comment.refMemberId}'">${comment.refMemberNickName}</span>`
                                     }
-                                        replyHtml+=`<textarea readonly>${comment.content}</textarea>
-                                                <span class="textarea-under-line"></span>
+                                        replyHtml+=`<textarea
+                                                    placeholder="내용을 입력해 주십시오." 
+                                                    oninput="commentUpdateKeyUp(this)" 
+                                                    onfocus="textareaFocus(this)"
+                                                    onfocusout="textareaFocusOut(this)"
+                                                    readonly>${comment.content}</textarea>
+                                                    <span class="textarea-under-line"></span>
                                             </div>
+                                            <div class="update-btn-wrap">
+                                                <button onclick="updateFormHidden(this)" class="cancel-btn">취소</button>
+                                                <button onclick="updateReply(this)" class="update-btn">수정</button>
+                                            </div>
+                                            
                                             <div class="like-reply-wrap">
                                                 <span class="likeWrap">`
                                     if(comment.liked){
@@ -207,7 +224,7 @@ function getComments(){
                             replyHtml+=`<li>
                                             <div>
                                                 <ion-icon name="git-compare-outline"></ion-icon>
-                                                <a href="/articles/${article.id}/edit">댓글 수정</a>
+                                                <a onclick="updateFormShow(this)">댓글 수정</a>
                                             </div>
                                         </li>
                                         <li>
@@ -225,7 +242,7 @@ function getComments(){
                                             <div th:articleId="${article.id}"
                                                  th:onclick="reposrtComment(${comment.id})">
                                                 <ion-icon name="warning-outline"></ion-icon>
-                                                <a>신고하기</a>
+                                                <a onclick="reportComment(${comment.id})">신고하기</a>
                                             </div>
                                         </li>`
                         }
@@ -244,13 +261,15 @@ function getComments(){
                         }
                         replyHtml+=`</div>
                                         <div class="comment-form-right-wrap">
-                                            <div class="textarea-wrap">
+                                            <div class="textarea-wrap readonly">
                                                 <div class="textarea-ref3">
                                                     <span onclick="location.href='/members/${memberId}'">${comment.nickName}</span>
                                                     <textarea
+                                                            onfocus="textareaFocus(this)"
+                                                            onfocusout="textareaFocusOut(this)"
                                                             oninput="commentKeyUp(this)"
                                                             onclick="showCommentBtn(this)"
-                                                            placeholder="댓글추가..."></textarea>
+                                                            placeholder="내용을 입력해 주십시오"></textarea>
                                                 </div>
                                                 <span class="textarea-under-line"></span>
                                             </div>
@@ -342,32 +361,123 @@ function deleteComment(commentId,ref){
                     "Content-type": "application/json"
                 }
             }).then(response => {
-                if(!response.ok){
-                    Swal.fire({
-                        title: "댓글 삭제 실패",
-                        text:"댓글 삭제하는데 실패했습니다",
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-                    })
-                    return;
-                } else {
+                if(response.ok){
                     Swal.fire({
                         title: "댓글 삭제 성공",
                         text:"댓글 삭제하는데 성공했습니다!",
                         icon: 'success',
                         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
                     })
-                    getComments();//댓글들을 다시 가져옴
+                }else if(response.status===404) {
+                    Swal.fire({
+                        title: "댓글 삭제 실패",
+                        text:"해당 댓글을 찾을 수 없습니다.",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                }else if(response.status===403) {
+                    Swal.fire({
+                        title: "댓글 삭제 실패",
+                        text:"댓글을 삭제하려는 유저와 댓글을 생성한 유저가 일치하지 않습니다.",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                }else if(response.status===409) {
+                    Swal.fire({
+                        title: "댓글 삭제 실패",
+                        text:"알 수 없는 이유로 인해 삭제된 댓글이 없습니다.",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                }else{
+                    Swal.fire({
+                        title: "댓글 삭제 실패",
+                        text:"알 수 없는 이유로 인해 댓글 삭제에 실패했습니다.",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
                 }
+                getComments();//댓글들을 다시 가져옴
             })
         }
     })
 }
 
+//댓글 대댓글 수정 (Update)
+function updateReply(obj){
+    let commentWrap = $(obj).closest('.comment-wrap');
+    let textareaWrap = commentWrap.find('.textarea-wrap');
+    let textarea = textareaWrap.find('textarea');
+    let commentId = textareaWrap.data('commentid');
+    let content = textarea.val()
+
+    fetch(`/api/comments/${commentId}`,{
+        method:"PATCH",
+        headers:{
+            "Content-Type":"application/json",
+        },
+        body:JSON.stringify({
+            content : content
+        })
+    }).then((response)=>{
+        if(response.ok){
+            Swal.fire({
+                title: "댓글 수정 완료",
+                text:"댓글을 성공적으로 수정하였습니다",
+                icon: 'success',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            }).then(function(){
+                //textarea css 적용
+                textareaWrap.addClass('readonly');
+                textarea.prop("readonly",true);
+                textareaWrap.find(".textarea-under-line").css("width","0");
+
+                //버튼을 사라지도록 변경
+                commentWrap.find(".update-btn-wrap").css('display','none');
+            })
+        }else if(response.status === 404){
+            Swal.fire({
+                title: "댓글 수정 실패",
+                text:"해당 댓글을 찾을 수 없습니다",
+                icon: 'error',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            }).then(function(){
+                getComments();
+            })
+        }else if(response.status === 403){
+            Swal.fire({
+                title: "댓글 수정 실패",
+                text:"댓글을 수정하려는 유저와 댓글을 생성한 유저가 일치하지 않습니다",
+                icon: 'error',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            }).then(function(){
+                getComments();
+            })
+        }else if(response.status === 400){
+            Swal.fire({
+                title: "댓글 수정 실패",
+                text:"예상치 못한 결과로 인해 실패했습니다.",
+                icon: 'error',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            }).then(function(){
+                getComments();
+            })
+        }else{
+            Swal.fire({
+                title: "댓글 수정 실패",
+                text:"알 수 없는 이유로 댓글 수정에 실패했습니다.",
+                icon: 'error',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            }).then(function(){
+                getComments();
+            })
+        }
+    })
+}
 
 //좋아요 클릭시 이벤트 처리(Create, Delete)
 function likeOrUnLike(obj,commentId){
-    const url = `/api/comment/${commentId}/like`;
+    const url = `/api/comments/${commentId}/like`;
     fetch(url, {
         method: "post",
         body: JSON.stringify({
@@ -392,7 +502,60 @@ function likeOrUnLike(obj,commentId){
         })
 }
 
+//댓글 신고 기능
+function reportComment(commentId){
+    Swal.fire({
+        icon: 'warning',
+        title: '신고사유를 작성해주세요',
+        input: 'text',
+        text:'한번 신고를 하고나서 취소할 수 없습니다.',
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: '신고하기',
+        cancelButtonText:'취소',
+        confirmButtonColor: '#d33',
+        showLoaderOnConfirm: true, // 데이터 결과를 받을때까지, 버튼에다가 로딩바를 표현
+        preConfirm: (text) => { // 확인 버튼 누르면 실행되는 콜백함수
+            const url = "/api/comments/"+ commentId +"/report";
 
+            return fetch(url, {
+                method: "POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    "reportReason":text
+                })
+            }).then((response)=>{
+                if(response.status == 200){ // 신고 성공
+                    Swal.fire({
+                        title: "해당 댓글을 신고했습니다.",
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                } else if(response.status == 226) {
+                    Swal.fire({
+                        title: "이미 신고한 글입니다.",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    })
+                } else if(response.status == 404){
+                    Swal.fire({
+                        title: "댓글을 찾을 수 없습니다.",
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+                    }).then(function () {
+                        // getComments();
+                    })
+                }
+            })
+        },
+        //알림창 외부를 눌러도 닫히지 않도록하는 작업
+        allowOutsideClick: () => !Swal.isLoading()
+    })
+}
 
 
 //페이지가 로드될 때 댓글, 대댓글을 가져옴

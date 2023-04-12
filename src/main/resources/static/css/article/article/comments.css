@@ -53,13 +53,12 @@ textarea:focus + .textarea-under-line{
     transition: width .3s;
     width:100%;
 }
-
 .textarea-under-line{
     position: absolute;
     bottom: 4px;
     left:0;
     height: 2px;
-    width: 0%;
+    width: 0;
     -webkit-transition: width .3s;
     background: black;
 }
@@ -129,6 +128,35 @@ textarea:focus + .textarea-under-line{
     transition: width .0s;
     width:0;
 }
+
+.comment-right-wrap .update-btn-wrap{
+    display: none;
+    justify-content: end;
+}
+.update-btn-wrap button{
+    padding : 10px;
+    width:60px;
+    border-radius: 20px;
+    /*color:var(--hot-pink-color);*/
+}
+.update-btn-wrap .cancel-btn{
+    cursor: pointer;
+    margin-right: 10px;
+    background:var(--comment-cancel-btn-background);
+    font-weight: 300;
+}
+.update-btn-wrap .cancel-btn:hover{
+    background: var(--comment-cancel-btn-hover-background);
+}
+.update-btn-wrap .update-btn{
+    background: var(--hot-pink-color);
+    color: var(--comment-btn-active-color);
+    margin-right:20px;
+    cursor: pointer;
+}
+
+
+
 .like-reply-wrap{
     display: flex;
     align-items: center;
@@ -207,9 +235,7 @@ textarea:focus + .textarea-under-line{
     display: flex;
     align-items: center;
 }
-.reply-item .textarea-under-line{
-    display: none;
-}
+
 .reply-item .textarea-wrap{
     display: flex;
     align-items: center;

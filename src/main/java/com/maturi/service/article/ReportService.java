@@ -67,7 +67,7 @@ public class ReportService {
    * @param commentId
    * @return boolean (새로운 신고자&&신고댓글 여부)
    */
-  public boolean reportComment(Long memberId, Long commentId) {
+  public boolean reportComment(Long memberId, Long commentId,String reportReason) {
     Member member = memberRepository.findById(memberId).orElseThrow(()->
             new IllegalArgumentException("맴버가 없습니다!"));
     Comment findComment = commentQRepository.findByIdAndStatus(commentId);
@@ -83,6 +83,7 @@ public class ReportService {
     CommentReport commentReport = CommentReport.builder()
             .member(member)
             .comment(findComment)
+            .reportReason(reportReason)
             .status(ReportStatus.WAITING) // 처리 대기 상태 ..
             .build();
     commentReportRepository.save(commentReport); // db에 저장

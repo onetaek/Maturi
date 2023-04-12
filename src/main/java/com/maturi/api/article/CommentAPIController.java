@@ -73,52 +73,49 @@ public class CommentAPIController {
             ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
-  @DeleteMapping("/comments/{id}")
+  @DeleteMapping("/comments/{commentId}")
   public ResponseEntity remove(@Login Long memberId,
-                               @PathVariable Long id,
+                               @PathVariable Long commentId,
                                @RequestBody Map<String,Long> map){
     log.info("delete comment 시작!");
-    log.info("commentId = {}",id);
+    log.info("commentId = {}",commentId);
     log.info("articleId = {}",map.get("articleId"));
     log.info("memberId = {}",memberId);
     log.info("ref = {}",map.get("ref"));
-    String status = commentService.remove(id,map.get("articleId"), memberId, map.get("ref"));
-    switch (status){
+    switch (commentService.remove(commentId,map.get("articleId"), memberId, map.get("ref"))){
       case NOT_FOUND:
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//404
       case NOT_WRITER:
         return ResponseEntity.status(HttpStatus.FORBIDDEN).build();//403
       case UPDATE_FAIL:
         return ResponseEntity.status(HttpStatus.CONFLICT).build();//409
+      case DELETE_SUCCESS:
+        return ResponseEntity.status(HttpStatus.OK).build();
+      default:
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+  }
+  @PatchMapping("/comments/{commentId}")
+  public ResponseEntity update(@Login Long memberId,
+                               @PathVariable Long commentId,
+                               @RequestBody Map<String,String> map){
+    log.info("commentId",commentId);
+    log.info("content",map.get("content"));
+    String status = commentService.update(memberId, commentId, map.get("content"));
+    switch (status){
+      case NOT_FOUND:
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//404
+      case NOT_WRITER:
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();//403
       case SUCCESS_MESSAGE:
         return ResponseEntity.status(HttpStatus.OK).build();
+      default:
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-    return null;
-  }
-
-  //댓글 수정
-  @PatchMapping("/comment/{id}")
-  public ResponseEntity<String> modify(@Login Long memberId,
-                                       @PathVariable Long id,
-                                       @RequestBody String json) throws ParseException {
-    // parse
-    JSONParser jsonParser = new JSONParser();
-    JSONObject jsonObject = (JSONObject) jsonParser.parse(json);
-    String commentBody = (String) jsonObject.get("commentBody");
-
-    // 댓글 수정
-    String msg = commentService.modify(memberId, id, commentBody);
-    if(msg != null) {
-      log.info("comment modify error message : " + msg);
-    }
-
-    return msg == null ?
-            ResponseEntity.status(HttpStatus.OK).build() :
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
   //댓글 좋아요 클릭시 좋아요 갯수 증가/감소
-  @PostMapping("/comment/{id}/like")
+  @PostMapping("/comments/{id}/like")
   public ResponseEntity<Map<String, Integer>> likeOrUnlike(@Login Long memberId,
                                                            @PathVariable Long id){
     int isLiked = // 좋아요 상태가 됨 -> 1
@@ -133,9 +130,10 @@ public class CommentAPIController {
   }
 
   //댓글 신고기능
-  @PostMapping("/comment/{id}/report")
+  @PostMapping("/comments/{id}/report")
   public ResponseEntity reportComment(@Login Long memberId,
-                                      @PathVariable Long id){
+                                      @PathVariable Long id,
+                                      @RequestBody Map<String,String> map){
 
     boolean status = commentService.commentStatusNormal(id); // 댓글 활성화상태인지 체크
     if(!status){ // 댓글 비활성화 상태
@@ -143,7 +141,7 @@ public class CommentAPIController {
     }
 
     // 댓글 신고 (이미 해당 회원이 신고한 내역 있음 -> false)
-    boolean isNewReport = reportService.reportComment(memberId, id);
+    boolean isNewReport = reportService.reportComment(memberId, id,map.get("reportReason"));
     log.info("isNewReport?? " + isNewReport);
     return isNewReport?
             ResponseEntity.status(HttpStatus.OK).build() : // 신고 성공

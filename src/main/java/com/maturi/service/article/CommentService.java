@@ -148,24 +148,17 @@ public class CommentService {
     return DELETE_SUCCESS;
   }
 
-
-  public String modify(Long memberId, Long commentId, String content) {
-    String msg = null;
-
+  public String update(Long memberId, Long commentId, String content){
     Comment findComment = commentQRepository.findByIdAndStatus(commentId);
-    log.info("findComment = {}" + findComment);
 
-    if (findComment == null) {
-      msg = "댓글 수정 실패! 해당 댓글이 존재하지 않습니다!";
-      new IllegalArgumentException(msg);
-    } else if (!Objects.equals(findComment.getMember().getId(), memberId)) {
-      msg = "댓글 삭제 실패! 댓글 작성자가 아닙니다!";
-      new IllegalArgumentException(msg);
-    } else {
-      findComment.changeContent(content); // 댓글 content 수정
-      commentRepository.save(findComment); // db update
+    if(findComment == null){
+      return NOT_FOUND;
+    }else if(!Objects.equals(findComment.getMember().getId(), memberId)){
+      return NOT_WRITER;
+    }else{
+      findComment.changeContent(content);
     }
-    return msg;
+    return SUCCESS_MESSAGE;
   }
 
   public boolean commentStatusNormal(Long commentId) {
