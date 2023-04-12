@@ -96,8 +96,24 @@ function replyListToggle(obj){
         ionIcon.css('transform','rotate(180deg)');
     }
 }
-function commentRef2Btn(){
-
+function commentRef2Btn(ref,refStep){
+    console.log("ref",ref,"refStep",refStep);
+    fetch(`/articles/${articleId}/comments`,{
+        method: "post",
+        body: JSON.stringify({
+            ref:ref,
+            refStep:refStep,
+            refMemberId:null,
+            refMemberNickName:null
+        }),
+        headers: {
+            "Content-type": "application/json"
+        }
+    }).then((response)=>{
+        if(response.ok){
+            alert("댓글 ref2 등록 성공!");
+        }
+    })
 }
 
 
@@ -122,4 +138,6 @@ function cancelRef3ReplyBtn(obj){
 function commentRef3Btn(){
 
 }
+
+
 

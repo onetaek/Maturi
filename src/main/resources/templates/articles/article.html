@@ -5,9 +5,9 @@
 <head>
     <title>게시판</title>
     <link rel="stylesheet" href="/css/article/article/article.css">
-<!--    <link rel="stylesheet" href="/css/article/article/comment.css">-->
+    <!--    <link rel="stylesheet" href="/css/article/article/comment.css">-->
     <link rel="stylesheet" href="/css/article/article/comments.css">
-    <link rel="stylesheet" href="/css/article/article/articleRestaurantMap.css">
+    <link rel="stylesheet" href="/css/article/article/articleRestaurantPopup.css">
 </head>
 <body>
 <!-- 상세페이지 본문 -->
@@ -189,210 +189,204 @@
                     <!--전체 댓글 및 대댓글들을 출력-->
                     <div id="comments-replys-container">
                         <!--댓글 하나당 대댓글 여러개 출력-->
-                        <div class="comment-replys-wrap">
-                            <!--댓글 내용을 출력-->
-                            <div class="comment-wrap">
-                                <div class="comment-left-wrap">
-                                    <img src="" alt="">
-                                </div>
-                                <div class="comment-right-wrap">
-                                    <div class="user-info">
-                                    <span>
-                                        <span class="nick-name">@user-nickName12</span>
-                                        <span class="name">(오원택)</span>
-                                    </span>
-                                        <span class="created-date">4시간전</span>
-                                        <span class="is-modified">(수정됨)</span>
-                                    </div>
-                                    <div class="textarea-wrap readonly">
-                                        <textarea readonly>음식이 맛있어 보여요!</textarea>
-                                        <span class="textarea-under-line"></span>
-                                    </div>
-                                    <div class="like-reply-wrap">
-                                    <span class="likeWrap">
-                                      <!--임시-->
-                                      <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>
-                                      <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>
-                                      <span class="likeNum" th:text="${article.like}">20</span>
-                                        <!--                                      <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>-->
-                                        <!--                                      <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>-->
-                                        <!--                                      <span class="likeNum" th:text="${comment.like}">20</span>-->
-                                    </span>
-                                        <span class="reply-btn-wrap">
-                                        <button onclick="replyRef2FormShow(this)" class="reply-btn">답글</button>
-                                    </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--새로운 댓글을 작성할 form역할을 하는 곳-->
-                            <div class="comment-form-container ref-2">
-                                <div class="comment-form-left-wrap">
-                                    <img src="" alt="">
-                                </div>
-                                <div class="comment-form-right-wrap">
-                                    <div class="textarea-wrap">
-                                    <textarea
-                                            oninput="commentKeyUp(this)"
-                                            placeholder="댓글추가..."></textarea>
-                                        <span class="textarea-under-line"></span>
-                                    </div>
-                                    <div class="comment-btn-wrap">
-                                        <button onclick="cancelRef2ReplyBtn(this)" class="cancel-btn">취소</button>
-                                        <button onclick="commentRef2Btn()" class="comment-btn">답글</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--대댓글을 출력-->
-                            <div class="replys-container">
-                                <!--대댓글을 show/hidden toggle버튼-->
-                                <div onclick="replyListToggle(this)" class="reply-toggle-btn">
-                                    <ion-icon name="caret-down-outline"></ion-icon>
-                                    <span>답글 14개</span>
-                                </div>
-                                <!--대댓글을 출력할 공간-->
-                                <ul class="reply-list">
-                                    <li class="reply-item">
-                                        <div class="comment-wrap">
-                                            <div class="comment-left-wrap">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="comment-right-wrap">
-                                                <div class="user-info">
-                                                <span>
-                                                    <span class="nick-name">@user-nickName12</span>
-                                                    <span class="name">(오원택)</span>
-                                                </span>
-                                                    <span class="created-date">4시간전</span>
-                                                    <span class="is-modified">(수정됨)</span>
-                                                </div>
-                                                <div class="textarea-wrap readonly">
-                                                    <textarea readonly>음식이 맛있어 보여요!</textarea>
-                                                    <span class="textarea-under-line"></span>
-                                                </div>
-                                                <div class="like-reply-wrap">
-                                                <span class="likeWrap">
-                                                  <!--임시-->
-                                                  <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>
-                                                  <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>
-                                                  <span class="likeNum" th:text="${article.like}">20</span>
-                                                    <!--                                      <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>-->
-                                                    <!--                                      <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>-->
-                                                    <!--                                      <span class="likeNum" th:text="${comment.like}">20</span>-->
-                                                </span>
-                                                    <span class="reply-btn-wrap">
-                                                    <button onclick="replyRef3FormShow(this)" class="reply-btn">답글</button>
-                                                </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!--새로운 댓글을 작성할 form역할을 하는 곳-->
-                                        <div class="comment-form-container ref-3">
-                                            <div class="comment-form-left-wrap">
-                                                <img src="" alt="">
-                                            </div>
-                                            <div class="comment-form-right-wrap">
-                                                <div class="textarea-wrap">
-                                                    <div class="textarea-ref3">
-                                                        <span>@user-nickName12</span>
-                                                        <textarea
-                                                                oninput="commentKeyUp(this)"
-                                                                onclick="showCommentBtn(this)"
-                                                                placeholder="댓글추가..."></textarea>
-                                                    </div>
-                                                    <span class="textarea-under-line"></span>
-                                                </div>
-                                                <div class="comment-btn-wrap">
-                                                    <button onclick="cancelRef3ReplyBtn(this)" class="cancel-btn">취소</button>
-                                                    <button onclick="commentRef3Btn(this)" class="comment-btn">답글</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--    댓글 목록 -->
-                    <div class="commentList">
-<!--                        <th:block th:each="comment: ${comments}">-->
-<!--                            <div class="comment" th:attr="data-commentid=${comment.id}">-->
-<!--                                <div class="commentWrap">-->
-<!--                                    <a class="cProfileImg" th:href="|/members/${comment.memberId}|">-->
-<!--                                        <img th:if="${comment.profileImg != null && #strings.contains(comment.profileImg,'://')}"-->
-<!--                                             th:src="${comment.profileImg}" alt="프로필 이미지">-->
-<!--                                        <img th:unless="${comment.profileImg == null || #strings.contains(comment.profileImg,'://')}"-->
-<!--                                             th:src="|/test/file/${comment.profileImg}|" alt="프로필 이미지">-->
-<!--                                        <img th:if="${comment.profileImg == null}"-->
-<!--                                             src="/img/profileImg/default_profile.png" alt="기본 이미지">-->
-<!--                                    </a>-->
-<!--                                    <div class="commentBox">-->
-<!--                                        <h4>-->
-<!--                                            <a th:text="${comment.nickName}" th:href="|/members/${comment.memberId}|">user-nick</a>-->
-<!--                                            (<a th:text="${comment.name}"-->
-<!--                                                th:href="|/members/${comment.memberId}|">이름</a>)-->
-<!--                                        </h4>-->
-<!--                                        <p class="cContent" th:text="${comment.content}">댓글 내용이 출력됩니다.</p>-->
-<!--                                        <p class="cSundry">-->
-<!--                                            <span class="" th:text="${comment.modifiedDate}">1일전</span>-->
-<!--                                            <span class="replyBtn">답글 달기</span>-->
-<!--                                        </p>-->
-<!--                                        <span class="likeWrap">-->
-<!--                                          <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>-->
-<!--                                          <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>-->
-<!--                                          <span class="likeNum" th:text="${comment.like}">20</span>-->
-<!--                                        </span>-->
-<!--                                        <div class="ellipsis-btn-wrap">-->
-<!--                                            <span class="ellipsis-btn" onclick="ellipsisToggle(this)">-->
-<!--                                                <ion-icon name="ellipsis-vertical-outline"></ion-icon>-->
-<!--                                            </span>-->
-<!--                                            <ul class="ellipsis-content">-->
-<!--&lt;!&ndash;                                                <li th:if="${comment.memberId == member.id}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    <div class="commentModify">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <ion-icon name="git-compare-outline"></ion-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <a href="#" th:articleId="${article.id}">댓글 수정</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                <li th:if="${comment.memberId == member.id}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    <div class="commentDelete">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <ion-icon name="trash-outline"></ion-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <a href="#" th:articleId="${article.id}">댓글 삭제</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                <li th:if="${comment.memberId != member.id}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    <div th:commentId="${comment.id}"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                         th:onclick="reportComment(this.getAttribute('commentId'))">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <ion-icon name="warning-outline"></ion-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <a>신고하기</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                <li class="followingBtnWrap"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    th:if="${comment.memberId != member.id && article.followingMember}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    <div th:attr="onclick=|followCancel(this,${article.id},${article.memberId},'${article.nickName}')|">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <ion-icon name="person-remove-outline"></ion-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <span>팔로잉 취소</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                <li class="followingBtnWrap"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    th:if="${comment.memberId != member.id && !article.followingMember}">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    <div th:attr="onclick=|following(this,${article.id},${article.memberId},'${article.nickName}')|">&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <ion-icon name="person-add-outline"></ion-icon>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                        <span>팔로잉</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                                                </li>&ndash;&gt;-->
-<!--                                            </ul>-->
-<!--                                        </div>-->
+<!--                        <div class="comment-replys-wrap">-->
+<!--                            &lt;!&ndash;댓글 내용을 출력&ndash;&gt;-->
+<!--                            <div class="comment-wrap">-->
+<!--                                <div class="comment-left-wrap">-->
+<!--                                    <img src="" alt="">-->
+<!--                                </div>-->
+<!--                                <div class="comment-right-wrap">-->
+<!--                                    <div class="user-info">-->
+<!--                                    <span>-->
+<!--                                        <span class="nick-name">@user-nickName12</span>-->
+<!--                                        <span class="name">(오원택)</span>-->
+<!--                                    </span>-->
+<!--                                        <span class="created-date">4시간전</span>-->
+<!--                                        <span class="is-modified">(수정됨)</span>-->
+<!--                                    </div>-->
+<!--                                    <div class="textarea-wrap readonly">-->
+<!--                                        <textarea readonly>음식이 맛있어 보여요!</textarea>-->
+<!--                                        <span class="textarea-under-line"></span>-->
+<!--                                    </div>-->
+<!--                                    <div class="like-reply-wrap">-->
+<!--                                    <span class="likeWrap">-->
+<!--                                      &lt;!&ndash;임시&ndash;&gt;-->
+<!--                                      <span class="likeBtn isLikedArticle" th:if="${article.isLiked()}">좋아요</span>-->
+<!--                                      <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>-->
+<!--                                      <span class="likeNum" th:text="${article.like}">20</span>-->
+<!--                                        &lt;!&ndash;                                      <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                      <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                      <span class="likeNum" th:text="${comment.like}">20</span>&ndash;&gt;-->
+<!--                                    </span>-->
+<!--                                        <span class="reply-btn-wrap">-->
+<!--                                        <button onclick="replyRef2FormShow(this)" class="reply-btn">답글</button>-->
+<!--                                    </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="ellipsis-btn-wrap">-->
+<!--                                    <span class="ellipsis-btn" onclick="ellipsisToggle(this)">-->
+<!--                                        <ion-icon name="ellipsis-vertical"></ion-icon>-->
+<!--                                    </span>-->
+<!--                                    <ul class="ellipsis-content">-->
+<!--                                        &lt;!&ndash;자기 자신의 댓글을 확인할 때&ndash;&gt;-->
+<!--                                        <th:block th:if="${article.memberId == member.id}">-->
+<!--                                            <li>-->
+<!--                                                <div>-->
+<!--                                                    <ion-icon name="git-compare-outline"></ion-icon>-->
+<!--                                                    <a th:href="|/articles/${article.id}/edit|">댓글 수정</a>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                            <li>-->
+<!--                                                <div>-->
+<!--                                                    <ion-icon name="trash-outline"></ion-icon>-->
+<!--                                                    <a href="#" th:articleId="${article.id}"-->
+<!--                                                       th:onclick="deleteArticle(this.getAttribute('articleId'))">댓글-->
+<!--                                                        삭제</a>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                        </th:block>-->
+<!--                                        &lt;!&ndash;다른 사람의 게시글 상세 페이지에 들어왔을 경우&ndash;&gt;-->
+<!--                                        <th:block th:unless="${article.memberId == member.id}">-->
+<!--                                            &lt;!&ndash;신고하기&ndash;&gt;-->
+<!--                                            <li>-->
+<!--                                                <div th:articleId="${article.id}"-->
+<!--                                                     th:onclick="reportArticle(this.getAttribute('articleId'))">-->
+<!--                                                    <ion-icon name="warning-outline"></ion-icon>-->
+<!--                                                    <a>신고하기</a>-->
+<!--                                                </div>-->
+<!--                                            </li>-->
+<!--                                        </th:block>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash;새로운 댓글을 작성할 form역할을 하는 곳&ndash;&gt;-->
+<!--                            <div class="comment-form-container ref-2">-->
+<!--                                <div class="comment-form-left-wrap">-->
+<!--                                    <img src="" alt="">-->
+<!--                                </div>-->
+<!--                                <div class="comment-form-right-wrap">-->
+<!--                                    <div class="textarea-wrap">-->
+<!--                                    <textarea-->
+<!--                                            oninput="commentKeyUp(this)"-->
+<!--                                            placeholder="댓글추가..."></textarea>-->
+<!--                                        <span class="textarea-under-line"></span>-->
+<!--                                    </div>-->
+<!--                                    <div class="comment-btn-wrap">-->
+<!--                                        <button onclick="cancelRef2ReplyBtn(this)" class="cancel-btn">취소</button>-->
+<!--                                        <button onclick="commentRef2Btn()" class="comment-btn">답글</button>-->
 <!--                                    </div>-->
 <!--                                </div>-->
 <!--                            </div>-->
-<!--                        </th:block>-->
+<!--                            &lt;!&ndash;대댓글을 출력&ndash;&gt;-->
+<!--                            <div class="replys-container">-->
+<!--                                &lt;!&ndash;대댓글을 show/hidden toggle버튼&ndash;&gt;-->
+<!--                                <div onclick="replyListToggle(this)" class="reply-toggle-btn">-->
+<!--                                    <ion-icon name="caret-down-outline"></ion-icon>-->
+<!--                                    <span>답글 14개</span>-->
+<!--                                </div>-->
+<!--                                &lt;!&ndash;대댓글을 출력할 공간&ndash;&gt;-->
+<!--                                <ul class="reply-list">-->
+<!--                                    <li class="reply-item">-->
+<!--                                        <div class="comment-wrap">-->
+<!--                                            <div class="comment-left-wrap">-->
+<!--                                                <img src="" alt="">-->
+<!--                                            </div>-->
+<!--                                            <div class="comment-right-wrap">-->
+<!--                                                <div class="user-info">-->
+<!--                                                <span>-->
+<!--                                                    <span class="nick-name">@user-nickName12</span>-->
+<!--                                                    <span class="name">(오원택)</span>-->
+<!--                                                </span>-->
+<!--                                                    <span class="created-date">4시간전</span>-->
+<!--                                                    <span class="is-modified">(수정됨)</span>-->
+<!--                                                </div>-->
+<!--                                                <div class="textarea-wrap readonly">-->
+<!--                                                    <textarea readonly>음식이 맛있어 보여요!</textarea>-->
+<!--                                                    <span class="textarea-under-line"></span>-->
+<!--                                                </div>-->
+<!--                                                <div class="like-reply-wrap">-->
+<!--                                                <span class="likeWrap">-->
+<!--                                                  &lt;!&ndash;임시&ndash;&gt;-->
+<!--                                                  <span class="likeBtn isLikedArticle"-->
+<!--                                                        th:if="${article.isLiked()}">좋아요</span>-->
+<!--                                                  <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>-->
+<!--                                                  <span class="likeNum" th:text="${article.like}">20</span>-->
+<!--                                                    &lt;!&ndash;                                      <span class="likeBtn isLikedArticle" th:if="${comment.isLiked()}">좋아요</span>&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                      <span class="likeBtn" th:unless="${comment.isLiked()}">좋아요</span>&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;                                      <span class="likeNum" th:text="${comment.like}">20</span>&ndash;&gt;-->
+<!--                                                </span>-->
+<!--                                                    <span class="reply-btn-wrap">-->
+<!--                                                    <button onclick="replyRef3FormShow(this)"-->
+<!--                                                            class="reply-btn">답글</button>-->
+<!--                                                </span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="ellipsis-btn-wrap">-->
+<!--                                                <span class="ellipsis-btn" onclick="ellipsisToggle(this)">-->
+<!--                                                    <ion-icon name="ellipsis-vertical"></ion-icon>-->
+<!--                                                </span>-->
+<!--                                                <ul class="ellipsis-content">-->
+<!--                                                    &lt;!&ndash;자기 자신의 댓글을 확인할 때&ndash;&gt;-->
+<!--                                                    <th:block th:if="${article.memberId == member.id}">-->
+<!--                                                        <li>-->
+<!--                                                            <div>-->
+<!--                                                                <ion-icon name="git-compare-outline"></ion-icon>-->
+<!--                                                                <a th:href="|/articles/${article.id}/edit|">댓글 수정</a>-->
+<!--                                                            </div>-->
+<!--                                                        </li>-->
+<!--                                                        <li>-->
+<!--                                                            <div>-->
+<!--                                                                <ion-icon name="trash-outline"></ion-icon>-->
+<!--                                                                <a href="#" th:articleId="${article.id}"-->
+<!--                                                                   th:onclick="deleteArticle(this.getAttribute('articleId'))">댓글-->
+<!--                                                                    삭제</a>-->
+<!--                                                            </div>-->
+<!--                                                        </li>-->
+<!--                                                    </th:block>-->
+<!--                                                    &lt;!&ndash;다른 사람의 게시글 상세 페이지에 들어왔을 경우&ndash;&gt;-->
+<!--                                                    <th:block th:unless="${article.memberId == member.id}">-->
+<!--                                                        &lt;!&ndash;신고하기&ndash;&gt;-->
+<!--                                                        <li>-->
+<!--                                                            <div th:articleId="${article.id}"-->
+<!--                                                                 th:onclick="reportArticle(this.getAttribute('articleId'))">-->
+<!--                                                                <ion-icon name="warning-outline"></ion-icon>-->
+<!--                                                                <a>신고하기</a>-->
+<!--                                                            </div>-->
+<!--                                                        </li>-->
+<!--                                                    </th:block>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash;새로운 댓글을 작성할 form역할을 하는 곳&ndash;&gt;-->
+<!--                                        <div class="comment-form-container ref-3">-->
+<!--                                            <div class="comment-form-left-wrap">-->
+<!--                                                <img src="" alt="">-->
+<!--                                            </div>-->
+<!--                                            <div class="comment-form-right-wrap">-->
+<!--                                                <div class="textarea-wrap">-->
+<!--                                                    <div class="textarea-ref3">-->
+<!--                                                        <span>@user-nickName12</span>-->
+<!--                                                        <textarea-->
+<!--                                                                oninput="commentKeyUp(this)"-->
+<!--                                                                onclick="showCommentBtn(this)"-->
+<!--                                                                placeholder="댓글추가..."></textarea>-->
+<!--                                                    </div>-->
+<!--                                                    <span class="textarea-under-line"></span>-->
+<!--                                                </div>-->
+<!--                                                <div class="comment-btn-wrap">-->
+<!--                                                    <button onclick="cancelRef3ReplyBtn(this)" class="cancel-btn">취소-->
+<!--                                                    </button>-->
+<!--                                                    <button onclick="commentRef3Btn(this)" class="comment-btn">답글-->
+<!--                                                    </button>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </div>
                 </div>
-            </div>
-
-            <!--해당 레스토랑에 작성한 게시글 출력-->
-            <div id="restaurant-article-wrap">
-
             </div>
         </div>
     </div>
@@ -403,6 +397,13 @@
         <div id="restaurantMapPopupContent">
             <div class="rMap" id="articleMap"
                  th:attr="data-lat=${restaurant.latitude}, data-long=${restaurant.longitude}"></div>
+            <div id="popup-restaurant-info">
+                <h4 class="restaurant-title" th:text="${restaurant.name}">음식점명</h4>
+                <p class="restaurant-etc">
+                    <span th:text="${restaurant.category}">카테고리</span>&nbsp;&nbsp;
+                    <span th:text="${restaurant.oldAddress}">주소</span>
+                </p>
+            </div>
         </div>
         <div class="restaurant-map-popup-close-btn-wrap">
             <ion-icon class="popup-close-btn" onclick="restaurantMapPopupToggle()"
@@ -415,13 +416,15 @@
 <th:block layout:fragment="scripts">
     <script th:inline="javascript">
         const articleId = [[${article.id}]]
-        console.log("상세페이지의 articleId",articleId);
+        console.log("상세페이지의 articleId", articleId);
+        const article = [[${article}]]
+        console.log("상세페이지의 article 객체",article);
     </script>
     <script src="/js/articles/article/articleImgRatio.js"></script>
     <script src="/js/articles/article/article.js"></script>
     <script src="/js/articles/welcome/followAndDelete.js"></script>
     <script src="/js/articles/article/report.js"></script>
-<!--    <script src="/js/articles/article/comment.js"></script>-->
+    <!--    <script src="/js/articles/article/comment.js"></script>-->
     <script src="/js/articles/article/comment/comments.js"></script>
     <script src="/js/articles/article/comment/commentsRESTAPI.js"></script>
     <script src="/js/articles/articleMap.js"></script>

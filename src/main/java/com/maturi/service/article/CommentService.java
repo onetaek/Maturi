@@ -1,6 +1,7 @@
 package com.maturi.service.article;
 
 import com.maturi.dto.article.CommentDTO;
+import com.maturi.entity.BaseTimeEntity;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.Comment;
 import com.maturi.entity.article.CommentStatus;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class CommentService {
   private final CommentRepository commentRepository;
   private final CommentQuerydslRepository commentQRepository;
   private final LikeCommentRepository likeCommentRepository;
+
   public Comment write(Long memberId,
                        Long articleId,
                        Long ref,
@@ -39,14 +42,14 @@ public class CommentService {
                        String content) {
     Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
             new IllegalArgumentException("맴버가 없습니다!"));
-    Article findArticle =  articleRepository.findById(articleId).orElseThrow(() ->
+    Article findArticle = articleRepository.findById(articleId).orElseThrow(() ->
             new IllegalArgumentException("존재하지 않는 글입니다!"));
 
     //새로운 댓글일 경우 ref는 최대 값 + 1, refStep은 1
     //새로운 댓글이 아닐 경우(ref값이 있을 경우) ref그대로 사용, refStep은 refStep + 1
-    if(ref == null){
+    if (ref == null) {
       Long maxRef = commentQRepository.findMaxRef(articleId);
-      log.info("maxRef = {}",maxRef);
+      log.info("maxRef = {}", maxRef);
       ref = maxRef == null ? 1L : maxRef + 1;
     }
     refStep = refStep == null ? 1L : refStep + 1;
@@ -63,44 +66,21 @@ public class CommentService {
             .build();
 
     Comment findComment = commentRepository.save(comment);
-    log.info("writeComment! findComment = {}", findComment);
+    log.info("write findComment = {}",findComment);
     return findComment;
   }
 
-  public List<CommentDTO> articleComment(Long memberId, Long articleId) {
-//    List<Comment> comments = commentQRepository.findByArticleIdAndStatusOrderByIdDesc(articleId);
+  public List<List<CommentDTO>> articleComment(Long memberId, Long articleId) {
     List<Comment> comments = commentQRepository.findByArticleId(articleId);
-    log.info("Comments = {}", comments);
+    List<CommentDTO> commentDTOs = createCommentDTO(memberId, comments);
+    List<List<CommentDTO>> groupComments = groupComments(commentDTOs);
 
-    List<CommentDTO> commentDTOList = new ArrayList<>();
+    groupComments.forEach(groupComment -> {
+      log.info("{}번째 댓글 묶음 -> 길이 : {}", groupComments.indexOf(groupComment), groupComment.size());
+      groupComment.forEach(commentDTO -> log.info("commentDTO = {}", commentDTO));
+    });
 
-    for(Comment comment : comments){
-      LikeComment likeComment = likeCommentRepository.findByCommentIdAndMemberId(comment.getId(), memberId);
-
-      CommentDTO commentDTO = CommentDTO.builder()
-              .id(comment.getId())
-              .ref(comment.getRef())
-              .refStep(comment.getRefStep())
-              .profileImg(comment.getMember().getProfileImg())
-              .memberId(comment.getMember().getId())
-              .name(comment.getMember().getName())
-              .nickName(comment.getMember().getNickName())
-              .content(comment.getContent())
-              .createdDate(comment.getModifiedDate())
-              .likeCount(likeCommentRepository.countByCommentId(comment.getId()))
-              .isLiked(likeComment != null ? true : false) // 로그인멤버가 좋아요 한상태인지 확인
-              .refMemberId(comment.getRefMemberId())
-              .refMemberNickName(comment.getRefMemberNickName())
-              .build();
-      if(comment.getCreatedDate() != comment.getModifiedDate()){
-        commentDTO.setModified(true);
-      }else{
-        commentDTO.setModified(false);
-      }
-      commentDTOList.add(commentDTO);
-    }
-    log.info("ArticleCommentDTOList = {}", commentDTOList);
-    return commentDTOList;
+    return groupComments;
   }
 
   public boolean likeOrUnlike(Long memberId, Long commentId) {
@@ -108,10 +88,10 @@ public class CommentService {
 
     Comment findComment = commentRepository.findById(commentId).orElseThrow(() ->
             new IllegalArgumentException("해당되는 댓글이 없습니다!"));
-    Member findMember = memberRepository.findById(memberId).orElseThrow(()->
+    Member findMember = memberRepository.findById(memberId).orElseThrow(() ->
             new IllegalArgumentException("로그인 상태가 아닙니다!"));
 
-    if(findLikeComment == null){ // 좋아요 안한 상태
+    if (findLikeComment == null) { // 좋아요 안한 상태
       LikeComment likeComment = LikeComment.builder()
               .comment(findComment)
               .member(findMember)
@@ -133,9 +113,9 @@ public class CommentService {
     String msg = null;
 
     Comment findComment = commentQRepository.findByIdAndStatus(commentId);
-    if(findComment == null){
+    if (findComment == null) {
       msg = "댓글 삭제 실패! 해당 댓글이 존재하지 않습니다!";
-    } else if(!Objects.equals(findComment.getMember().getId(), memberId)){
+    } else if (!Objects.equals(findComment.getMember().getId(), memberId)) {
       msg = "댓글 삭제 실패! 댓글 작성자가 아닙니다!";
       new IllegalArgumentException(msg);
     } else { // 댓글 삭제 성공
@@ -146,20 +126,20 @@ public class CommentService {
     return msg; // 정삭 작동 -> null
   }
 
-  public String modify(Long memberId, Long commentId, String commentBody) {
+  public String modify(Long memberId, Long commentId, String content) {
     String msg = null;
 
     Comment findComment = commentQRepository.findByIdAndStatus(commentId);
     log.info("findComment = {}" + findComment);
 
-    if(findComment == null){
+    if (findComment == null) {
       msg = "댓글 수정 실패! 해당 댓글이 존재하지 않습니다!";
       new IllegalArgumentException(msg);
-    } else if(!Objects.equals(findComment.getMember().getId(), memberId)) {
+    } else if (!Objects.equals(findComment.getMember().getId(), memberId)) {
       msg = "댓글 삭제 실패! 댓글 작성자가 아닙니다!";
       new IllegalArgumentException(msg);
     } else {
-      findComment.changeContent(commentBody); // 댓글 content 수정
+      findComment.changeContent(content); // 댓글 content 수정
       commentRepository.save(findComment); // db update
     }
     return msg;
@@ -172,5 +152,61 @@ public class CommentService {
 
     return findComment != null;
   }
-}
 
+  private List<CommentDTO> createCommentDTO(Long memberId, List<Comment> comments) {
+    return comments.stream().map(comment -> {
+              LikeComment likeComment = likeCommentRepository.findByCommentIdAndMemberId(comment.getId(), memberId);
+              boolean isLiked = likeComment != null;
+              log.info("comment의 createdDate = {}",comment.getCreatedDate());
+              log.info("comment의 modifiedDate = {}",comment.getModifiedDate());
+              boolean isModified = !comment.getCreatedDate().equals(comment.getModifiedDate());
+              log.info("두 날짜의 값이 다른가요? = {}",isModified);
+              return CommentDTO.builder()
+                      .id(comment.getId())
+                      .ref(comment.getRef())
+                      .refStep(comment.getRefStep())
+                      .profileImg(comment.getMember().getProfileImg())
+                      .memberId(comment.getMember().getId())
+                      .name(comment.getMember().getName())
+                      .nickName(comment.getMember().getNickName())
+                      .content(comment.getContent())
+                      .duration(BaseTimeEntity.getDurationByDate(comment.getCreatedDate()))
+                      .likeCount(likeCommentRepository.countByCommentId(comment.getId()))
+                      .isLiked(isLiked)
+                      .refMemberId(comment.getRefMemberId())
+                      .refMemberNickName(comment.getRefMemberNickName())
+                      .isModified(isModified)
+                      .build();
+            }).peek(commentDTO -> log.info("ArticleCommentDTOList = {}", commentDTO))
+            .collect(Collectors.toList());
+  }
+
+  private List<List<CommentDTO>> groupComments(List<CommentDTO> comments) {
+
+    List<List<CommentDTO>> groupedComments = new ArrayList<>();
+    List<CommentDTO> currentGroup = new ArrayList<>();
+
+    // 2. 현재 댓글과 이전 댓글의 ref 값을 비교하여 같은 그룹에 속하는지를 판단합니다.
+    for (int i = 0; i < comments.size(); i++) {
+      CommentDTO comment = comments.get(i);
+      if (i == 0 || !comments.get(i - 1).getRef().equals(comment.getRef())) {
+        // 3. 같은 그룹에 속하지 않는다면 새로운 그룹을 만들어서 DTO를 추가합니다.
+        if (!currentGroup.isEmpty()) {
+          groupedComments.add(currentGroup);
+        }
+        currentGroup = new ArrayList<>();
+      }
+
+      // 3. 같은 그룹에 속한다면, 현재 그룹의 DTO에 댓글을 추가합니다.
+      currentGroup.add(comment);
+    }
+
+    // 마지막 그룹을 추가합니다.
+    if (!currentGroup.isEmpty()) {
+      groupedComments.add(currentGroup);
+    }
+
+    // 4. 모든 댓글을 처리한 후, 그룹화된 DTO 리스트를 반환합니다.
+    return groupedComments;
+  }
+}

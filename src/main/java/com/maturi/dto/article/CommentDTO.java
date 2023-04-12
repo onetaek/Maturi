@@ -20,7 +20,7 @@ public class CommentDTO {
   private String name;
   private String nickName;
   private String content;
-  private LocalDateTime createdDate;//댓글 작성 날짜
+  private String duration;//작성날짜로 부터 몇일이 지났는지
   private boolean isModified;//수정 유무를 확인
   private int likeCount;//좋아요 갯수
   private boolean isLiked;

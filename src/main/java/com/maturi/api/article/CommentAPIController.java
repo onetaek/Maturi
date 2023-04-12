@@ -27,9 +27,9 @@ public class CommentAPIController {
   final private ReportService reportService;
 
   @GetMapping("/articles/{articleId}/comments")
-  public ResponseEntity<List<CommentDTO>> getComments(@Login Long memberId,
+  public ResponseEntity<List<List<CommentDTO>>> getComments(@Login Long memberId,
                                                       @PathVariable Long articleId){
-    List<CommentDTO> comments = commentService.articleComment(memberId, articleId);
+    List<List<CommentDTO>> comments = commentService.articleComment(memberId, articleId);
 
     return ResponseEntity.status(HttpStatus.OK).body(comments);
   }
