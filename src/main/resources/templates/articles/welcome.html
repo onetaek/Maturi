@@ -23,6 +23,18 @@
                         <label for="all">전체</label>
                     </div>
                 </div>
+
+                <div class="input-container input-container-category">
+                    <input id="category" type="radio" name="radioCond" value="category">
+                    <div class="radio-tile">
+                        <ion-icon name="restaurant-outline"></ion-icon>
+                        <label for="category">카테고리</label>
+                    </div>
+                    <ul class="category-drop-list">
+                        <!--js로추가-->
+                    </ul>
+                </div>
+
                 <div class="input-container">
                     <input id="follow" type="radio" name="radioCond" value="follow">
                     <div class="radio-tile">
@@ -49,16 +61,7 @@
                     </div>
                 </div>
 
-                <div class="input-container input-container-category">
-                    <input id="category" type="radio" name="radioCond" value="category">
-                    <div class="radio-tile">
-                        <ion-icon name="restaurant-outline"></ion-icon>
-                        <label for="category">카테고리</label>
-                    </div>
-                    <ul class="category-drop-list">
-                        <!--js로추가-->
-                    </ul>
-                </div>
+
 
                 <div class="input-container">
                     <input id="like" type="radio" name="radioCond" value="like">
@@ -66,6 +69,25 @@
                         <ion-icon name="heart-circle-outline"></ion-icon>
                         <label for="like">좋아요</label>
                     </div>
+                </div>
+
+                <div id="order-wrap" class="input-container order">
+                    <input id="order" type="checkbox" checked value="like">
+                    <div class="radio-tile">
+                        <div class="order-icon">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                        </div>
+                        <label for="order">최신순</label>
+                    </div>
+
+                    <ul class="order-drop-list">
+                        <!--js로추가-->
+                        <li><i class="fa-solid fa-arrow-down-9-1"></i><span>최신순</span></li>
+                        <li><i class="fa-solid fa-arrow-up-9-1"></i><span>오래된순</span></li>
+                        <li><i class="fa-solid fa-eye"></i><span>조회수순</span></li>
+                        <li><i class="fa-solid fa-heart"></i><span>좋아요순</span></li>
+                        <li><i class="fa-solid fa-comments"></i><span>댓글순</span></li>
+                    </ul>
                 </div>
             </div>
 
@@ -115,11 +137,12 @@
     <script src="/js/articles/welcome/dropdown.js"></script>
     <script src="/js/articles/welcome/geolocation.js"></script>
     <script src="/js/articles/welcome/categoryDropdown.js"></script>
+    <script src="/js/articles/welcome/orderDropdown.js"></script>
 
     <script src="/js/articles/article/articleImgRatio.js"></script>
     <script src="/js/articles/article/articleListImg.js"></script>
 
-    <script src="/js/articles/welcome/paging/searchCondSetting.js"></script>
+    <script src="/js/articles/welcome/paging/condSetting.js"></script>
     <script th:inline="javascript" src="/js/articles/welcome/paging/getArticleRESTAPI.js"></script>
     <script src="/js/articles/welcome/paging/scrollEvent.js"></script>
 

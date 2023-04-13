@@ -1,12 +1,13 @@
 // 검색 조건을 세팅해주고 Ajax요청을 실행하는 함수
 function addPage(event) {
-    let obj = searchCondSetting(event);
-    searchArticleAjax(obj);
+    let obj = SearchCondSetting(event);
+    let orderBy = orderCondSetting();
+    searchArticleAjax(obj,orderBy);
 }
 
 //enter버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
 document.querySelector('.search-input').addEventListener("keyup", ()=>{
-    if( window.event.keyCode === 13){
+    if(window.event.keyCode === 13){
         addPage("click");
     }
 })
@@ -14,7 +15,7 @@ document.querySelector('.search-input').addEventListener("keyup", ()=>{
 //검색 버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
 document.querySelector('#main-search-btn').addEventListener('click',()=>{
     console.log("검색 아이콘 클릭!");
-    let obj = searchCondSetting("click");
+    let obj = SearchCondSetting("click");
     console.log("name",searchCategoryValue.name);
     console.log("value",searchCategoryValue.value);
     searchArticleAjax(obj);
@@ -24,7 +25,7 @@ document.querySelector('#main-search-btn').addEventListener('click',()=>{
 //scrollEvent.js에 스크롤로 하단에 도달했을 때 Ajax요청코드 있음
 
 //Ajax요청으로 데이터를 받고 게시글을 화면에 추가해주는 코드
-function searchArticleAjax(obj){
+function searchArticleAjax(obj,orderBy){
     console.log("페이징 처리 ajax요청");
     const url = '/api/articles?radioCond='+_fnToNull(obj['radioCond'])
         +'&latitude='+_fnToNull(obj['latitude'])
@@ -39,6 +40,8 @@ function searchArticleAjax(obj){
         +'&lastArticleId='+_fnToNull(obj['lastArticleId'])
         +'&size='+_fnToNull(obj['size'])
         +'&event='+_fnToNull(obj['event'])
+        +'&orderBy='+_fnToNull(orderBy);
+
     console.log("ajax요청 url",url);
     fetch(url)
     .then((response) => {
@@ -57,7 +60,6 @@ function searchArticleAjax(obj){
     })
     .then((data) => {
         console.log("data",data);
-        console.log("memberId","[[${session.memberId}]]");
         document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;//마지막 게시글의 id를 저장
         if(data.hasNext === false){
             hasArticle = false;
@@ -98,7 +100,7 @@ function searchArticleAjax(obj){
                             <span class="writerNickName">${article.nickName}</span>
                             (<span class="writerName">${article.name}</span>)
                         </a>
-                        <span class="writtenAt">${article.modifiedDate}</span>
+                        <span class="writtenAt">${article.date}</span>
                     </div>
                 </div>
                 <!--    글 본문 -->
@@ -106,11 +108,16 @@ function searchArticleAjax(obj){
                     <ul class="bImg">`
             // 이미지 처리 ..
             article.image.forEach(img =>{
-                articleHtml += `<li>
-                              <img src="/test/file/${img}" alt="사진1">
-                          </li>`
+            articleHtml+=`<li>
+                            <img src="/test/file/${img}" alt="사진1">
+                         </li>`
             })
-            articleHtml += `</ul>
+            articleHtml += `
+                        <div class="restaurant-info-wrap">
+                            <div><ion-icon name="location"></ion-icon>${article.address}</div>
+                            <div>${article.restaurantName}</div>
+                        </div>
+                    </ul>
                     <p class="bContent">
                         ${article.content}
                     </p>
@@ -121,12 +128,23 @@ function searchArticleAjax(obj){
                       <span class="likeBtn likeBtn${article.id}">좋아요</span>
                       <span class="likeNum likeNum${article.id}">${article.like}</span>
                     </span>
+                   
                     <div class="tagWrap">`
-            article.tags.forEach((tag) => {
-                articleHtml += `<span class="tag-box"><span>${tag}</span></span>`
-            });
+        article.tags.forEach((tag) => {
+            articleHtml += `<span class="tag-box"><span>${tag}</span></span>`
+        });
             articleHtml += `
-                       </div>
+                   </div>
+                   <span class="count-info">
+                        <span class="count-wrap">
+                            <ion-icon name="eye-outline"></ion-icon>
+                            <span>${article.views}</span>
+                        </span>
+                        <span class="count-wrap">
+                            <ion-icon name="chatbubbles-outline"></ion-icon>
+                            <span>${article.commentCount}</span>
+                        </span>
+                   </span>        
                 </div>
                 <!--     리뷰글 더보기 버튼 -->
                 <div class="ellipsis-btn-wrap">

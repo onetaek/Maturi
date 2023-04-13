@@ -114,7 +114,7 @@ function followCancel(articleId,articleMemberId,articleMemberNickName){
                     getFollows();
                     if(hasArticle === true){
                         console.log("팔로잉취소 후 게시글 가져오기");
-                        let obj = searchCondSetting("click");
+                        let obj = SearchCondSetting("click");
                         searchArticleAjax(obj);
                     }
                 }else{

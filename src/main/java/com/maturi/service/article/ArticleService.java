@@ -7,6 +7,7 @@ import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.dto.member.MemberBlockDTO;
 import com.maturi.dto.member.MemberDTO;
+import com.maturi.entity.BaseTimeEntity;
 import com.maturi.entity.article.*;
 import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
@@ -129,6 +130,10 @@ public class ArticleService {
         if (article == null ) return null;
         ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
         log.info("articleViewDTO = {}",articleViewDTO);
+
+        //조회수 +1증가
+        article.viewCountUp();
+
         return articleViewDTO;
     }
 
@@ -212,6 +217,7 @@ public class ArticleService {
 
     public ArticlePagingResponse articleSearch(ArticleSearchRequest searchRequest,
                                                ArticlePagingRequest pagingRequest,
+                                               String orderBy,
                                                Long memberId) {
 
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
@@ -226,7 +232,8 @@ public class ArticleService {
             log.info("조건에 해당하는 게시글이 없거나 잘못된 조건입니다.");
             return null;//팔로우한 유저의 게시글을 검색했는데 아무값도 없으면 null을 리턴
         }
-        ArticlePagingResponse<Article> result = articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(), cond,pagingRequest.getSize());
+        ArticlePagingResponse<Article> result =
+                articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(),cond,orderBy,pagingRequest.getSize());
         log.info("[articleSearch]페이징 써칭한 결과 result = {}",result);
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
@@ -355,14 +362,18 @@ public class ArticleService {
                 .id(article.getId())
                 .content(article.getContent())
                 .image(Arrays.asList(article.getImage().split(",")))
-                .modifiedDate(article.getModifiedDate())
+                .date(BaseTimeEntity.getFormatDate(article.getCreatedDate()))
                 .memberId(article.getMember().getId())
                 .name(article.getMember().getName())
                 .nickName(article.getMember().getNickName())
                 .profileImg(article.getMember().getProfileImg())
+                .address(article.getRestaurant().getLocation().getAddress())
+                .restaurantName(article.getRestaurant().getName())
                 .tags(tagName)
                 .like(likeNum)
                 .isLiked(this.isLikedArticle(article.getId(), memberId))
+                .commentCount(commentRepository.countByArticleId(article.getId()))
+                .views(article.getViews())
                 .isFollowingMember(isFollowingMember)
                 .build();
     }

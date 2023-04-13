@@ -5,16 +5,20 @@ import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
 import com.maturi.entity.member.Member;
+import com.maturi.util.constfield.OrderConst;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
+import static com.maturi.entity.article.QComment.*;
 import static com.maturi.entity.article.QLikeArticle.likeArticle;
 import static com.maturi.entity.article.QRestaurant.*;
 import static com.maturi.entity.article.QTag.tag;
@@ -25,12 +29,13 @@ import static com.maturi.util.constfield.LocationConst.kmToLat;
 @Repository
 public class ArticleQuerydslRepository {
     //querydsl을 쓰기위한 객체
-    private final JPAQueryFactory query;
+    private final JPAQueryFactory queryFactory;
+    private final EntityManager em;
 
     //유저가 좋아요를 누른 게시글을을 찾음
     public List<Article> findByLike(Long memberId) {//테스트함
         //select a from LikeArticle l join article a on l.article_id = a.id where l.member_id = ?;
-        return query
+        return queryFactory
                 .select(article)
                 .from(likeArticle)
                 .join(likeArticle.article, article)
@@ -41,7 +46,7 @@ public class ArticleQuerydslRepository {
     //유저가 입력한 키워드가 태그명의 일부에 포함되는 게시글을 찾음
     public List<Article> findByTagValue(String inputTag) {//테스트함
         //select a from TagValue t join Article a on t.article_id = a.id where tag like %?%;
-        return query
+        return queryFactory
                 .select(article)
                 .from(tagValue)
                 .join(tagValue.article, article)
@@ -55,7 +60,7 @@ public class ArticleQuerydslRepository {
         BooleanBuilder builder = new BooleanBuilder();
         builder.or(article.status.eq(ArticleStatus.NORMAL))
                 .or(article.status.eq(ArticleStatus.REPORT));
-        return query.selectFrom(article)
+        return queryFactory.selectFrom(article)
                 .join(article.member, member)
                 .join(article.restaurant, restaurant)
                 .fetchJoin()
@@ -75,7 +80,7 @@ public class ArticleQuerydslRepository {
         statusCond.or(statusEq(ArticleStatus.NORMAL))// 상태가 NORMAL 게시글들만 출력
                 .or(statusEq(ArticleStatus.REPORT));// 상태가 REPORT 게시글들만 출력
 
-        List<Article> results = query.selectFrom(article)
+        List<Article> results = queryFactory.selectFrom(article)
                 .join(article.member,member)
                 .join(article.restaurant, restaurant)
                 .fetchJoin()
@@ -101,7 +106,10 @@ public class ArticleQuerydslRepository {
     //페이징 처리한 동적쿼리문
     public ArticlePagingResponse<Article> searchDynamicQueryAndPaging(Long lastArticleId,
                                                                       ArticleSearchCond cond,
+                                                                      String orderBy,
                                                                       int size) {
+        JPAQuery<Article> query = new JPAQuery<>(em);
+
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
         //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
         //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이
@@ -117,7 +125,7 @@ public class ArticleQuerydslRepository {
         statusCond.or(statusEq(ArticleStatus.NORMAL))// 상태가 NORMAL 게시글들만 출력
                 .or(statusEq(ArticleStatus.REPORT));// 상태가 REPORT 게시글들만 출력
 
-        List<Article> results = query.selectFrom(article)
+        query.from(article)
                 .join(article.member,member)//article.member는 Article테이블에 있는 member_id, member는 Member테이블에 있는 id라고 생각
                 .join(article.restaurant, restaurant)//article.restaurant는 Article테이블에 있는 restaurant_id, restaurant는 Restaurant테이블에 있는 id
                 .fetchJoin()
@@ -137,9 +145,33 @@ public class ArticleQuerydslRepository {
                         keywordCond,//keyword조건 검색
                         statusCond//게시글 상태조건 필터링
                 )
-                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .limit(size + 1)//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음
-                .fetch();
+                .limit(size + 1);//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음
+
+        //정렬 동적 처리
+        switch(orderBy){
+            case OrderConst.CREATED_DATE_DESC:
+                query.orderBy(article.createdDate.desc());
+                break;
+            case OrderConst.CREATED_DATE_ASC:
+                query.orderBy(article.createdDate.asc());
+                break;
+            case OrderConst.VIEWS_DESC:
+                query.orderBy(article.views.desc(),article.views.desc());
+                break;
+            case OrderConst.LIKE_COUNT_DESC:
+                query.leftJoin(likeArticle)
+                        .on(article.id.eq(likeArticle.id))
+                        .groupBy(article.id)
+                        .orderBy(likeArticle.count().desc(),article.views.desc());
+                break;
+            case OrderConst.COMMENT_COUNT_DESC:
+                query.leftJoin(comment)
+                        .on(article.id.eq(comment.article.id))
+                        .groupBy(article.id)
+                        .orderBy(comment.count().desc(),article.views.desc());
+                break;
+        }
+        List<Article> results = query.fetch();
 
         boolean hasNext = false;
         if (results.size() > size) {//결과가 6개이면 size(5)보다 크므로 다음 페이지가 있다는 의미
@@ -163,7 +195,7 @@ public class ArticleQuerydslRepository {
                 .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
                 .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
 
-        return query.selectFrom(article)
+        return queryFactory.selectFrom(article)
                 .where(
                         followMembersIn(cond.getFollowMembers()),//팔로우한 유저로 검색
                         sidoEq(cond.getSido()),//시도로 검색

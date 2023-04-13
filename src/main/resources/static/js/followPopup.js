@@ -201,7 +201,7 @@ function popupFollowing(followerMemberId,followerMemberNickName){
                     //게시글을 다시 가져오는 작업
                     if(hasArticle === true){
                         console.log("팔로잉 후 게시글 가져오기");
-                        let obj = searchCondSetting("click");
+                        let obj = SearchCondSetting("click");
                         searchArticleAjax(obj);
                     }
                 }

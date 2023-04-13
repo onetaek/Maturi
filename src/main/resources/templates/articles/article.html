@@ -48,7 +48,7 @@
                             <span class="writerNickName" th:text="${article.nickName}">@user-nick</span>
                             <span class="writerName" th:text="|(${article.name})|">김혜현</span>
                         </a>
-                        <span class="writtenAt" th:text="${article.modifiedDate}">2023.03.12</span>
+                        <span class="writtenAt" th:text="${article.date}">2023.03.12</span>
                     </p>
                     <!--     리뷰글 더보기 버튼 -->
                     <div class="ellipsis-btn-wrap">
@@ -119,8 +119,6 @@
                                     </div>
                                 </li>
                             </th:block>
-
-
                         </ul>
                         <!--form에서 method:delete방식으로 전송하기 위한 방법-->
                         <form name="articleUpdateForm" method="post">
@@ -158,6 +156,10 @@
                             <span th:text="${tag}">#태그1</span>
                         </span>
                     </div>
+                    <span class="count-wrap">
+                        <ion-icon name="eye-outline"></ion-icon>
+                        <span th:text="${article.views}">12</span>
+                    </span>
                 </div>
 
                 <!--  댓글 -->

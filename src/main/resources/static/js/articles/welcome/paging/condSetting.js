@@ -13,7 +13,7 @@ for(let i = 0 ; i < searchDropdownList.length; i++){
     });
 }
 
-function searchCondSetting(event){
+function SearchCondSetting(event){
     console.log("무슨 동작이니?",event);
 
     if($('#category').is(':checked')){//카테고리가 선택되었다면
@@ -99,3 +99,25 @@ function searchCondSetting(event){
     return obj;
 }
 
+function orderCondSetting(){
+    let orderLabel = document.querySelector('label[for="order"]').innerText;
+    let orderBy;
+    switch(orderLabel){
+        case "최신순":
+            orderBy = "createdDateDesc";
+            break;
+        case "오래된순":
+            orderBy = "createdDateAsc";
+            break;
+        case "조회수순":
+            orderBy = "viewsDesc";
+            break;
+        case "댓글순":
+            orderBy = "likeCountDesc";
+            break;
+        case "좋아요순":
+            orderBy = "commentCountDesc";
+            break;
+    }
+    return orderBy;
+}

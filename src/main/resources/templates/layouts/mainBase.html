@@ -57,6 +57,12 @@
                 <h3 class="mName" th:text="${member.nickName}">@hyea._.hyun</h3>
                 <p class="mNick" th:text="${member.name}">김혜현</p>
             </div>
+            <div id="logo-small" onclick="location.href='/articles'">
+                <img src="/img/logo/maturo_logo_small.png" alt="maturi">
+            </div>
+            <div class="side-nav-toggle-btn">
+                <ion-icon name="chevron-back-circle-outline"></ion-icon>
+            </div>
             <nav id="gnb">
                 <ul>
                     <li>
@@ -111,9 +117,7 @@
                     </a>
                 </span>
             </footer>
-            <div class="side-nav-toggle-btn">
-                <ion-icon name="chevron-back-circle-outline"></ion-icon>
-            </div>
+
             <input type="hidden" name="memberNickName">
         </div>
     </div>

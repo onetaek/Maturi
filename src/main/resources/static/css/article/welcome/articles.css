@@ -92,6 +92,68 @@ main{
     font-size: 2rem;
 }
 
+/*정렬*/
+#order-wrap{
+    margin-right: 0;
+    margin-left: auto;
+    position: relative;
+}
+#order-wrap .arrow{
+    position: absolute;
+    top:50%;
+    right:0;
+    transform: translateY(-50%) translateX(100%);
+    font-size: 42px;
+    color:white;
+}
+#order-wrap .order-icon{
+    padding:0 8px 0 10px;
+    color:white;
+}
+#order-wrap .order-icon ion-icon{
+    padding:0;
+}
+#order-wrap .order-drop-list{
+    position: absolute;
+    top:3rem;
+    right:0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 0;
+    margin-top:10px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color:var(--hot-pink-color);
+    transition:height 0.5s;
+}
+#order-wrap .order-drop-list.show{
+    height: 14rem;
+}
+#order-wrap .order-drop-list > li{
+    display: flex;
+    align-items: center;
+    font-size:0.9rem;
+    font-weight: 500;
+    padding:0.6rem 2rem 0.6rem 1rem;
+    width:130px;
+    cursor:pointer;
+    color:var(--drop-down-color);
+    transition: 0.2s;
+}
+#order-wrap .order-drop-list > li i{
+    font-size: 1rem;
+}
+.fa-heart {
+    vertical-align: middle;
+}
+#order-wrap .order-drop-list > li:hover{
+    transform: translateX(0.5rem);
+    color:var(--white-color);
+}
+#order-wrap .order-drop-list > li i{
+    margin-right: 5px;
+}
 
 .input-container ion-icon:last-child{
     padding:0px;
@@ -383,6 +445,17 @@ input[id='local']:checked+.radio-tile label{
     width: 100%;
     object-fit: cover;
 }
+.restaurant-info-wrap{
+    position:absolute;
+    left:0;
+    bottom:0;
+    padding:10px;
+    background: rgba(0,0,0,0.5);
+    color:var(--white-color);
+}
+.restaurant-info-wrap div:last-child{
+    font-size: 1.2rem;
+}
 .bContent{
     margin-top:10px;
 }
@@ -420,6 +493,30 @@ input[id='local']:checked+.radio-tile label{
     background: url("/img/button/loveBtn.png") no-repeat center / contain;
     cursor: pointer;
 }
+.count-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left:auto;
+}
+.count-info .count-wrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 1.4rem;
+}
+.count-info .count-wrap:first-child{
+    margin-right: 15px;
+}
+.count-info ion-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:5px;
+}
+
 .likeNum {
     font-size: 10px;
 }

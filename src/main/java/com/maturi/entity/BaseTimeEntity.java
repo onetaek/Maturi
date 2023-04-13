@@ -9,6 +9,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @MappedSuperclass
@@ -48,5 +49,10 @@ public abstract class BaseTimeEntity {
     } else {
       return seconds + "초 전";
     }
+  }
+
+  public static String getFormatDate(LocalDateTime date){
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
+    return date.format(formatter) ;
   }
 }

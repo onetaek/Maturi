@@ -18,18 +18,32 @@ public class ArticleViewDTO {
   private Long id;
   private String content;
   private List<String> image;
-  private LocalDateTime modifiedDate; // 마지막 업데이트 날짜
+  private String date;//포매팅한 날짜
+
   // 글 작성자 정보
   private Long memberId;
   private String name;
   private String nickName;
   private String profileImg;
+
+  //음식점 정보
+  private String address;
+  private String restaurantName;
+
   // 태그 리스트
   private List<String> tags;
   // 좋아요 관련
   private int like;
   private boolean isLiked;
+  //댓글 갯수
+  private int commentCount;
+  //조회수
+  private int views;
   //팔로잉 유저인지 확인하기위함
   private boolean isFollowingMember;
-  private boolean isBlockedMember;
+
+  //추가 및 수정 된것들
+  //1. date
+  //2. commentCount
+  //3. views
 }

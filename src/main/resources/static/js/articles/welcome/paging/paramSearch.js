@@ -57,7 +57,7 @@ function paramSearch(){
     document.querySelector('input[name="keywordName"]').value = "tag";
   }
   hasArticle = true;
-  searchCondSetting("click");
+  SearchCondSetting("click");
   searchArticleAjax(obj);
   document.querySelector('#main-search-btn').click();
 }

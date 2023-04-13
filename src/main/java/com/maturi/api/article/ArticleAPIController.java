@@ -49,10 +49,12 @@ public class ArticleAPIController {
   @GetMapping("")//게시글 출력 페이징, 검색
   public ResponseEntity<ArticlePagingResponse> searchArticlePaging(@Login Long memberId,
                                                                    @ModelAttribute ArticleSearchRequest articleSearchRequest,//검색조건에 필요한 값들
-                                                                   @ModelAttribute ArticlePagingRequest articlePagingRequest){//페이징에 필요한 값들
+                                                                   @ModelAttribute ArticlePagingRequest articlePagingRequest,
+                                                                   @RequestParam String orderBy){//페이징에 필요한 값들
     log.info("[ArticleAPIController] articleSearchRequest(검색 조건) = {}",articleSearchRequest);
     log.info("[ArticleAPIController] articlePagingRequest(페이징 정보) = {}",articlePagingRequest);
-    ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,memberId);
+    log.info("[ArticleAPIController] orderBy(정렬 조건) = {}",orderBy);
+    ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,orderBy,memberId);
     log.info("articles의 페이징, 검색 정보 결과 = {}",articles);
     if(articles == null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
