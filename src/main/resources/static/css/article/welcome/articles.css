@@ -528,9 +528,13 @@ input[id='local']:checked+.radio-tile label{
 .no-more-article-message p{
     padding: 20px 0;
     text-align: center;
+    background: var(--white-color);
+    margin-bottom:10px;
 }
 
 .no-search-message{
     padding: 20px 0;
     text-align: center;
+    background: var(--white-color);
+    margin-bottom:10px;
 }

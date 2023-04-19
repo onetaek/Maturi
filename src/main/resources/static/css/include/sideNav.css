@@ -137,8 +137,8 @@
 #gnb ul li a{
     display: flex;
     align-items: center;
-    margin-left: 20px;
-    transition: margin-left 0.2s ease, color 0.2s ease;
+    margin-left: 15px;
+    transition: 0.2s;
 }
 #sideNav.close #gnb ul li a{
     margin-left:0;
@@ -147,7 +147,8 @@
     align-items: center;
 }
 #gnb ul li a:hover{
-    margin-left:35px;
+    /*margin-left:35px;*/
+    transform:translateX(15px);
     color:var(--hot-pink-color);
 }
 #sideNav.close #gnb ul li a:hover{

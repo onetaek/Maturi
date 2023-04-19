@@ -1,8 +1,8 @@
 // 검색 조건을 세팅해주고 Ajax요청을 실행하는 함수
 function addPage(event) {
     let obj = SearchCondSetting(event);
-    let orderBy = orderCondSetting();
-    searchArticleAjax(obj,orderBy);
+    let orderCond = orderCondSetting(event);
+    searchArticleAjax(obj,orderCond);
 }
 
 //enter버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
@@ -16,16 +16,17 @@ document.querySelector('.search-input').addEventListener("keyup", ()=>{
 document.querySelector('#main-search-btn').addEventListener('click',()=>{
     console.log("검색 아이콘 클릭!");
     let obj = SearchCondSetting("click");
+    let orderCond = orderCondSetting("click");
     console.log("name",searchCategoryValue.name);
     console.log("value",searchCategoryValue.value);
-    searchArticleAjax(obj);
+    searchArticleAjax(obj,orderCond);
 });
 
 
 //scrollEvent.js에 스크롤로 하단에 도달했을 때 Ajax요청코드 있음
 
 //Ajax요청으로 데이터를 받고 게시글을 화면에 추가해주는 코드
-function searchArticleAjax(obj,orderBy){
+function searchArticleAjax(obj,orderCond){
     console.log("페이징 처리 ajax요청");
     const url = '/api/articles?radioCond='+_fnToNull(obj['radioCond'])
         +'&latitude='+_fnToNull(obj['latitude'])
@@ -40,7 +41,10 @@ function searchArticleAjax(obj,orderBy){
         +'&lastArticleId='+_fnToNull(obj['lastArticleId'])
         +'&size='+_fnToNull(obj['size'])
         +'&event='+_fnToNull(obj['event'])
-        +'&orderBy='+_fnToNull(orderBy);
+        +'&orderBy='+_fnToNull(orderCond['orderBy'])
+        +'&views='+_fnToNull(orderCond['views'])
+        +'&commentCount='+_fnToNull(orderCond['commentCount'])
+        +'&likeCount='+_fnToNull(orderCond['likeCount']);
 
     console.log("ajax요청 url",url);
     fetch(url)
@@ -61,6 +65,7 @@ function searchArticleAjax(obj,orderBy){
     .then((data) => {
         console.log("data",data);
         document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;//마지막 게시글의 id를 저장
+
         if(data.hasNext === false){
             hasArticle = false;
             document.querySelector('input[name="lastArticleId"]').value = null;
@@ -81,6 +86,13 @@ function searchArticleAjax(obj,orderBy){
         }
 
         articles.forEach((article) => {
+
+            if(article.id === data.lastArticleId){
+                console.log("article의 id와 lastArticleId가 일치합니다!",article.id);
+                document.querySelector('input[name="views"]').value = article.views;
+                document.querySelector('input[name="commentCount"]').value = article.commentCount;
+                document.querySelector('input[name="likeCount"]').value = article.like;
+            }
 
             let articleHtml = ``;
             articleHtml += `<li class="article-wrap article-wrap${article.id}" data-articleid=${article.id}>

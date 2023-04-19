@@ -99,8 +99,24 @@ function SearchCondSetting(event){
     return obj;
 }
 
-function orderCondSetting(){
+function orderCondSetting(event){
     let orderLabel = document.querySelector('label[for="order"]').innerText;
+
+    let views = document.querySelector('input[name="views"]').value;
+    let commentCount = document.querySelector('input[name="commentCount"]').value;
+    let likeCount = document.querySelector('input[name="likeCount"]').value;
+
+    if(views === null || views === "" || views === undefined ) views = null;
+    if(commentCount === null || commentCount === "" || commentCount === undefined ) commentCount = null;
+    if(likeCount === null || likeCount === "" || likeCount === undefined ) likeCount = null;
+
+    if(event === "click" || event ==='load'){
+        views = null;
+        commentCount = null;
+        likeCount = null;
+    }
+
+
     let orderBy;
     switch(orderLabel){
         case "최신순":
@@ -112,12 +128,21 @@ function orderCondSetting(){
         case "조회수순":
             orderBy = "viewsDesc";
             break;
-        case "댓글순":
+        case "좋아요순":
             orderBy = "likeCountDesc";
             break;
-        case "좋아요순":
+        case "댓글순":
             orderBy = "commentCountDesc";
             break;
     }
-    return orderBy;
+
+    let orderCond = {
+        'orderBy': orderBy,//검색에 필요한 값
+        'views': views,//검색에 필요한 값
+        'commentCount': commentCount,//검색에 필요한 값
+        'likeCount': likeCount//검색에 필요한 값
+    }
+
+    console.log("정렬 동적처리 orderBy:",orderCond);
+    return orderCond;
 }

@@ -29,7 +29,6 @@ class BlockQuerydslRepositoryTest {
 
     @BeforeEach
     void settingMemberAndBlock(){
-        //given
         Member member1 = Member.builder()
                 .email("member1@naver.com")
                 .name("member1")
@@ -49,7 +48,6 @@ class BlockQuerydslRepositoryTest {
         em.persist(member2);
         em.persist(member3);
 
-        //when
         Block block1 = Block.builder()
                 .blockingMember(member1)
                 .blockedMember(member2)

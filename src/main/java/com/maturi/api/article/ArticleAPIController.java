@@ -1,5 +1,6 @@
 package com.maturi.api.article;
 
+import com.maturi.dto.article.search.ArticleOrderCond;
 import com.maturi.dto.article.search.ArticlePagingRequest;
 import com.maturi.dto.article.search.ArticleSearchRequest;
 import com.maturi.dto.article.search.ArticlePagingResponse;
@@ -7,6 +8,7 @@ import com.maturi.service.article.ArticleService;
 import com.maturi.service.article.ReportService;
 import com.maturi.service.article.RestaurantService;
 import com.maturi.util.argumentresolver.Login;
+import com.maturi.util.constfield.OrderConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.parser.ParseException;
@@ -50,11 +52,11 @@ public class ArticleAPIController {
   public ResponseEntity<ArticlePagingResponse> searchArticlePaging(@Login Long memberId,
                                                                    @ModelAttribute ArticleSearchRequest articleSearchRequest,//검색조건에 필요한 값들
                                                                    @ModelAttribute ArticlePagingRequest articlePagingRequest,
-                                                                   @RequestParam String orderBy){//페이징에 필요한 값들
+                                                                   @ModelAttribute ArticleOrderCond articleOrderCond){//페이징에 필요한 값들
     log.info("[ArticleAPIController] articleSearchRequest(검색 조건) = {}",articleSearchRequest);
     log.info("[ArticleAPIController] articlePagingRequest(페이징 정보) = {}",articlePagingRequest);
-    log.info("[ArticleAPIController] orderBy(정렬 조건) = {}",orderBy);
-    ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,orderBy,memberId);
+    log.info("[ArticleAPIController] articleOrderCond(정렬 조건) = {}",articleOrderCond);
+    ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,articleOrderCond,memberId);
     log.info("articles의 페이징, 검색 정보 결과 = {}",articles);
     if(articles == null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

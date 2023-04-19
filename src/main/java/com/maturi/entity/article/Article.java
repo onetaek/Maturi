@@ -9,15 +9,16 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
-@ToString
+@ToString(exclude = {"likes"})
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Article extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,10 @@ public class Article extends BaseTimeEntity {
   private List<TagValue> tagValue;
   @Enumerated(EnumType.STRING)
   private ArticleStatus status;
+  @OneToMany(mappedBy = "article")
+  private List<LikeArticle> likes = new ArrayList<>();
+  @OneToMany(mappedBy = "article")
+  private List<Comment> comments = new ArrayList<>();
   public void changeStatus(ArticleStatus status){
     this.status = status;
   }

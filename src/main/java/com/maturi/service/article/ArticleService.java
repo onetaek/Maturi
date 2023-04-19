@@ -1,10 +1,7 @@
 package com.maturi.service.article;
 
 import com.maturi.dto.article.*;
-import com.maturi.dto.article.search.ArticlePagingRequest;
-import com.maturi.dto.article.search.ArticleSearchCond;
-import com.maturi.dto.article.search.ArticleSearchRequest;
-import com.maturi.dto.article.search.ArticlePagingResponse;
+import com.maturi.dto.article.search.*;
 import com.maturi.dto.member.MemberBlockDTO;
 import com.maturi.dto.member.MemberDTO;
 import com.maturi.entity.BaseTimeEntity;
@@ -128,11 +125,12 @@ public class ArticleService {
 //        Article article = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
         Article article = articleQRepository.findByIdAndStatus(articleId);
         if (article == null ) return null;
+        //조회수 +1증가
+        article.viewCountUp();
+
         ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
         log.info("articleViewDTO = {}",articleViewDTO);
 
-        //조회수 +1증가
-        article.viewCountUp();
 
         return articleViewDTO;
     }
@@ -217,9 +215,9 @@ public class ArticleService {
 
     public ArticlePagingResponse articleSearch(ArticleSearchRequest searchRequest,
                                                ArticlePagingRequest pagingRequest,
-                                               String orderBy,
+                                               ArticleOrderCond articleOrderCond,
                                                Long memberId) {
-
+        log.info("[articleSearch]정렬조건 = {}",articleOrderCond);
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
         log.info("[articleSearch]검색조건을 필터링한 결과 = {}",cond);
         if((pagingRequest.getEvent().equals(click)  || pagingRequest.getEvent().equals(load))
@@ -233,7 +231,7 @@ public class ArticleService {
             return null;//팔로우한 유저의 게시글을 검색했는데 아무값도 없으면 null을 리턴
         }
         ArticlePagingResponse<Article> result =
-                articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(),cond,orderBy,pagingRequest.getSize());
+                articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(),cond,articleOrderCond,pagingRequest.getSize());
         log.info("[articleSearch]페이징 써칭한 결과 result = {}",result);
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {

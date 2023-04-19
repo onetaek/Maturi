@@ -27,7 +27,7 @@ function getComments(){
                             <div class="comment-left-wrap" onclick="location.href='/members/${comment.memberId}'">`
                         if(comment.profileImg == null || comment.profileImg === ""){
                             commentHtml += `<img src="/img/profileImg/default_profile.png" alt="프로필 이미지">`
-                        }else if(article.profileImg.includes("http")){
+                        }else if(comment.profileImg.includes("http")){
                             commentHtml += `<img src="${comment.profileImg}" alt="프로필 이미지">`
                         }else{
                             commentHtml += `<img src="/test/file/${comment.profileImg}" alt="프로필 이미지">`
@@ -328,7 +328,9 @@ function commentCreate(obj, ref, refStep,refMemberId,refMemberNickName){
                     icon: 'success',
                     confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
                 }).then(function () {
-                    getComments();//댓글들을 다시 가져옴
+                    let element = document.querySelector('.comment-form-container.ref-1 .cancel-btn');
+                    cancelCommentBtn(element);
+                    getComments();
                 });
             }
         })
