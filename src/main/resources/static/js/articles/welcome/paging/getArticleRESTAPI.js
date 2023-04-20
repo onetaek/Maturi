@@ -220,7 +220,11 @@ function searchArticleAjax(obj,orderCond){
         console.log("data.hasNext",data.hasNext);
         if (data.hasNext === false ){
             articleList.appendChild(myCreateElement(`<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`));
+            if(data.event === "click" || data.event === "load"){
+                articleList += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
+            }
         }
+
         if (data.event === "click" || data.event === "load"){//클릭 or load면 기존 게시글을 덮어서 새로 입력
             articleList.innerHTML = html
         }

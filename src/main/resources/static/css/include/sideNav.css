@@ -137,7 +137,7 @@
 #gnb ul li a{
     display: flex;
     align-items: center;
-    margin-left: 15px;
+    margin-left: 10px;
     transition: 0.2s;
 }
 #sideNav.close #gnb ul li a{
@@ -152,7 +152,7 @@
     color:var(--hot-pink-color);
 }
 #sideNav.close #gnb ul li a:hover{
-    margin-left:0;
+    transform:translateX(0px);
 }
 #gnb ul li a ion-icon{
     font-size: 1.8rem;
