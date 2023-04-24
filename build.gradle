@@ -6,7 +6,7 @@ plugins {
 	id 'war'
 	id 'java'
 }
-group = 'study'
+group = 'com.maturi'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '8'
 configurations {
