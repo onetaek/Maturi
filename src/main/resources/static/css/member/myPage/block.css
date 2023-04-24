@@ -73,6 +73,18 @@ main::-webkit-scrollbar-track {
     cursor: pointer;
 }
 
+.block-item{
+    display: flex;
+    margin-left:10px;
+    font-size: 0.8rem;
+    align-items: center;
+}
+.block-item span.date{
+    white-space: nowrap;
+}
+.block-item button{
+    white-space: nowrap;
+}
 
 .block-cancel-btn{
     background: var(--hot-pink-color);

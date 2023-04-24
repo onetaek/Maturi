@@ -116,14 +116,29 @@ function searchArticleAjax(obj,orderCond){
                     </div>
                 </div>
                 <!--    글 본문 -->
-                <div class="contentWrap contentWrap${article.id}">
-                    <ul class="bImg">`
+                <div class="contentWrap contentWrap${article.id}" onclick="location.href='/articles/${article.id}'">`
+            if(article.image.length ===1){
+                articleHtml+= `<ul class="bImg img-length-1">`
+            }else if(article.image.length ===2){
+                articleHtml+= `<ul class="bImg img-length-2">`
+            }else if(article.image.length ===3){
+                articleHtml+= `<ul class="bImg img-length-3">`
+            }else {
+                articleHtml+= `<ul class="bImg img-length-4">`
+            }
             // 이미지 처리 ..
-            article.image.forEach(img =>{
-            articleHtml+=`<li>
-                            <img src="/test/file/${img}" alt="사진1">
-                         </li>`
-            })
+            for(let i=0; i<article.image.length; i++) {
+                if(i >= 3){
+            articleHtml+=`<div class="overflow-img-wrap">
+                            <span>+ ${article.image.length - 3}</span>
+                        </div>`;
+                    break; // i가 3보다 크거나 같을 때 종료
+                }
+                const img = article.image[i];
+                articleHtml+=`<li>
+                  <div style="background-image:url('/test/file/${img}')"></div>
+                </li>`;
+            }
             articleHtml += `
                         <div class="restaurant-info-wrap">
                             <div><ion-icon name="location"></ion-icon>${article.address}</div>
@@ -254,23 +269,9 @@ function searchArticleAjax(obj,orderCond){
                     likeNum.innerText = data.likeNum;
                 })
             });
-
-            //더보기 버튼 클릭 이벤트
-            // const ellipsisBtn = document.querySelector(`.ellipsis-btn${article.id}`);
-            // const ellipsisContent = document.querySelector(`.ellipsis-content${article.id}`);
-            // ellipsisBtn.addEventListener("click",function(){
-            //     ellipsisContent.classList.toggle("active");
-            // });
-
-            //게시글 화면 클릭시 해당 게시글 상세 페이지로 이동
-            let articleContent = document.querySelector(`.contentWrap${article.id}`);
-            const articleId = document.querySelector(`.article-wrap${article.id}`).dataset.articleid;
-            articleContent.addEventListener("click",()=>{
-                window.location.href=`/articles/${articleId}`;
-            });
         });//articles.forEach끝(이벤트걸어줌)
 
-        articleListImgStyle();
+        // articleListImgStyle();
     })
 }
 

@@ -44,16 +44,18 @@
             <th:block th:each="blockMember: ${blockMembers}">
                 <li class="follow-item">
                     <div class="follow-item-info">
-                        <img src="/img/profileImg/default_profile.png" alt="프로필 이미지">
+                        <img th:if="${blockMember.profileImg != null && #strings.contains(blockMember.profileImg,'://')}" th:src="${blockMember.profileImg}" alt="프로필 이미지">
+                        <img th:unless="${blockMember.profileImg == null || #strings.contains(blockMember.profileImg,'://')}" th:src="|/test/file/${blockMember.profileImg}|" alt="프로필 이미지">
+                        <img th:if="${blockMember.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
                         <div class="follow-item-profile">
                             <p>
                                 <span class="nickName" th:text="${blockMember.nickName}">닉네임</span>
-                                <span class="name" th:text="${blockMember.name}">이름</span>
+                                <span class="name" th:text="|(${blockMember.name})|">(이름)</span>
                             </p>
                         </div>
                     </div>
                     <div class="block-item">
-                        <span>차단일:</span>
+                        <span class="date">차단일:</span>
                         <span th:text="${blockMember.formatDate}">2022-02-12</span>
                         <button class="block-cancel-btn"
                                 th:onclick="blockCancel([[${blockMember.id}]],
