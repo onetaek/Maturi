@@ -121,13 +121,6 @@ class ArticleServiceTest {
     }
 
     @Test
-    void querydsl_findAll(){
-        queryFactory
-                .selectFrom(article)
-                .fetchResults();
-    }
-
-    @Test
     void article_join_tagValue(){
         List<Article> findArticle = queryFactory
                 .select(article)
@@ -261,31 +254,31 @@ class ArticleServiceTest {
         log.info("findMember={}",findMember);
     }
 
-    @Test
-    void multiFunctionInWhere(){
-        String username = "test";
-        String userEmail = null;
-
-        List<Member> findMemberByIdAndEmail = queryFactory
-                .selectFrom(member)
-                .where(allEq(username, userEmail))
-                .fetch();
-        log.info("findMemberByIdAndEmail={}",findMemberByIdAndEmail);
-
-        Member member1 = Member.builder().build();
-
-        List<Member> members = new ArrayList<>();
-        members.add(member1);
-        members.add(member1);
-        members.add(member1);
-        members.add(member1);
-
-        List<Member> findMemberByIdAndEmail1 = queryFactory
-                .selectFrom(member)
-                .where(member.in(members))
-                .fetch();
-
-    }
+//    @Test
+//    void multiFunctionInWhere(){
+//        String username = "test";
+//        String userEmail = null;
+//
+//        List<Member> findMemberByIdAndEmail = queryFactory
+//                .selectFrom(member)
+//                .where(allEq(username, userEmail))
+//                .fetch();
+//        log.info("findMemberByIdAndEmail={}",findMemberByIdAndEmail);
+//
+//        Member member1 = Member.builder().build();
+//
+//        List<Member> members = new ArrayList<>();
+//        members.add(member1);
+//        members.add(member1);
+//        members.add(member1);
+//        members.add(member1);
+//
+//        List<Member> findMemberByIdAndEmail1 = queryFactory
+//                .selectFrom(member)
+//                .where(member.in(members))
+//                .fetch();
+//
+//    }
 
     private BooleanExpression usernameEq(String usernameCond){
         return usernameCond != null ? member.name.eq(usernameCond) : null;

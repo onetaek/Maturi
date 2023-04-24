@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	//querydsl 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+	id 'war'
 	id 'java'
 }
 group = 'study'
@@ -27,6 +28,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	//war파일로 배포하기위함
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
 	//스프링부트에서 validation을 사용하기 위한 코드
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
@@ -86,3 +91,16 @@ compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
 //querydsl 추가 끝
+
+//war 패키징 추가
+bootWar {
+	archiveBaseName = 'david-2.2.2.RELEASE'
+	archiveFileName = 'david-2.2.2.RELEASE.war'
+	archiveVersion = '0.0.1'
+}
+
+//Querydsl 추가
+clean {
+	delete file('src/main/generated')
+}
+
