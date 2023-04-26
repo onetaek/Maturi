@@ -39,7 +39,7 @@
                         <img th:if="${article.profileImg != null && #strings.contains(article.profileImg,'://')}"
                              th:src="${article.profileImg}" alt="프로필 이미지">
                         <img th:unless="${article.profileImg == null || #strings.contains(article.profileImg,'://')}"
-                             th:src="|/test/file/${article.profileImg}|" alt="프로필 이미지">
+                             th:src="|/upload/${article.profileImg}|" alt="프로필 이미지">
                         <img th:if="${article.profileImg == null}" src="/img/profileImg/default_profile.png"
                              alt="기본 이미지">
                     </a>
@@ -130,7 +130,7 @@
                 <div class="contentWrap">
                     <div class="bImgWrap">
                         <ul class="bImg">
-                            <li th:each="img: ${article.image}"><img th:src="|/test/file/${img}|" alt="사진"></li>
+                            <li th:each="img: ${article.image}"><img th:src="|/upload/${img}|" alt="사진"></li>
                         </ul>
                         <div class="drag-info">
                             <span>좌우로 드래그하세요</span>
@@ -170,7 +170,7 @@
                             <img th:if="${member.profileImg != null && #strings.contains(member.profileImg,'://')}"
                                  th:src="${member.profileImg}" alt="프로필 이미지">
                             <img th:unless="${member.profileImg == null || #strings.contains(member.profileImg,'://')}"
-                                 th:src="|/test/file/${member.profileImg}|" alt="프로필 이미지">
+                                 th:src="|/upload/${member.profileImg}|" alt="프로필 이미지">
                             <img th:if="${member.profileImg == null}" src="/img/profileImg/default_profile.png"
                                  alt="기본 이미지">
                         </div>

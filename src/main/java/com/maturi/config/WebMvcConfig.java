@@ -22,7 +22,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/members/join","/members/login", "/test/**",
                         "/error", "/https://**","/api/**","/oauth/**", "/members/help/**",
-                        "/css/**","/js/**","/img/**","/*.ico","/html/*w", "/sms/**");
+                        "/css/**","/js/**","/img/**","/*.ico","/html/*w", "/sms/**","/upload/**");
         //인코딩을 하기위한 Interceptor
         registry.addInterceptor(new EncodingInterceptor())
                 .order(2)

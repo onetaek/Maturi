@@ -72,7 +72,7 @@ function myPageArticleAjax(obj){
           let articleHtml =
               `<li onclick="location.href='/articles/${article.id}';" 
                     class="article-item" 
-                    style="background-image:url(/test/file/${article.image});">
+                    style="background-image:url(/upload/${article.image});">
                 <div class="restaurant-info-wrap">
                   <span class="restaurant-area">${article.sido} ${article.sigoon} ${article.dong}</span>
                   <span class="restaurant-name">${article.restaurantName}</span>

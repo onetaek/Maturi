@@ -77,14 +77,6 @@ function searchArticleAjax(obj,orderCond){
         let html = ``;
         let articles = data['content'];
 
-        if((data.event === "click" || data.event === "load") && articles.length === 0){
-            html += `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
-            articleList.innerHTML = html;
-            html = ``;
-            console.log("조건에 맞는 게시글이 없습니다.")
-            return false;
-        }
-
         articles.forEach((article) => {
 
             if(article.id === data.lastArticleId){
@@ -104,7 +96,7 @@ function searchArticleAjax(obj,orderCond){
                 }else if(article.profileImg.includes("http")){
                     articleHtml += `<img src="${article.profileImg}" alt="프로필 이미지">`
                 }else{
-                    articleHtml += `<img src="/test/file/${article.profileImg}" alt="프로필 이미지">`
+                    articleHtml += `<img src="/upload/${article.profileImg}" alt="프로필 이미지">`
                 }
             articleHtml +=`</a>
                     <div class="user-info">
@@ -136,7 +128,7 @@ function searchArticleAjax(obj,orderCond){
                 }
                 const img = article.image[i];
                 articleHtml+=`<li>
-                  <div style="background-image:url('/test/file/${img}')"></div>
+                  <div style="background-image:url('/upload/${img}')"></div>
                 </li>`;
             }
             articleHtml += `
@@ -232,17 +224,26 @@ function searchArticleAjax(obj,orderCond){
                 html += articleHtml;
             }
         });//forEach문끝 요소들 넣어줌
-        console.log("data.hasNext",data.hasNext);
-        if (data.hasNext === false ){
-            articleList.appendChild(myCreateElement(`<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`));
+
+        if (data.hasNext === false){
             if(data.event === "click" || data.event === "load"){
-                articleList += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
+                if(articles.length === 0){
+                    articleList.innerHTML = `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
+                    console.log("조건에 맞는 게시글이 없습니다. return false");
+                }else{
+                    html += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
+                    articleList.innerHTML = html
+                }
+            }else if(data.event ==="scroll"){
+                articleList.appendChild(myCreateElement(`<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`));
+            }
+        } else {
+            if(data.event === "click" || data.event === "load"){
+                articleList.innerHTML = html
             }
         }
 
-        if (data.event === "click" || data.event === "load"){//클릭 or load면 기존 게시글을 덮어서 새로 입력
-            articleList.innerHTML = html
-        }
+
         articles.forEach((article) => {
             //좋아요 클릭 이벤트를 적용해준다.
             const likeBtn = document.querySelector(`.likeBtn${article.id}`);

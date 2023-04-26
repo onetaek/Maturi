@@ -49,11 +49,12 @@ public class ArticleController {
     @PostMapping("/new")//게시글 작성 요청
     public String write(@Login Long memberId,
                         @ModelAttribute ArticleDTO articleDTO,
+                        HttpServletRequest request,
                         Model model) throws IOException {
         log.info(" POST요청");
         log.info("articleDTO={}",articleDTO);
-
-        Long articleId = articleService.write(memberId, articleDTO);
+        log.info("servletContext 값 확인",request.getServletContext().getRealPath("/"));
+        Long articleId = articleService.write(memberId, articleDTO,request);
         log.info("articleId={}",articleId);
         model.addAttribute("articleId", articleId);
         return "redirect:/articles/"+articleId;
@@ -130,11 +131,12 @@ public class ArticleController {
     public String editArticle(@Login Long memberId,
                               @PathVariable Long articleId,
                               ArticleEditDTO articleEditDTO,
+                              HttpServletRequest request,
                               Model model) throws IOException {
 
         log.info("articleEditDTO = {}", articleEditDTO);
 
-        ArticleViewDTO articleViewDTO = articleService.edit(memberId, articleId, articleEditDTO);
+        ArticleViewDTO articleViewDTO = articleService.edit(memberId, articleId, articleEditDTO,request);
 
         return "redirect:/articles/"+articleId;
     }

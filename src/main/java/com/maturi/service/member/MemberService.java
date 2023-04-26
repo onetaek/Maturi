@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
@@ -155,7 +156,8 @@ public class MemberService {
   }
 
   public void editMemberProfileInfo(Long memberId,
-                                    MemberEditMyPageDTO memberEditMyPageDTO) throws IOException {
+                                    MemberEditMyPageDTO memberEditMyPageDTO,
+                                    HttpServletRequest request) throws IOException {
     Member findMember = memberRepository.findById(memberId).orElseThrow(()->
             new IllegalArgumentException("맴버가 없습니다!"));
 
@@ -166,11 +168,11 @@ public class MemberService {
 
     // 이미지 바꿨을 경우 (파일 업로드 로직)
     if(!memberEditMyPageDTO.getCoverImg().isEmpty()) {
-      String storeCoverImg = fileStore.storeFile(memberEditMyPageDTO.getCoverImg());
+      String storeCoverImg = fileStore.storeFile(memberEditMyPageDTO.getCoverImg(),request);
       findMember.changeCoverImg(storeCoverImg);
     }
     if(!memberEditMyPageDTO.getProfileImg().isEmpty()){
-      String storeprofileImg = fileStore.storeFile(memberEditMyPageDTO.getProfileImg());
+      String storeprofileImg = fileStore.storeFile(memberEditMyPageDTO.getProfileImg(),request);
       findMember.changeProfileImg(storeprofileImg);
     }
 

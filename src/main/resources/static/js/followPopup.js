@@ -74,7 +74,7 @@ function getFollows(){
                 }else if(member.profileImg.includes("http")){
                     html += `<img src="${member.profileImg}" alt="프로필 이미지">`
                 }else{
-                    html += `<img src="/test/file/${member.profileImg}" alt="프로필 이미지">`
+                    html += `<img src="/upload/${member.profileImg}" alt="프로필 이미지">`
                 }
                 html+=`<div class="follow-item-profile">
                             <p>

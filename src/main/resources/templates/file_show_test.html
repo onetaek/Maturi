@@ -10,7 +10,7 @@
     <div th:text="${testArticle.title}"></div>
     <th:block th:each="imageFile : ${testArticle.imageFiles}">
         <p th:text="${imageFile.uploadFileName}"></p>
-        <img th:src="|/test/file/${imageFile.storeFileName}|" width="300" alt="에러">
+        <img th:src="|/upload/${imageFile.storeFileName}|" width="300" alt="에러">
     </th:block>
 </body>
 </html>

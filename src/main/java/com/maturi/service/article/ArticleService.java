@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +54,7 @@ public class ArticleService {
     private final BlockQuerydslRepository blockQRepository;
     private final CommentRepository commentRepository;
 
-    public Long write(Long memberId, ArticleDTO articleDTO) throws IOException {
+    public Long write(Long memberId, ArticleDTO articleDTO, HttpServletRequest request) throws IOException {
 
         Member findMember = memberRepository.findById(memberId).orElse(null);
 
@@ -79,7 +80,7 @@ public class ArticleService {
 
         log.info("images={},",articleDTO.getImage());
         //파일 업로드 로직 필요
-        List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage());
+        List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage(),request);
         log.info("storeImageFiles = {}", storeImageFiles);
         log.info("index = " + storeImageFiles.size());
         String images = "";
@@ -418,7 +419,10 @@ public class ArticleService {
                 .build();
     }
 
-    public ArticleViewDTO edit(Long memberId, Long articleId, ArticleEditDTO articleEditDTO) throws IOException {
+    public ArticleViewDTO edit(Long memberId,
+                               Long articleId,
+                               ArticleEditDTO articleEditDTO,
+                               HttpServletRequest request) throws IOException {
         // db에 저장된 article 찾기
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
@@ -455,7 +459,7 @@ public class ArticleService {
         /* 기존의 이미지 추가로직 */
         log.info("images={},",articleEditDTO.getImage());
         //파일 업로드 로직 필요
-        List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage());
+        List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage(),request);
         log.info("storeImageFiles = {}", storeImageFiles);
         log.info("index = " + storeImageFiles.size());
         String images = "";

@@ -12,14 +12,14 @@
 <!-- 마이페이지 본문 -->
 <main layout:fragment="main">
   <div id="coverImg">
-    <img th:if="${myPageMember.coverImg != null}" th:src="|/test/file/${myPageMember.coverImg}|" alt="커버 사진">
+    <img th:if="${myPageMember.coverImg != null}" th:src="|/upload/${myPageMember.coverImg}|" alt="커버 사진">
   </div>
   <div id="content-wrap">
     <div id="content" th:attr="data-memberid=${myPageMember.id}">
       <div id="myPageInfo">
         <p class="mProfileImg">
           <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지">
-          <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/test/file/${myPageMember.profileImg}|" alt="프로필 이미지">
+          <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/upload/${myPageMember.profileImg}|" alt="프로필 이미지">
           <img th:if="${myPageMember.profileImg == null}" src="/img/profileImg/default_profile.png" alt="기본 이미지">
         </p>
         <div class="memberInfo">

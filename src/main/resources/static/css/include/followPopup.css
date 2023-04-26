@@ -97,7 +97,9 @@ li.follow-container{
     font-size: 20px;
     color:var(--profile-message-color);
 }
-
+.follow-search-input{
+    width:100%;
+}
 .follow-search-input::placeholder{
     color:var(--profile-message-color);
 }

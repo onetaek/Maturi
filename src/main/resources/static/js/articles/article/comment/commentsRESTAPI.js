@@ -30,7 +30,7 @@ function getComments(){
                         }else if(comment.profileImg.includes("http")){
                             commentHtml += `<img src="${comment.profileImg}" alt="프로필 이미지">`
                         }else{
-                            commentHtml += `<img src="/test/file/${comment.profileImg}" alt="프로필 이미지">`
+                            commentHtml += `<img src="/upload/${comment.profileImg}" alt="프로필 이미지">`
                         }
                         commentHtml+=`</div>
                             <div class="comment-right-wrap">
@@ -113,7 +113,7 @@ function getComments(){
                         }else if(member.profileImg.includes("http")){
                             commentHtml += `<img src="${member.profileImg}" alt="프로필 이미지">`
                         }else{
-                            commentHtml += `<img src="/test/file/${member.profileImg}" alt="프로필 이미지">`
+                            commentHtml += `<img src="/upload/${member.profileImg}" alt="프로필 이미지">`
                         }
             commentHtml += `</div>
                             <div class="comment-form-right-wrap">
@@ -167,7 +167,7 @@ function getComments(){
                         }else if(comment.profileImg.includes("http")){
                             replyHtml += `<img src="${comment.profileImg}" alt="프로필 이미지">`
                         }else{
-                            replyHtml += `<img src="/test/file/${comment.profileImg}" alt="프로필 이미지">`
+                            replyHtml += `<img src="/upload/${comment.profileImg}" alt="프로필 이미지">`
                         }
                             replyHtml+=`</div>
                                         <div class="comment-right-wrap">
@@ -257,7 +257,7 @@ function getComments(){
                         }else if(member.profileImg.includes("http")){
                             replyHtml += `<img src="${member.profileImg}" alt="프로필 이미지">`
                         }else{
-                            replyHtml += `<img src="/test/file/${member.profileImg}" alt="프로필 이미지">`
+                            replyHtml += `<img src="/upload/${member.profileImg}" alt="프로필 이미지">`
                         }
                         replyHtml+=`</div>
                                         <div class="comment-form-right-wrap">

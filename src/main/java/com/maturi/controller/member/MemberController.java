@@ -170,10 +170,11 @@ public class MemberController {
                                       @PathVariable Long id,
                                       MemberEditMyPageDTO memberEditMyPageDTO,
                                       RedirectAttributes redirectAttributes,
+                                      HttpServletRequest request,
                                       Model model) throws IOException {
 
     if(memberId.equals(id)){ // 로그인 회원의 프로필 수정 요청일 경우만 시행
-      memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO);
+      memberService.editMemberProfileInfo(memberId, memberEditMyPageDTO,request);
     }
     else { // 타회원의 요청
       redirectAttributes.addFlashAttribute(ERROR_MESSAGE, NO_PERMISSION);

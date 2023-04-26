@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -48,12 +49,11 @@ public class FileUploadTestController {
     //파일 저장 로직 이부분이 DB에 저장안하고 메모리에 저장했다는 로직이있는 메서드
     @PostMapping("/file/upload")
     public String fileUpload(@ModelAttribute TestArticleDTO testArticleDTO,
+                             HttpServletRequest request,
                              RedirectAttributes redirectAttributes) throws IOException {
-
+        log.info("test file upload 시작");
         //application.properties에서 지정한 file.dir 경로에 파일이 저장됨
-        List<String> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles());
-
-        String images= "!!!!";
+        List<String> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles(),request);
 
         //메모리에 저장(실제로 구현할때는 이 로직을 파일명 문자열로 바꾸고나서 Entity에 맞게 바꿔주고 여차저차 해야함
         TestArticle testArticle = new TestArticle();
@@ -85,6 +85,5 @@ public class FileUploadTestController {
         UrlResource urlResource = new UrlResource("file:" + fullPath);
         return urlResource;
     }
-
 
 }
