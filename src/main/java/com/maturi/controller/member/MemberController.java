@@ -77,11 +77,10 @@ public class MemberController {
 
   @PostMapping("/login")
   public String login(
-          @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
+          @Validated @ModelAttribute(name = "member") MemberLoginDTO memberLoginDTO,
           BindingResult bindingResult,
           @RequestParam(defaultValue = "/") String redirectURL,
           HttpServletRequest request,
-          RedirectAttributes redirectAttributes,
           Model model){
 
     //검증에 실패하면 다시 입력 폼으로
@@ -90,17 +89,13 @@ public class MemberController {
       model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
       return "/members/login";
     }
-
     //정상 로직
     Member findMember = memberService.login(memberLoginDTO);
-    if(findMember == null){
+    if(findMember == null){//DB에 회원이 없을 경우
       model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
-
       return "/members/login";
-    }
-    else if(memberService.isBanMember(findMember.getId())){ // 밴 멤버
+    } else if(memberService.isBanMember(findMember.getId())){//status가 BAN인 회원
       model.addAttribute(ERROR_MESSAGE, IS_BAN_MEMBER);
-
       return "/members/login";
     } else { // 정상 멤버
       HttpSession session = request.getSession();

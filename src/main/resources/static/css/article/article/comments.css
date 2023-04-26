@@ -55,7 +55,7 @@ textarea:focus + .textarea-under-line{
 }
 .textarea-under-line{
     position: absolute;
-    bottom: 4px;
+    bottom: 7px;
     left:0;
     height: 2px;
     width: 0;
@@ -216,8 +216,15 @@ textarea:focus + .textarea-under-line{
     padding-left:56px;
 }
 .replys-container .reply-toggle-btn{
+    display: inline-block;
     color:var(--hot-pink-color);
     cursor: pointer;
+
+    padding:5px 13px 5px 10px;
+    border-radius: 15px;
+}
+.replys-container .reply-toggle-btn:hover{
+    background: #ffeff4;
 }
 .reply-list{
     display: none;
