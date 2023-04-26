@@ -34,10 +34,10 @@ import static com.maturi.util.constfield.SessionConst.*;
 @Controller
 @RequestMapping("/members")
 public class MemberController {
-  final private MemberService memberService;
-  final private ArticleService articleService;
-  final private MemberValidator memberValidator;
-  final private EmailService emailService;
+  private final MemberService memberService;
+  private final ArticleService articleService;
+  private final MemberValidator memberValidator;
+  private final EmailService emailService;
 
   @InitBinder("memberJoinDTO")
   public void init(WebDataBinder dataBinder) {

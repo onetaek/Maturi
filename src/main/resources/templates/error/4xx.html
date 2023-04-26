@@ -1,17 +1,30 @@
+<!--https://www.bootdey.com/snippets/view/404-error-page-option-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/error/4xx.css">
 </head>
 <body>
-<script th:inline="javascript">
-  let message = [[${errorMessage}]];
-  console.log(message);
-  if(!alert(message)){
-    location.href = "/articles";
-  }
-</script>
-<h2>요청한 페이지를 찾을 수 없습니다.</h2>
+<div class="page-404">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <!--BEGIN CONTENT-->
+        <div class="inner-circle"><i class="fa fa-home"></i><span>404</span></div>
+        <span class="inner-status">원하시는 결과를 찾을 수 없습니다.</span>
+        <span class="inner-detail">
+            올바른 URL을 입력하였는지 확인하세요. 자세한 내용은 사이트 소유자에게 문의하시기 바랍니다.
+            <a href="/" class="btn btn-info mtl"><i class="fa fa-home"></i>&nbsp;
+                메인 페이지로 이동
+            </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>

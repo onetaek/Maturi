@@ -9,6 +9,13 @@ submitBtn.addEventListener("click", ()=>{
     joinForm.method = "post";
     joinForm.action = "/members/join";
     joinForm.submit();
+  }else{
+    Swal.fire({
+      title: "이메일을 미인증",
+      text:"회원가입에 사용할 이메일 주소 입력 후, 인증번호 받기를 클릭해 주세요.",
+      icon: 'warning',
+      confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+    })
   }
 });
 
@@ -40,16 +47,24 @@ emailAuthBtn.addEventListener("click", ()=>{
     }).then(response => {
       // http 응답 코드에 따른 메세지
       console.log(response);
-      const msg = (response.ok) ?
-        "이메일 인증 메일이 전송되었습니다. 이메일을 확인하여 주세요." :
-        "해당 이메일은 이미 가입되어있습니다.";
-      Swal.fire({
-        title: msg,
-        icon: 'info',
-        confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
-      })
-      // 인증 버튼 이벤트 추가
-      confirmCheck();
+      if(response.ok){
+        Swal.fire({
+          title: "이메일 인증 메일이 전송되었습니다. 이메일을 확인하여 주세요.",
+          icon: 'info',
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        }).then(function(){
+          // 인증 버튼 이벤트 추가
+          confirmCheck();
+        })
+      }else{
+        Swal.fire({
+          title: "해당 이메일은 이미 가입되어있습니다.",
+          icon: 'info',
+          confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+        }).then(function(){
+          window.location.href='/members/login';
+        });
+      }
     })
   }
 });
@@ -71,8 +86,12 @@ function confirmCheck(){
       if(response.ok){
         msg = "이메일 인증에 성공하셨습니다!";
         joinForm.email.setAttribute("readonly", "readonly");
+        joinForm.email.setAttribute("disabled", "disabled");
         joinForm.emailConfirm.setAttribute("disabled", "disabled");
-        document.querySelector(".confirmWrap").style.height = "44px";
+
+        document.querySelector(".email-wrap").style.height = "44px";
+        document.querySelector(".email-confirm-wrap").style.height = "44px";
+
         emailConfirmCheck = true;
         Swal.fire({
           title: msg,
