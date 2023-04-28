@@ -2,7 +2,7 @@
 
 ### [MATURI프로젝트를 정리한 NOTION링크입니다. 꼭봐주세요!!!!!](https://seed-hollyhock-2ef.notion.site/eb757a88487d426f878d533379d3d559)
 #### : 다운로드 받는데 오래걸리므로 미리 클릭해주시면 좋습니다!
-[MATURI프로젝트를 cafe24에 배포한 링크입니다](http://maturi51.store){:target="_blank"}
+<a href="http://maturi51.store" target="_blank" rel="noopener noreferrer">MATURI프로젝트를 cafe24에 배포한 링크입니다</a>
 
 
 #### : NOTION문서를 다운로드 받으시는 동안 둘러보시면 시간 금방 지나갑니다!
