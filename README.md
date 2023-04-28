@@ -1,14 +1,7 @@
-## 맛집 리뷰 웹 사이트 프로젝트(맛뜨리)
+## 맛집 리뷰 웹 사이트 프로젝트(Maturi)
 ![image](https://user-images.githubusercontent.com/86419261/216599893-a73abc50-d7b6-48a4-9709-e77bc77bfaa5.png) 
-<p>맛집 + 집들이</p>
-
-### 작성자의 위치를 API로 가져와서 주변 가게의 정보, 리뷰를 확인할 수 있고, 리뷰글도 작성할 수 있는 웹 사이트 입니다.
-### [Notion 경로](https://www.notion.so/294304230bbe40db96f1b1dfc584fd5b?v=1caf28fb47ee4346b1f7b4d3400ad494)
-### [와이어 프레임 툴 MIRO](https://miro.com/app/dashboard/)
-### [회의실 Gather.town](https://app.gather.town/app/nK3juOMQjg7TR6v2/study_room)
-
-* 프로젝트 구성원
-  * 오원택
-  * 김혜현
-  
+### 프로젝트 명인 maturi는 맛집 + 집들이의 합성어로 집들이 하며 집을 소개하듯이 리뷰글을 통해 맛집을 소개하자는 의미입니다.
+### 전반적인 웹의 기본 소양이 되는 게시판, 회원 CRUD를 중심으로 한 커뮤니티 사이트입니다.
+### 카카오 map api, 카카오 로그인 api, 네이버 로그인 api 등등의 여러 api 통신을 적극 활용하였습니다.
+### 많은 경우의 수가 존재하는 검색 조건, 정렬을 하나의 동적 쿼리문으로 처리하여 차별화하였습니다.
 
