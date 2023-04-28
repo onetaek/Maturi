@@ -112,7 +112,7 @@ public class MemberController {
     return "redirect:/members/login";
   }
 
-  @PostMapping("/unregister")
+  @DeleteMapping("/{memberId}")
   public String unregister(@Login Long memberId,
                            @RequestParam String passwd,
                            RedirectAttributes redirectAttributes,

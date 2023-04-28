@@ -61,18 +61,6 @@ public class CommentAPIController {
   }
 
   //댓글 삭제
-//  @DeleteMapping("/comments/{id}")// /api/comment/{id}
-  public ResponseEntity<String> delete(@Login Long memberId,
-                                       @PathVariable Long id){
-    String msg = commentService.delete(memberId, id);
-    if(msg != null) {
-      log.info("comment delete error message : ", msg);
-    }
-    return msg == null ?
-            ResponseEntity.status(HttpStatus.OK).build() :
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-  }
-
   @DeleteMapping("/comments/{commentId}")
   public ResponseEntity remove(@Login Long memberId,
                                @PathVariable Long commentId,

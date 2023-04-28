@@ -133,7 +133,7 @@ public class SNSController {
         boolean IsLoginMember = memberService.emailDuplCheck(snsService.changeNaverIdToEmail((String) userInfo.get("id")));// 중복 이메일 체크
 
         Member member = null;
-        if(IsLoginMember){// 이메일로 중복체크 했을 때 이미 가입했다는 것이므로 이메일로 회원을 찾아온다.
+        if(IsLoginMember){// 이메일이 중복일 경우 이미 가입했다는 것이므로 이메일로 회원을 찾아온다.
             member = snsService.findUser(snsService.changeNaverIdToEmail((String) userInfo.get("id")));
         } else{// 가입하지 않은 회원 -> 가입 진행
             member = snsService.snsJoin(memberLoginDTO);

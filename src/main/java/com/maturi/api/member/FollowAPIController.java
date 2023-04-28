@@ -21,9 +21,6 @@ import java.util.Map;
 public class FollowAPIController {
 
     private final FollowService followService;
-
-
-
     //팔로워목록(나를 팔로우하는 사람들)
     //팔로우목록(내가 팔로우 하는 사람들)
     @GetMapping("/{id}/follows")

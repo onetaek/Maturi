@@ -20,7 +20,6 @@ public class MemberSNSJoinDTO {
     private String email;
     private String name;
     private String profileImg;
-    private String salt;
     private String nickName;
     private MemberStatus status;
 

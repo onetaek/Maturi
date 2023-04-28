@@ -7,7 +7,8 @@ submitBtn.addEventListener("click", ()=>{
   if(emailConfirmCheck){//이메일 인증은 완료
 
     //비밀번호 유효성검사
-    const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$/;
+    // const passwordRegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,20}$/;
+    const passwordRegExp = /^(?=.*\d)(?=.*[a-z])(?=.*[^\w\s]).{8,20}$/;
     if (!passwordRegExp.test(joinForm.passwd.value)) {
       Swal.fire({
         title: "비밀번호가 유효하지 않습니다.",
@@ -43,7 +44,6 @@ submitBtn.addEventListener("click", ()=>{
       joinForm.name.focus();
       return;
     }
-
 
     //비밀번호 일치 불일치
     joinForm.passwdCheck.value;

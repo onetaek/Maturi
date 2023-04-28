@@ -30,6 +30,30 @@ public class MemberAPIController {
   final private EmailService emailService;
   private final SMSService smsService;
 
+  @ResponseBody
+  @PatchMapping("/area")
+  public ResponseEntity<AreaInterDTO> changeInterestLocation(@Login Long memberId,
+                                                             @RequestBody AreaInterDTO areaInterDTO){
+    log.info("/api/member/area PATCH요청");
+    memberService.changeInsertArea(memberId,areaInterDTO);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+  @ResponseBody
+  @GetMapping("/area")
+  public ResponseEntity<AreaInterDTO> selectInterestLocation(@Login Long memberId){
+    log.info("/api/member/area GET요청");
+    return ResponseEntity.status(HttpStatus.OK).body(memberService.selectInterLocation(memberId));
+  }
+
+  @ResponseBody
+  @DeleteMapping("/area")
+  public ResponseEntity<AreaInterDTO> deleteInterestLocation(@Login Long memberId){
+    log.info("/api/member/area DELETE요청");
+    memberService.removeArea(memberId);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+
   @PostMapping("/emailAuth")
   public ResponseEntity<String> emailAuth(@RequestBody String json,
                           HttpServletRequest request) throws Exception {
@@ -118,30 +142,6 @@ public class MemberAPIController {
 
     // 문자 인증 실패 ... (인증 번호 불일치)
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-  }
-
-
-  @ResponseBody
-  @PatchMapping("/area")
-  public ResponseEntity<AreaInterDTO> changeInterestLocation(@Login Long memberId,
-                                                               @RequestBody AreaInterDTO areaInterDTO){
-    log.info("/api/member/area PATCH요청");
-    memberService.changeInsertArea(memberId,areaInterDTO);
-    return ResponseEntity.status(HttpStatus.OK).build();
-  }
-  @ResponseBody
-  @GetMapping("/area")
-  public ResponseEntity<AreaInterDTO> selectInterestLocation(@Login Long memberId){
-    log.info("/api/member/area GET요청");
-    return ResponseEntity.status(HttpStatus.OK).body(memberService.selectInterLocation(memberId));
-  }
-
-  @ResponseBody
-  @DeleteMapping("/area")
-  public ResponseEntity<AreaInterDTO> deleteInterestLocation(@Login Long memberId){
-    log.info("/api/member/area DELETE요청");
-    memberService.removeArea(memberId);
-    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @PostMapping("/nickNameCheck")

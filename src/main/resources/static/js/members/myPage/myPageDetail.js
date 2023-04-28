@@ -185,8 +185,8 @@ function withdrawalAction(){ // 회원 탈퇴 액션
     // background-color: #6e7881
   }).then((result) => {
     if (result.isConfirmed) {
-      detailModalForm.action = "/members/unregister";
-      detailModalForm.method = "post";
+      detailModalForm.action = `/members/${memberId}`;
+      detailModalForm.method = "delete";
       detailModalForm.submit();
     }
   });

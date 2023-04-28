@@ -13,7 +13,6 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberJoinDTO {
-
     //유효성 검사하는 필드
     @Email @NotBlank
     private String email;
@@ -29,5 +28,4 @@ public class MemberJoinDTO {
     private String salt;
     private String nickName;
     private MemberStatus status;
-
 }

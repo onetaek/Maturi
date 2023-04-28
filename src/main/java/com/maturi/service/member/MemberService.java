@@ -62,14 +62,12 @@ public class MemberService {
 
       String salt = findMemberByEmail.getSalt();
 
-      /* 비밀번호 암호화 */
+      // 비밀번호 암호화
       PasswdEncry passwdEncry = new PasswdEncry();
-
 
       // 입력받은 비번 + 난수 => 암호화
       log.info("memberLogin passwd = {}", memberLoginDTO.getPasswd());
-      String SHA256Pw =
-              memberLoginDTO.getPasswd() != null?
+      String SHA256Pw = memberLoginDTO.getPasswd() != null?
                       passwdEncry.getEncry(memberLoginDTO.getPasswd(), salt) : null;
       memberLoginDTO.setPasswd(SHA256Pw);
 
@@ -94,7 +92,7 @@ public class MemberService {
     // 난수 생성 및 dto에 세팅
     String salt = passwdEncry.getSalt();
     memberJoinDTO.setSalt(salt);
-    // 입력받은 비번 + 난수 => 암호화
+    // 입력받은 비밀번호 + 난수 => 암호화
     String SHA256Pw = passwdEncry.getEncry(memberJoinDTO.getPasswd(), salt);
     return SHA256Pw;
   }
