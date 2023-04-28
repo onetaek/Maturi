@@ -27,8 +27,8 @@ http://maturi51.store
 4. 개발 기간 : 2023.03.07 ~ 진행 중
 5. 주요 기술 스택 : java, spring, spring boot, JPA, querydsl, thymeleaf, javsscript
 
-## 메뉴 구조도
+## 메뉴 구조도 IA (InformationArchitecture)
 ![메뉴 구조도](https://user-images.githubusercontent.com/86419261/235066486-540121a8-ff96-4888-b9ef-2968aceec263.png)
-## ERD
+## ERD (Entity Relationshop Diagram)
 ![ERD](https://user-images.githubusercontent.com/86419261/235066970-79c7c3c0-6870-4a40-93d1-e4e27e303399.png)
 ##### 더 자세한 설명은 상단에 기재한 NOTION링크에 있으니 참고하시길 바랍니다.
