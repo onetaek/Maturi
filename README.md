@@ -31,7 +31,7 @@ http://maturi51.store
 ##### 개발자나 시스템 관리자를 대상으로 작성한 메뉴 구조도로 애플리케이션의 전반적인 기능을 담고 있습니다. 마인드맵 형태로 구성하여 한눈에 볼 수 있도록 제작하였습니다.
 ![메뉴 구조도](https://user-images.githubusercontent.com/86419261/235066486-540121a8-ff96-4888-b9ef-2968aceec263.png)
 ## ERD (Entity Relationshop Diagram)
-![ERD](https://user-images.githubusercontent.com/86419261/235066970-79c7c3c0-6870-4a40-93d1-e4e27e303399.png)
+![ERD](https://user-images.githubusercontent.com/86419261/236677196-c66ce685-52dc-47e4-9a55-0f997662cd47.png)
 
 ## 기술 스택
  * 개발 언어 : JAVA(Oracle OpenJDB version 1.8), Html + Css, Javascript </br>
