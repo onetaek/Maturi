@@ -1,11 +1,10 @@
 ## 맛집 리뷰 웹 사이트 프로젝트(Maturi)
 
-### 아래 링크는 MATURI프로젝트를 정리한 NOTION링크입니다. 꼭봐주세요!!!!! 다운 로드받는데 오래걸리므로 미리 링크를 열어주시면 좋습니다
-https://seed-hollyhock-2ef.notion.site/eb757a88487d426f878d533379d3d559
-### 아래링크는 cafe24에 배포한 MATURI프로젝트 사이트입니다! NOTION문서를 다운로드 받으시는 동안 둘러보시면 시간 금방 지나갑니다!
+### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다. 꼭 한번 봐주세요!
+https://51-taek.tistory.com/36
+### 아래링크는 cafe24에 배포한 MATURI프로젝트 사이트입니다!
 http://maturi51.store
 
-###### github에서 새창에서 열기를 지원하지 않아서 새창에서 열기위해서는 직접 링크를 새창에 입력하셔야합니다.
 ###### maturi사이트 이용시 회원가입 절차가 번거러우시다면 아래 정보로 로그인하셔서 이용하시면 됩니다.
 ###### 아이디 : demo5151@maturi.com
 ###### 비밀번호 : demo5151!
@@ -82,4 +81,4 @@ http://maturi51.store
 
 ## URL설계서
 <img src="https://user-images.githubusercontent.com/86419261/235324318-fb2322f9-d9b8-4187-a577-f7ed429f9eee.jpg"/>
-##### 더 자세한 설명은 상단에 기재한 NOTION링크에 있으니 참고하시길 바랍니다.
+##### 더 자세한 설명은 상단에 기재한 블로그 링크에 있으니 참고하시길 바랍니다.
