@@ -87,4 +87,8 @@ http://maturi51.store
 
 ## URL설계서
 <img src="https://user-images.githubusercontent.com/86419261/235324318-fb2322f9-d9b8-4187-a577-f7ed429f9eee.jpg"/>
-##### 더 자세한 설명은 상단에 기재한 블로그 링크에 있으니 참고하시길 바랍니다.
+
+### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다. 꼭 한번 봐주세요!
+&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
+
+https://51-taek.tistory.com/36
