@@ -1,8 +1,12 @@
 ## 맛집 리뷰 웹 사이트 프로젝트(Maturi)
 
 ### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다. 꼭 한번 봐주세요!
+&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
+
 https://51-taek.tistory.com/36
 ### 아래링크는 cafe24에 배포한 MATURI프로젝트 사이트입니다!
+&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
+
 http://maturi51.store
 
  * maturi사이트 이용시 회원가입 절차가 번거러우시다면 아래 정보로 로그인하셔서 이용하시면 됩니다.
