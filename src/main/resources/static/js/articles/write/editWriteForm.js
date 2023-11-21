@@ -32,7 +32,6 @@ writeForm.submitBtn.addEventListener("click", ()=>{
     sizeHiddenField.setAttribute("value", imageSize);
     writeForm.appendChild(sizeHiddenField);
 
-
     writeForm.method="POST";
     writeForm.action="/articles/" + writeForm.dataset.articleid +"/edit";
     writeForm.submit();

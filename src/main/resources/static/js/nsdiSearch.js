@@ -33,7 +33,6 @@ let dongName = "";
 let mapPopupContent = document.querySelector('#popupContent');
 let maxDropdownHeight = mapPopupContent.clientHeight - 35 -10;//select버튼의 높이 - padding값
 let popup_list_count;
-console.log("최대 허용할의 높이",maxDropdownHeight);
 
 $(function(){
   $.ajax({
@@ -358,21 +357,5 @@ $(function(){
 
 
     }
-    // if(
-    //     e.target.className != "ellipsis-btn-wrap"&&
-    //     e.target.className != "ellipsis-btn"&&
-    //     e.target.className != "ellipsis-content"
-    // ){
-    //   let ellipsisContents = document.querySelectorAll('.ellipsis-content');
-    //   ellipsisContents.forEach((item)=>{
-    //     item.style.height="0px";
-    //     item.style.border="0";
-    //     item.classList.remove('active');
-    //   });
-    // }
   }
-
-
-
-
 })

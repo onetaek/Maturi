@@ -114,7 +114,6 @@ public class ArticleQuerydslRepository {
                                                                       ArticleSearchCond searchCond,
                                                                       ArticleOrderCond orderCond,
                                                                       int size) {
-
         JPAQuery<Article> query = new JPAQuery<>(em);
 
         //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
@@ -217,12 +216,12 @@ public class ArticleQuerydslRepository {
         }
         List<Article> results = query
                 .limit(size + 1)
-                .fetch();//size를 DB에서 받는 것보다 프론트에서 받는게 더 유연할 것같음.fetch();
+                .fetch();
         log.info("실행된 쿼리문 = {} ",query.toString());
         boolean hasNext = false;
         if (results.size() > size) {//결과가 6개이면 size(5)보다 크므로 다음 페이지가 있다는 의미
             hasNext = true;
-            results.remove(size - 1);//다음 페이지 확인을 위하 게시글을 하나더 가져왔으므로 확인 후 삭제
+            results.remove(size);//다음 페이지 확인을 위하 게시글을 하나더 가져왔으므로 확인 후 삭제
         }
         return new ArticlePagingResponse<>(results,hasNext);
     }

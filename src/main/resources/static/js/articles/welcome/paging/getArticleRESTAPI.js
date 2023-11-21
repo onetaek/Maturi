@@ -3,6 +3,7 @@ function addPage(event) {
     let obj = SearchCondSetting(event);
     let orderCond = orderCondSetting(event);
     searchArticleAjax(obj,orderCond);
+    isLoading = false;
 }
 
 //enter버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
@@ -27,7 +28,6 @@ document.querySelector('#main-search-btn').addEventListener('click',()=>{
 
 //Ajax요청으로 데이터를 받고 게시글을 화면에 추가해주는 코드
 function searchArticleAjax(obj,orderCond){
-    console.log("페이징 처리 ajax요청");
     const url = '/api/articles?radioCond='+_fnToNull(obj['radioCond'])
         +'&latitude='+_fnToNull(obj['latitude'])
         +'&longitude='+_fnToNull(obj['longitude'])
@@ -46,7 +46,6 @@ function searchArticleAjax(obj,orderCond){
         +'&commentCount='+_fnToNull(orderCond['commentCount'])
         +'&likeCount='+_fnToNull(orderCond['likeCount']);
 
-    console.log("ajax요청 url",url);
     fetch(url)
     .then((response) => {
         if(response.status === 404){
@@ -80,7 +79,6 @@ function searchArticleAjax(obj,orderCond){
         articles.forEach((article) => {
 
             if(article.id === data.lastArticleId){
-                console.log("article의 id와 lastArticleId가 일치합니다!",article.id);
                 document.querySelector('input[name="views"]').value = article.views;
                 document.querySelector('input[name="commentCount"]').value = article.commentCount;
                 document.querySelector('input[name="likeCount"]').value = article.like;

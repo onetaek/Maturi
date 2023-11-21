@@ -15,7 +15,6 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class FileStore {
-
     @Value("${file.dir}")
     private String fileDir;
 

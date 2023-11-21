@@ -35,7 +35,7 @@ public class SNSService {
     private final MemberService memberService;
     private final ModelMapper modelMapper;
 
-    public String getKakaoAccessToken(String authorize_code) throws Exception {
+    public String getKakaoAccessToken(String authorize_code,String kakaoRestApiKey,String kakaoRedirectUri) throws Exception {
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
@@ -54,8 +54,8 @@ public class SNSService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
 
-            sb.append("&client_id="+ SnsConst.KAKAO_REST_API_KEY); // REST_API키 본인이 발급받은 key 넣어주기
-            sb.append("&redirect_uri=" + SnsConst.KAKAO_REDIRECT_URI); // REDIRECT_URI 본인이 설정한 주소 넣어주기
+            sb.append("&client_id="+ kakaoRestApiKey); // REST_API키 본인이 발급받은 key 넣어주기
+            sb.append("&redirect_uri=" + kakaoRedirectUri); // REDIRECT_URI 본인이 설정한 주소 넣어주기
 
             sb.append("&code=" + authorize_code);
             bw.write(sb.toString());

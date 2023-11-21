@@ -1,13 +1,10 @@
-
-
-console.log("category ajax요청 시작");
 getRestaruantCategory();
 
 function getRestaruantCategory(){
     fetch("/api/restaurants/category")
         .then(response => response.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
             let categoryList = document.querySelector('.category-drop-list');
             categoryList.appendChild(myCreateElement(`<li>선택안함</li>`))
             data.forEach((category)=>{

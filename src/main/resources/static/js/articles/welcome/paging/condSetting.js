@@ -14,7 +14,6 @@ for(let i = 0 ; i < searchDropdownList.length; i++){
 }
 
 function SearchCondSetting(event){
-    console.log("무슨 동작이니?",event);
 
     if($('#category').is(':checked')){//카테고리가 선택되었다면
         document.querySelector('input[name="category"]')
@@ -52,10 +51,8 @@ function SearchCondSetting(event){
         radioCond = "like"
     }
 
-    console.log("현재위치가 체크되었니?",$('#my-local').is(":checked"));
     let latitude = $('#my-local').is(':checked') ? $('input[name="latitude"]').val() : null;
     let longitude = $('#my-local').is(':checked') ? $('input[name="longitude"]').val() : null;
-    console.log("위도",latitude,"경도",longitude);
     let category = $('#category').is(':checked') ? $('input[name="category"]').val() : null;
 
     let content = searchCategoryValue.name === "content" ? searchKeyWordInput.value : null;
@@ -65,7 +62,6 @@ function SearchCondSetting(event){
     let all = searchCategoryValue.name === "all" ? searchKeyWordInput.value : null;
 
     if($('#local').is(':checked')){//관심지역이 선택이 되지 않았다면
-        console.log("관심지역이 선택되었으므로 위도 경도를 null로 변경");
         latitude = null;
         longitude = null;
     }
@@ -95,7 +91,7 @@ function SearchCondSetting(event){
         'size': 5, // 페이징에 필요한 값
         'event' : event//페이징에 필요한 값
     };
-    console.log("javascript에서 setting한 검색, 페이징 조건",obj);
+    // console.log("javascript에서 setting한 검색, 페이징 조건",obj);
     return obj;
 }
 
@@ -143,6 +139,6 @@ function orderCondSetting(event){
         'likeCount': likeCount//검색에 필요한 값
     }
 
-    console.log("정렬 동적처리 orderBy:",orderCond);
+    // console.log("정렬 동적처리 orderBy:",orderCond);
     return orderCond;
 }

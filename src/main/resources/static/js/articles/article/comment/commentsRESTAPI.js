@@ -449,7 +449,7 @@ function updateReply(obj){
         }else if(response.status === 403){
             Swal.fire({
                 title: "댓글 수정 실패",
-                text:"댓글을 수정하려는 유저와 댓글을 생성한 유저가 일치하지 않습니다",
+                text: "댓글을 수정하려는 유저와 댓글을 생성한 유저가 일치하지 않습니다",
                 icon: 'error',
                 confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
             }).then(function(){

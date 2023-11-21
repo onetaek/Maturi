@@ -11,6 +11,7 @@ import com.maturi.service.member.SNSService;
 import com.maturi.util.constfield.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,17 @@ public class SNSController {
     final private SNSService snsService;
     final private MemberService memberService;
 
+    @Value("${kakao.rest-api-key}")
+    private String kakaoRestApiKey;
+    @Value("${kakao.redirect-uri}")
+    private String kakaoRedirectUri;
+    @Value("${naver.cliend.id}")
+    private String naverClientId;
+    @Value("${naver.client.secret}")
+    private String naverClientSecret;
+    @Value("${naver.redirect-uri}")
+    private String naverRedirectUri;
+
 
     /**
      * 네이버 로그인 API 처리
@@ -47,8 +59,8 @@ public class SNSController {
     public void loginFirst(HttpServletResponse response){
         try {
             response.sendRedirect("https://kauth.kakao.com/oauth/authorize?" +
-                    "client_id=" + KAKAO_REST_API_KEY +
-                    "&redirect_uri="+ KAKAO_REDIRECT_URI +"&response_type=code");
+                    "client_id=" + kakaoRestApiKey +
+                    "&redirect_uri="+ kakaoRedirectUri +"&response_type=code");
         } catch (IOException e) {
             log.info("kakao 로그인 url전송중 에러");
             throw new RuntimeException(e);
@@ -61,7 +73,7 @@ public class SNSController {
                              @RequestParam(defaultValue = "/") String redirectURL,
                              HttpServletRequest request) throws Throwable {
 
-        String access_Token = snsService.getKakaoAccessToken(code);//토큰을 받는다.
+        String access_Token = snsService.getKakaoAccessToken(code,kakaoRestApiKey,kakaoRedirectUri);//토큰을 받는다.
         HashMap<String, String> userInfo = snsService.getKakaoUserInfo(access_Token);//유저의 정보를 가져온다.
         String email = snsService.changeKakaoIdToEmail(userInfo.get("uniqueID").toString());//카카오에서 받은 id를 email형식으로 변환한다.
         MemberSNSLoginDTO memberLoginDTO = MemberSNSLoginDTO
@@ -99,7 +111,7 @@ public class SNSController {
     @PostMapping("/naver/login")
     public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
-            response.sendRedirect(createApiURL(request, response, NAVER_CLIENT_ID));//apiURL를 생성해서 redirect
+            response.sendRedirect(createApiURL(request, response, naverClientId));//apiURL를 생성해서 redirect
         } catch (IOException e) {
             log.info("naver login sendRedirect 요류");
             throw new RuntimeException(e);
@@ -107,27 +119,17 @@ public class SNSController {
     }
 
     @GetMapping("/naver/token")//CallBack URL
-    public void naverLoginGETToken(HttpServletRequest request,
+    public String naverLoginGETToken(HttpServletRequest request,
                                    @RequestParam String code,
                                    @RequestParam String state,
-                                   HttpServletResponse response) throws IOException {
-        response.sendRedirect("/oauth/naver/login?token="+
-                createNaverAcessToken(response, NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, code, state));//토큰을 획득하고 redirect
-    }
+                                   HttpServletResponse response) {
+        String naverAcessToken = createNaverAcessToken(response, naverClientId, naverClientSecret, code, state);
 
-    @GetMapping("/naver/login")
-    public String naverLoginProcess(@RequestParam String token,
-                                    @RequestParam(defaultValue = "/") String redirectURL,
-                                    HttpServletRequest request){
-
-        HashMap<String, String> userInfo = getUserInfo(token);//토큰넘기면 api에서 요청한 유저의 정보들을 가져온다.
-        MemberSNSLoginDTO memberLoginDTO = MemberSNSLoginDTO
-                .builder()
+        HashMap<String, String> userInfo = getUserInfo(naverAcessToken);
+        MemberSNSLoginDTO memberSNSLoginDTO = MemberSNSLoginDTO.builder()
                 .email(snsService.changeNaverIdToEmail(userInfo.get("id")) )
                 .profileImg((String) userInfo.get("profile_image"))
-                .name((String) userInfo.get("name"))
-                .build();//이메일 형식으로 변환
-
+                .name((String) userInfo.get("name")).build();
 
         /** 실질적 로그인 처리 **/
         boolean IsLoginMember = memberService.emailDuplCheck(snsService.changeNaverIdToEmail((String) userInfo.get("id")));// 중복 이메일 체크
@@ -136,13 +138,13 @@ public class SNSController {
         if(IsLoginMember){// 이메일이 중복일 경우 이미 가입했다는 것이므로 이메일로 회원을 찾아온다.
             member = snsService.findUser(snsService.changeNaverIdToEmail((String) userInfo.get("id")));
         } else{// 가입하지 않은 회원 -> 가입 진행
-            member = snsService.snsJoin(memberLoginDTO);
+            member = snsService.snsJoin(memberSNSLoginDTO);
         }
         // 로그인 처리
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.MEMBER_ID,member.getId());
 
-        return "redirect:" + redirectURL;
+        return "redirect:/";
     }
 
     //안씀
@@ -161,7 +163,7 @@ public class SNSController {
     private String createApiURL(HttpServletRequest request, HttpServletResponse response, String clientId) {
         String redirectURI;
         try {
-            redirectURI = URLEncoder.encode(NAVER_CALLBACK_URL, "UTF-8");
+            redirectURI = URLEncoder.encode(naverRedirectUri, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             log.info("naver login encoding error");
             throw new RuntimeException(e);
@@ -179,7 +181,7 @@ public class SNSController {
     private String createNaverAcessToken(HttpServletResponse response, String clientId, String clientSecret, String code, String state) {
         String redirectURI;
         try {
-            redirectURI = URLEncoder.encode(NAVER_CALLBACK_URL, "UTF-8");
+            redirectURI = URLEncoder.encode(naverRedirectUri, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             log.info("naver login redirectURI encoding error");
             throw new RuntimeException(e);
@@ -243,7 +245,6 @@ public class SNSController {
         String header = "Bearer " + token; // Bearer 다음에 공백 추가
         String apiURL = "https://openapi.naver.com/v1/nid/me";
 
-
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("Authorization", header);
         String responseBody = get(apiURL,requestHeaders);
@@ -273,8 +274,6 @@ public class SNSController {
             for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
                 con.setRequestProperty(header.getKey(), header.getValue());
             }
-
-
             int responseCode = con.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 호출
                 return readBody(con.getInputStream());

@@ -5,7 +5,7 @@ let myLongitude;
 function onGeoOk(position){
     myLatitude = position.coords.latitude; // 위도
     myLongitude = position.coords.longitude; // 경도
-    console.log({"latitude":myLatitude,"longitude":myLongitude});
+    // console.log({"latitude":myLatitude,"longitude":myLongitude});
     document.querySelector("input[name=latitude]").value = myLatitude;
     document.querySelector("input[name=longitude]").value = myLongitude;console.log()
 }

@@ -28,6 +28,8 @@ interLocationRadioBtn.addEventListener('click',()=>{
                 $("#all").prop("checked",true);
             }
         });
+    }else{
+        addPage("click");
     }
 });
 

@@ -1,6 +1,5 @@
 //팝업 클릭, 닫기 버튼
 function followPopupToggle(){
-    console.log("follow/following 클릭!");
     let blur = document.querySelector('#wrap');
     blur.classList.toggle('active');
     let popup = document.getElementById('followPopup');
@@ -33,19 +32,15 @@ let keywordFollowValue;
 function settingFollowCond(){
     if($('#follower').is(':checked')){
         followRadioValue = document.querySelector('#follower').value;
-        console.log("클릭한 follow버튼",followRadioValue );
     }
     if($('#following').is(':checked')){
         followRadioValue = document.querySelector('#following').value;
-        console.log("클릭한 follow버튼",followRadioValue );
     }
     keywordFollowValue = document.querySelector('.follow-search-input').value;
-    console.log("팔로우 검색 조건",keywordFollowValue);
 }
 
 <!--팔로우, 팔로워 목록을 가져오는 함수-->
 function getFollows(){
-    console.log("getFollows시작");
     settingFollowCond();
     fetch(`/api/members/${memberId}/follows?follow=${followRadioValue}&keyword=${keywordFollowValue}`)
         .then((response) => {
@@ -60,10 +55,6 @@ function getFollows(){
             return response.json()
         })
         .then((members) => {
-            console.log("팔로우냐?팔로잉이냐?",followRadioValue);
-            console.log("팔로워 맞냐?",followRadioValue === "follower")
-            console.log("팔로잉 맞냐?",followRadioValue === "following")
-            console.log(members);
             let followUl = document.querySelector('#follow-list');
             let html = ``;
             members.forEach((member) => {

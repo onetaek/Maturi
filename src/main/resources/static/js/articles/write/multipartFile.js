@@ -36,7 +36,6 @@ function handleImgFileSelect(e){//이미지 추가버튼을 클릭하고 파일�
         })
         return;
     }
-    console.log("중간 계산한 용량 합계",tempTotalSize);
 
     if(totalFileSize + tempTotalSize >= maximumFileSize){//파일들의 총합이 최대용량을 넘을경우
         Swal.fire({
@@ -70,7 +69,6 @@ function handleImgFileSelect(e){//이미지 추가버튼을 클릭하고 파일�
 
     oldFiles.files = dataTransfer.files;//이전에 선택한 파일들 + 새롭게 선택한 파일들을 넣어줌
     console.log("이전에 선택한 파일 + 새롭게 선택한 파일들",document.querySelector('.old-files').files);
-    console.log("이전에 선택한 파일 + 새롭게 선택한 파일들의 길이",document.querySelector('.old-files').files.length);
 
     newFilesSliceArray.forEach(function(file){
        let reader = new FileReader();
@@ -88,9 +86,6 @@ function handleImgFileSelect(e){//이미지 추가버튼을 클릭하고 파일�
        }
        reader.readAsDataURL(file);
     });
-    // const EmptydataTransfer = new DataTransfer();
-    // addNewFiles.files = EmptydataTransfer.files;//값을 남기면 데이터가 넘어가기때문에 삭제시킨다.
-    // console.log("addNewFilew",addNewFiles.files);
 }
 
 function removePreview(obj){//삭제버튼을 클릭했을 경우 실행되는 함수
@@ -111,11 +106,8 @@ function removePreview(obj){//삭제버튼을 클릭했을 경우 실행되는 �
         li.remove();//이미지를 요소를 삭제
         return false;
     }
-    console.log("로드된 이미지가 아닙니다");
     const dataTransfer = new DataTransfer();
     let filesArray = Array.from(oldFiles.files);
-    console.log("index",index);
-    console.log("index - loadImgCount",index - loadImgCount);
     let removeFileSize = filesArray[index - loadImgCount].size;
     totalFileSize = totalFileSize - removeFileSize;
     let calFileSize = getByteSize(totalFileSize);

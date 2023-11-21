@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString(exclude = {"likes"})
+@ToString(exclude = {"likes","comments"})
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
