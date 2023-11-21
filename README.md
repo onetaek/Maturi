@@ -2,6 +2,7 @@
 
 ### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다.
 &darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
+https://51-taek.tistory.com/36
 
 ## 프로젝트 소개 및 주제
 ##### 프로젝트 명인 maturi는 맛집 + 집들이의 합성어로 집들이 하며 집을 소개하듯이 리뷰글을 통해 맛집을 소개하자는 의미입니다.
