@@ -1,23 +1,7 @@
 ## 맛집 리뷰 웹 사이트 프로젝트(Maturi)
 
-### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다. 꼭 한번 봐주세요!
+### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다.
 &darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
-
-https://51-taek.tistory.com/36
-### 아래링크는 cafe24에 배포한 MATURI프로젝트 사이트입니다!
-&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
-
-http://maturi51.store
-
- * maturi사이트 이용시 회원가입 절차가 번거러우시다면 아래 정보로 로그인하셔서 이용하시면 됩니다.
- > 아이디 : demo5151@maturi.com   
- > 비밀번호 : demo5151!
- * 현재위치로 게시글 검색(필터링)은 geolocation을 사용시 SSL프로토콜을 사용하지 않으면 지원하지 않아서 정상적으로 작동하지 않습니다.
- * 네이버 로그인은 현재 검수를 통화받지 못한 상태여서 이용이 불가능합니다.
-
-![포스터_640](https://user-images.githubusercontent.com/86419261/235067246-6271a4c7-7eed-4109-b15e-bf428c0f7128.png)
-
-
 
 ## 프로젝트 소개 및 주제
 ##### 프로젝트 명인 maturi는 맛집 + 집들이의 합성어로 집들이 하며 집을 소개하듯이 리뷰글을 통해 맛집을 소개하자는 의미입니다.
