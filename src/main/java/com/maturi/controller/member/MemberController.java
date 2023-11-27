@@ -46,7 +46,7 @@ public class MemberController {
   @GetMapping("/join")
   public String getJoin(Model model){
     model.addAttribute("member",new MemberJoinDTO());
-    return "/members/join";
+    return "members/join";
   }
 
   @PostMapping("/join")
@@ -59,11 +59,11 @@ public class MemberController {
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
       log.info("errors={} ", bindingResult);
-      return "/members/join";
+      return "members/join";
     }
 
     memberService.join(memberJoinDTO);
-    return "redirect:/members/login";
+    return "redirect:members/login";
   }
 
   @GetMapping("/login")
@@ -72,7 +72,7 @@ public class MemberController {
 
     model.addAttribute("redirectURL",redirectURL);
     model.addAttribute("member",new MemberLoginDTO());
-    return "/members/login";
+    return "members/login";
   }
 
   @PostMapping("/login")
@@ -87,16 +87,16 @@ public class MemberController {
     if (bindingResult.hasErrors()) {
       log.info("errors={} ", bindingResult);
       model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
-      return "/members/login";
+      return "members/login";
     }
     //정상 로직
     Member findMember = memberService.login(memberLoginDTO);
     if(findMember == null){//DB에 회원이 없을 경우
       model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
-      return "/members/login";
+      return "members/login";
     } else if(memberService.isBanMember(findMember.getId())){//status가 BAN인 회원
       model.addAttribute(ERROR_MESSAGE, IS_BAN_MEMBER);
-      return "/members/login";
+      return "members/login";
     } else { // 정상 멤버
       HttpSession session = request.getSession();
       session.setAttribute(MEMBER_ID,findMember.getId());
@@ -109,7 +109,7 @@ public class MemberController {
   @PostMapping("/logout")
   public String logout(HttpServletRequest request){
     request.getSession().invalidate();
-    return "redirect:/members/login";
+    return "redirect:members/login";
   }
 
   @DeleteMapping("/{memberId}")
@@ -120,13 +120,13 @@ public class MemberController {
     boolean status = memberService.unregister(memberId, passwd);
 
     if (!status) { // 회원 탈퇴 실패
-      return "redirect:/myPage/detail";
+      return "redirect:myPage/detail";
     } else { // 회원 탈퇴 성공
       // 세션 삭제
       request.getSession().invalidate();
       redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "unregister");
 
-      return "redirect:/members/login";
+      return "redirect:members/login";
     }
   }
 
@@ -141,7 +141,7 @@ public class MemberController {
     if(id != memberId){
       model.addAttribute("isFollowingMember",memberService.checkFollowing(memberId,id));//로그인한 유저가 해당 마이페이지 유저를 팔로잉하는지 확인
     }
-    return "/members/myPage";
+    return "members/myPage";
   }
 
   @GetMapping("/{id}/edit")// myPage/edit 회원 프로필수정 페이지 이동
@@ -151,7 +151,7 @@ public class MemberController {
                            Model model){
     if(!memberId.equals(id)){ // 다른 회원의 프로필수정 페이지 이동 요청 들어왔을 경우
       redirectAttributes.addFlashAttribute(ERROR_MESSAGE, NO_PERMISSION);
-      return "redirect:/members/" + id;
+      return "redirect:members/" + id;
     }
 
     model.addAttribute("member", memberService.memberInfo(memberId));

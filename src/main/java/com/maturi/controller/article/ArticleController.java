@@ -33,7 +33,7 @@ public class ArticleController {
         log.info("findMember = {}",memberService.memberInfo(memberId));
         //게시글의 정보는 Ajax요청으로 데이터를 받아옴
         model.addAttribute("member", memberService.memberInfo(memberId));
-        return "/articles/welcome";
+        return "articles/welcome";
     }
 
     @GetMapping("/new")//게시글 작성 화면 이동
@@ -43,7 +43,7 @@ public class ArticleController {
 
         log.info("restaurantDTO={}",restaurantDTO);
         model.addAttribute("member", memberService.memberInfo(memberId));
-        return "/articles/write";
+        return "articles/write";
     }
 
     @PostMapping("/new")//게시글 작성 요청
@@ -57,7 +57,7 @@ public class ArticleController {
         Long articleId = articleService.write(memberId, articleDTO,request);
         log.info("articleId={}",articleId);
         model.addAttribute("articleId", articleId);
-        return "redirect:/articles/"+articleId;
+        return "redirect:articles/"+articleId;
     }
 
     @GetMapping("/{articleId}")//게시글 상세 페이지 이동
@@ -74,7 +74,7 @@ public class ArticleController {
         if(!status){
             log.info("게시글이 없습니다!");
             model.addAttribute("alertMessage","해당 게시글을 찾을 수 없습니다.");
-            return "/layouts/message";
+            return "layouts/message";
         }
 
         model.addAttribute("article", articleService.articleInfo(articleId,memberId));
@@ -82,7 +82,7 @@ public class ArticleController {
         //댓글을 가져오는 작업은 ajax로 처리해서 새로고침 없도록 변경
 //        model.addAttribute("comments", commentService.articleComment(memberId, articleId));
 //        model.addAttribute("isLikedComment")
-        return "/articles/article";
+        return "articles/article";
     }
 
     @DeleteMapping("/{articleId}")//게시글 삭제요청
@@ -124,7 +124,7 @@ public class ArticleController {
         }
         model.addAttribute("member", memberService.memberInfo(memberId));
         model.addAttribute("article", articleEditViewDTO);
-        return "/articles/edit";
+        return "articles/edit";
     }
 
     @PostMapping("/{articleId}/edit") // 게시글 수정 요청
@@ -138,6 +138,6 @@ public class ArticleController {
 
         ArticleViewDTO articleViewDTO = articleService.edit(memberId, articleId, articleEditDTO,request);
 
-        return "redirect:/articles/"+articleId;
+        return "redirect:articles/"+articleId;
     }
 }
