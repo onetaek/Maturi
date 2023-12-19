@@ -1,22 +1,20 @@
 ## 맛집 리뷰 웹 사이트 프로젝트(Maturi)
 
-### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다.
-&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;&darr;
-
+### 아래 링크는 MATURI프로젝트를 정리한 블로그 링크입니다. 
 https://51-taek.tistory.com/36
 
 ## 프로젝트 소개 및 주제
-##### 프로젝트 명인 maturi는 맛집 + 집들이의 합성어로 집들이 하며 집을 소개하듯이 리뷰글을 통해 맛집을 소개하자는 의미입니다.
-##### 전반적인 웹의 기본 소양이 되는 게시판, 회원 CRUD를 중심으로 한 커뮤니티 사이트입니다.
-##### 카카오 map api, 카카오 로그인 api, 네이버 로그인 api 등등의 여러 api 통신을 적극 활용하였습니다.
-##### 많은 경우의 수가 존재하는 검색 조건, 정렬을 하나의 동적 쿼리문으로 처리하여 차별화하였습니다.
++ 프로젝트 명인 maturi는 맛집 + 집들이의 합성어로 집들이 하며 집을 소개하듯이 리뷰글을 통해 맛집을 소개하자는 의미입니다.
++ 전반적인 웹의 기본 소양이 되는 게시판, 회원 CRUD를 중심으로 한 커뮤니티 사이트입니다.
++ 카카오 map api, 카카오 로그인 api, 네이버 로그인 api 등등의 여러 api 통신을 적극 활용하였습니다.
++ 많은 경우의 수가 존재하는 검색 조건, 정렬을 하나의 동적 쿼리문으로 처리하여 차별화하였습니다.
 
 ## 프로젝트 개요
-1. 프로젝트 명칭 : MATURI
-2. 개발 인원 : 2명
-3. 개발자 : 오원택(팀장), 김혜현
-4. 개발 기간 : 2023.03.07 ~ 진행 중
-5. 주요 기술 스택 : java, spring, spring boot, JPA, querydsl, thymeleaf, javsscript
++ 프로젝트 명칭 : MATURI
++ 개발 인원 : 2명
++ 개발자 : 오원택(팀장), 김혜현
++ 개발 기간 : 2023.03.07 ~ 진행 중
++ 주요 기술 스택 : java, spring, spring boot, JPA, querydsl, thymeleaf, javsscript
 
 ## 메뉴 구조도 IA (InformationArchitecture)
 ##### 개발자나 시스템 관리자를 대상으로 작성한 메뉴 구조도로 애플리케이션의 전반적인 기능을 담고 있습니다. 마인드맵 형태로 구성하여 한눈에 볼 수 있도록 제작하였습니다.
