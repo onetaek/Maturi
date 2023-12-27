@@ -6,7 +6,6 @@ import com.maturi.dto.member.MemberSNSLoginDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.member.member.MemberRepository;
-import com.maturi.util.constfield.SnsConst;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;

@@ -28,8 +28,6 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.maturi.util.constfield.SnsConst.*;
-
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/oauth")
