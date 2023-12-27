@@ -57,7 +57,7 @@ public class ArticleController {
         Long articleId = articleService.write(memberId, articleDTO,request);
         log.info("articleId={}",articleId);
         model.addAttribute("articleId", articleId);
-        return "redirect:articles/"+articleId;
+        return "redirect:/articles/"+articleId;
     }
 
     @GetMapping("/{articleId}")//게시글 상세 페이지 이동

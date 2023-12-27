@@ -21,13 +21,13 @@ public class EmailService {
 
   final private String ePw = createKey();
 
-  public String sendSimpleMessage(String to)throws Exception {
+  public String sendSimpleMessage(String to) throws Exception {
     MimeMessage message = createMessage(to);
     try{//예외처리
       emailSender.send(message);
     }catch(MailException es){
       es.printStackTrace();
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("이메일 전송을 실패하였습니다.");
     }
     return ePw;
   }
