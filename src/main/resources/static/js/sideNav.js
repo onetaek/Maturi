@@ -21,3 +21,22 @@ addEventListener("resize", (event) => {
       }
    }
 });
+
+window.addEventListener("resize", adjustMargin);
+
+function adjustMargin() {
+   var sideNav = document.getElementById("sideNav");
+   var gnb = document.getElementById("gnb");
+   var windowHeight = window.innerHeight;
+
+   // Check if sidebar height is greater than window height
+   if (sideNav.clientHeight > windowHeight) {
+      gnb.style.marginBottom = '50px';
+   } else {
+      // Reset margin if sidebar height is smaller than window height
+      gnb.style.marginBottom = '100px';
+   }
+}
+
+// Initial adjustment on page load
+adjustMargin();

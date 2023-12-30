@@ -30,8 +30,7 @@ public class ArticleAPIController {
 
 
   @PostMapping("/{id}/like")
-  public ResponseEntity likeOrUnlike(@Login Long memberId,
-                                     @PathVariable Long id) throws ParseException {
+  public ResponseEntity likeOrUnlike(@Login Long memberId, @PathVariable Long id) {
     int isLiked = // 좋아요 상태가 됨 -> 1
             articleService.likeOrUnlike(memberId, id)?
             1 : 0;

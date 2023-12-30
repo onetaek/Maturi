@@ -1,6 +1,6 @@
 package com.maturi.service.member;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,11 +13,11 @@ import javax.transaction.Transactional;
 import java.util.Random;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class EmailService {
-  final private JavaMailSender emailSender;
+  private final JavaMailSender emailSender;
 
   final private String ePw = createKey();
 
@@ -48,7 +48,7 @@ public class EmailService {
     msgg+= ePw + "</strong><div><br/> ";
     msgg+= "</div>";
     message.setText(msgg, "utf-8", "html"); //내용
-    message.setFrom(new InternetAddress("hyhyDevelop@gmail.com","Maturi")); //보내는 사람
+    message.setFrom(new InternetAddress("dnjsxorchlrh@gmail.com","Maturi")); //보내는 사람
 
     return message;
   }

@@ -102,7 +102,7 @@ emailAuthBtn.addEventListener("click", ()=>{
         })
       }else{
         Swal.fire({
-          title: "해당 이메일은 이미 가입되어있습니다.",
+          title: "해당 이메일은 이미 가입되어있거나, 이메일이 유효하지 않습니다.",
           icon: 'info',
           confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
         }).then(function(){

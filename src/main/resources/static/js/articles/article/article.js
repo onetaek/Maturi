@@ -11,6 +11,7 @@ bImgAll.forEach(img => {
 // 페이지 로드시 이미지 개수에 춰 width 조정
 window.addEventListener("load", function(){
   bImg.style.width = `${imgList.length * 100}%`;
+  bImg.style.visibility = "visible";//이미지가 로드된 후 보여짐
 });
 
 let imgNum = 0; // 현재 이미지의 index 번호

@@ -73,8 +73,6 @@ public class MemberAPIController {
 
     HttpSession session = request.getSession();
     session.setAttribute("emailConfirm", confirm);
-    log.info("emailConfirm Number = {}", confirm);
-
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 

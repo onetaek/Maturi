@@ -170,6 +170,7 @@
     background-color: var(--white-color);
     align-items: center;
     overflow: hidden;
+    visibility: hidden;
 }
 .contentWrap .bImg li {
     width: 100%;

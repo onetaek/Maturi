@@ -39,13 +39,13 @@ public class FileStore {
 
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
-                storeFileResult.add(this.storeFile(multipartFile, request));
+                storeFileResult.add(this.storeFileToAwsS3(multipartFile, request));
             }
         }
         return storeFileResult;
     }
 
-    public String storeFile(MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+    public String storeFileToAwsS3(MultipartFile multipartFile, HttpServletRequest request) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
         }

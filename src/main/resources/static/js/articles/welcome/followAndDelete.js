@@ -111,12 +111,13 @@ function followCancel(articleId,articleMemberId,articleMemberNickName){
                         icon: 'success',
                         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
                     })
+                    addPage("click");
                     getFollows();
-                    if(hasArticle === true){
-                        console.log("팔로잉취소 후 게시글 가져오기");
-                        let obj = SearchCondSetting("click");
-                        searchArticleAjax(obj);
-                    }
+                    // if(hasArticle === true){
+                    //     console.log("팔로잉취소 후 게시글 가져오기");
+                    //     let obj = SearchCondSetting("click");
+                    //     searchArticleAjax(obj);
+                    // }
                 }else{
                     Swal.fire({
                         title: `${articleMemberNickName}님을(를) 팔로우 취소하는데 실패하였습니다`,
