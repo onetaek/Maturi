@@ -44,7 +44,7 @@ public class BlockController {
         model.addAttribute("myPageMember", memberService.myPageMemberInfo(id));
         model.addAttribute("blockMembers", blockService.findBlockMembers(memberId));
 
-        return "/members/block";
+        return "members/block";
     }
 
     //차단 요청
