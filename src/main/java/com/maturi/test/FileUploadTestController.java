@@ -53,7 +53,7 @@ public class FileUploadTestController {
                              RedirectAttributes redirectAttributes) throws IOException {
         log.info("test file upload 시작");
         //application.properties에서 지정한 file.dir 경로에 파일이 저장됨
-        List<String> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles(),request);
+        List<String> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles(), request);
 
         //메모리에 저장(실제로 구현할때는 이 로직을 파일명 문자열로 바꾸고나서 Entity에 맞게 바꿔주고 여차저차 해야함
         TestArticle testArticle = new TestArticle();
@@ -78,12 +78,12 @@ public class FileUploadTestController {
     }
 
     //이미지를 출력하기 위한 요청
-    @ResponseBody
-    @GetMapping("/file/{filename}")
-    public Resource showImg(@PathVariable String filename) throws MalformedURLException {
-        String fullPath = fileStore.getFullPath(filename);
-        UrlResource urlResource = new UrlResource("file:" + fullPath);
-        return urlResource;
-    }
+//    @ResponseBody
+//    @GetMapping("/file/{filename}")
+//    public Resource showImg(@PathVariable String filename) throws MalformedURLException {
+//        String fullPath = fileStore.getFullPath(filename);
+//        UrlResource urlResource = new UrlResource("file:" + fullPath);
+//        return urlResource;
+//    }
 
 }

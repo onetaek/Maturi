@@ -94,7 +94,7 @@ function searchArticleAjax(obj,orderCond){
                 }else if(article.profileImg.includes("http")){
                     articleHtml += `<img src="${article.profileImg}" alt="프로필 이미지">`
                 }else{
-                    articleHtml += `<img src="/upload/${article.profileImg}" alt="프로필 이미지">`
+                    articleHtml += `<img src="${article.profileImg}" alt="프로필 이미지">`
                 }
             articleHtml +=`</a>
                     <div class="user-info">
@@ -126,7 +126,7 @@ function searchArticleAjax(obj,orderCond){
                 }
                 const img = article.image[i];
                 articleHtml+=`<li>
-                  <div style="background-image:url('/upload/${img}')"></div>
+                  <div style="background-image:url('${img}')"></div>
                 </li>`;
             }
             articleHtml += `

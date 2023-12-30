@@ -15,11 +15,4 @@ public class MainController {
     public String welcome(){
         return "redirect:/articles";
     }
-
-    @ResponseBody
-    @GetMapping("/docker")
-    public String docker() {
-        return "docker start!";
-    }
-
 }

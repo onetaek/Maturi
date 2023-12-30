@@ -58,14 +58,7 @@ public class TestController {
     public String write(){
         return "/article/write";
     }
-    @GetMapping("/popup/dropdown")
-    public String popupDropdownTest(){
-        return "/popup_dropdown_test";
-    }
-//    @GetMapping("/popup/show")
-//    public String popupShow(){
-//        return "/"
-//    }
+
     @GetMapping("/error")
     public String errorText(@ModelAttribute AreaInterDTO areaInterDTO, BindingResult bindingResult,Model model){
         bindingResult.reject("testError","테스트 에러");
@@ -76,5 +69,11 @@ public class TestController {
     @GetMapping("/multipart")
     public String multipart(){
         return "/multipartFileTest";
+    }
+
+    @ResponseBody
+    @GetMapping("/aws")
+    public String awsConTest() {
+        return "aws connect successful";
     }
 }

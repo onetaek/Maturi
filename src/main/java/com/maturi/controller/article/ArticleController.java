@@ -24,13 +24,11 @@ import java.io.IOException;
 public class ArticleController {
 
     private final ArticleService articleService;
-    private final CommentService commentService;
     private final MemberService memberService;
 
     @GetMapping("")//게시글 전체 페이지 이동
     public String articlesPage(@Login Long memberId,
                                Model model){
-        log.info("findMember = {}",memberService.memberInfo(memberId));
         //게시글의 정보는 Ajax요청으로 데이터를 받아옴
         model.addAttribute("member", memberService.memberInfo(memberId));
         return "articles/welcome";
@@ -41,7 +39,6 @@ public class ArticleController {
                             Model model,
                             @ModelAttribute(name = "restaurant") RestaurantDTO restaurantDTO){
 
-        log.info("restaurantDTO={}",restaurantDTO);
         model.addAttribute("member", memberService.memberInfo(memberId));
         return "articles/write";
     }
@@ -51,11 +48,7 @@ public class ArticleController {
                         @ModelAttribute ArticleDTO articleDTO,
                         HttpServletRequest request,
                         Model model) throws IOException {
-        log.info(" POST요청");
-        log.info("articleDTO={}",articleDTO);
-        log.info("servletContext 값 확인",request.getServletContext().getRealPath("/"));
         Long articleId = articleService.write(memberId, articleDTO,request);
-        log.info("articleId={}",articleId);
         model.addAttribute("articleId", articleId);
         return "redirect:/articles/"+articleId;
     }
@@ -64,15 +57,11 @@ public class ArticleController {
     public String articlePage(@Login Long memberId,
                               @PathVariable Long articleId,
                               Model model){
-        log.info("게시글 상세 페이지 이동");
         // 로그인 멤버 정보
         model.addAttribute("member", memberService.memberInfo(memberId));
 
-        log.info("articleId={}",articleId);
-
         boolean status = articleService.articleStatusNormal(articleId);
         if(!status){
-            log.info("게시글이 없습니다!");
             model.addAttribute("alertMessage","해당 게시글을 찾을 수 없습니다.");
             return "layouts/message";
         }
@@ -80,8 +69,6 @@ public class ArticleController {
         model.addAttribute("article", articleService.articleInfo(articleId,memberId));
         model.addAttribute("restaurant", articleService.restaurantByArticle(articleId));
         //댓글을 가져오는 작업은 ajax로 처리해서 새로고침 없도록 변경
-//        model.addAttribute("comments", commentService.articleComment(memberId, articleId));
-//        model.addAttribute("isLikedComment")
         return "articles/article";
     }
 
@@ -89,8 +76,7 @@ public class ArticleController {
     public String delete(@Login Long memberId,
                          @PathVariable Long articleId,
                          HttpServletRequest request,
-                         RedirectAttributes redirectAttributes,
-                         Model model){
+                         RedirectAttributes redirectAttributes){
 
         String msg = articleService.delete(memberId, articleId);
         if(msg.equals(MessageConst.SUCCESS_MESSAGE)){
@@ -118,7 +104,6 @@ public class ArticleController {
         ArticleEditViewDTO articleEditViewDTO = articleService.articleEditInfo(articleId);
         if(!memberId.equals(articleEditViewDTO.getMemberId())){
             String referer = request.getHeader("Referer");
-            log.info("referer : " + referer);
             redirectAttributes.addFlashAttribute(MessageConst.ERROR_MESSAGE, MessageConst.NO_PERMISSION);
             return "redirect:" + referer;
         }
@@ -131,13 +116,8 @@ public class ArticleController {
     public String editArticle(@Login Long memberId,
                               @PathVariable Long articleId,
                               ArticleEditDTO articleEditDTO,
-                              HttpServletRequest request,
-                              Model model) throws IOException {
-
-        log.info("articleEditDTO = {}", articleEditDTO);
-
+                              HttpServletRequest request) throws IOException {
         ArticleViewDTO articleViewDTO = articleService.edit(memberId, articleId, articleEditDTO,request);
-
-        return "redirect:articles/"+articleId;
+        return "redirect:/articles/"+articleId;
     }
 }

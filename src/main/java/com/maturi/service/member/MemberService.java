@@ -166,11 +166,11 @@ public class MemberService {
 
     // 이미지 바꿨을 경우 (파일 업로드 로직)
     if(!memberEditMyPageDTO.getCoverImg().isEmpty()) {
-      String storeCoverImg = fileStore.storeFile(memberEditMyPageDTO.getCoverImg(),request);
+      String storeCoverImg = fileStore.storeFile(memberEditMyPageDTO.getCoverImg(), request);
       findMember.changeCoverImg(storeCoverImg);
     }
     if(!memberEditMyPageDTO.getProfileImg().isEmpty()){
-      String storeprofileImg = fileStore.storeFile(memberEditMyPageDTO.getProfileImg(),request);
+      String storeprofileImg = fileStore.storeFile(memberEditMyPageDTO.getProfileImg(), request);
       findMember.changeProfileImg(storeprofileImg);
     }
 

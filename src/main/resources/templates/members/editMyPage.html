@@ -15,7 +15,7 @@
   <form name="editProfileForm" enctype="multipart/form-data" th:method="patch">
     <div id="coverImg">
       <input type="file" name="coverImg" class="coverImgModify" multiple="multiple">
-      <img th:if="${myPageMember.coverImg != null}" th:src="|/upload/${myPageMember.coverImg}|" alt="커버 사진" class="coverImgTag">
+      <img th:if="${myPageMember.coverImg != null}" th:src="|${myPageMember.coverImg}|" alt="커버 사진" class="coverImgTag">
       <img th:if="${myPageMember.coverImg == null}" alt="커버 사진"  class="coverImgTag nullImg">
       <span class="ImgModifyBtn">
         <ion-icon name="image-outline"></ion-icon>
@@ -27,7 +27,7 @@
           <p class="mProfileImg">
             <input type="file" name="profileImg" class="profileImgModify" multiple="multiple">
             <img th:if="${myPageMember.profileImg != null && #strings.contains(myPageMember.profileImg,'://')}" th:src="${myPageMember.profileImg}" alt="프로필 이미지" class="profileImgTag">
-            <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|/upload/${myPageMember.profileImg}|" alt="프로필 이미지" class="profileImgTag">
+            <img th:unless="${myPageMember.profileImg == null || #strings.contains(myPageMember.profileImg,'://')}" th:src="|${myPageMember.profileImg}|" alt="프로필 이미지" class="profileImgTag">
             <img th:if="${myPageMember.profileImg == null}" alt="프로필 이미지" class="profileImgTag nullImg">
             <span class="ImgModifyBtn">
             <ion-icon name="image-outline"></ion-icon>

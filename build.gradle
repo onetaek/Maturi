@@ -3,11 +3,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 	//querydsl 추가
 	id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-	id 'war'
+//	id 'war'
 	id 'java'
 }
 group = 'com.maturi'
-version = '0.0.1-SNAPSHOT'
+version = 'web-app'
 sourceCompatibility = '8'
 configurations {
 	compileOnly {
@@ -30,7 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	//war파일로 배포하기위함
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
 	//스프링부트에서 validation을 사용하기 위한 코드
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -43,6 +43,7 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client:2.7.0'
+	implementation 'mysql:mysql-connector-java:8.0.23' // MySQL 드라이버 추가
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
@@ -70,9 +71,18 @@ dependencies {
 	//테스트코드 작성시 entityManagerFActory에러 때문에추가
 	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
 
+	//firebase 이미지 저장소
+	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
+
+	//aws s3 이미지 저장소
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 test {
 	useJUnitPlatform()
+}
+
+tasks.withType(Test) {
+	enabled = false
 }
 
 //querydsl 추가 시작
@@ -93,11 +103,11 @@ compileQuerydsl {
 //querydsl 추가 끝
 
 //war 패키징 추가
-bootWar {
-	archiveBaseName = 'david-2.2.2.RELEASE'
-	archiveFileName = 'david-2.2.2.RELEASE.war'
-	archiveVersion = '0.0.1'
-}
+//bootWar {
+//	archiveBaseName = 'david-2.2.2.RELEASE'
+//	archiveFileName = 'david-2.2.2.RELEASE.war'
+//	archiveVersion = '0.0.1'
+//}
 
 //Querydsl 추가
 clean {

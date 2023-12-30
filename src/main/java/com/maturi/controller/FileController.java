@@ -22,8 +22,9 @@ public class FileController {
     @ResponseBody
 //    @GetMapping("/upload/{filename}")
     public Resource showImg(@PathVariable String filename) throws MalformedURLException {
-        String fullPath = fileStore.getFullPath(filename);
-        UrlResource urlResource = new UrlResource("file:" + fullPath);
-        return urlResource;
+//        String fullPath = fileStore.getFullPath(filename);
+//        UrlResource urlResource = new UrlResource("file:" + fullPath);
+//        return urlResource;
+        return null;
     }
 }

@@ -42,7 +42,7 @@
           <ul class="img-list" style="display:flex;">
             <th:block th:each="image : ${article.image}">
               <li class="img-item load-img-item" th:attr="data-image=${image}"
-                  th:style="'background-image:url(/upload/'+ ${image} +');'">
+                  th:style="'background-image:url('+ ${image} +');'">
                 <button class="remove-btn" type="button" onclick="removePreview(this);">
                   <ion-icon name="close-circle-outline"></ion-icon>
                 </button>

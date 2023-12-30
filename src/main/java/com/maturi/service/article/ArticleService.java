@@ -25,6 +25,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -78,16 +79,15 @@ public class ArticleService {
 
         Restaurant findRestaurant = restaurantRepository.save(restaurant);
 
-        log.info("images={},",articleDTO.getImage());
         //파일 업로드 로직 필요
-        List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage(),request);
-        log.info("storeImageFiles = {}", storeImageFiles);
-        log.info("index = " + storeImageFiles.size());
+        List<MultipartFile> image = articleDTO.getImage();
+
+
+        List<String> storeImageFiles = fileStore.storeFiles(articleDTO.getImage(), request);
         String images = "";
         for(String img : storeImageFiles){
             images += (img + ",");
         }
-        log.info("images = " + images);
 
         Article article = Article.builder()
                 .member(findMember)
@@ -97,7 +97,6 @@ public class ArticleService {
                 .imageSize(articleDTO.getImageSize())
                 .status(ArticleStatus.NORMAL)
                 .build();
-        log.info("저장하기 직전의 article",article);
         Article findArticle = articleRepository.save(article);
 
         String[] tags = articleDTO.getTags().split("#");
@@ -130,9 +129,6 @@ public class ArticleService {
         article.viewCountUp();
 
         ArticleViewDTO articleViewDTO = getArticleViewDTO(article, memberId);//메서드로 분리했습니당
-        log.info("articleViewDTO = {}",articleViewDTO);
-
-
         return articleViewDTO;
     }
 
@@ -196,8 +192,6 @@ public class ArticleService {
         // 조건 : id + NORMAL or REPORT
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
 
-        log.info("delete request... findArticle = {}", findArticle);
-
         if(findArticle == null){
 //            msg = "게시글 삭제 실패! 해당 게시물을 찾을 수 없습니다!";
             msg = MessageConst.NOT_FOUND;
@@ -218,9 +212,7 @@ public class ArticleService {
                                                ArticlePagingRequest pagingRequest,
                                                ArticleOrderCond articleOrderCond,
                                                Long memberId) {
-        log.info("[articleSearch]정렬조건 = {}",articleOrderCond);
         ArticleSearchCond cond = getSearchCond(searchRequest, memberId);
-        log.info("[articleSearch]검색조건을 필터링한 결과 = {}",cond);
         if((pagingRequest.getEvent().equals(click)  || pagingRequest.getEvent().equals(load))
                 &&(searchRequest.getRadioCond().equals(follow)&&(cond.getFollowMembers() == null || cond.getFollowMembers().isEmpty()))
                 ||searchRequest.getRadioCond().equals(interestArea) && StringUtils.isEmpty(cond.getSido())
@@ -228,15 +220,12 @@ public class ArticleService {
                 ||searchRequest.getRadioCond().equals(myLocation) && StringUtils.isEmpty(cond.getLongitude()) && StringUtils.isEmpty(cond.getLatitude())
                 ||searchRequest.getRadioCond().equals(restaurantCategory) && StringUtils.isEmpty(cond.getCategory())
                 ||searchRequest.getRadioCond().equals(like) && (cond.getLikeArticles() == null || cond.getLikeArticles().isEmpty())){
-            log.info("조건에 해당하는 게시글이 없거나 잘못된 조건입니다.");
             return null;//팔로우한 유저의 게시글을 검색했는데 아무값도 없으면 null을 리턴
         }
         ArticlePagingResponse<Article> result =
                 articleQRepository.searchDynamicQueryAndPaging(pagingRequest.getLastArticleId(),cond,articleOrderCond,pagingRequest.getSize());
-        log.info("[articleSearch]페이징 써칭한 결과 result = {}",result);
         List<ArticleViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
-            log.info("[articleSearch]페이징 써칭한 게시글 하나의 정보 = {}",article);
             ArticleViewDTO articleViewDTO = getArticleViewDTO(article,memberId);
             articleViewDTOS.add(articleViewDTO);
         }
@@ -287,11 +276,9 @@ public class ArticleService {
         }
         if (StringUtils.hasText(searchRequest.getTag())) {//keyword검색의 dropdown메뉴중 태그를 선택했을 때
             List<Article> articlesByTag = articleQRepository.findByTagValue(searchRequest.getTag().trim());
-            log.info("[getSearchCond] articlesByTag = {}",articlesByTag);
             searchCond.setArticlesByTagValue(articlesByTag);
             List<Article> articlesByTagValue = searchCond.getArticlesByTagValue();
             for (Article article : articlesByTagValue) {
-                log.info("[getSearchCond] article각각의 값 = {}",article);
             }
         }
 
@@ -301,8 +288,6 @@ public class ArticleService {
             blockMemberIds.add(blockMember.getId());
         }
         searchCond.setBlockedMemberIds(blockMemberIds);
-
-        log.info("searchCond = {}",searchCond);
 
         return searchCond;
     }
@@ -317,11 +302,9 @@ public class ArticleService {
                                                   Long memberId) {
 
         ArticlePagingResponse<Article> result = articleQRepository.findMyReviewArticles(memberId, pagingRequest.getLastArticleId(), pagingRequest.getSize());
-        log.info("[articleSearch]페이징 결과 result = {}",result);
 
         List<ArticleMyPageViewDTO> articleViewDTOS = new ArrayList<>();
         for (Article article : result.getContent()) {
-            log.info("[articleSearch]페이징한 게시글 하나의 정보 = {}", article);
             ArticleMyPageViewDTO articleViewDTO = getArticleMyPageViewDTO(article);
             articleViewDTOS.add(articleViewDTO);
         }
@@ -459,7 +442,7 @@ public class ArticleService {
         /* 기존의 이미지 추가로직 */
         log.info("images={},",articleEditDTO.getImage());
         //파일 업로드 로직 필요
-        List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage(),request);
+        List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage(), request);
         log.info("storeImageFiles = {}", storeImageFiles);
         log.info("index = " + storeImageFiles.size());
         String images = "";

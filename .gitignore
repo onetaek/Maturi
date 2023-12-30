@@ -39,5 +39,8 @@ out/
 ### custom ###
 application-dba.properties
 application-local-docker.properties
+application-dev.properties
+application-prod.properties
+serviceAccountKey.json
 email.properties
 smsAuth.properties

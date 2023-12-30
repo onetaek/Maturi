@@ -32,13 +32,9 @@ public class ArticleAPIController {
   @PostMapping("/{id}/like")
   public ResponseEntity likeOrUnlike(@Login Long memberId,
                                      @PathVariable Long id) throws ParseException {
-//    ResponseEntity
-//    int likeNum = articleService.likeOrUnlike(memberId, id);
-
     int isLiked = // 좋아요 상태가 됨 -> 1
             articleService.likeOrUnlike(memberId, id)?
             1 : 0;
-//    boolean isLiked = articleService.likeOrUnlike(memberId, id);
     int likeNum = articleService.likeNum(id);
 
     Map<String, Integer> result = new HashMap<>();
@@ -53,11 +49,7 @@ public class ArticleAPIController {
                                                                    @ModelAttribute ArticleSearchRequest articleSearchRequest,//검색조건에 필요한 값들
                                                                    @ModelAttribute ArticlePagingRequest articlePagingRequest,
                                                                    @ModelAttribute ArticleOrderCond articleOrderCond){//페이징에 필요한 값들
-    log.info("[ArticleAPIController] articleSearchRequest(검색 조건) = {}",articleSearchRequest);
-    log.info("[ArticleAPIController] articlePagingRequest(페이징 정보) = {}",articlePagingRequest);
-    log.info("[ArticleAPIController] articleOrderCond(정렬 조건) = {}",articleOrderCond);
     ArticlePagingResponse articles = articleService.articleSearch(articleSearchRequest,articlePagingRequest,articleOrderCond,memberId);
-    log.info("articles의 페이징, 검색 정보 결과 = {}",articles);
     if(articles == null){
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
@@ -67,10 +59,7 @@ public class ArticleAPIController {
   @GetMapping("/members/{id}")
   public ResponseEntity<ArticlePagingResponse> myPageArticlePaging(@ModelAttribute ArticlePagingRequest articlePagingRequest,
                                                                    @PathVariable Long id){ // 마이페이지 회원 ID
-    log.info("articlePagingRequest = {}", articlePagingRequest);
-    log.info("myPage memberId = {}", id);
     ArticlePagingResponse articles = articleService.articlesByMember(articlePagingRequest, id);
-    log.info("body에 담기전의 articles = {}",articles);
     return ResponseEntity.status(HttpStatus.OK).body(articles);
   }
 
@@ -87,11 +76,9 @@ public class ArticleAPIController {
 
     // 게시글 신고 (이미 해당 회원이 신고한 내역 있음 -> false)
     boolean isNewReport = reportService.reportArticle(memberId, id,map.get("reportReason"));
-    log.info("isNewReport?? " + isNewReport);
     return isNewReport?
             ResponseEntity.status(HttpStatus.OK).build() : // 신고 성공
             ResponseEntity.status(HttpStatus.IM_USED).build(); // 이미 신고한 글
-
   }
 
 }

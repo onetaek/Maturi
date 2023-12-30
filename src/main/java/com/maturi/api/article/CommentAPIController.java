@@ -55,8 +55,6 @@ public class CommentAPIController {
             commentRequest.getContent());
     //GET메서드를 만들어서 그걸로 가져오는 걸로 변경
     // 새 댓글 목록
-//    List<ArticleCommentDTO> newComments = commentService.articleComment(memberId, article_id);
-
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 

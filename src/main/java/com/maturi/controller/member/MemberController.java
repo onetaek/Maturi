@@ -63,7 +63,7 @@ public class MemberController {
     }
 
     memberService.join(memberJoinDTO);
-    return "redirect:members/login";
+    return "redirect:/members/login";
   }
 
   @GetMapping("/login")
@@ -109,7 +109,7 @@ public class MemberController {
   @PostMapping("/logout")
   public String logout(HttpServletRequest request){
     request.getSession().invalidate();
-    return "redirect:members/login";
+    return "redirect:/members/login";
   }
 
   @DeleteMapping("/{memberId}")
@@ -120,13 +120,13 @@ public class MemberController {
     boolean status = memberService.unregister(memberId, passwd);
 
     if (!status) { // 회원 탈퇴 실패
-      return "redirect:myPage/detail";
+      return "redirect:/myPage/detail";
     } else { // 회원 탈퇴 성공
       // 세션 삭제
       request.getSession().invalidate();
       redirectAttributes.addFlashAttribute(SUCCESS_MESSAGE, "unregister");
 
-      return "redirect:members/login";
+      return "redirect:/members/login";
     }
   }
 
@@ -151,7 +151,7 @@ public class MemberController {
                            Model model){
     if(!memberId.equals(id)){ // 다른 회원의 프로필수정 페이지 이동 요청 들어왔을 경우
       redirectAttributes.addFlashAttribute(ERROR_MESSAGE, NO_PERMISSION);
-      return "redirect:members/" + id;
+      return "redirect:/members/" + id;
     }
 
     model.addAttribute("member", memberService.memberInfo(memberId));
