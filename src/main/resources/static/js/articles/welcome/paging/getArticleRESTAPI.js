@@ -15,11 +15,8 @@ document.querySelector('.search-input').addEventListener("keyup", ()=>{
 
 //검색 버튼을 눌렀을 때 Ajax요청으로 게시판 정보를 가져옴
 document.querySelector('#main-search-btn').addEventListener('click',()=>{
-    console.log("검색 아이콘 클릭!");
     let obj = SearchCondSetting("click");
     let orderCond = orderCondSetting("click");
-    console.log("name",searchCategoryValue.name);
-    console.log("value",searchCategoryValue.value);
     searchArticleAjax(obj,orderCond);
 });
 
@@ -56,13 +53,11 @@ function searchArticleAjax(obj,orderCond){
             html += `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
             articleList.innerHTML = html;
             html = ``;
-            console.log("조건에 맞는 게시글이 없습니다.")
             return;
         }
         return response.json();
     })
     .then((data) => {
-        console.log("data",data);
         document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;//마지막 게시글의 id를 저장
 
         if(data.hasNext === false){
@@ -227,7 +222,6 @@ function searchArticleAjax(obj,orderCond){
             if(data.event === "click" || data.event === "load"){
                 if(articles.length === 0){
                     articleList.innerHTML = `<li class="no-search-message"><p>조건에 맞는 게시글이 없습니다</p></li>`;
-                    console.log("조건에 맞는 게시글이 없습니다. return false");
                 }else{
                     html += `<li class="no-more-article-message"><p>더 이상 게시글이 없습니다</p></li>`;
                     articleList.innerHTML = html
@@ -259,7 +253,6 @@ function searchArticleAjax(obj,orderCond){
                     }
                 }).then((response) => response.json())
                 .then((data) => {
-                    console.log(data);
                     if(data.isLiked == 1){ // 좋아요!
                         likeBtn.classList.add("isLikedArticle");
                     } else { // 좋아요 취소!

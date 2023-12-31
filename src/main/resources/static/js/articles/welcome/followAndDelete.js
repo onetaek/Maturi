@@ -12,10 +12,8 @@ function deleteArticle(articleId){
         // background-color: #6e7881
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log("게시글 삭제");
 
             let articleDeleteForm = document.articleUpdateForm;
-            console.log(articleDeleteForm);
             articleDeleteForm.action = `/articles/${articleId}`;
             articleDeleteForm.submit();
         }
@@ -25,9 +23,6 @@ function deleteArticle(articleId){
 
 //게시글의 유저 팔로잉
 function following(articleId,articleMemberId,articleMemberNickName){
-    console.log("팔로잉 시작");
-    console.log("게시글의 id",articleId);
-    console.log("게시글의 memberId",articleMemberId);
     Swal.fire({
         title: `${articleMemberNickName}님을(를) 팔로잉 하시겠습니까?`,
         icon: "question",
@@ -49,7 +44,6 @@ function following(articleId,articleMemberId,articleMemberNickName){
                     "followingMemberId":articleMemberId
                 })
             }).then((response) =>{
-                console.log("response의 상태코드",response.status);
                 if(response.status === 226){
                     Swal.fire({
                         title: `${articleMemberNickName}님은(는) 이미 팔로잉하고있는 유저입니다.`,
@@ -81,8 +75,6 @@ function following(articleId,articleMemberId,articleMemberNickName){
 
 //게시글의 유저 팔로잉
 function followCancel(articleId,articleMemberId,articleMemberNickName){
-    console.log("팔로잉취소 시작");
-    console.log("게시글의 memberId",articleMemberId);
     Swal.fire({
         title: `${articleMemberNickName}님을(를) 팔로우 취소 하시겠습니까?`,
         icon: "question",
@@ -104,7 +96,6 @@ function followCancel(articleId,articleMemberId,articleMemberNickName){
                     "followingMemberId":articleMemberId
                 })
             }).then((response) =>{
-                console.log("response의 상태코드",response.status);
                 if(response.ok){
                     Swal.fire({
                         title: `${articleMemberNickName}님을(를) 팔로우 취소하였습니다!`,

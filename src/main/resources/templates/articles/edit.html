@@ -80,15 +80,12 @@
   <script src="/js/articles/write/multipartFile.js"></script>
   <script th:inline="javascript">
     let imageSize = [[${article.imageSize}]];
-    console.log("imageSize",imageSize);
     let imgSizeSpans = document.querySelectorAll('.img-size');
     let imgLis = document.querySelectorAll('.img-item');
     let imageSizeArr = imageSize.split(",");
 
     imageSizeArr.splice(imageSizeArr.length - 1);
-    console.log("imageSizeArr",imageSizeArr);
     for(let i = 0 ; i < imageSizeArr.length; i++){
-      console.log("변환완료",getByteSize(parseInt(imageSizeArr[i])));
       imgSizeSpans[i].innerText = getByteSize(parseInt(imageSizeArr[i]));
       imgLis[i].setAttribute("data-size",imageSizeArr[i]);
       totalFileSize += parseInt(imageSizeArr[i]);

@@ -4,8 +4,6 @@ let interLocationRadioBtn = document.querySelector('#local');
 interLocationRadioBtn.addEventListener('click',()=>{
 
    let localLabel = document.querySelector('label[for="local"]');
-    console.log("관심지역을 눌렀습니다!!!!!!!!!");
-    console.log("라벨 안에있는 값이 관심지역입니까?",localLabel.innerText === "관심지역");
 
     if(localLabel.innerText === "관심지역"){
         Swal.fire({
@@ -38,10 +36,6 @@ interLocationRegisterBtn.addEventListener('click',()=>{
     let sidoText = document.querySelector('#sido-popup-search-cond').innerText;
     let sigoonText = document.querySelector('#sigoon-popup-search-cond').innerText;
     let dongText = document.querySelector('#dong-popup-search-cond').innerText;
-    console.log("관심지역으로 등록 클릭!");
-    console.log(sidoText);
-    console.log(sigoonText);
-    console.log(dongText);
     if(sidoText === "전체"){
         Swal.fire({
             title: "관심지역을 등록하기 위해서는 적어도 시도는 선택하셔야합니다.",
@@ -147,7 +141,6 @@ function selectInterLocation(){
 
 //관심지역 DB에서 DELETE : 관심지역 옆의 X버튼 눌렀을 경우
 function deleteInterLocation(){
-    console.log("관심지역 삭제 버튼 클릭");
     Swal.fire({
         title: "관심지역을 삭제 하시겠습니까?",
         icon: "question",
@@ -159,7 +152,6 @@ function deleteInterLocation(){
         reverseButtons: false, // 버튼 순서 거꾸로
     }).then((result) => {
         if (result.isConfirmed) {
-            console.log("관심지역 삭제 동의");
             fetch("/api/members/area",{
                 method: "DELETE",
             })
@@ -187,8 +179,6 @@ function deleteInterLocation(){
                     interLocationRadioBtn.addEventListener('click',()=>{
 
                         let localLabel = document.querySelector('label[for="local"]');
-                        console.log("관심지역을 눌렀습니다!!!!!!!!!");
-                        console.log("라벨 안에있는 값이 관심지역입니까?",localLabel.innerText === "관심지역");
 
                         if(localLabel.innerText === "관심지역"){
                             Swal.fire({

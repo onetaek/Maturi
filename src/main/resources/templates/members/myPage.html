@@ -102,9 +102,7 @@
 <th:block layout:fragment="scripts">
   <script>
     let isMyPage = [[${member.nickName == myPageMember.nickName}]]
-    console.log("isMyPage",isMyPage);
     let myPageMemberId = [[${myPageMember.id}]];
-    console.log("myPageMemberId",myPageMemberId);
   </script>
   <script src="/js/members/myPage/myPage.js"></script>
   <script src="/js/members/myPage/myPageArticles.js"></script>

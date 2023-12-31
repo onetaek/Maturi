@@ -222,11 +222,8 @@
 <th:block layout:fragment="scripts">
     <script th:inline="javascript">
         const articleId = [[${article.id}]]
-        console.log("상세페이지의 articleId", articleId);
         const article = [[${article}]]
-        console.log("상세페이지의 article 객체",article);
         const member = [[${member}]]
-        console.log("상세페이지의 member 객체",member);
     </script>
     <script src="/js/articles/article/articleImgRatio.js"></script>
     <script src="/js/articles/article/article.js"></script>

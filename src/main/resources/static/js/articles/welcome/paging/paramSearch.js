@@ -6,8 +6,6 @@
 function paramSearch(){
   const urlParams = new URL(location.href).searchParams;
 
-  console.log("tag : " + urlParams.get("tag"));
-
   let radioCond = urlParams.get("radioCond") != null?
                 urlParams.get("radioCond") : null;
   let latitude = urlParams.get("latitude") != null?

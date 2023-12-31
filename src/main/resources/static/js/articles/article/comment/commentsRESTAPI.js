@@ -3,19 +3,15 @@ function getComments(){
     fetch(`/api/articles/${articleId}/comments`)
         .then((response)=>response.json())
         .then((data)=>{
-            console.log(data);
             const commentsReplysContainer = document.querySelector('#comments-replys-container');
             let ref = 0;
             data.forEach((comments,i)=>{
                 let commentTemple;
                 let replyTemple;
-                console.log("------------------------");
-                console.log(i,"번째 comments",comments);
 
                 let firstCommentId;
 
                 comments.forEach((comment,index)=>{
-                    console.log(index,"번째 comment또는 reply",comment);
 
                     if(index === 0){
                         firstCommentId = comment.id;
@@ -152,12 +148,9 @@ function getComments(){
                         }
 
                     }else{//comment의 인덱스가 0 보다 클경우(대댓글일 경우 => refStep이 2이상일 경우)
-                        console.log("comment의 인덱스가 0보다 큼 -> reply입니다.")
 
                         let firstCommentWrap = document.querySelector(`.comment-replys-wrap.comment${firstCommentId}`);
                         let replyList = firstCommentWrap.querySelector('.reply-list');
-                        console.log("firstCommentWrap",firstCommentWrap);
-                        console.log("replyList",replyList);
 
                         let replyHtml = `<li class="reply-item">
                                     <div class="comment-wrap">
@@ -301,11 +294,9 @@ function commentCreate(obj, ref, refStep,refMemberId,refMemberNickName){
     if(refMemberId === null || refMemberId === undefined) refMemberId = null;
     if(refMemberNickName === null || refMemberNickName === undefined) refMemberNickName = null;
 
-    console.log(ref,refStep,refMemberId,refMemberNickName);
 
     let commentFormRightWrap = $(obj).closest('.comment-form-right-wrap');
     let textarea = commentFormRightWrap.find('.textarea-wrap textarea');
-    console.log("textarea val",textarea.val());
     if(textarea.val().trim()!==""){
         //댓글 등록 ajax요청
         fetch(`/api/articles/${articleId}/comments`,{
@@ -490,7 +481,6 @@ function likeOrUnLike(obj,commentId){
         }
     }).then(response => response.json())
         .then(data =>{
-            console.log(data);
 
             // this 요소의 형제 요소 중 class명이 'likeNum'인 요소를 찾습니다.
             const likeNumElement = obj.nextElementSibling;

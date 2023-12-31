@@ -244,8 +244,6 @@ $(function(){
                        */
                       // let dongHeight;
 
-                      console.log("동의 높이",(dong_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20));
-                      console.log("최대치 높이",maxDropdownHeight);
                       /**
                        * dong과련 이벤트 처리
                        */
@@ -258,7 +256,6 @@ $(function(){
                           popup_list_count = dong_popup_dropdown_listItem.length / 2;
                           popup_list_count = Number.isInteger(popup_list_count) ? popup_list_count : popup_list_count + 0.5;
                           if((dong_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20) > maxDropdownHeight){
-                            console.log("동 넘었다");
                             dong_popup_list.style.overflowY = "scroll";
                             $('#dong-popup-list').animate({height:`${maxDropdownHeight + 20}px`},500);
                           }else{
@@ -280,10 +277,8 @@ $(function(){
                             let optValue = element.getAttribute("data-location");
                             if(optValue != null && optValue == "all"){
                               dongName = "";
-                              console.log(sidoName + " " + sigoonName + " " + dongName);
                             }else if(optValue != null && optValue == thisVal) {
                               dongName = element.innerText;
-                              console.log(sidoName + " " + sigoonName + " " + dongName);
                             }
                           })
                           $('#dong-popup-list').animate({height:`0px`},500);

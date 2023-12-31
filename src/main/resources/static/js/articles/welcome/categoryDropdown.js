@@ -42,8 +42,6 @@ function getRestaruantCategory(){
 
             //카테고리를 눌렀을 때 이벤트
             document.querySelector("#category").addEventListener('click',(e)=>{
-                console.log("testtest!!");
-                console.log(categoryLabel.innerText);
                 if(categoryLabel.innerText === "카테고리"){
                     Swal.fire({
                         title: "카테고리를 선택해주세요",

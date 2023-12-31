@@ -63,7 +63,6 @@ function replyRef2FormShow(obj){
     let replyFormRef2 = commentReplysWrap.find('.comment-form-container.ref-2');
     let replyFormRef2Textarea = commentReplysWrap.find('.comment-form-container.ref-2 textarea');
     replyFormRef2.css('display','flex')
-    console.log("textarea",replyFormRef2Textarea);
     replyFormRef2Textarea.focus();
 }
 //취소버튼을 누르면 대댓글을 입력할 수 있는 form을 사라지도록
@@ -90,7 +89,6 @@ function replyListToggle(obj){
 //---------대대댓글(ref: 3)------------
 //답글 버튼을 누르면 대댓글을 입력할 수 있는 form이 출력
 function replyRef3FormShow(obj){
-    console.log("답글 클릭!");
     let replyItem = $(obj).closest('.reply-item');
     let replyFormRef3 = replyItem.find('.comment-form-container.ref-3');
     let replyFormRef3Textarea = replyItem.find('.textarea-wrap textarea');

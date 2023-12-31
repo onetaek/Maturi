@@ -108,7 +108,6 @@ function removePreview(obj){//삭제버튼을 클릭했을 경우 실행되는 �
         dataTransfer.items.add(file);
     })
     oldFiles.files = dataTransfer.files;
-    console.log("삭제 처리가 완료된 input 값", document.querySelector('.old-files').files);
     li.remove();
 }
 

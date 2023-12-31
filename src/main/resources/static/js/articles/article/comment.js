@@ -95,7 +95,6 @@ comment.forEach(e =>{
       });
       // 수정 버튼 클릭
       commentBox.querySelector(".commentModifyBtn").addEventListener("click",()=>{
-        console.log("modify btn click");
         const url = "/api/comment/" + e.dataset.commentid;
         fetch(url, {
           method: "PATCH",
