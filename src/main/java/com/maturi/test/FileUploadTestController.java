@@ -51,7 +51,6 @@ public class FileUploadTestController {
     public String fileUpload(@ModelAttribute TestArticleDTO testArticleDTO,
                              HttpServletRequest request,
                              RedirectAttributes redirectAttributes) throws IOException {
-        log.info("test file upload 시작");
         //application.properties에서 지정한 file.dir 경로에 파일이 저장됨
         List<String> storeImageFiles = fileStore.storeFiles(testArticleDTO.getImageFiles(), request);
 

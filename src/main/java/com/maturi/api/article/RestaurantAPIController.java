@@ -21,7 +21,6 @@ public class RestaurantAPIController {
 
     @GetMapping("/restaurants/category")
     public ResponseEntity<List<String>> getRestaurantCategory(){
-        log.info("restaurant category찾기");
         return ResponseEntity.status(HttpStatus.OK).body(restaurantService.getCategory());
     }
 }

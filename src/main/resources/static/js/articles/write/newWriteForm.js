@@ -1,7 +1,5 @@
 function newWriteFormValidation(){
 
-  console.log("진짤루",document.querySelector('.old-files').files);
-  console.log("진짤루",document.querySelector('#old-files').files);
 
   if(oldFiles.files.length===0){ // 이미지 1개 이상
     Swal.fire({
@@ -21,13 +19,10 @@ writeForm.submitBtn.addEventListener("click", ()=>{
     //이미지 크기 변환 작업
     let imageSize = '';
     let elements = document.querySelectorAll('.img-item');
-    console.log("elements",elements);
     elements.forEach((element)=>{
       let fileSize = element.dataset.size;
-      console.log("size",fileSize);
       imageSize += fileSize + ",";
     })
-    console.log("imageSize",imageSize);
 
     //이미지 크기 값 input hidden값 생성후 appendChild
     let hiddenField = document.createElement("input");

@@ -31,7 +31,6 @@ emailAuthBtn.addEventListener("click", ()=>{
       }
     }).then(response => {
       // http 응답 코드에 따른 메세지
-      console.log(response);
       const msg = (response.ok) ?
         "이메일 인증 메일이 전송되었습니다. 이메일을 확인하여 주세요." :
         "가입된 정보가 존재하지 않습니다.";

@@ -60,7 +60,6 @@ public class SNSController {
                     "client_id=" + kakaoRestApiKey +
                     "&redirect_uri="+ kakaoRedirectUri +"&response_type=code");
         } catch (IOException e) {
-            log.info("kakao 로그인 url전송중 에러");
             throw new RuntimeException(e);
         }
     }
@@ -80,7 +79,6 @@ public class SNSController {
                 .profileImg(userInfo.get("profileImg"))
                 .name(userInfo.get("nickName"))
                 .build();//로그인할때 필요한 정보만들어있는 MemberSNSLoginDTO객체로 만들어준다.
-        log.info("[SNSController] memberLoginDTO = {}",memberLoginDTO);
 
         /** 실질적 로그인 처리 **/
         boolean IsLoginMember = memberService.emailDuplCheck(email);// 중복 이메일 체크

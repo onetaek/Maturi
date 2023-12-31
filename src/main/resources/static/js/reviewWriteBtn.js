@@ -3,13 +3,7 @@ const restaurantInfoForm = document.restaurantInfoForm;
 
 // 카테고리 유효성 검사
 goWriteBtn.addEventListener("click", ()=>{
-  console.log("글작성하기 버튼 클릭!");
-  console.log("category = ",rInfo_category);
   rInfo_category.trim();
-
-  console.log("sido",sidoName);
-  console.log("sigoon",sigoonName);
-  console.log("dongName",dongName);
 
   if(rInfo_category.includes("음식점 >")){ // 카테고리에 음식점 포함이면!
     // submit!!

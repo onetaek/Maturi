@@ -8,7 +8,6 @@ writeForm.submitBtn.addEventListener("click", ()=>{
     });
 
     //2131232k1j32ji1l.png,329u13j2k12.png -> 이런식으로 원래 있던 파일을들 전송
-    console.log("기존 이미지 String으로 변환",oldImagesString);
     let imageHiddenField = document.createElement("input");
     imageHiddenField.setAttribute("type", "hidden");
     imageHiddenField.setAttribute("name", "oldImage");
@@ -18,13 +17,10 @@ writeForm.submitBtn.addEventListener("click", ()=>{
     //2132,14512,342412, -> 이런식으로 크기를 string으로 변환
     let imageSize = '';
     let elements = document.querySelectorAll('.img-item');
-    console.log("elements",elements);
     elements.forEach((element)=>{
       let fileSize = element.dataset.size;
-      console.log("size",fileSize);
       imageSize += fileSize + ",";
     })
-    console.log("imageSize",imageSize);
 
     let sizeHiddenField = document.createElement("input");
     sizeHiddenField.setAttribute("type", "hidden");
@@ -42,18 +38,14 @@ function loadingTagsInput(){ // 로딩됐을 때 넘어온 tag들 hidden에 넣�
   const loadTags = document.querySelectorAll(".tag-box");
   loadTags.forEach(loadTag => {
     tags.value += loadTag.children[0].innerText;
-    console.log("로딩될때 tags에들어간 값들",tags.value);
   })
 }
 
 /* 업로드 */
 function editeWriteFormValidation(){
 
-  console.log("진짤루",document.querySelector('.old-files').files);
 
   let loadImgItem = document.querySelectorAll('.load-img-item');
-  console.log("loadImgItem",loadImgItem.length);
-  console.log("document.querySelector('.old-files').files",document.querySelector('.old-files').files.length);
   if(loadImgItem.length === 0 && document.querySelector('.old-files').files.length === 0){ // 이미지 1개 이상
     Swal.fire({
       title: "리뷰 작성을 하기 위해서는 하나 이상의 사진이 필요합니다",

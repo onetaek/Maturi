@@ -42,7 +42,6 @@ function commentUpdateKeyUp(obj){
 
 //textarea에 click 될 때 취소/댓글 버튼 출력
 function showCommentBtn(obj){
-    console.log("obj",obj);
     let commentFormRightWrap = $(obj).closest('.comment-form-right-wrap');
     let commentBtnWrap = commentFormRightWrap.find('.comment-btn-wrap');
     commentBtnWrap.css('display','flex');
@@ -60,7 +59,6 @@ function cancelCommentBtn(obj){
 //---------대댓글(ref: 2)------------
 //답글 버튼을 누르면 대댓글을 입력할 수 있는 form이 출력
 function replyRef2FormShow(obj){
-    console.log("답글 클릭!");
     let commentReplysWrap = $(obj).closest('.comment-replys-wrap');
     let replyFormRef2 = commentReplysWrap.find('.comment-form-container.ref-2');
     let replyFormRef2Textarea = commentReplysWrap.find('.comment-form-container.ref-2 textarea');

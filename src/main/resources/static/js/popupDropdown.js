@@ -1,4 +1,3 @@
-console.log("pupupDropdown.js")
 //sido관련 변수
 let sido_popup_dropdownBtn = document.querySelector("#sido-popup-drop-text");
 let sido_popup_list = document.getElementById("sido-popup-list");
@@ -21,15 +20,11 @@ let dong_popup_icon = document.getElementById("dong-popup-icon");
 let dong_popup_searchCond = document.getElementById("dong-popup-search-cond");
 let dong_popup_dropdown_listItem = document.querySelectorAll("#dong-popup-list>.popup-dropdown-list-item")
 
-console.log(sido_popup_dropdownBtn);
-console.log(sigoon_popup_dropdownBtn);
-console.log(dong_popup_dropdownBtn);
 
 /**
  * sido관련 이벤트 처리
  */
 sido_popup_dropdownBtn.addEventListener("click",function(){
-    console.log("sido_popup_dropdownBtn 클릭");
     if(sido_popup_list.classList.contains('show')){
         sido_popup_icon.style.rotate="0deg"
     }else{
@@ -49,7 +44,6 @@ for(item of sido_popup_dropdown_listItem){
  * sigoon 관련 이벤트 처리
  */
 sigoon_popup_dropdownBtn.onclick = function(){
-    console.log("sigon_popup_dropdownBtn 클릭!");
     if(sigoon_popup_list.classList.contains('show')){
         sigoon_popup_icon.style.rotate="0deg"
     }else{
@@ -67,7 +61,6 @@ for(item of sigoon_popup_dropdown_listItem){
  * dong과련 이벤트 처리
  */
 dong_popup_dropdownBtn.onclick = function(){
-    console.log("dong_popup_dropdownBtn클릭!");
     if(dong_popup_list.classList.contains('show')){
         dong_popup_icon.style.rotate="0deg"
     }else{
@@ -83,7 +76,6 @@ for(item of dong_popup_dropdown_listItem){
 
 //바깥을 클릭했을 때 dropdown 올리기
 window.onclick = function(e){
-    console.log("바깥클릭!");
     if(
         e.target.id != "sido-popup-drop-text" &&
         e.target.id != "sido-popup-icon" &&

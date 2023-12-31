@@ -27,8 +27,6 @@ class MemberServiceTest {
   @Test
   void randomUUID() {
     String nickname = "user-" + UUID.randomUUID().toString().substring(0, 8);
-
-    log.info(nickname);
   }
 
   @Test
@@ -54,7 +52,6 @@ class MemberServiceTest {
 
     //when
     Member mappedMember = modelMapper.map(memberJoinDTO, Member.class);
-    log.info("mappedMember = {}",mappedMember);
 
     //then
     Assertions.assertEquals(mappedMember.getEmail(),email);
@@ -100,7 +97,6 @@ class MemberServiceTest {
     /* status 세팅 */
     memberJoinDTO.setStatus(MemberStatus.NORMAL);
 
-    log.info("memberJoinDTO = {}",memberJoinDTO.toString());
     // dto를 entity로 변환
     Member mappedMember = modelMapper.map(memberJoinDTO,Member.class);
     log.info("DTO -> Entity : member  = {}",mappedMember.toString());

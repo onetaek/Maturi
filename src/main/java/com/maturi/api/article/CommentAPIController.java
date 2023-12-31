@@ -44,7 +44,6 @@ public class CommentAPIController {
     //댓글 작성시 HTTP message body로 받아야할 값
     //1. ref값 -> null일 경우 1로 저장
     //2. refStep -> null일 경우 1로 저장
-    log.info("commentRequest = {}",commentRequest);
     // 댓글 생성
     commentService.write(memberId,
             articleId,
@@ -63,11 +62,6 @@ public class CommentAPIController {
   public ResponseEntity remove(@Login Long memberId,
                                @PathVariable Long commentId,
                                @RequestBody Map<String,Long> map){
-    log.info("delete comment 시작!");
-    log.info("commentId = {}",commentId);
-    log.info("articleId = {}",map.get("articleId"));
-    log.info("memberId = {}",memberId);
-    log.info("ref = {}",map.get("ref"));
     switch (commentService.remove(commentId,map.get("articleId"), memberId, map.get("ref"))){
       case NOT_FOUND:
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();//404
@@ -85,8 +79,6 @@ public class CommentAPIController {
   public ResponseEntity update(@Login Long memberId,
                                @PathVariable Long commentId,
                                @RequestBody Map<String,String> map){
-    log.info("commentId",commentId);
-    log.info("content",map.get("content"));
     String status = commentService.update(memberId, commentId, map.get("content"));
     switch (status){
       case NOT_FOUND:
@@ -128,7 +120,6 @@ public class CommentAPIController {
 
     // 댓글 신고 (이미 해당 회원이 신고한 내역 있음 -> false)
     boolean isNewReport = reportService.reportComment(memberId, id,map.get("reportReason"));
-    log.info("isNewReport?? " + isNewReport);
     return isNewReport?
             ResponseEntity.status(HttpStatus.OK).build() : // 신고 성공
             ResponseEntity.status(HttpStatus.IM_USED).build(); // 이미 신고한 글

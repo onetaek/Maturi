@@ -118,7 +118,6 @@ function newPasswdForm(){
   let newPasswdBtn = detailModalFormWrap.querySelector(".newPasswd-submit-btn");
   newPasswdBtn.addEventListener("click", ()=>{
     if(passwdCheckValidate()){ // 비번 유효성 검사하기
-      console.log("유효성 검사 통과!");
       newPasswdAction();
     }
 

@@ -23,7 +23,6 @@ commentForm.commentSubmitBtn.addEventListener("click", ()=>{
     }
   }).then(response => response.json())
     .then(data => {
-      console.log(data);
       window.location.reload(); // 일단은 리로드 -> 나중에 html구조 추가로 수정
     })
 })
@@ -45,7 +44,6 @@ comment.forEach(e =>{
       }
     }).then(response => response.json())
       .then(data =>{
-        console.log(data);
         if(data.isLiked == 1){ // 좋아요 !!
           e.querySelector(".commentWrap .likeBtn").classList.add("isLikedArticle");
         } else { // 좋아요 취소!

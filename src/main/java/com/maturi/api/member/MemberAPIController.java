@@ -34,21 +34,18 @@ public class MemberAPIController {
   @PatchMapping("/area")
   public ResponseEntity<AreaInterDTO> changeInterestLocation(@Login Long memberId,
                                                              @RequestBody AreaInterDTO areaInterDTO){
-    log.info("/api/member/area PATCH요청");
     memberService.changeInsertArea(memberId,areaInterDTO);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
   @ResponseBody
   @GetMapping("/area")
   public ResponseEntity<AreaInterDTO> selectInterestLocation(@Login Long memberId){
-    log.info("/api/member/area GET요청");
     return ResponseEntity.status(HttpStatus.OK).body(memberService.selectInterLocation(memberId));
   }
 
   @ResponseBody
   @DeleteMapping("/area")
   public ResponseEntity<AreaInterDTO> deleteInterestLocation(@Login Long memberId){
-    log.info("/api/member/area DELETE요청");
     memberService.removeArea(memberId);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
@@ -188,7 +185,6 @@ public class MemberAPIController {
 
     HttpSession session = request.getSession();
     session.setAttribute("emailConfirm", confirm);
-    log.info("emailConfirm Number = {}", confirm);
 
     return ResponseEntity.status(HttpStatus.OK).build();
   }

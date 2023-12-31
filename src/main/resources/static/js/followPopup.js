@@ -96,7 +96,6 @@ function getFollows(){
 
 //팝업창에서 팔로우 취소
 function popupFollowCancel(followingMemberId,followingMemberNickName){
-    console.log("팝업 팔로우 취소 시작");
     Swal.fire({
         title: `${followingMemberNickName}님을(를) 팔로잉 취소 하시겠습니까?`,
         icon: "question",
@@ -118,7 +117,6 @@ function popupFollowCancel(followingMemberId,followingMemberNickName){
                     "followingMemberId":followingMemberId
                 })
             }).then((response) =>{
-                console.log("response의 상태코드",response.status);
                 if(response.ok){
                     Swal.fire({
                         title: `${followingMemberNickName}님을(를) 팔로우 취소하였습니다!`,
@@ -145,7 +143,6 @@ function popupFollowCancel(followingMemberId,followingMemberNickName){
 
 //팝업창에서 맞팔하기
 function popupFollowing(followerMemberId,followerMemberNickName){
-    console.log("팔로잉 시작");
     Swal.fire({
         title: `${followerMemberNickName}님을(를) 팔로잉 하시겠습니까?`,
         icon: "question",
@@ -167,7 +164,6 @@ function popupFollowing(followerMemberId,followerMemberNickName){
                     "followingMemberId":followerMemberId//팝업창에서는 팔로워지만 이제 팔로우가될것이다.
                 })
             }).then((response) =>{
-                console.log("response의 상태코드",response.status);
                 if(response.status === 226){
                     Swal.fire({
                         title: `${followerMemberId}님은(는) 이미 팔로잉하고있는 유저입니다.`,
@@ -191,7 +187,6 @@ function popupFollowing(followerMemberId,followerMemberNickName){
                     getFollows();
                     //게시글을 다시 가져오는 작업
                     if(hasArticle === true){
-                        console.log("팔로잉 후 게시글 가져오기");
                         let obj = SearchCondSetting("click");
                         searchArticleAjax(obj);
                     }
@@ -205,18 +200,15 @@ function popupFollowing(followerMemberId,followerMemberNickName){
 
 //팔로워 버튼 클릭시(나를 팔로잉하고있는 유저 출력)
 document.querySelector('.follow-container-follower').addEventListener("click",()=>{
-    console.log("팔로워 버튼 클릭!");
     getFollows();
 });
 
 //팔로우 버튼 클릭시(내가 팔로잉하고있는 유저 출력)
 document.querySelector('.follow-container-following').addEventListener("click",()=>{
-    console.log("팔로우 버튼 클릭!");
     getFollows();
 });
 
 document.querySelector('#follow-search-btn').addEventListener("click",()=>{
-    console.log("팔로우 팔로워 검색 버튼 클릭!");
     getFollows();
 
 });

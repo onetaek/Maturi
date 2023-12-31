@@ -3,7 +3,6 @@ let isInterBtnClick = false;
 
 function popupToggle(){
 
-    console.log("popup 버튼 클릭!");
     let blur = document.querySelector('#wrap');
     blur.classList.toggle('active');
     let popup = document.getElementById('popup');
@@ -15,7 +14,6 @@ function popupToggle(){
     }
 
     if(isInterBtnClick){
-        console.log("isInterBtnClick이 ture입니다!");
         $("#all").prop("checked",true);
         isInterBtnClick = false;
     }

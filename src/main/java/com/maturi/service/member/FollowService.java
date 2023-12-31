@@ -60,9 +60,7 @@ public class FollowService {
     //유저(followerMember)가 다른 유저(followingMember)를 팔로우하는 메서드
     public boolean following(Long followerMemberId, Long followingMemberId){
         boolean isFollowingMember = followQRepository.isFollowingMember(followerMemberId, followingMemberId);
-        log.info("isFollowingMember = {}",isFollowingMember);
         if(isFollowingMember){
-            log.info("이미 팔로잉하고 있는 멤버입니다.");
             return false;
         }
         Member followerMember = memberRepository.findById(followerMemberId).orElseThrow(() ->
@@ -74,7 +72,6 @@ public class FollowService {
                 .followingMember(followingMember)
                 .build();
         Follow savedFollow = followRepository.save(follow);
-        log.info("savedFollow = {}",savedFollow);
         return true;
     }
 

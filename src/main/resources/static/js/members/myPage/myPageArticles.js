@@ -34,12 +34,10 @@ function myPageArticleAjax(obj){
     +'?lastArticleId='+_fnToNull(obj['lastArticleId'])
     +'&size='+_fnToNull(obj['size'])
     +'&event='+_fnToNull(obj['event']);
-  console.log(url);
 
   fetch(url)
     .then((response) => response.json())
     .then((data)=>{
-        console.log("data",data);
       document.querySelector('input[name="lastArticleId"]').value = data.lastArticleId;//마지막 게시글의 id를 저장
 
       if(data.hasNext === false){ // 다음 페이즈 없을 경우
@@ -64,7 +62,6 @@ function myPageArticleAjax(obj){
         html+=   `</li>`;
         articleList.innerHTML = html;
         html = ``;
-        console.log("게시글이 없습니다.")
         return;
       }
 

@@ -136,7 +136,6 @@ public class ArticleService {
         Article article = articleQRepository.findByIdAndStatus(articleId);
         if(article == null) return null;
         ArticleEditViewDTO articleEditDTO = getArticleEditDTO(article);
-        log.info("articleEditDTO = {}",articleEditDTO);
         return articleEditDTO;
     }
 
@@ -179,9 +178,7 @@ public class ArticleService {
     }
     public boolean articleStatusNormal(Long articleId) {
 //        Article findArticle = articleRepository.findByIdAndStatus(articleId, ArticleStatus.NORMAL);
-        log.info("articleId = {}", articleId);
         Article findArticle = articleQRepository.findByIdAndStatus(articleId);
-        log.info("findArticle = {}", findArticle);
         return findArticle != null;
     }
 
@@ -339,7 +336,6 @@ public class ArticleService {
         int likeNum = likeArticleRepository.countByArticleId(article.getId());
         Long articleMemberId = article.getMember().getId();
         boolean isFollowingMember = followQRepository.isFollowingMember(memberId, articleMemberId);
-        log.info("isFollowingMember = {}",isFollowingMember);
         return ArticleViewDTO.builder()
                 .id(article.getId())
                 .content(article.getContent())
@@ -440,16 +436,12 @@ public class ArticleService {
         findArticle.changeContent(articleEditDTO.getContent());
 
         /* 기존의 이미지 추가로직 */
-        log.info("images={},",articleEditDTO.getImage());
         //파일 업로드 로직 필요
         List<String> storeImageFiles = fileStore.storeFiles(articleEditDTO.getImage(), request);
-        log.info("storeImageFiles = {}", storeImageFiles);
-        log.info("index = " + storeImageFiles.size());
         String images = "";
         for(String img : storeImageFiles){
             images += (img + ",");
         }
-        log.info("images = " + images);
         /* 수정게시글에서 추가된 로직 */
         String oldImage = articleEditDTO.getOldImage();
         oldImage += images;

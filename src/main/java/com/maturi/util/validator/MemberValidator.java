@@ -21,7 +21,6 @@ public class MemberValidator implements Validator {
         String passwd = member.getPasswd();
         String passwdCheck = member.getPasswdCheck();
         if(passwd!=null && passwdCheck!=null){
-            log.info("비밀번호가 일치하지 않습니다.");
             if(!passwd.equals(passwdCheck)){
                 errors.reject("passwordCheck","비밀번호 불일치 기본 메시지");
             }

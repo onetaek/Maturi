@@ -4,7 +4,6 @@ function getRestaruantCategory(){
     fetch("/api/restaurants/category")
         .then(response => response.json())
         .then((data) => {
-            // console.log(data);
             let categoryList = document.querySelector('.category-drop-list');
             categoryList.appendChild(myCreateElement(`<li>선택안함</li>`))
             data.forEach((category)=>{
@@ -29,7 +28,6 @@ function getRestaruantCategory(){
             //카테고리 li를 눌렀을때 이벤트
             categoryDropListItems.forEach((item)=>{
                 item.addEventListener("click",()=>{
-                    console.log(item.innerText);
                     categoryLabel = document.querySelector('label[for="category"]');
                     if(item.innerText==="선택안함"){
                         categoryLabel.innerText = "카테고리";

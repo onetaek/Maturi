@@ -34,8 +34,6 @@ bImg.addEventListener("mousedown", function(e){ // 클릭 시작
 });
 bImg.addEventListener("mouseup", function(e){ // 클릭 끝
   mouseUp = e.pageX;
-  console.log("down: " + mouseDown);
-  console.log("up: " + mouseUp);
   // 현재 imgList의 너비의 30%
   let imgListPer30 = 30*(imgList[0].clientWidth/100);
   if(mouseUp < mouseDown - imgListPer30){ // 다음 슬라이드

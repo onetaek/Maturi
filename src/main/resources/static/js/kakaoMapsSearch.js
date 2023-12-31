@@ -50,7 +50,6 @@ function searchPlaces() {
 
   let keyword = sidoName + " " + sigoonName + " " + dongName + " "
                 + document.getElementById('keyword').value;
-  console.log("keyword = " + keyword);
   if (!keyword.replace(/^\s+|\s+$/g, '')) {
     Swal.fire({
       icon:'warning',
@@ -109,12 +108,10 @@ function displayPlaces(places) {
   removeMarker();
 
   for ( var i=0; i<places.length; i++ ) {
-    console.log(places[i]);
     // 마커를 생성하고 지도에 표시합니다
     var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
       marker = addMarker(placePosition, i),
       itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-    // console.log(placePosition); // getLat() : 위도, getLng() : 경도
 
     // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
     // LatLngBounds 객체에 좌표를 추가합니다
@@ -165,7 +162,6 @@ function displayPlaces(places) {
         var addressTag = rInfoWrapUl.querySelector(".address");
         var oldAddressTag = rInfoWrapUl.querySelector(".oldAddress");
         var nameTag = rInfoWrapUl.querySelector(".placeName");
-        console.log(nameTag);
         var categoryTag = rInfoWrapUl.querySelector(".placeCategory");
         rInfo_address = thisPlace.road_address_name;
         rInfo_oldAddress = thisPlace.address_name;

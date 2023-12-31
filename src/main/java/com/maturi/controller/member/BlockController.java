@@ -54,7 +54,6 @@ public class BlockController {
                                          @PathVariable Long id,
                                          @RequestBody Map<String,Long> map){
         Long blockedMemberId = map.get("blockedMemberId");
-        log.info("blockedMemberId",blockedMemberId);
 
         // 다른 유저가 차단을 하려할 때
         if(!memberId.equals(id)){

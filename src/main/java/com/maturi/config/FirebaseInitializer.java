@@ -25,7 +25,6 @@ public class FirebaseInitializer {
                             new ClassPathResource(firebaseConfigPath).getInputStream())).build();
             if (FirebaseApp.getApps().isEmpty()){
                 FirebaseApp.initializeApp(option);
-                log.info("Firebase application has been initialized");
             }
         } catch (IOException e) {
             log.error(e.getMessage());

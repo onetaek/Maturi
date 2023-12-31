@@ -52,7 +52,6 @@ public class CommentService {
     //새로운 댓글이 아닐 경우(ref값이 있을 경우) ref그대로 사용, refStep은 refStep + 1
     if (ref == null) {
       Long maxRef = commentQRepository.findMaxRef(articleId);
-      log.info("maxRef = {}", maxRef);
       ref = maxRef == null ? 1L : maxRef + 1;
     }
     refStep = refStep == null ? 1L : refStep + 1;
@@ -69,7 +68,6 @@ public class CommentService {
             .build();
 
     Comment findComment = commentRepository.save(comment);
-    log.info("write findComment = {}",findComment);
     return findComment;
   }
 
@@ -79,7 +77,6 @@ public class CommentService {
     List<List<CommentDTO>> groupComments = groupComments(commentDTOs);
 
     groupComments.forEach(groupComment -> {
-      log.info("{}번째 댓글 묶음 -> 길이 : {}", groupComments.indexOf(groupComment), groupComment.size());
       groupComment.forEach(commentDTO -> log.info("commentDTO = {}", commentDTO));
     });
 
@@ -164,7 +161,6 @@ public class CommentService {
   public boolean commentStatusNormal(Long commentId) {
     Comment findComment = commentQRepository.findByIdAndStatus(commentId);
 
-    log.info("findComment by Status = {}", findComment);
 
     return findComment != null;
   }
@@ -173,10 +169,7 @@ public class CommentService {
     return comments.stream().map(comment -> {
               LikeComment likeComment = likeCommentRepository.findByCommentIdAndMemberId(comment.getId(), memberId);
               boolean isLiked = likeComment != null;
-              log.info("comment의 createdDate = {}",comment.getCreatedDate());
-              log.info("comment의 modifiedDate = {}",comment.getModifiedDate());
               boolean isModified = !comment.getCreatedDate().equals(comment.getModifiedDate());
-              log.info("두 날짜의 값이 다른가요? = {}",isModified);
               return CommentDTO.builder()
                       .id(comment.getId())
                       .ref(comment.getRef())

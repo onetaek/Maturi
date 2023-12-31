@@ -9,9 +9,6 @@ if(editMyPage != null){
 
 //게시글의 유저 팔로잉
 function myPagefollowing(memberId,myPageMemberId,myPageMemberNickName){
-    console.log("팔로잉 시작");
-    console.log("게시글의 id",memberId);
-    console.log("게시글의 memberId",myPageMemberId);
     Swal.fire({
         title: `${myPageMemberNickName}님을(를) 팔로잉 하시겠습니까?`,
         icon: "question",
@@ -32,7 +29,6 @@ function myPagefollowing(memberId,myPageMemberId,myPageMemberNickName){
                     "followingMemberId":myPageMemberId
                 })
             }).then((response) =>{
-                console.log("response의 상태코드",response.status);
                 if(response.status === 226){
                     Swal.fire({
                         icon:'error',
@@ -60,8 +56,6 @@ function myPagefollowing(memberId,myPageMemberId,myPageMemberNickName){
 
 //게시글의 유저 팔로잉
 function myPagefollowCancel(memberId,myPageMemberId,myPageMemberNickName){
-    console.log("팔로잉취소 시작");
-    console.log("게시글의 memberId",myPageMemberId);
     Swal.fire({
         title: `${myPageMemberNickName}님을(를) 팔로잉 취소 하시겠습니까?`,
         icon: "question",
@@ -82,7 +76,6 @@ function myPagefollowCancel(memberId,myPageMemberId,myPageMemberNickName){
                     "followingMemberId":myPageMemberId
                 })
             }).then((response) =>{
-                console.log("response의 상태코드",response.status);
                 if(response.ok){
                     Swal.fire({
                         icon:'success',

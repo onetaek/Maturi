@@ -27,7 +27,6 @@ public class FollowAPIController {
     public ResponseEntity<List<MemberFollowResponse>> selectFollowings(@Login Long memberId,
                                                        @PathVariable Long id,
                                                        @ModelAttribute MemberFollowRequest memberFollowRequest){
-        log.info("memberFollowRequest = {}",memberFollowRequest);
 
         if(!memberId.equals(id)){ // 다른 유저의 팔로워 목록을 조회하려고 할 때
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -36,7 +35,6 @@ public class FollowAPIController {
 //        if(response == null || response.size() == 0){
 //            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 //        }
-        log.info("response = {}",response);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -62,12 +60,10 @@ public class FollowAPIController {
     public ResponseEntity removeFollowing(@Login Long memberId,
                                           @PathVariable Long id,
                                           @RequestBody Map<String, Long> map){
-        log.info("팔로우 취소 컨트롤러 시작");
         Long followingMemberId = map.get("followingMemberId");
         if(!memberId.equals(id)){ // 다른 유저의 팔로워 목록을 조회하려고 할 때
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        log.info("삭제시킬 followingMemberId = {}",followingMemberId);
         followService.followingCancel(memberId,followingMemberId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

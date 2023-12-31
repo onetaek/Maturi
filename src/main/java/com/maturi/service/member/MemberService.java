@@ -66,7 +66,6 @@ public class MemberService {
       PasswdEncry passwdEncry = new PasswdEncry();
 
       // 입력받은 비번 + 난수 => 암호화
-      log.info("memberLogin passwd = {}", memberLoginDTO.getPasswd());
       String SHA256Pw = memberLoginDTO.getPasswd() != null?
                       passwdEncry.getEncry(memberLoginDTO.getPasswd(), salt) : null;
       memberLoginDTO.setPasswd(SHA256Pw);
@@ -173,8 +172,6 @@ public class MemberService {
       String storeprofileImg = fileStore.storeFileToAwsS3(memberEditMyPageDTO.getProfileImg(), request);
       findMember.changeProfileImg(storeprofileImg);
     }
-
-    log.info("editMemberInfo = {}", findMember);
 
     memberRepository.save(findMember);
   }

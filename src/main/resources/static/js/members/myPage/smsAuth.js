@@ -16,7 +16,6 @@ smsAuthForm.tel.addEventListener("keydown", (e)=>{ // 엔터의 원래 이벤트
 });
 
 smsAuthBtn.addEventListener("click", ()=>{
-  console.log("click..!!");
   let buttonTamp = `<button type="button" class="sms-check-btn">인증 문자 보내기</button>`;
   smsAuthFormWrap.insertAdjacentHTML("beforeend", buttonTamp);
   smsModalToggle(); // 모달 키기

@@ -40,7 +40,6 @@ public class ReportService {
 
     // 이미 신고 여부.. 확인
     ArticleReport findArticleReport = articleReportRepository.findByMemberIdAndArticleId(memberId, articleId);
-    log.info("findArticleReport = {}", findArticleReport);
     if(findArticleReport != null){ // 이미 해당 회원이 신고한 글이면 ...
       return false;
     }
@@ -74,7 +73,6 @@ public class ReportService {
 
     // 이미 신고 여부.. 확인
     CommentReport findCommentReport = commentReportRepository.findByMemberIdAndCommentId(memberId, commentId);
-    log.info("findArticleReport = {}", findCommentReport);
     if(findCommentReport != null){ // 이미 해당 회원이 신고한 댓글이면 ...
       return false;
     }

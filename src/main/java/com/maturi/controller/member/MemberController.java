@@ -53,12 +53,10 @@ public class MemberController {
   public String join(
           @Validated @ModelAttribute(name = "member") MemberJoinDTO memberJoinDTO,
           BindingResult bindingResult){
-    log.info("memberJoinRequest = {}", memberJoinDTO.toString());
     memberValidator.validate(memberJoinDTO, bindingResult);
 
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
-      log.info("errors={} ", bindingResult);
       return "members/join";
     }
 
@@ -85,7 +83,6 @@ public class MemberController {
 
     //검증에 실패하면 다시 입력 폼으로
     if (bindingResult.hasErrors()) {
-      log.info("errors={} ", bindingResult);
       model.addAttribute(ERROR_MESSAGE, LOGIN_FAIL);
       return "members/login";
     }
@@ -101,7 +98,6 @@ public class MemberController {
       HttpSession session = request.getSession();
       session.setAttribute(MEMBER_ID,findMember.getId());
 
-      log.info("redirectURL = {}",redirectURL);
       return "redirect:" + redirectURL;
     }
   }
@@ -216,7 +212,6 @@ public class MemberController {
                          RedirectAttributes redirectAttributes,
                          Model model){
 
-    log.info("pwChange start");
     // email에 맞는 회원 찾기
     Member findMember = memberService.getMemberByEmail(memberLoginDTO.getEmail());
     if(findMember == null){

@@ -20,8 +20,6 @@ profileImgBtn.addEventListener("click", ()=>{
 // 기본값 저장
 const coverImgSrc = coverImgWrap.querySelector(".coverImgTag").getAttribute("src");
 const profileImgSrc = myPageInfoWrap.querySelector(".profileImgTag").getAttribute("src");
-console.log("coverImgSrc : " + coverImgSrc);
-console.log("profileImgSrc : " + profileImgSrc);
 
 coverImg.addEventListener("change", (e)=>{
   let file = e.target.files;
@@ -47,7 +45,6 @@ profileImg.addEventListener("change", (e)=>{
 /* 수정하기 버튼 */
 editProfileForm.editSubmitBtn.addEventListener("click", ()=>{
   if(editProfileValidate()){ // 유효성검사
-    console.log("validate success");
     Swal.fire({
       title: "프로필을 수정하시겠습니까?",
       icon: "question",
@@ -95,9 +92,6 @@ const editName = editProfileForm.name;
 let regExpNickName = /^@+[a-zA-Z0-9-_.]{5,30}$/;
 let regExpName = /[a-z|A-Z|가-힣]{2,12}$/;
 function editProfileValidate(){
-  console.log(!regExpNickName.test(editNickName.value));
-  console.log(!nickNameCheck);
-  console.log(!regExpName.test(editName.value));
   if(!regExpNickName.test(editNickName.value)){
     Swal.fire({
       title: "닉네임은 @로 시작하며 [영문], [숫자], [-], [_], [.]를 조합하여 만들 수 있습니다. (5자 ~ 30자)",
@@ -174,7 +168,6 @@ nickNameDuplCheck.addEventListener("click", ()=>{
 editNickName.addEventListener("keyup", ()=>{
   if(nickNameCheck){
     nickNameCheck = false;
-    console.log("status = " + nickNameCheck);
   }
 })
 

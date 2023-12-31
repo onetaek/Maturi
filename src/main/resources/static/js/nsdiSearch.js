@@ -68,7 +68,6 @@ $(function(){
        * sido관련 이벤트 처리
        */
       sido_popup_dropdownBtn.onclick = function(){
-        console.log("sido_popup_dropdownBtn 클릭!");
         sigoonName = "";
         dongName = "";
         if(sido_popup_list.classList.contains('show')){
@@ -77,7 +76,6 @@ $(function(){
         }else{
           sido_popup_icon.style.rotate="180deg"
           popup_list_count = sido_popup_dropdown_listItem.length / 2;
-          console.log(popup_list_count);
           popup_list_count = Number.isInteger(popup_list_count) ? popup_list_count : popup_list_count + 0.5;
           $('#sido-popup-list').animate({height:`${sido_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20 }px`},500);
         }
@@ -90,10 +88,8 @@ $(function(){
       for(item of sido_popup_dropdown_listItem){
 
         item.onclick=function(e){
-          console.log("시도 선택");
           sido_popup_searchCond.innerText = e.target.innerText;
           sido_popup_list.classList.toggle("show");
-          console.log("시도 코드 선택!");
           let thisVal = $(this).data('location');//data-location속성의 값을 가져옴
           // 주소값 얻는 코드 추가
           const sidoOpt = sido.querySelectorAll("#sido-popup-list > .popup-dropdown-list-item");
@@ -101,7 +97,6 @@ $(function(){
             let optValue = element.getAttribute("data-location");
             if(optValue != null && optValue == "all"){//전체를 선택했을 경우 입력 값 없음 + 시군,동 요소 없에고 전체로 변경
               sidoName = "";
-              console.log(sidoName + " " + sigoonName + " " + dongName);
               let sigoonItems = document.querySelectorAll('#sigoon-popup-list > .popup-dropdown-list-item');
               let goonItems = document.querySelectorAll('#dong-popup-list > .popup-dropdown-list-item');
               if(sigoonItems.length > 0){
@@ -115,7 +110,6 @@ $(function(){
               return false;
             }else if(optValue != null && optValue == thisVal) {
               sidoName = element.innerText;
-              console.log(sidoName + " " + sigoonName + " " + dongName);
             }
           })
           $('#sido-popup-list').animate({height:`0px`},500);
@@ -126,7 +120,6 @@ $(function(){
           html +=   `</div>`;
           $('#dong_code').html(html);
 
-          console.log();
           $.ajax({
             type: "get",
             url: "https://api.vworld.kr/req/data?key=CEB52025-E065-364C-9DBA-44880E3B02B8&domain=http://localhost:8080&service=data&version=2.0&request=getfeature&format=json&size=1000&page=1&geometry=false&attribute=true&crs=EPSG:3857&geomfilter=BOX(13663271.680031825,3894007.9689600193,14817776.555251127,4688953.0631258525)&data=LT_C_ADSIGG_INFO",
@@ -179,7 +172,6 @@ $(function(){
                   popup_list_count = sigoon_popup_dropdown_listItem.length / 2;
                   popup_list_count = Number.isInteger(popup_list_count) ? popup_list_count : popup_list_count + 0.5;
                   if((sigoon_popup_dropdown_listItem[0].clientHeight * popup_list_count + 20) > maxDropdownHeight){
-                    console.log("동 넘었다");
                     dong_popup_list.style.overflowY = "scroll";
                     $('#sigoon-popup-list').animate({height:`${maxDropdownHeight + 20}px`},500);
                   }else{
@@ -194,7 +186,6 @@ $(function(){
 
                 // 시군 코드 선택
                 item.onclick=function(e){
-                  console.log("시군 코드선택!");
                   sigoon_popup_searchCond.innerText = e.target.innerText;
                   sigoon_popup_list.classList.toggle("show");
 
@@ -205,7 +196,6 @@ $(function(){
                     let optValue = element.getAttribute("data-location");
                     if(optValue != null && optValue == "all"){
                       sigoonName = "";
-                      console.log(sidoName + " " + sigoonName + " " + dongName);
                       let goonItems = document.querySelectorAll('#dong-popup-list > .popup-dropdown-list-item');
                       if(goonItems.length > 0){
                         document.querySelector('#dong-popup-list').remove();
@@ -214,7 +204,6 @@ $(function(){
                       return false;
                     }else if(optValue != null && optValue == thisVal) {
                       sigoonName = element.innerText;
-                      console.log(sidoName + " " + sigoonName + " " + dongName);
                     }
                   })
                   $('#sigoon-popup-list').animate({height:`0px`},500);

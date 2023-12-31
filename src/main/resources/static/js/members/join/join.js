@@ -90,7 +90,6 @@ emailAuthBtn.addEventListener("click", ()=>{
       }
     }).then(response => {
       // http 응답 코드에 따른 메세지
-      console.log(response);
       if(response.ok){
         Swal.fire({
           title: "이메일 인증 메일이 전송되었습니다. 이메일을 확인하여 주세요.",
