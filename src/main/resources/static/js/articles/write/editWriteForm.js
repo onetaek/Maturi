@@ -57,4 +57,22 @@ function editeWriteFormValidation(){
   return true; // 유효성검사 통과시
 }
 
+/* textarea높이 조절 */
+function adjustTextareaHeight(textarea) {
+  textarea.style.height = "auto";
+  textarea.style.height = textarea.scrollHeight + "px";
+}
+
+// 페이지 로딩 시 textarea 높이 조절
+document.addEventListener("DOMContentLoaded", function () {
+  let textarea = document.querySelector('.bContent');
+  adjustTextareaHeight(textarea);
+});
+
+// textarea의 내용이 변경될 때마다 높이 조절
+document.querySelector('.bContent').addEventListener("input", function () {
+  adjustTextareaHeight(this);
+});
+
+
 loadingTagsInput();

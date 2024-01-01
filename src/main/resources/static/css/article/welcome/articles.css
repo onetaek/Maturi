@@ -524,6 +524,23 @@ input[id='local']:checked+.radio-tile label{
     background: url("/img/button/loveBtn_Fill.png") no-repeat center / contain;
 }
 
+#article-list textarea {
+    margin:10px 0px 5px 0px;
+    width: 100%;
+    resize: none;
+    outline: none;
+    padding:0;
+    font-size: 1.1rem;
+    color: var(--textarea-color);
+    height:22px;
+    line-height: 22px;
+    /*caret-color: var(--hot-pink-color);*/
+    border: 0px;
+    font-family : 'Lato', 'Noto Sans KR', sans-serif;
+    background-color: var(--light-pink-background-color);
+    cursor: pointer;
+}
+
 /* 검색,페이징으로 인해 동적으로 생기는 요소 */
 .no-more-article-message p{
     padding: 20px 0;

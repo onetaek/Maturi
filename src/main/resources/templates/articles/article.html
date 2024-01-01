@@ -141,7 +141,8 @@
                             <i class="fa-regular fa-hand-pointer"></i>
                         </div>
                     </div>
-                    <p class="bContent" th:text="${article.content}">리뷰 글 내용</p>
+<!--                    <p class="bContent" th:text="${article.content}">리뷰 글 내용</p>-->
+                    <textarea style="border :0;" class="bContent" readonly th:text="${article.content}">리뷰 글 내용</textarea>
                 </div>
                 <!--    좋아요 & 태그 -->
                 <div class="likeAndTag">

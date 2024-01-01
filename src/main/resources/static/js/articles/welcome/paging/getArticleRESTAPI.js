@@ -130,9 +130,8 @@ function searchArticleAjax(obj,orderCond){
                             <div>${article.restaurantName}</div>
                         </div>
                     </ul>
-                    <p class="bContent">
-                        ${article.content}
-                    </p>
+                   
+                    <textarea style="border :0;" class="bContent" readonly >${article.content}</textarea>
                 </div>
                 <!--    좋아요 & 태그 -->
                 <div class="likeAndTag">
@@ -237,6 +236,11 @@ function searchArticleAjax(obj,orderCond){
 
 
         articles.forEach((article) => {
+            // textarea 높이 자동 조절
+            const textarea = document.querySelector(`.article-wrap${article.id} .bContent`); // textarea 요소 찾기
+            textarea.style.height = "auto";
+            textarea.style.height = textarea.scrollHeight + "px";
+
             //좋아요 클릭 이벤트를 적용해준다.
             const likeBtn = document.querySelector(`.likeBtn${article.id}`);
             if(article.liked){
