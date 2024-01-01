@@ -22,13 +22,13 @@
 
 ## 클라우드 아키텍처
 + AWS의 EC2, RDS, ACM, Rout53, S3, ELB 서비스를 이용하여 설계하였습니다.
-+ 트래픽이 중가할 경우를 대비해 로드밸런서를 중간에 두어 Availability zone의 갯수를 늘려 쉽게 Scale-out할 수 있도록 설계하였습니다.
++ 트래픽이 증가할 경우를 대비해 로드밸런서를 중간에 두어 Availability zone의 갯수를 늘려 쉽게 Scale-out할 수 있도록 설계하였습니다.
 + 웹 데이터를 안전하게 전송하기 위해 Route 53과 AWS Certificate Manager를 사용하여 SSL 인증서를 효과적으로 관리하고, Application Load Balancer를 통해 안전한 접근하도록 설계하였습니다.
 
 ![아키텍처 drawio2](https://github.com/onetaek/Maturi/assets/86419261/08d61e1d-0585-4504-94e6-085331eea560)
 
 ## Docker를 이용한 배포 Process
-+ Docker Hub를 중간 매개체로 이용하여 도커 이미지를 옮겨서 AWS EC2서버에서 받고 실행합니다.
++ Docker Hub를 중간 매개체로 이용하여 도커 이미지를 옮겨서 AWS EC2서버에서 받아서 실행합니다.
 
 ![docker 아키텍처](https://github.com/onetaek/Maturi/assets/86419261/926b2fd3-54ba-4ee2-8f4c-eb4019bdc606)
 
