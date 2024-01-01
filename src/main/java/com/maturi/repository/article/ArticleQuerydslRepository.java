@@ -157,11 +157,11 @@ public class ArticleQuerydslRepository {
         switch(orderCond.getOrderBy()){
             case OrderConst.CREATED_DATE_DESC://최신 순으로 정렬
                 query.where(articleIdLt(lastArticleId))// no-offset 페이징 처리
-                        .orderBy(article.id.desc());
+                        .orderBy(article.createdDate.desc());
                 break;
             case OrderConst.CREATED_DATE_ASC://오래된 순으로 정렬
                 query.where(articleIdGt(lastArticleId))
-                        .orderBy(article.id.asc());
+                        .orderBy(article.createdDate.asc());
                 break;
             case OrderConst.VIEWS_DESC://조회수 순으로 정렬
                 if (orderCond.getViews() != null) {
@@ -175,7 +175,7 @@ public class ArticleQuerydslRepository {
                     orderBuilder.and(articleIdLoe(lastArticleId));
                 }
                 query.where(orderBuilder)
-                        .orderBy(article.views.desc(),article.id.desc());
+                        .orderBy(article.views.desc(),article.createdDate.desc());
                 break;
             case OrderConst.LIKE_COUNT_DESC://좋아요 갯수 순으로 정렬
 
@@ -192,7 +192,7 @@ public class ArticleQuerydslRepository {
                 query.leftJoin(article.likes, likeArticle)
                         .groupBy(article.id)
                         .having(orderBuilder)
-                        .orderBy(likeArticle.count().desc(),article.id.desc());
+                        .orderBy(likeArticle.count().desc(),article.createdDate.desc());
                 break;
             case OrderConst.COMMENT_COUNT_DESC://댓글 갯수 순으로 정렬
 
@@ -209,7 +209,7 @@ public class ArticleQuerydslRepository {
                 query.leftJoin(article.comments, comment)
                         .groupBy(article.id)
                         .having(orderBuilder)
-                        .orderBy(comment.count().desc(),article.id.desc());
+                        .orderBy(comment.count().desc(),article.createdDate.desc());
                 break;
             default:
                 throw new IllegalStateException("OrderConst에 정의되어있는 orderBy값 외의 다른 값이 들어왔습니다.");
@@ -217,7 +217,6 @@ public class ArticleQuerydslRepository {
         List<Article> results = query
                 .limit(size + 1)
                 .fetch();
-        log.info("실행된 쿼리문 = {} ",query.toString());
         boolean hasNext = false;
         if (results.size() > size) {//결과가 6개이면 size(5)보다 크므로 다음 페이지가 있다는 의미
             hasNext = true;
