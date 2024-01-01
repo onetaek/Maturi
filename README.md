@@ -30,7 +30,7 @@
 ## Docker를 이용한 배포 Process
 + Docker Hub를 중간 매개체로 이용하여 도커 이미지를 옮겨서 AWS EC2서버에서 받아서 실행합니다.
 
-![docker 아키텍처](https://github.com/onetaek/Maturi/assets/86419261/926b2fd3-54ba-4ee2-8f4c-eb4019bdc606)
+![docker 아키텍처](https://github.com/onetaek/Maturi/assets/86419261/71208b34-ebd0-4371-a9b1-3870171fe0aa)
 
 
 ## 메뉴 구조도 IA (InformationArchitecture)
