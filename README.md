@@ -42,7 +42,7 @@
 ![ERD](https://user-images.githubusercontent.com/86419261/236677196-c66ce685-52dc-47e4-9a55-0f997662cd47.png)
 
 ## 기술 스택
- * 개발 언어 : JAVA(Oracle OpenJDB version 1.8), Html + Css, Javascript </br>
+ * 개발 언어 및 마크업 언어 : JAVA(Oracle OpenJDB version 1.8), Html + Css, Javascript </br>
 <img src="https://user-images.githubusercontent.com/86419261/235322478-a840a7f0-3271-4938-909d-85cea7892459.png" height="100" /> <img src="https://user-images.githubusercontent.com/86419261/235322830-6e468288-bc02-4c7a-be45-db8ee05ab25e.png" height="100" />
  * 데이터 베이스 : MariaDB(개발환경), MySql(배포환경) H2 Database(테스트환경) </br>
 <img src="https://user-images.githubusercontent.com/86419261/235323040-e6200760-68b7-4174-81a9-dbae30734671.png" height="100"/> <img src="https://github.com/onetaek/Maturi/assets/86419261/486ed9e0-87f2-4864-8917-f2e3c2ff8af1" height="100"/> <img src="https://user-images.githubusercontent.com/86419261/235323071-b41d5298-e7fc-43c7-855f-f06c26000dae.png" height="100"/>
