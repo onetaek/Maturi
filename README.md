@@ -29,6 +29,8 @@
 
 ## Docker를 이용한 배포 Process
 + Docker Hub를 중간 매개체로 이용하여 도커 이미지를 옮겨서 AWS EC2서버에서 받아서 실행합니다.
++ Docker를 사용함으로써 EC2 서버에서의 수동 설치 과정이나 번거로운 작업 없이 쉽게 애플리케이션을 배포할 수 있습니다.
++ Docker 이미지를 활용하면 배포된 애플리케이션의 버전을 간편하게 롤백할 수 있어 효율적인 관리가 가능합니다.
 
 ![docker 아키텍처](https://github.com/onetaek/Maturi/assets/86419261/b404ce61-fbfa-45bd-9d66-535d03521981)
 
