@@ -88,7 +88,7 @@ function SearchCondSetting(event){
         'all': all,//검색에 필요한 값
         'keyword': searchKeyWordInput.value,//검색에 필요한 값
         'lastArticleId': lastArticle,//페이징에 필요한 값
-        'size': 5, // 페이징에 필요한 값
+        'size': 10, // 페이징에 필요한 값
         'event' : event//페이징에 필요한 값
     };
     // console.log("javascript에서 setting한 검색, 페이징 조건",obj);

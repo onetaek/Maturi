@@ -9,7 +9,7 @@ const tagWrap = document.querySelector(".tagWrap");
 
 // 첫자#, 한글/영문/숫자/_ 만 포함
 let regExpTag = /^#+[가-힣|a-z|A-Z|0-9|_]/;
-tagInput.addEventListener("keyup", ()=>{
+tagInput.addEventListener("keyup", (event)=>{
   if( window.event.keyCode === 13){
     if(!regExpTag.test(tagInput.value)){ // 유효성검사 통과 x
       tagInput.value = "";
@@ -18,7 +18,6 @@ tagInput.addEventListener("keyup", ()=>{
         icon: 'success',
         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
       })
-      tagInput.focus();
     }
     else if(tags.value.includes(tagInput.value)){
       Swal.fire({
@@ -26,7 +25,6 @@ tagInput.addEventListener("keyup", ()=>{
         icon: 'success',
         confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
       })
-      tagInput.focus();
     }
     else { // 유효성검사 통과
       // 태그 삭제 버튼 및 삭제 이벤트 추가
@@ -41,6 +39,10 @@ tagInput.addEventListener("keyup", ()=>{
       tags.value += tagInput.value; // 백에 넘길값(tags)에 추가
       tagInput.value = "";
     }
+
+    // Enter 키 처리 후, 이벤트 전파 중지
+    event.stopPropagation();
+    event.preventDefault();
   }
 })
 
