@@ -150,9 +150,8 @@
                       <span class="likeBtn" th:unless="${article.isLiked()}">좋아요</span>
                       <span class="likeNum" th:text="${article.like}">20</span>
                     </span>
-
-                    <div class="tagWrap" th:each="tag: ${article.tags}">
-                        <span class="tag-box">
+                    <div class="tagWrap">
+                        <span class="tag-box" th:each="tag: ${article.tags}">
                             <span th:text="${tag}">#태그1</span>
                         </span>
                     </div>
