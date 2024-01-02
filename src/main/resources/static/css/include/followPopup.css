@@ -103,17 +103,36 @@ li.follow-container{
 .follow-search-input::placeholder{
     color:var(--profile-message-color);
 }
+#follow-list-wrap {
+    position: relative;
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    /*height는 javsScript로 동적으로 적용*/
+}
+
+#follow-list-wrap::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+#follow-list-wrap::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: var(--pink-color); /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+#follow-list-wrap::-webkit-scrollbar-track {
+    background: #efefef;  /*스크롤바 뒷 배경 색상*/
+}
 
 /* 팔로우 팔로워 목록 */
 #follow-list{
     margin-top:5px;
-    overflow: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    background: var(--white-color);
-}
-#follow-list::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera*/
+    background-color: var(--follow-popup-background);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 #follow-list .follow-item{

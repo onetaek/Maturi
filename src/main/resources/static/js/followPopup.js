@@ -71,9 +71,11 @@ function getFollows(){
                             <p>
                                 <span class="nickName">${member.nickName}</span>
                                 <span class="name">(${member.name})</span>
-                            </p>
-                            <p class="profile-message">${member.profile}</p>
-                        </div>
+                            </p>`
+                if (member.profile !== null) {
+                    html +=`<p class="profile-message">${member.profile}</p>`
+                }
+                html+=`</div>
                     </div>`
                 if(followRadioValue === "follower"){
                     if(member.followingMember === true){
@@ -212,5 +214,16 @@ document.querySelector('#follow-search-btn').addEventListener("click",()=>{
     getFollows();
 
 });
+
+//팝업 height조절
+const followPopup = document.querySelector("#followPopup");
+const followPopupContent = document.querySelector("#followPopupContent");
+const followListWrap = document.querySelector("#follow-list-wrap");
+
+const followPopupHeight = followPopup.offsetHeight;
+const followPopupContentHeight = followPopupContent.offsetHeight;
+
+followListWrap.style.height = `${followPopupHeight - followPopupContentHeight - 20}px`;
+
 
 getFollows();
