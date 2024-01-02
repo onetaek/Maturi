@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
+import javax.annotation.PostConstruct;
+import java.util.TimeZone;
+
 @EnableJpaAuditing
 @SpringBootApplication
 public class MaturiApplication {
@@ -15,5 +18,10 @@ public class MaturiApplication {
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
 		return new HiddenHttpMethodFilter();
+	}
+
+	@PostConstruct
+	public void started() {
+		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
 }

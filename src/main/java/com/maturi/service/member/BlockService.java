@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Transactional
@@ -45,7 +46,12 @@ public class BlockService {
         List<MemberBlockDTO> blockMembers = blockQRepository.findBlockMembers(memberId);
         for (MemberBlockDTO blockMember : blockMembers) {
             LocalDateTime blockDate = blockMember.getBlockDate();
-            blockMember.setFormatDate(blockDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)));
+//            blockMember.setFormatDate(blockDate.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG)));
+            // 패턴을 직접 지정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h시 m분 s초", Locale.KOREAN);
+
+            // LocalDateTime을 문자열로 변환하여 MemberBlockDTO에 설정
+            blockMember.setFormatDate(blockDate.format(formatter));
         }
         return blockMembers;
     }
