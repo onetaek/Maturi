@@ -27,17 +27,33 @@
     let errorMsg = [[${errorMassage}]];
     if(errorMsg != null){
         if( errorMsg == "noPermission"){
-            alert("해당 페이지에 접근할 권한이 없습니다.");
+            Swal.fire({
+                title: "해당 페이지에 접근할 권한이 없습니다.",
+                icon: 'error',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            })
         } else if( errorMsg == "notFound"){
-            alert("해당 게시글을 찾을 수 없습니다.");
+            Swal.fire({
+                title: "해당 게시글을 찾을 수 없습니다.",
+                icon: 'error',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            })
         }
     }
     let successMsg = [[${successMassage}]];
     if(successMsg != null){
         if(successMsg == "passwdChange"){
-            alert("비밀번호 변경이 완료되었습니다.");
+            Swal.fire({
+                title: "비밀번호 변경이 완료되었습니다.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            })
         } else if(successMsg == "deleteSuccess"){
-            alert("게시글 삭제에 성공하였습니다.");
+            Swal.fire({
+                title: "#게시글 삭제에 성공하였습니다.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6', // confrim 버튼 색깔 지정
+            })
         }
     }
 </script>
