@@ -19,22 +19,19 @@ import java.util.Random;
 public class EmailService {
   private final JavaMailSender emailSender;
 
-  final private String ePw = createKey();
-
   public String sendSimpleMessage(String to) throws Exception {
-    MimeMessage message = createMessage(to);
+    String key = createKey();
+    MimeMessage message = createMessage(to, key);
     try{//예외처리
       emailSender.send(message);
     }catch(MailException es){
       es.printStackTrace();
       throw new IllegalArgumentException("이메일 전송을 실패하였습니다.");
     }
-    return ePw;
+    return key;
   }
 
-  private MimeMessage createMessage(String to)throws Exception{
-    System.out.println("보내는 대상 : "+ to);
-    System.out.println("인증 번호 : "+ePw);
+  private MimeMessage createMessage(String to, String key)throws Exception{
     MimeMessage  message = emailSender.createMimeMessage();
 
     message.addRecipients(Message.RecipientType.TO, to);//보내는 대상
@@ -45,7 +42,7 @@ public class EmailService {
     msgg+= "<h3'>인증 코드입니다.</h3>";
     msgg+= "<div style='font-size:130%'>";
     msgg+= "CODE : <strong>";
-    msgg+= ePw + "</strong><div><br/> ";
+    msgg+= key + "</strong><div><br/> ";
     msgg+= "</div>";
     message.setText(msgg, "utf-8", "html"); //내용
     message.setFrom(new InternetAddress("dnjsxorchlrh@gmail.com","Maturi")); //보내는 사람
