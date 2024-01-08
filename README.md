@@ -7,6 +7,7 @@
 + AWS배포링크(회원가입 과정이 번거로울 경우 아래 계정 사용) : https://maturiapp.com
   + 샘플 계정 ID : sample@maturi.com
   + 샘플 계정 PW : maturi1!
++ 시연영상 링크 : https://www.youtube.com/watch?v=ws2cE0k_jP0
 
 ## 프로젝트 소개 및 주제
 + 프로젝트 명인 <span style="color:red">maturi는 맛집 + 집들이의 합성어</span>로 집들이 하며 집을 소개하듯이 리뷰글을 통해 맛집을 소개하자는 의미입니다.
