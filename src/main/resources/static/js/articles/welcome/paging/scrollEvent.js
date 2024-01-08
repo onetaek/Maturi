@@ -35,7 +35,7 @@ function handleScroll() {
             isLoading = true;
             addPage("scroll");
         }
-    }, 500); // 500ms(0.5초) 동안 스크롤 이벤트를 무시합니다.
+    }, 100); // 500ms(0.5초) 동안 스크롤 이벤트를 무시합니다.
 }
 
 $(window).on('scroll', handleScroll);
