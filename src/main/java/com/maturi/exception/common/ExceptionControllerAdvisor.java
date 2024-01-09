@@ -40,7 +40,7 @@ public class ExceptionControllerAdvisor {
 
     @ExceptionHandler(RollbackTriggeredException.class)
     public ResponseEntity<ErrorResponse> rollBackException(RollbackTriggeredException e) {
-        if (isAjax(httpServletRequest)) {
+        if (isAjaxRequest(httpServletRequest)) {
             HttpStatus statusCode = e.getStatusCode();
 
             ErrorResponse body = ErrorResponse.builder()
@@ -55,8 +55,11 @@ public class ExceptionControllerAdvisor {
         }
     }
 
-    private boolean isAjax(HttpServletRequest request) {
+    private boolean isAjaxRequest(HttpServletRequest request) {
         String accept = request.getHeader("accept");
-        return accept != null && accept.contains("application/json");
+        String contentType = request.getHeader("Content-Type");
+
+        return (accept != null && accept.contains("application/json")) ||
+                (contentType != null && contentType.contains("application/json"));
     }
 }
