@@ -2,6 +2,8 @@ package com.maturi.controller;
 
 import com.maturi.dto.member.AreaInterDTO;
 import com.maturi.dto.member.MemberLoginDTO;
+import com.maturi.exception.common.Sample404Exception;
+import com.maturi.exception.common.Sample500Exception;
 import com.maturi.test.TestArticle;
 import com.maturi.util.FileStore;
 import lombok.Data;
@@ -75,5 +77,15 @@ public class TestController {
     @GetMapping("/aws")
     public String awsConTest() {
         return "aws connect successful";
+    }
+
+    @GetMapping("/error/400")
+    public void error404() {
+        throw new Sample404Exception();
+    }
+
+    @GetMapping("/error/500")
+    public void error500() {
+        throw new Sample500Exception();
     }
 }

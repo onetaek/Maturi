@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -20,6 +22,7 @@ import java.util.List;
 public class ExceptionControllerAdvisor {
 
     private final HttpServletRequest httpServletRequest;
+    private final HttpServletResponse httpServletResponse;
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -39,7 +42,7 @@ public class ExceptionControllerAdvisor {
     }
 
     @ExceptionHandler(RollbackTriggeredException.class)
-    public ResponseEntity<ErrorResponse> rollBackException(RollbackTriggeredException e) {
+    public ResponseEntity<ErrorResponse> rollBackException(RollbackTriggeredException e) throws IOException {
         if (isAjaxRequest(httpServletRequest)) {
             HttpStatus statusCode = e.getStatusCode();
 
@@ -51,15 +54,18 @@ public class ExceptionControllerAdvisor {
             return ResponseEntity.status(statusCode)
                     .body(body);
         } else {
-            throw e;
+            httpServletResponse.sendError(e.getStatusCode().value());
+            return null;
         }
     }
 
     private boolean isAjaxRequest(HttpServletRequest request) {
         String accept = request.getHeader("accept");
         String contentType = request.getHeader("Content-Type");
+        String requestURI = request.getRequestURI();
 
         return (accept != null && accept.contains("application/json")) ||
-                (contentType != null && contentType.contains("application/json"));
+                (contentType != null && contentType.contains("application/json")) ||
+                requestURI.startsWith("/api");
     }
 }

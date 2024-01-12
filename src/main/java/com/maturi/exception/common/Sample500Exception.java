@@ -9,6 +9,6 @@ public class Sample500Exception extends RollbackTriggeredException{
 
     @Override
     public HttpStatus getStatusCode() {
-        return null;
+        return HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }
