@@ -14,10 +14,10 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class FirebaseInitializer {
-    @Value("${app.firebase-configuration-file}")
+//    @Value("${app.firebase-configuration-file}")
     private String firebaseConfigPath;
 
-    @PostConstruct
+//    @PostConstruct
     public void initialize(){
         try {
             FirebaseOptions option = new FirebaseOptions.Builder().setCredentials(
