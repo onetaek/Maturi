@@ -2,13 +2,12 @@ package com.maturi.controller.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.dto.member.MemberSNSLoginDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.service.member.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maturi.service.member.SNSService;
-import com.maturi.util.constfield.SessionConst;
+import com.maturi.common.constfield.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

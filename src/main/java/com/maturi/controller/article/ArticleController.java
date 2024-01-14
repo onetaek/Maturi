@@ -2,10 +2,9 @@ package com.maturi.controller.article;
 
 import com.maturi.dto.article.*;
 import com.maturi.service.article.ArticleService;
-import com.maturi.service.article.CommentService;
 import com.maturi.service.member.MemberService;
-import com.maturi.util.argumentresolver.Login;
-import com.maturi.util.constfield.MessageConst;
+import com.maturi.common.argumentresolver.Login;
+import com.maturi.common.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

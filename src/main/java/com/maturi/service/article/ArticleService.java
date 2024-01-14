@@ -22,8 +22,8 @@ import com.maturi.repository.member.block.BlockQuerydslRepository;
 import com.maturi.repository.member.follow.FollowQuerydslRepository;
 import com.maturi.repository.member.member.MemberQuerydslRepository;
 import com.maturi.repository.member.member.MemberRepository;
-import com.maturi.util.FileStore;
-import com.maturi.util.constfield.MessageConst;
+import com.maturi.common.util.FileStore;
+import com.maturi.common.constfield.MessageConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -38,8 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.maturi.util.constfield.SearchCondConst.*;
-import static com.maturi.util.constfield.SearchEventConst.*;
+import static com.maturi.common.constfield.SearchCondConst.*;
+import static com.maturi.common.constfield.SearchEventConst.*;
 
 @Slf4j
 @RequiredArgsConstructor

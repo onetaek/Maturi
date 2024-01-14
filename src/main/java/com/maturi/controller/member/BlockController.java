@@ -1,10 +1,8 @@
 package com.maturi.controller.member;
 
-import com.maturi.dto.member.MemberBlockDTO;
-import com.maturi.service.article.ArticleService;
 import com.maturi.service.member.BlockService;
 import com.maturi.service.member.MemberService;
-import com.maturi.util.argumentresolver.Login;
+import com.maturi.common.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,11 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
 import java.util.Map;
 
-import static com.maturi.util.constfield.MessageConst.ERROR_MESSAGE;
-import static com.maturi.util.constfield.MessageConst.NO_PERMISSION;
+import static com.maturi.common.constfield.MessageConst.ERROR_MESSAGE;
+import static com.maturi.common.constfield.MessageConst.NO_PERMISSION;
 
 @Slf4j
 @RequiredArgsConstructor

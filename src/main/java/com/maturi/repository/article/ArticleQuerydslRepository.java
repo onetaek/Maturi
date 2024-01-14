@@ -6,20 +6,17 @@ import com.maturi.dto.article.search.ArticlePagingResponse;
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
 import com.maturi.entity.member.Member;
-import com.maturi.util.constfield.OrderConst;
+import com.maturi.common.constfield.OrderConst;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import groovyjarjarantlr.collections.impl.BitSet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;
@@ -29,7 +26,7 @@ import static com.maturi.entity.article.QRestaurant.*;
 import static com.maturi.entity.article.QTag.tag;
 import static com.maturi.entity.article.QTagValue.tagValue;
 import static com.maturi.entity.member.QMember.*;
-import static com.maturi.util.constfield.LocationConst.kmToLat;
+import static com.maturi.common.constfield.LocationConst.kmToLat;
 @Slf4j
 @RequiredArgsConstructor
 @Repository

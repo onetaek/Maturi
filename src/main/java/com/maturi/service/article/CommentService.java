@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.maturi.util.constfield.MessageConst.*;
+import static com.maturi.common.constfield.MessageConst.*;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -7,11 +7,9 @@ import com.maturi.entity.member.Member;
 import com.maturi.service.article.ArticleService;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
-import com.maturi.util.argumentresolver.Login;
-import com.maturi.util.constfield.MessageConst;
-import com.maturi.util.validator.MemberValidator;
+import com.maturi.common.argumentresolver.Login;
+import com.maturi.common.validator.MemberValidator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static com.maturi.util.constfield.MessageConst.*;
-import static com.maturi.util.constfield.SessionConst.*;
+import static com.maturi.common.constfield.MessageConst.*;
+import static com.maturi.common.constfield.SessionConst.*;
 
 @Slf4j
 @RequiredArgsConstructor

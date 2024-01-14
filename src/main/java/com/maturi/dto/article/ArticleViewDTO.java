@@ -41,9 +41,4 @@ public class ArticleViewDTO {
   private int views;
   //팔로잉 유저인지 확인하기위함
   private boolean isFollowingMember;
-
-  //추가 및 수정 된것들
-  //1. date
-  //2. commentCount
-  //3. views
 }

@@ -4,7 +4,7 @@ import com.maturi.dto.member.MemberJoinDTO;
 import com.maturi.entity.member.Member;
 import com.maturi.entity.member.MemberStatus;
 import com.maturi.repository.member.member.MemberRepository;
-import com.maturi.util.PasswdEncry;
+import com.maturi.common.util.PasswdEncry;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

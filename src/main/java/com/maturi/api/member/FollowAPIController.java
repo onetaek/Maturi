@@ -4,7 +4,7 @@ package com.maturi.api.member;
 import com.maturi.dto.member.MemberFollowRequest;
 import com.maturi.dto.member.MemberFollowResponse;
 import com.maturi.service.member.FollowService;
-import com.maturi.util.argumentresolver.Login;
+import com.maturi.common.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

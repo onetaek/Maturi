@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static com.maturi.util.constfield.FollowConst.*;
+import static com.maturi.common.constfield.FollowConst.*;
 
 @Slf4j
 @AllArgsConstructor

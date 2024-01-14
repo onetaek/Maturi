@@ -5,7 +5,7 @@ import com.maturi.entity.member.Member;
 import com.maturi.service.member.EmailService;
 import com.maturi.service.member.MemberService;
 import com.maturi.service.member.SMSService;
-import com.maturi.util.argumentresolver.Login;
+import com.maturi.common.argumentresolver.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
