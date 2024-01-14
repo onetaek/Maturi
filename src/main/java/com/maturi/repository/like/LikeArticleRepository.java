@@ -1,6 +1,6 @@
-package com.maturi.repository.article.like;
+package com.maturi.repository.like;
 
-import com.maturi.entity.article.LikeArticle;
+import com.maturi.entity.like.LikeArticle;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LikeArticleRepository extends JpaRepository<LikeArticle, Long> {

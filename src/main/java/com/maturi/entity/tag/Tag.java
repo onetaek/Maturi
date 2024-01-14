@@ -1,4 +1,4 @@
-package com.maturi.entity.article;
+package com.maturi.entity.tag;
 
 import lombok.*;
 

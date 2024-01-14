@@ -1,8 +1,6 @@
 package com.maturi.dto.article.search;
 
 import com.maturi.entity.article.Article;
-import com.maturi.entity.article.Location;
-import com.maturi.entity.member.Area;
 import com.maturi.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

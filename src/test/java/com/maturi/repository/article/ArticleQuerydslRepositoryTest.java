@@ -2,13 +2,12 @@ package com.maturi.repository.article;
 
 import com.maturi.dto.member.MemberFollowResponse;
 import com.maturi.entity.article.*;
+import com.maturi.entity.like.LikeArticle;
 import com.maturi.entity.member.Member;
-import com.maturi.repository.article.restaurant.RestaurantQuerydslRepository;
+import com.maturi.repository.restaurant.RestaurantQuerydslRepository;
 import com.maturi.repository.member.follow.FollowQuerydslRepository;
 import com.maturi.service.article.ArticleService;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -22,7 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.maturi.entity.article.QArticle.article;

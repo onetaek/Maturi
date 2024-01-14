@@ -1,5 +1,6 @@
-package com.maturi.entity.article;
+package com.maturi.entity.like;
 
+import com.maturi.entity.article.Article;
 import com.maturi.entity.member.Member;
 import lombok.*;
 

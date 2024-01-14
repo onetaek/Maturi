@@ -1,13 +1,16 @@
 package com.maturi.service.article;
 
 import com.maturi.entity.article.*;
+import com.maturi.entity.comment.Comment;
+import com.maturi.entity.comment.CommentReport;
+import com.maturi.entity.comment.CommentStatus;
 import com.maturi.entity.member.Member;
 import com.maturi.repository.article.ArticleQuerydslRepository;
 import com.maturi.repository.article.ArticleRepository;
-import com.maturi.repository.article.CommentQuerydslRepository;
-import com.maturi.repository.article.CommentRepository;
-import com.maturi.repository.article.report.ArticleReportRepository;
-import com.maturi.repository.article.report.CommentReportRepository;
+import com.maturi.repository.comment.CommentQuerydslRepository;
+import com.maturi.repository.comment.CommentRepository;
+import com.maturi.repository.report.ArticleReportRepository;
+import com.maturi.repository.report.CommentReportRepository;
 import com.maturi.repository.member.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

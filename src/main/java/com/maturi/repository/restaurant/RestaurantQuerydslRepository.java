@@ -1,4 +1,4 @@
-package com.maturi.repository.article.restaurant;
+package com.maturi.repository.restaurant;
 
 import com.maturi.entity.article.ArticleStatus;
 import com.maturi.entity.article.QRestaurant;

@@ -1,6 +1,6 @@
-package com.maturi.repository.article.report;
+package com.maturi.repository.report;
 
-import com.maturi.entity.article.CommentReport;
+import com.maturi.entity.comment.CommentReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentReportRepository extends JpaRepository<CommentReport, Long> {

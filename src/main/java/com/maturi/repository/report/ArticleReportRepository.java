@@ -1,4 +1,4 @@
-package com.maturi.repository.article.report;
+package com.maturi.repository.report;
 
 import com.maturi.entity.article.ArticleReport;
 import org.springframework.data.jpa.repository.JpaRepository;

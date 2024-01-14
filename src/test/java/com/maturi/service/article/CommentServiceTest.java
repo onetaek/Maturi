@@ -2,14 +2,11 @@ package com.maturi.service.article;
 
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
-import com.maturi.entity.article.Comment;
+import com.maturi.entity.comment.Comment;
 import com.maturi.entity.member.Member;
-import com.maturi.repository.article.ArticleRepository;
-import com.maturi.repository.article.CommentQuerydslRepository;
-import com.maturi.repository.article.CommentRepository;
-import com.maturi.repository.member.member.MemberRepository;
+import com.maturi.repository.comment.CommentQuerydslRepository;
+import com.maturi.repository.comment.CommentRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +19,6 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @Slf4j

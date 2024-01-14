@@ -117,7 +117,7 @@ public class ArticleController {
                               @PathVariable Long articleId,
                               ArticleEditDTO articleEditDTO,
                               HttpServletRequest request) throws IOException {
-        ArticleViewDTO articleViewDTO = articleService.edit(memberId, articleId, articleEditDTO,request);
+        articleService.edit(memberId, articleId, articleEditDTO,request);
         return "redirect:/articles/"+articleId;
     }
 }

@@ -1,12 +1,12 @@
-package com.maturi.entity.article;
+package com.maturi.entity.comment;
 
 import com.maturi.entity.BaseTimeEntity;
+import com.maturi.entity.article.Article;
 import com.maturi.entity.member.Member;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter

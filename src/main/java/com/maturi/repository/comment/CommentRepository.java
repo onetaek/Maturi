@@ -1,7 +1,7 @@
-package com.maturi.repository.article;
+package com.maturi.repository.comment;
 
-import com.maturi.entity.article.Comment;
-import com.maturi.entity.article.CommentStatus;
+import com.maturi.entity.comment.Comment;
+import com.maturi.entity.comment.CommentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

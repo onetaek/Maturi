@@ -1,8 +1,6 @@
 package com.maturi.service.article;
 
-import com.maturi.entity.article.Restaurant;
-import com.maturi.repository.article.restaurant.RestaurantQuerydslRepository;
-import com.maturi.repository.article.restaurant.RestaurantRepository;
+import com.maturi.repository.restaurant.RestaurantQuerydslRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

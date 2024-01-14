@@ -249,36 +249,6 @@ public class ArticleQuerydslRepository {
         return views != null ? article.views.lt(views) : null ;
     }
 
-    //페이징 처리를 하지않은 동적쿼리문 -> 테스트에서 사용
-
-    public List<Article> searchBooleanBuilder(ArticleSearchCond cond) {
-
-        //where문을 보면 ,로 구분이 되었는데 이는 and조건이므로 or로 조건을 걸어야하는 키워드검색은
-        //BooleanBuilder 객체를 사용해서 조건들을 체이닝해준다.
-        //BooleanBuilder객체를 사용하지 않고 체이닝을 하면 제일 앞에있는 조건의 값이 null일경우 에러가 발생하게된다.
-        BooleanBuilder builder = new BooleanBuilder();
-        builder.or(contentLike(cond.getContent()))//글 내용 keyword검색
-                .or(nickNameLike(cond.getWriter()))//작성자(닉네임) keyword검색
-                .or(nameLike(cond.getWriter()))//작성자(이름) keyword검색
-                .or(tagArticleIn(cond.getArticlesByTagValue()))//태그 keyword검색
-                .or(restaurantNameLike(cond.getRestaurantName()));//음식점명 keyword검색
-
-        return queryFactory.selectFrom(article)
-                .where(
-                        followMembersIn(cond.getFollowMembers()),//팔로우한 유저로 검색
-                        sidoEq(cond.getSido()),//시도로 검색
-                        sigoonEq(cond.getSigoon()),//시군으로 검색
-                        dongEq(cond.getDong()),//동으로 검색
-                        latitudeBetween(cond.getLatitude()),//위도로 검색
-                        longitudeBetween(cond.getLongitude()),//경도로 검색
-                        categoryEq(cond.getCategory()),//음식점 카테고리로 검색
-                        likeArticleIn(cond.getLikeArticles()),//좋아요누른 게시판 검색
-                        builder//keyword조건 검색
-                )
-                .orderBy(article.id.desc())//아이디가 높은 것(최신순)으로 내림차순
-                .limit(20)
-                .fetch();
-    }
     //팔로우한 유저의 게시글들의 where절
 
     private BooleanExpression followMembersIn(List<Member> followMembers) {

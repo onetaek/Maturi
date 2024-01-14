@@ -1,14 +1,15 @@
 package com.maturi.entity.article;
 
 import com.maturi.entity.BaseTimeEntity;
+import com.maturi.entity.comment.Comment;
+import com.maturi.entity.like.LikeArticle;
 import com.maturi.entity.member.Member;
+import com.maturi.entity.resturant.Restaurant;
+import com.maturi.entity.tag.TagValue;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

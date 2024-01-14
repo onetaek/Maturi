@@ -1,7 +1,7 @@
-package com.maturi.repository.article;
+package com.maturi.repository.comment;
 
-import com.maturi.entity.article.Comment;
-import com.maturi.entity.article.CommentStatus;
+import com.maturi.entity.comment.Comment;
+import com.maturi.entity.comment.CommentStatus;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;

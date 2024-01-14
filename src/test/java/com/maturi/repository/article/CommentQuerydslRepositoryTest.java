@@ -2,8 +2,9 @@ package com.maturi.repository.article;
 
 import com.maturi.entity.article.Article;
 import com.maturi.entity.article.ArticleStatus;
-import com.maturi.entity.article.Comment;
+import com.maturi.entity.comment.Comment;
 import com.maturi.entity.member.Member;
+import com.maturi.repository.comment.CommentQuerydslRepository;
 import com.maturi.service.article.CommentService;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -16,16 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @Slf4j
 @Transactional
 @SpringBootTest
 class CommentQuerydslRepositoryTest {
 
-    @Autowired CommentQuerydslRepository commentQRepository;
+    @Autowired
+    CommentQuerydslRepository commentQRepository;
     @Autowired ArticleRepository articleRepository;
     @Autowired EntityManager em;
     @Autowired CommentService commentService;

@@ -1,6 +1,6 @@
-package com.maturi.repository.article.tag;
+package com.maturi.repository.tag;
 
-import com.maturi.entity.article.Tag;
+import com.maturi.entity.tag.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TagRepository extends JpaRepository<Tag,Long> {

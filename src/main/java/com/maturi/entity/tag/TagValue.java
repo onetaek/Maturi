@@ -1,5 +1,6 @@
-package com.maturi.entity.article;
+package com.maturi.entity.tag;
 
+import com.maturi.entity.article.Article;
 import lombok.*;
 
 import javax.persistence.*;

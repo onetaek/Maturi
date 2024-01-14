@@ -1,11 +1,8 @@
-package com.maturi.repository.article.tag;
+package com.maturi.repository.tag;
 
-import com.maturi.entity.article.Article;
-import com.maturi.entity.article.Tag;
-import com.maturi.entity.article.TagValue;
+import com.maturi.entity.tag.TagValue;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TagValueRepository extends JpaRepository<TagValue, Long> {
