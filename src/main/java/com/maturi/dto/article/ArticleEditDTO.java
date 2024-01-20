@@ -17,7 +17,6 @@ public class ArticleEditDTO {
   private String content;
   private String tags;
   private String oldImage;
-//  @NotBlank
   private List<MultipartFile> image;
   private String imageSize;
 }

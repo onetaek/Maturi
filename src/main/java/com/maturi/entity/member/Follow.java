@@ -6,6 +6,11 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * 내가 1일때 3번 유저를 팔로우 하려면
+ * followerMember = 1, followingMember = 3;
+ * 3번 유저의 입장에선 팔로워가 1번이다.
+ */
 @Getter
 @Builder
 @ToString
