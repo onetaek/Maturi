@@ -27,9 +27,10 @@
 + 트래픽이 증가할 경우를 대비해 로드밸런서를 중간에 두어 Availability zone의 갯수를 늘려 쉽게 Scale-out할 수 있도록 설계하였습니다.
 + 웹 데이터를 안전하게 전송하기 위해 Route 53과 AWS Certificate Manager를 사용하여 SSL 인증서를 효과적으로 관리하고, Application Load Balancer를 통해 안전한 접근하도록 설계하였습니다.
 
-![아키텍처 drawio2](https://github.com/onetaek/Maturi/assets/86419261/08d61e1d-0585-4504-94e6-085331eea560)
+![maturi아키텍쳐](https://github.com/onetaek/Maturi/assets/86419261/1854073e-4989-4eb0-bafe-ae5566f301e5)
 
 ## Docker를 이용한 배포 Process
+
 + Docker Hub를 중간 매개체로 이용하여 도커 이미지를 옮겨서 AWS EC2서버에서 받아서 실행합니다.
 + Docker를 사용함으로써 EC2 서버에서의 수동 설치 과정이나 번거로운 작업 없이 쉽게 애플리케이션을 배포할 수 있습니다.
 + Docker 이미지를 활용하면 배포된 애플리케이션의 버전을 간편하게 롤백할 수 있어 효율적인 관리가 가능합니다.
